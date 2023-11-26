@@ -1,0 +1,36 @@
+<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_71_5)">
+<mask id="mask0_71_5" style="mask-type:luminance"  x="0" y="0" width="52" height="52">
+<path d="M25.68 51.36C39.8627 51.36 51.36 39.8627 51.36 25.68C51.36 11.4973 39.8627 0 25.68 0C11.4973 0 0 11.4973 0 25.68C0 39.8627 11.4973 51.36 25.68 51.36Z" fill="white"/>
+</mask>
+<g mask="url(#mask0_71_5)">
+<path d="M25.58 50.77C39.4368 50.77 50.67 39.5368 50.67 25.68C50.67 11.8232 39.4368 0.589996 25.58 0.589996C11.7232 0.589996 0.490005 11.8232 0.490005 25.68C0.490005 39.5368 11.7232 50.77 25.58 50.77Z" fill="#D13499" stroke="#D13499" stroke-width="0.95" stroke-miterlimit="10"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8.20001 40.34C3.59001 24.75 29.01 26.69 30.11 15.15C26.29 25.18 5.48001 23.54 4.34001 36.33C4.19001 37.97 4.40001 39.48 4.91001 40.87C4.63001 40.56 4.34001 40.24 4.04001 39.9C3.85001 39.25 3.73001 38.59 3.65001 37.91C3.55001 36.86 3.60001 35.78 3.82001 34.68C4.20001 32.82 4.65001 33.25 3.84001 31.42C3.20001 34.12 3.09001 36.75 3.46001 39.23C3.13001 38.84 2.82001 38.46 2.50001 38.06C2.26001 35.41 2.54001 32.53 3.44001 29.46C7.47001 15.79 31.7 17.19 31.21 0.769989C58.38 28.84 21.02 41.71 8.20001 40.34Z" fill="white"/>
+<g style="mix-blend-mode:lighten">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M26.75 18.46C29.43 16.1 30.41 13.81 31 10.71C32.02 22.65 23.12 18.86 33.39 31.63C35.42 30.04 37.14 28.24 38.3 26.2C42.14 19.54 40.28 12.97 32.26 4.09C31.51 11.76 22.66 12.78 26.75 18.45V18.46Z" fill="white"/>
+</g>
+<g style="mix-blend-mode:lighten">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M3.65002 37.91C3.72002 38.56 3.83002 39.2 4.01002 39.82L3.45002 39.17C3.09002 36.7 3.20002 34.1 3.84002 31.41C4.65002 33.24 4.19002 32.81 3.82002 34.67C3.60002 35.78 3.55002 36.86 3.65002 37.9V37.91Z" fill="white"/>
+</g>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M15.95 42.49V49.82C13.07 48.61 10.57 46.94 8.67001 44.95V42.52C10.98 42.79 13.44 42.79 15.95 42.49Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M25.3 40.11V51.7C22.72 51.54 20.26 51.05 18 50.31V42.19C20.43 41.77 22.88 41.07 25.3 40.11Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M34.63 34.53V50.47C32.34 51.04 29.89 51.35 27.33 51.35V39.22C30.13 37.89 32.58 36.3 34.63 34.53Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M43.95 23.17V46.1C41.91 47.7 39.43 49 36.67 49.9V32.59C36.67 32.59 41.82 27.82 43.95 23.17Z" fill="white"/>
+<g style="mix-blend-mode:lighten" opacity="0.8">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M37.27 36.27V48.69C39.65 48.22 41.76 46.66 43.34 45.78V30.08C41.62 32.17 39.1 35.14 37.27 36.27Z" fill="white"/>
+</g>
+<g style="mix-blend-mode:lighten" opacity="0.8">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M27.95 42.22V51.01C30.33 50.54 32.44 50.92 34.02 50.04V38.9C31.91 40.46 29.97 41.16 27.95 42.23V42.22Z" fill="white"/>
+</g>
+<g style="mix-blend-mode:lighten" opacity="0.8">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M18.62 45.14V49.6C21.01 50.18 23.11 51.09 24.69 50.21V43.44C22.21 44.67 18.96 45.02 18.62 45.14Z" fill="white"/>
+</g>
+<path d="M6.26001 41.93C7.17001 43.03 14.02 51 25.57 51C37.12 51 43.97 43.03 44.88 41.93" stroke="#D13499" stroke-width="0.72" stroke-miterlimit="10"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_71_5">
+<rect width="51.36" height="51.7" fill="white"/>
+</clipPath>
+</defs>
+</svg>

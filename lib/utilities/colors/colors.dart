@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+
+const primary = Color(0xFFD1349B);
+const bottomActiveColor = Color(0xFF90286C);
+const secondary = Color(0xFFD1349B);
+const tertiary = Color(0xFF666666);
+const bodyTextColor = Color(0xFF666666);
+const subHeadingColor = Color(0xFF222222);
+const headingColor = Color(0xFF222222);
+const unselect = Color(0xFF90286C);
+const containerColor = Color(0xFFFDEBED);
+const lightGray = Color(0xFFEEEEEE);
+const activeColor = Color(0xFF02FF1B);
+const ratingColor = Color(0xFFFD9011);
+const containerGray = Color(0xFFF9F9F9);
+const errorColor = Colors.red;
+const barColor = Color(0xFFD1349B);
+const textColor = Color(0xFF777777);
+const socialMediabg = Color(0xFFFDEBED);
+const scaffoldBodyColor = Color(0xFFFAFAFA);
+const greenColor = Color(0xFF25D366);
+const lightGrayCircle = Color(0xFFCCCCCC);
+const dropdownBg = Color(0xFFFDEBED);

@@ -1,0 +1,164 @@
+[
+  {
+    "_id": "e17476e7-52a5-41cb-b4b5-ad21aa2e59ce",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://ms-hostingladz.com/DigitalBrand/api/create/shop",
+    "url": "http://ms-hostingladz.com/DigitalBrand/api/create/shop",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2023-05-29T18:17:44.301Z",
+    "modified": "2023-05-29T18:31:55.443Z",
+    "headers": [
+      {
+        "name": "Authorization",
+        "value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL21zLWhvc3RpbmdsYWR6LmNvbS9EaWdpdGFsQnJhbmQvYXBpL3NlbGxlci9sb2dpbiIsImlhdCI6MTY4NTM4NDg5MiwiZXhwIjoxNjg1Mzg4NDkyLCJuYmYiOjE2ODUzODQ4OTIsImp0aSI6InRGTnp4dkpZZ0xISm9xY0QiLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.H1LxdksKnVHiH0qL6WkBcCwyZ0lVDgV7lWYEvdINZfY"
+      }
+    ],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "name",
+          "value": "New Shop"
+        },
+        {
+          "name": "branch_name",
+          "value": "Bahadurabad Shop"
+        },
+        {
+          "name": "address",
+          "value": "Bahadurabad"
+        },
+        {
+          "name": "area",
+          "value": "1"
+        }
+      ],
+      "files": [
+        {
+          "name": "logo",
+          "value": "..\\..\\..\\Capture`1.PNG"
+        }
+      ]
+    },
+    "tests": []
+  },
+  {
+    "_id": "8074d855-3edc-407d-9556-32621404cf47",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://ms-hostingladz.com/DigitalBrand/api/list/shop",
+    "url": "https://ms-hostingladz.com/DigitalBrand/api/list/shop",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-05-29T18:38:42.098Z",
+    "modified": "2023-05-29T18:39:50.362Z",
+    "headers": [
+      {
+        "name": "Authorization",
+        "value": "Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL21zLWhvc3RpbmdsYWR6LmNvbS9EaWdpdGFsQnJhbmQvYXBpL3NlbGxlci9sb2dpbiIsImlhdCI6MTY4NTM4NDg5MiwiZXhwIjoxNjg1Mzg4NDkyLCJuYmYiOjE2ODUzODQ4OTIsImp0aSI6InRGTnp4dkpZZ0xISm9xY0QiLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.H1LxdksKnVHiH0qL6WkBcCwyZ0lVDgV7lWYEvdINZfY"
+      }
+    ],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "ffc62032-03f8-4d53-8d7a-319a37364927",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://ms-hostingladz.com/DigitalBrand/api/create/offer",
+    "url": "http://ms-hostingladz.com/DigitalBrand/api/create/offer",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2023-05-29T18:41:14.318Z",
+    "modified": "2023-05-29T18:43:59.217Z",
+    "headers": [
+      {
+        "name": "Authorization",
+        "value": "Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL21zLWhvc3RpbmdsYWR6LmNvbS9EaWdpdGFsQnJhbmQvYXBpL3NlbGxlci9sb2dpbiIsImlhdCI6MTY4NTM4NDg5MiwiZXhwIjoxNjg1Mzg4NDkyLCJuYmYiOjE2ODUzODQ4OTIsImp0aSI6InRGTnp4dkpZZ0xISm9xY0QiLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.H1LxdksKnVHiH0qL6WkBcCwyZ0lVDgV7lWYEvdINZfY"
+      }
+    ],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "title",
+          "value": "New Offer"
+        },
+        {
+          "name": "description",
+          "value": "description"
+        },
+        {
+          "name": "hash_tag",
+          "value": "#offer"
+        },
+        {
+          "name": "IsFeature",
+          "value": "0"
+        },
+        {
+          "name": "category_id",
+          "value": "1"
+        },
+        {
+          "name": "subcat_id",
+          "value": "2"
+        },
+        {
+          "name": "shop_id[0]",
+          "value": "1"
+        },
+        {
+          "name": "shop_id[1]",
+          "value": "10",
+          "isDisabled": true
+        }
+      ],
+      "files": [
+        {
+          "name": "banner",
+          "value": "..\\..\\..\\Capture`1.PNG"
+        }
+      ]
+    },
+    "tests": []
+  },
+  {
+    "_id": "ca832935-fe34-443f-a981-9e8f51fc8475",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://ms-hostingladz.com/DigitalBrand/api/category",
+    "url": "http://ms-hostingladz.com/DigitalBrand/api/category",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-05-29T19:01:59.313Z",
+    "modified": "2023-05-29T19:01:59.313Z",
+    "headers": []
+  },
+  {
+    "_id": "496da840-38ab-49bd-9345-f527aee0a530",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://ms-hostingladz.com/DigitalBrand/api/subcategory",
+    "url": "http://ms-hostingladz.com/DigitalBrand/api/subcategory?cat_id=1",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-05-29T19:02:19.421Z",
+    "modified": "2023-05-29T19:02:46.431Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "cat_id",
+        "value": "1",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  }
+]
