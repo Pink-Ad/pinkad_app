@@ -326,7 +326,9 @@ class AllOffersView extends GetView {
                 ),
                 child: ClipRRect(
                   child: Image.network(
-                    ApiService.imageBaseUrl + offers[index]!.shop!.logo,
+                    offers[index]!.banner != null
+                        ? ApiService.imageBaseUrl + offers[index]!.banner
+                        : "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
                     width: 60.w,
                     height: 60.h,
                     fit: BoxFit.cover,
