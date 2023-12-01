@@ -7,9 +7,8 @@ import 'package:http/http.dart' as http;
 import '../../utilities/custom_widgets/snackbars.dart';
 
 class ApiService {
-  static const String _baseUrl = 'https://ms-hostingladz.com/DigitalBrand/api';
-  static const String imageBaseUrl =
-      'https://ms-hostingladz.com/DigitalBrand/public/storage/';
+  static const String _baseUrl = 'https://pinkad.pk/portal/api';
+  static const String imageBaseUrl = 'https://pinkad.pk/portal/public/storage/';
   final http.Client _client;
   static const String modelBaseUrl = 'https://model.pinkad.pk/aimodel/';
   late String? _username = "";
