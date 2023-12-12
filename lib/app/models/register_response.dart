@@ -1,4 +1,3 @@
-
 class RegisterPostResponse {
   String? _status;
   String? _message;
@@ -7,20 +6,20 @@ class RegisterPostResponse {
 
   RegisterPostResponse(
       {String? status,
-        String? message,
-        User? user,
-        Authorisation? authorisation}) {
+      String? message,
+      User? user,
+      Authorisation? authorisation}) {
     if (status != null) {
-      this._status = status;
+      _status = status;
     }
     if (message != null) {
-      this._message = message;
+      _message = message;
     }
     if (user != null) {
-      this._user = user;
+      _user = user;
     }
     if (authorisation != null) {
-      this._authorisation = authorisation;
+      _authorisation = authorisation;
     }
   }
 
@@ -37,21 +36,21 @@ class RegisterPostResponse {
   RegisterPostResponse.fromJson(Map<String, dynamic> json) {
     _status = json['status'];
     _message = json['message'];
-    _user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    _user = json['user'] != null ? User.fromJson(json['user']) : null;
     _authorisation = json['authorisation'] != null
-        ? new Authorisation.fromJson(json['authorisation'])
+        ? Authorisation.fromJson(json['authorisation'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this._status;
-    data['message'] = this._message;
-    if (this._user != null) {
-      data['user'] = this._user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = _status;
+    data['message'] = _message;
+    if (_user != null) {
+      data['user'] = _user!.toJson();
     }
-    if (this._authorisation != null) {
-      data['authorisation'] = this._authorisation!.toJson();
+    if (_authorisation != null) {
+      data['authorisation'] = _authorisation!.toJson();
     }
     return data;
   }
@@ -67,28 +66,28 @@ class User {
 
   User(
       {String? name,
-        String? email,
-        String? role,
-        String? updatedAt,
-        String? createdAt,
-        int? id}) {
+      String? email,
+      String? role,
+      String? updatedAt,
+      String? createdAt,
+      int? id}) {
     if (name != null) {
-      this._name = name;
+      _name = name;
     }
     if (email != null) {
-      this._email = email;
+      _email = email;
     }
     if (role != null) {
-      this._role = role;
+      _role = role;
     }
     if (updatedAt != null) {
-      this._updatedAt = updatedAt;
+      _updatedAt = updatedAt;
     }
     if (createdAt != null) {
-      this._createdAt = createdAt;
+      _createdAt = createdAt;
     }
     if (id != null) {
-      this._id = id;
+      _id = id;
     }
   }
 
@@ -115,13 +114,13 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this._name;
-    data['email'] = this._email;
-    data['role'] = this._role;
-    data['updated_at'] = this._updatedAt;
-    data['created_at'] = this._createdAt;
-    data['id'] = this._id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = _name;
+    data['email'] = _email;
+    data['role'] = _role;
+    data['updated_at'] = _updatedAt;
+    data['created_at'] = _createdAt;
+    data['id'] = _id;
     return data;
   }
 }
@@ -132,10 +131,10 @@ class Authorisation {
 
   Authorisation({String? token, String? type}) {
     if (token != null) {
-      this._token = token;
+      _token = token;
     }
     if (type != null) {
-      this._type = type;
+      _type = type;
     }
   }
 
@@ -150,9 +149,9 @@ class Authorisation {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['token'] = this._token;
-    data['type'] = this._type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['token'] = _token;
+    data['type'] = _type;
     return data;
   }
 }

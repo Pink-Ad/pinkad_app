@@ -2,11 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:listview_infinite_pagination/listview_infinite_pagination.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
@@ -17,7 +16,6 @@ import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:pink_ad/utilities/custom_widgets/scafflod_dashboard.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
-import 'package:http/http.dart' as http;
 
 import '../controllers/featured_seller_controller.dart';
 
@@ -147,14 +145,15 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                                     width: 2.w, color: Colors.grey.shade600)),
                           ),
                           child: ListTile(
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.travel_explore,
                               color: primary,
                             ),
                             title: Text(
                               offer['user']['name'],
                               style: CustomTextView.getStyle(context,
-                                  colorLight: Color.fromARGB(255, 41, 39, 39),
+                                  colorLight:
+                                      const Color.fromARGB(255, 41, 39, 39),
                                   fontSize: 13.sp,
                                   fontFamily: Utils.poppinsSemiBold),
                               maxLines: 2,
@@ -163,7 +162,8 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                             subtitle: Text(
                               offer['description'] ?? '',
                               style: CustomTextView.getStyle(context,
-                                  colorLight: Color.fromARGB(255, 66, 66, 66),
+                                  colorLight:
+                                      const Color.fromARGB(255, 66, 66, 66),
                                   fontSize: 11.sp,
                                   fontFamily: Utils.poppinsLight),
                               maxLines: 2,
@@ -310,8 +310,8 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                         child: allShopLists(item, context, allShopsController),
                       );
                     },
-                    initialLoader: Center(
-                      child: const CircularProgressIndicator(
+                    initialLoader: const Center(
+                      child: CircularProgressIndicator(
                           backgroundColor: primary, color: secondary),
                     ),
                     loadMoreLoader: const CircularProgressIndicator(

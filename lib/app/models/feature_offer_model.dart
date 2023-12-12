@@ -76,9 +76,9 @@ class Data {
   final String? description;
   final String? hashTag;
   final int? isFeature;
-  final String? status;
-  final String? createdAt;
-  final String? updatedAt;
+  final int? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final Shop? shop;
   final Category? category;
   final Subcategory? subcategory;
@@ -113,9 +113,15 @@ class Data {
         description = json['description'] as String?,
         hashTag = json['hash_tag'] as String?,
         isFeature = json['IsFeature'] as int?,
-        status = json['status'] as String?,
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?,
+        status = json['status'] as int?,
+        createdAt =
+            json['created_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['created_at'] as String),
+        updatedAt =
+            json['updated_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['updated_at'] as String),
         shop = (json['shop'] as Map<String, dynamic>?) != null
             ? Shop.fromJson(json['shop'] as Map<String, dynamic>)
             : null,
@@ -138,8 +144,8 @@ class Data {
         'hash_tag': hashTag,
         'IsFeature': isFeature,
         'status': status,
-        'created_at': createdAt,
-        'updated_at': updatedAt,
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String(),
         'shop': shop?.toJson(),
         'category': category?.toJson(),
         'subcategory': subcategory?.toJson()
@@ -154,11 +160,11 @@ class Shop {
   final String? branchName;
   final String? address;
   final String? logo;
-  final dynamic contactNumber;
-  final dynamic description;
-  final String? status;
-  final String? createdAt;
-  final String? updatedAt;
+  final String? contactNumber;
+  final String? description;
+  final int? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Shop({
     this.id,
@@ -183,12 +189,17 @@ class Shop {
         branchName = json['branch_name'] as String?,
         address = json['address'] as String?,
         logo = json['logo'] as String?,
-        contactNumber = json['contact_number'],
-        description = json['description'],
-        status = json['status'] as String?,
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?;
-
+        contactNumber = json['contact_number'] as String?,
+        description = json['description'] as String?,
+        status = json['status'] as int?,
+        createdAt =
+            json['created_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['created_at'] as String),
+        updatedAt =
+            json['updated_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['updated_at'] as String);
   Map<String, dynamic> toJson() => {
         'id': id,
         'seller_id': sellerId,
@@ -200,8 +211,8 @@ class Shop {
         'contact_number': contactNumber,
         'description': description,
         'status': status,
-        'created_at': createdAt,
-        'updated_at': updatedAt
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String()
       };
 }
 
@@ -209,9 +220,9 @@ class Category {
   final int? id;
   final String? name;
   final String? code;
-  final String? status;
-  final String? createdAt;
-  final String? updatedAt;
+  final int? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Category({
     this.id,
@@ -226,17 +237,22 @@ class Category {
       : id = json['id'] as int?,
         name = json['name'] as String?,
         code = json['code'] as String?,
-        status = json['status'] as String?,
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?;
-
+        status = json['status'] as int?,
+        createdAt =
+            json['created_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['created_at'] as String),
+        updatedAt =
+            json['updated_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['updated_at'] as String);
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'code': code,
         'status': status,
-        'created_at': createdAt,
-        'updated_at': updatedAt
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String()
       };
 }
 
@@ -245,9 +261,9 @@ class Subcategory {
   final int? categoryId;
   final String? name;
   final String? code;
-  final String? status;
-  final String? createdAt;
-  final String? updatedAt;
+  final int? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Subcategory({
     this.id,
@@ -264,18 +280,23 @@ class Subcategory {
         categoryId = json['category_id'] as int?,
         name = json['name'] as String?,
         code = json['code'] as String?,
-        status = json['status'] as String?,
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?;
-
+        status = json['status'] as int?,
+        createdAt =
+            json['created_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['created_at'] as String),
+        updatedAt =
+            json['updated_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['updated_at'] as String);
   Map<String, dynamic> toJson() => {
         'id': id,
         'category_id': categoryId,
         'name': name,
         'code': code,
         'status': status,
-        'created_at': createdAt,
-        'updated_at': updatedAt
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String()
       };
 }
 

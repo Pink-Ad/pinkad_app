@@ -30,10 +30,10 @@ class User {
   final int? id;
   final String? name;
   final String? email;
-  final String? role;
-  final dynamic emailVerifiedAt;
-  final String? createdAt;
-  final String? updatedAt;
+  final int? role;
+  final DateTime? emailVerifiedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final Seller? seller;
 
   User({
@@ -51,10 +51,16 @@ class User {
       : id = json['id'] as int?,
         name = json['name'] as String?,
         email = json['email'] as String?,
-        role = json['role'] as String?,
-        emailVerifiedAt = json['email_verified_at'],
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?,
+        role = json['role'] as int?,
+        emailVerifiedAt = json['email_verified_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['email_verified_at'] as String),
+        createdAt = json['created_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['created_at'] as String),
+        updatedAt = json['updated_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['updated_at'] as String),
         seller = (json['seller'] as Map<String, dynamic>?) != null
             ? Seller.fromJson(json['seller'] as Map<String, dynamic>)
             : null;
@@ -64,16 +70,16 @@ class User {
         'name': name,
         'email': email,
         'role': role,
-        'email_verified_at': emailVerifiedAt,
-        'created_at': createdAt,
-        'updated_at': updatedAt,
+        'email_verified_at': emailVerifiedAt?.toIso8601String(),
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String(),
         'seller': seller?.toJson()
       };
 }
 
 class Seller {
   final int? id;
-  final String? userId;
+  final int? userId;
   final String? phone;
   final String? whatsapp;
   final String? businessName;
@@ -81,13 +87,13 @@ class Seller {
   final String? faecbookPage;
   final String? instaPage;
   final String? webUrl;
-  final String? isFeatured;
+  final int? isFeatured;
   final String? logo;
-  final dynamic reference;
-  final String? salesmanId;
-  final String? status;
-  final String? createdAt;
-  final String? updatedAt;
+  final String? reference;
+  final int? salesmanId;
+  final int? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Seller({
     this.id,
@@ -110,7 +116,7 @@ class Seller {
 
   Seller.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        userId = json['user_id'] as String?,
+        userId = json['user_id'] as int?,
         phone = json['phone'] as String?,
         whatsapp = json['whatsapp'] as String?,
         businessName = json['business_name'] as String?,
@@ -118,13 +124,17 @@ class Seller {
         faecbookPage = json['faecbook_page'] as String?,
         instaPage = json['insta_page'] as String?,
         webUrl = json['web_url'] as String?,
-        isFeatured = json['isFeatured'] as String?,
+        isFeatured = json['isFeatured'] as int?,
         logo = json['logo'] as String?,
-        reference = json['reference'],
-        salesmanId = json['salesman_id'] as String?,
-        status = json['status'] as String?,
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?;
+        reference = json['reference'] as String?,
+        salesmanId = json['salesman_id'] as int?,
+        status = json['status'] as int?,
+        createdAt = json['created_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['created_at'] as String),
+        updatedAt = json['updated_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['updated_at'] as String);
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -141,8 +151,8 @@ class Seller {
         'reference': reference,
         'salesman_id': salesmanId,
         'status': status,
-        'created_at': createdAt,
-        'updated_at': updatedAt
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String(),
       };
 }
 

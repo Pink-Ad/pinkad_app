@@ -1,31 +1,36 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/data/api_service.dart';
-import 'package:pink_ad/app/models/offer_list_model.dart';
-import 'package:pink_ad/app/modules/all_offer_details/views/all_offer_details_view.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 
 import '../../../../utilities/colors/colors.dart';
 import '../../../../utilities/custom_widgets/custom_appbar.dart';
-import '../../../../utilities/custom_widgets/main_controlller.dart';
 import '../../../../utilities/custom_widgets/scafflod_dashboard.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
 
 class AllOffersView extends GetView {
+  const AllOffersView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final AllOffersController allOffersController = AllOffersController();
     final box = GetStorage();
     final token = box.read('user_token');
-    List<dynamic> offers = box.read('offers');
+    //List<dynamic> offers = box.read('offers');
+    var data = box.read('offers');
+    List<dynamic> offers;
+    if (data != null) {
+      offers = data;
+    } else {
+      // Handle the null case
+      offers = [];
+    }
     return CustomBgDashboard(
       child: SafeArea(
         child: Column(
@@ -139,11 +144,13 @@ class AllOffersView extends GetView {
                                   width: 2.w, color: Colors.grey.shade600)),
                         ),
                         child: ListTile(
-                          leading: Icon(Icons.travel_explore, color: primary),
+                          leading:
+                              const Icon(Icons.travel_explore, color: primary),
                           title: Text(
                             offer.title!,
                             style: CustomTextView.getStyle(context,
-                                colorLight: Color.fromARGB(255, 41, 39, 39),
+                                colorLight:
+                                    const Color.fromARGB(255, 41, 39, 39),
                                 fontSize: 13.sp,
                                 fontFamily: Utils.poppinsSemiBold),
                             maxLines: 2,
@@ -152,7 +159,8 @@ class AllOffersView extends GetView {
                           subtitle: Text(
                             offer!.description,
                             style: CustomTextView.getStyle(context,
-                                colorLight: Color.fromARGB(255, 66, 66, 66),
+                                colorLight:
+                                    const Color.fromARGB(255, 66, 66, 66),
                                 fontSize: 11.sp,
                                 fontFamily: Utils.poppinsLight),
                             maxLines: 2,
@@ -352,7 +360,7 @@ class AllOffersView extends GetView {
                     ),
                     const SizedBox(height: 10.0),
                     Text(
-                      offers[index]!.description!.toString() ?? "",
+                      offers[index]!.description!.toString(),
                       style: CustomTextView.getStyle(
                         fontSize: 10.sp,
                         context,

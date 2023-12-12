@@ -8,11 +8,11 @@ import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
-import 'package:pink_ad/app/modules/signup/views/signup_view.dart';
 import 'package:pink_ad/utilities/custom_widgets/loader.dart';
 import 'package:pink_ad/utilities/utils.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 // import 'package:share_plus/share_plus.dart';
 
 import '../../../../utilities/colors/colors.dart';
@@ -26,12 +26,15 @@ class HomeView extends GetView<HomeController> {
   AllShopsController allShopsController = AllShopsController();
   AllOffersController allOffersController = AllOffersController();
   HomeController homeController = HomeController();
+
+  HomeView({super.key});
   @override
   Widget build(BuildContext context) {
     List<dynamic> fSeller = box.read('fseller') ?? [];
     List<dynamic> tSeller = box.read('topSeller') ?? [];
     List<dynamic> fOffer = box.read('fOffer') ?? [];
     List<dynamic> tOffer = box.read('topOffer') ?? [];
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(

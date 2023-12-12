@@ -1,21 +1,21 @@
 class OfferList {
   final int? id;
-  final String? shopId;
-  final String? categoryId;
-  final String? subcatId;
-  final String? area;
+  final int? shopId;
+  final int? categoryId;
+  final int? subcatId;
+  final int? area;
   final String? banner;
   final String? title;
   final String? description;
   final dynamic hashTag;
-  final String? views;
-  final String? impression;
-  final String? reach;
-  final String? conversion;
-  final String? isFeature;
-  final String? status;
-  final String? createdAt;
-  final String? updatedAt;
+  final int? views;
+  final int? impression;
+  final int? reach;
+  final int? conversion;
+  final int? isFeature;
+  final int? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final Shop? shop;
 
   OfferList({
@@ -41,22 +41,28 @@ class OfferList {
 
   OfferList.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        shopId = json['shop_id'] as String?,
-        categoryId = json['category_id'] as String?,
-        subcatId = json['subcat_id'] as String?,
-        area = json['area'] as String?,
+        shopId = json['shop_id'] as int?,
+        categoryId = json['category_id'] as int?,
+        subcatId = json['subcat_id'] as int?,
+        area = json['area'] as int?,
         banner = json['banner'] as String?,
         title = json['title'] as String?,
         description = json['description'] as String?,
         hashTag = json['hash_tag'],
-        views = json['views'] as String?,
-        impression = json['impression'] as String?,
-        reach = json['reach'] as String?,
-        conversion = json['conversion'] as String?,
-        isFeature = json['IsFeature'] as String?,
-        status = json['status'] as String?,
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?,
+        views = json['views'] as int?,
+        impression = json['impression'] as int?,
+        reach = json['reach'] as int?,
+        conversion = json['conversion'] as int?,
+        isFeature = json['IsFeature'] as int?,
+        status = json['status'] as int?,
+        createdAt =
+            json['created_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['created_at'] as String),
+        updatedAt =
+            json['updated_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['updated_at'] as String),
         shop = (json['shop'] as Map<String, dynamic>?) != null
             ? Shop.fromJson(json['shop'] as Map<String, dynamic>)
             : null;
@@ -77,25 +83,25 @@ class OfferList {
         'conversion': conversion,
         'IsFeature': isFeature,
         'status': status,
-        'created_at': createdAt,
-        'updated_at': updatedAt,
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String(),
         'shop': shop?.toJson()
       };
 }
 
 class Shop {
   final int? id;
-  final String? sellerId;
+  final int? sellerId;
   final String? name;
-  final String? area;
+  final int? area;
   final String? branchName;
   final String? address;
   final String? logo;
   final String? contactNumber;
   final String? description;
-  final String? status;
-  final String? createdAt;
-  final String? updatedAt;
+  final int? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final Seller? seller;
 
   Shop({
@@ -116,17 +122,23 @@ class Shop {
 
   Shop.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        sellerId = json['seller_id'] as String?,
+        sellerId = json['seller_id'] as int?,
         name = json['name'] as String?,
-        area = json['area'] as String?,
+        area = json['area'] as int?,
         branchName = json['branch_name'] as String?,
         address = json['address'] as String?,
         logo = json['logo'] as String?,
         contactNumber = json['contact_number'] as String?,
         description = json['description'] as String?,
-        status = json['status'] as String?,
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?,
+        status = json['status'] as int?,
+        createdAt =
+            json['created_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['created_at'] as String),
+        updatedAt =
+            json['updated_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['updated_at'] as String),
         seller = (json['seller'] as Map<String, dynamic>?) != null
             ? Seller.fromJson(json['seller'] as Map<String, dynamic>)
             : null;
@@ -142,29 +154,29 @@ class Shop {
         'contact_number': contactNumber,
         'description': description,
         'status': status,
-        'created_at': createdAt,
-        'updated_at': updatedAt,
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String(),
         'seller': seller?.toJson()
       };
 }
 
 class Seller {
   final int? id;
-  final String? userId;
+  final int? userId;
   final String? phone;
   final String? whatsapp;
   final String? businessName;
   final String? businessAddress;
   final String? faecbookPage;
-  final dynamic instaPage;
-  final dynamic webUrl;
-  final String? isFeatured;
+  final String? instaPage;
+  final String? webUrl;
+  final int? isFeatured;
   final String? logo;
   final String? reference;
-  final String? salesmanId;
-  final String? status;
-  final String? createdAt;
-  final String? updatedAt;
+  final int? salesmanId;
+  final int? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Seller({
     this.id,
@@ -187,21 +199,27 @@ class Seller {
 
   Seller.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        userId = json['user_id'] as String?,
+        userId = json['user_id'] as int?,
         phone = json['phone'] as String?,
         whatsapp = json['whatsapp'] as String?,
         businessName = json['business_name'] as String?,
         businessAddress = json['business_address'] as String?,
         faecbookPage = json['faecbook_page'] as String?,
-        instaPage = json['insta_page'],
-        webUrl = json['web_url'],
-        isFeatured = json['isFeatured'] as String?,
+        instaPage = json['insta_page'] as String?,
+        webUrl = json['web_url'] as String?,
+        isFeatured = json['isFeatured'] as int?,
         logo = json['logo'] as String?,
         reference = json['reference'] as String?,
-        salesmanId = json['salesman_id'] as String?,
-        status = json['status'] as String?,
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?;
+        salesmanId = json['salesman_id'] as int?,
+        status = json['status'] as int?,
+        createdAt =
+            json['created_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['created_at'] as String),
+        updatedAt =
+            json['updated_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['updated_at'] as String);
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -218,7 +236,7 @@ class Seller {
         'reference': reference,
         'salesman_id': salesmanId,
         'status': status,
-        'created_at': createdAt,
-        'updated_at': updatedAt
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String(),
       };
 }

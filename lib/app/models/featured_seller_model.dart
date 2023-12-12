@@ -77,11 +77,11 @@ class Data {
   final String? webUrl;
   final int? isFeatured;
   final String? logo;
-  final dynamic reference;
+  final String? reference;
   final int? salesmanId;
-  final String? status;
-  final String? createdAt;
-  final String? updatedAt;
+  final int? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final User? user;
 
   Data({
@@ -111,16 +111,22 @@ class Data {
         whatsapp = json['whatsapp'] as String?,
         businessName = json['business_name'] as String?,
         businessAddress = json['business_address'] as String?,
-        faecbookPage = json['faecbook_page'] as String?,
+        faecbookPage = json['facebook_page'] as String?,
         instaPage = json['insta_page'] as String?,
         webUrl = json['web_url'] as String?,
         isFeatured = json['isFeatured'] as int?,
         logo = json['logo'] as String?,
-        reference = json['reference'],
+        reference = json['reference'] as String?,
         salesmanId = json['salesman_id'] as int?,
-        status = json['status'] as String?,
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?,
+        status = json['status'] as int?,
+        createdAt =
+            json['created_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['created_at'] as String),
+        updatedAt =
+            json['updated_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['updated_at'] as String),
         user = (json['user'] as Map<String, dynamic>?) != null
             ? User.fromJson(json['user'] as Map<String, dynamic>)
             : null;
@@ -132,7 +138,7 @@ class Data {
         'whatsapp': whatsapp,
         'business_name': businessName,
         'business_address': businessAddress,
-        'faecbook_page': faecbookPage,
+        'facebook_page': faecbookPage,
         'insta_page': instaPage,
         'web_url': webUrl,
         'isFeatured': isFeatured,
@@ -140,8 +146,8 @@ class Data {
         'reference': reference,
         'salesman_id': salesmanId,
         'status': status,
-        'created_at': createdAt,
-        'updated_at': updatedAt,
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String(),
         'user': user?.toJson()
       };
 }
@@ -151,9 +157,9 @@ class User {
   final String? name;
   final String? email;
   final int? role;
-  final dynamic emailVerifiedAt;
-  final String? createdAt;
-  final String? updatedAt;
+  final DateTime? emailVerifiedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   User({
     this.id,
@@ -170,18 +176,27 @@ class User {
         name = json['name'] as String?,
         email = json['email'] as String?,
         role = json['role'] as int?,
-        emailVerifiedAt = json['email_verified_at'],
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?;
+        emailVerifiedAt =
+            json['email_verified_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['email_verified_at'] as String),
+        createdAt =
+            json['created_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['created_at'] as String),
+        updatedAt =
+            json['updated_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['updated_at'] as String);
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'email': email,
         'role': role,
-        'email_verified_at': emailVerifiedAt,
-        'created_at': createdAt,
-        'updated_at': updatedAt
+        'email_verified_at': emailVerifiedAt?.toIso8601String(),
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String(),
       };
 }
 

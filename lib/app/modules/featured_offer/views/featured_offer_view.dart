@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:listview_infinite_pagination/listview_infinite_pagination.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
@@ -16,8 +16,7 @@ import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:pink_ad/utilities/custom_widgets/scafflod_dashboard.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
-import 'package:searchable_listview/searchable_listview.dart';
-import 'package:http/http.dart' as http;
+
 import '../controllers/featured_offer_controller.dart';
 
 class FeaturedOfferView extends GetView<FeaturedOfferController> {
@@ -146,14 +145,15 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                                   width: 2.w, color: Colors.grey.shade600)),
                         ),
                         child: ListTile(
-                          leading: Icon(
+                          leading: const Icon(
                             Icons.travel_explore,
                             color: primary,
                           ),
                           title: Text(
                             offer['title'] ?? '',
                             style: CustomTextView.getStyle(context,
-                                colorLight: Color.fromARGB(255, 41, 39, 39),
+                                colorLight:
+                                    const Color.fromARGB(255, 41, 39, 39),
                                 fontSize: 13.sp,
                                 fontFamily: Utils.poppinsSemiBold),
                             maxLines: 2,
@@ -162,7 +162,8 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                           subtitle: Text(
                             offer['description'] ?? '',
                             style: CustomTextView.getStyle(context,
-                                colorLight: Color.fromARGB(255, 66, 66, 66),
+                                colorLight:
+                                    const Color.fromARGB(255, 66, 66, 66),
                                 fontSize: 11.sp,
                                 fontFamily: Utils.poppinsLight),
                             maxLines: 2,
@@ -450,7 +451,7 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                 ),
                 child: ClipRRect(
                   child: Image.network(
-                    ApiService.imageBaseUrl + item["shop"]["logo"],
+                    ApiService.imageBaseUrl + item["shop"]["logo"].toString(),
                     width: 60.w,
                     height: 60.h,
                     fit: BoxFit.cover,
