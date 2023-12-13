@@ -21,7 +21,14 @@ class AllShopsView extends GetView {
     AllShopsController allShopsController = AllShopsController();
     final box = GetStorage();
     final token = box.read('user_token');
+<<<<<<< Updated upstream
     List<dynamic> shops = box.read('allSeller');
+=======
+    List<dynamic> shops = box.read('allSeller') ?? [];
+
+    print("Shops data: $shops");
+
+>>>>>>> Stashed changes
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomBgDashboard(
@@ -266,12 +273,17 @@ class AllShopsView extends GetView {
               Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.only(bottom: 20.h),
+                  // itemCount: 10, // Arbitrary number of "Hello" to display
+                  // itemBuilder: (BuildContext context, int index) {
+                  //   return const Center(
+                  //       child: Text("Hello", style: TextStyle(fontSize: 24)));
+
                   itemCount: shops.length, // number of items in the list
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
                         allShopsController
-                            .getShopDetail(shops[index]["shop"][0]["id"]);
+                            .getShopDetail(shops[index]['shop'][0]['id']);
                         //   Get.toNamed(Routes.SHOP_DETAILS);
                       },
                       child: allSellerList(

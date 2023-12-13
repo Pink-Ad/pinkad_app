@@ -1,3 +1,5 @@
+import 'package:pink_ad/app/models/user_model.dart';
+
 class Salesman {
   final int? id;
   final String? userId;
@@ -79,6 +81,7 @@ class Salesman {
       };
 }
 
+<<<<<<< Updated upstream
 class User {
   final int? id;
   final String? name;
@@ -117,3 +120,5 @@ class User {
         'updated_at': updatedAt
       };
 }
+=======
+>>>>>>> Stashed changes

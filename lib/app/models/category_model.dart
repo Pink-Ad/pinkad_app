@@ -33,6 +33,7 @@ class Category {
       };
 }
 
+<<<<<<< Updated upstream
 class SubCategory {
   final int? id;
   final String? categoryId;
@@ -71,3 +72,5 @@ class SubCategory {
         'updated_at': updatedAt
       };
 }
+=======
+>>>>>>> Stashed changes

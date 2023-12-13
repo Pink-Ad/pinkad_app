@@ -1,3 +1,5 @@
+import 'shop_model.dart';
+
 class ShopOffer {
   final int? id;
   final int? shopId;
@@ -83,6 +85,7 @@ class ShopOffer {
       };
 }
 
+<<<<<<< Updated upstream
 class Shop {
   final int? id;
   final int? sellerId;
@@ -222,3 +225,5 @@ class Seller {
         'updated_at': updatedAt
       };
 }
+=======
+>>>>>>> Stashed changes

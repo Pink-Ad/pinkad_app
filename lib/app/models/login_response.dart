@@ -1,3 +1,5 @@
+import 'package:pink_ad/app/models/user_model.dart';
+
 class LoginResponse {
   final String? status;
   final User? user;
@@ -26,6 +28,7 @@ class LoginResponse {
       };
 }
 
+<<<<<<< Updated upstream
 class User {
   final int? id;
   final String? name;
@@ -146,6 +149,8 @@ class Seller {
       };
 }
 
+=======
+>>>>>>> Stashed changes
 class Authorisation {
   final String? token;
   final String? type;

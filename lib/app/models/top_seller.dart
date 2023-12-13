@@ -1,3 +1,6 @@
+import 'package:pink_ad/app/models/data_model.dart';
+import 'package:pink_ad/app/models/links_model.dart';
+
 class TopSeller {
   final int? currentPage;
   final List<Data>? data;
@@ -65,6 +68,7 @@ class TopSeller {
       };
 }
 
+<<<<<<< Updated upstream
 class Data {
   final int? id;
   final int? userId;
@@ -83,27 +87,11 @@ class Data {
   final String? createdAt;
   final String? updatedAt;
   final User? user;
+=======
+>>>>>>> Stashed changes
 
-  Data({
-    this.id,
-    this.userId,
-    this.phone,
-    this.whatsapp,
-    this.businessName,
-    this.businessAddress,
-    this.faecbookPage,
-    this.instaPage,
-    this.webUrl,
-    this.isFeatured,
-    this.logo,
-    this.reference,
-    this.salesmanId,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-    this.user,
-  });
 
+<<<<<<< Updated upstream
   Data.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         userId = json['user_id'] as int?,
@@ -204,3 +192,5 @@ class Links {
   Map<String, dynamic> toJson() =>
       {'url': url, 'label': label, 'active': active};
 }
+=======
+>>>>>>> Stashed changes

@@ -14,9 +14,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utilities/colors/colors.dart';
-import '../../../../utilities/custom_widgets/custom_appbar.dart';
 import '../../../../utilities/custom_widgets/custom_appbar_user.dart';
-import '../../../../utilities/custom_widgets/share_dialogue.dart';
 import '../../../../utilities/custom_widgets/slider_page.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
@@ -30,6 +28,8 @@ class UserDashboardView extends GetView {
   AllShopsController allShopsController = AllShopsController();
   AllOffersController allOffersController = AllOffersController();
   HomeController homeController = HomeController();
+
+  UserDashboardView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -213,20 +213,17 @@ class UserDashboardView extends GetView {
                                         Container(
                                           width: 220.w,
                                           height: 210.h,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: lightGray,
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                                    topRight:
-                                                        Radius.circular(10.0),
-                                                    topLeft:
-                                                        Radius.circular(10.0)),
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                  ApiService.imageBaseUrl +
-                                                      fOffer[index]['banner']),
-                                              fit: BoxFit.cover,
-                                            ),
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(10.0),
+                                                topLeft: Radius.circular(10.0)),
+                                            // image: DecorationImage(
+                                            //   image: NetworkImage(
+                                            //       ApiService.imageBaseUrl +
+                                            //           fOffer[index]['banner']),
+                                            //   fit: BoxFit.cover,
+                                            // ),
                                           ),
                                         ),
                                         Container(
@@ -680,7 +677,7 @@ class UserDashboardView extends GetView {
                     ),
                   ),
                   Obx(() => homeController.isLoading.isTrue
-                      ? MyLoading()
+                      ? const MyLoading()
                       : Container()),
                 ],
               )),

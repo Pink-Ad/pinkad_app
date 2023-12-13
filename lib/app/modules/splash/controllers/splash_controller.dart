@@ -1,24 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:pink_ad/app/data/api_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:pink_ad/app/models/cites_model.dart';
+import 'package:pink_ad/app/data/api_service.dart';
+import 'package:pink_ad/app/models/banner_modal.dart';
 import 'package:pink_ad/app/models/featured_seller_model.dart';
 import 'package:pink_ad/app/models/login_response.dart';
 import 'package:pink_ad/app/models/offer_list_model.dart';
-import 'package:pink_ad/app/models/banner_modal.dart';
-import 'package:pink_ad/app/models/seller_shop_model.dart';
 import 'package:pink_ad/app/models/shop_list_model.dart';
 import 'package:pink_ad/app/models/tutorial_model.dart';
 import 'package:pink_ad/app/modules/home/views/bottom_nav_bar.dart';
 import 'package:pink_ad/app/modules/user_dashboard/views/user_bottom_nav_bar.dart';
-import 'package:pink_ad/app/routes/app_pages.dart';
-import 'package:pink_ad/utilities/custom_widgets/snackbars.dart';
 
 class SplashController extends GetxController {
   final box = GetStorage();
@@ -52,7 +46,7 @@ class SplashController extends GetxController {
     // Timer(const Duration(seconds: 8), () async {
     if (token != null) {
       try {
-        Map data = {"email": email, "password": password, 'role': "2"};
+        Map data = {"email": email, "password": password, 'role': '2'};
 
         final response = await _apiService.postData(
           Endpoints.login,
@@ -172,10 +166,11 @@ class SplashController extends GetxController {
 
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
-        await box.write('allSeller', result['data']);
+        await box.write('allSeller', result);
       }
-    } catch (e) {
-      print(e);
+    } catch (e, stacktrace) {
+      print('Exception occurred: $e');
+      print('Stacktrace: $stacktrace');
     }
   }
 
@@ -192,10 +187,12 @@ class SplashController extends GetxController {
         //     .toList());
         await box.write('fOffer', result['data']);
       }
-    } catch (e) {
-      // isLoading.value = false;
-      print(e);
+    } catch (e, stacktrace) {
+      // Print both the exception and the stack trace for debugging
+      print('Exception occurred: $e');
+      print('Stack trace: $stacktrace');
 
+      // Optional: handle the error, e.g., show a user-friendly message
       // showSnackBarError("Error", "Something went wrong please try again later");
     }
   }
@@ -283,10 +280,5 @@ class SplashController extends GetxController {
   void onReady() {
     super.onReady();
     print("SplashController onReady");
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 }

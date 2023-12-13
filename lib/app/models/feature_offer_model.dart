@@ -1,3 +1,6 @@
+import 'package:pink_ad/app/models/data_model.dart';
+import 'package:pink_ad/app/models/links_model.dart';
+
 class FeatureOffer {
   final int? currentPage;
   final List<Data>? data;
@@ -6,10 +9,10 @@ class FeatureOffer {
   final int? lastPage;
   final String? lastPageUrl;
   final List<Links>? links;
-  final dynamic nextPageUrl;
+  final String? nextPageUrl;
   final String? path;
   final int? perPage;
-  final dynamic prevPageUrl;
+  final String? prevPageUrl;
   final int? to;
   final int? total;
 
@@ -29,24 +32,34 @@ class FeatureOffer {
     this.total,
   });
 
-  FeatureOffer.fromJson(Map<String, dynamic> json)
-      : currentPage = json['current_page'] as int?,
-        data = (json['data'] as List?)
+  factory FeatureOffer.fromJson(Map<String, dynamic> json) {
+    try {
+      return FeatureOffer(
+        currentPage: json['current_page'] as int?,
+        data: (json['data'] as List?)
             ?.map((dynamic e) => Data.fromJson(e as Map<String, dynamic>))
             .toList(),
-        firstPageUrl = json['first_page_url'] as String?,
-        from = json['from'] as int?,
-        lastPage = json['last_page'] as int?,
-        lastPageUrl = json['last_page_url'] as String?,
-        links = (json['links'] as List?)
+        firstPageUrl: json['first_page_url'] as String?,
+        from: json['from'] as int?,
+        lastPage: json['last_page'] as int?,
+        lastPageUrl: json['last_page_url'] as String?,
+        links: (json['links'] as List?)
             ?.map((dynamic e) => Links.fromJson(e as Map<String, dynamic>))
             .toList(),
-        nextPageUrl = json['next_page_url'],
-        path = json['path'] as String?,
-        perPage = json['per_page'] as int?,
-        prevPageUrl = json['prev_page_url'],
-        to = json['to'] as int?,
-        total = json['total'] as int?;
+        nextPageUrl: json['next_page_url'] as String?,
+        path: json['path'] as String?,
+        perPage: json['per_page'] as int?,
+        prevPageUrl: json['prev_page_url'] as String?,
+        to: json['to'] as int?,
+        total: json['total'] as int?,
+      );
+    } catch (e) {
+      print('Error parsing FeatureOffer: $e');
+      // Depending on your error handling, you might want to return an empty object
+      // or handle this exception differently.
+      return FeatureOffer();
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         'current_page': currentPage,
@@ -61,9 +74,10 @@ class FeatureOffer {
         'per_page': perPage,
         'prev_page_url': prevPageUrl,
         'to': to,
-        'total': total
+        'total': total,
       };
 }
+<<<<<<< Updated upstream
 
 class Data {
   final int? id;
@@ -298,3 +312,5 @@ class Links {
   Map<String, dynamic> toJson() =>
       {'url': url, 'label': label, 'active': active};
 }
+=======
+>>>>>>> Stashed changes

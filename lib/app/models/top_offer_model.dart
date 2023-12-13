@@ -1,3 +1,6 @@
+import 'package:pink_ad/app/models/data_model.dart';
+import 'package:pink_ad/app/models/links_model.dart';
+
 class TopOffer {
   final int? currentPage;
   final List<Data>? data;
@@ -29,24 +32,33 @@ class TopOffer {
     this.total,
   });
 
-  TopOffer.fromJson(Map<String, dynamic> json)
-      : currentPage = json['current_page'] as int?,
-        data = (json['data'] as List?)
-            ?.map((dynamic e) => Data.fromJson(e as Map<String, dynamic>))
+  factory TopOffer.fromJson(Map<String, dynamic> json) {
+    try {
+      return TopOffer(
+        currentPage: json['current_page'] as int?,
+        data: (json['data'] as List?)
+            ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
             .toList(),
-        firstPageUrl = json['first_page_url'] as String?,
-        from = json['from'] as int?,
-        lastPage = json['last_page'] as int?,
-        lastPageUrl = json['last_page_url'] as String?,
-        links = (json['links'] as List?)
-            ?.map((dynamic e) => Links.fromJson(e as Map<String, dynamic>))
+        firstPageUrl: json['first_page_url'] as String?,
+        from: json['from'] as int?,
+        lastPage: json['last_page'] as int?,
+        lastPageUrl: json['last_page_url'] as String?,
+        links: (json['links'] as List?)
+            ?.map((e) => Links.fromJson(e as Map<String, dynamic>))
             .toList(),
-        nextPageUrl = json['next_page_url'] as String?,
-        path = json['path'] as String?,
-        perPage = json['per_page'] as int?,
-        prevPageUrl = json['prev_page_url'],
-        to = json['to'] as int?,
-        total = json['total'] as int?;
+        nextPageUrl: json['next_page_url'] as String?,
+        path: json['path'] as String?,
+        perPage: json['per_page'] as int?,
+        prevPageUrl: json['prev_page_url'],
+        to: json['to'] as int?,
+        total: json['total'] as int?,
+      );
+    } catch (e) {
+      print('Error parsing TopOffer: $e');
+      // You can also use breakpoints here if you're debugging in an IDE.
+      return TopOffer(); // Returning an empty TopOffer object or handle as needed.
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         'current_page': currentPage,
@@ -64,6 +76,7 @@ class TopOffer {
         'total': total
       };
 }
+<<<<<<< Updated upstream
 
 class Data {
   final int? id;
@@ -147,3 +160,5 @@ class Links {
   Map<String, dynamic> toJson() =>
       {'url': url, 'label': label, 'active': active};
 }
+=======
+>>>>>>> Stashed changes

@@ -87,8 +87,8 @@ class MyApp extends StatelessWidget {
           ).copyWith(
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
-                onPrimary: Colors.white,
-                primary: primary,
+                foregroundColor: Colors.white,
+                backgroundColor: primary,
               ),
             ),
           ),

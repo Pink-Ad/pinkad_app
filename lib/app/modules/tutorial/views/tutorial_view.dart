@@ -1,19 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/data/api_service.dart';
-import 'package:pink_ad/app/models/tutorial_model.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/app/modules/tutorial/views/video.dart';
-import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
-import 'package:pink_ad/utilities/custom_widgets/my_scafflod.dart';
 import 'package:pink_ad/utilities/custom_widgets/scafflod_dashboard.dart';
-import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 
 import '../controllers/tutorial_controller.dart';
 

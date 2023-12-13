@@ -1,3 +1,5 @@
+import 'package:pink_ad/app/models/shop_model.dart';
+
 class OfferList {
   final int? id;
   final String? shopId;
@@ -83,6 +85,7 @@ class OfferList {
       };
 }
 
+<<<<<<< Updated upstream
 class Shop {
   final int? id;
   final String? sellerId;
@@ -222,3 +225,5 @@ class Seller {
         'updated_at': updatedAt
       };
 }
+=======
+>>>>>>> Stashed changes

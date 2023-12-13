@@ -1,3 +1,5 @@
+import 'package:pink_ad/app/models/seller_model.dart';
+
 class ShopList {
   final int? id;
   final String? sellerId;
@@ -62,6 +64,7 @@ class ShopList {
         'seller': seller?.toJson()
       };
 }
+<<<<<<< Updated upstream
 
 class Seller {
   final int? id;
@@ -137,3 +140,5 @@ class Seller {
         'updated_at': updatedAt
       };
 }
+=======
+>>>>>>> Stashed changes
