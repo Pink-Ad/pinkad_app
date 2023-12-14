@@ -147,14 +147,14 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                                     width: 2.w, color: Colors.grey.shade600)),
                           ),
                           child: ListTile(
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.travel_explore,
                               color: primary,
                             ),
                             title: Text(
                               offer['user']['name'],
                               style: CustomTextView.getStyle(context,
-                                  colorLight: Color.fromARGB(255, 41, 39, 39),
+                                  colorLight: const Color.fromARGB(255, 41, 39, 39),
                                   fontSize: 13.sp,
                                   fontFamily: Utils.poppinsSemiBold),
                               maxLines: 2,
@@ -163,7 +163,7 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                             subtitle: Text(
                               offer['description'] ?? '',
                               style: CustomTextView.getStyle(context,
-                                  colorLight: Color.fromARGB(255, 66, 66, 66),
+                                  colorLight: const Color.fromARGB(255, 66, 66, 66),
                                   fontSize: 11.sp,
                                   fontFamily: Utils.poppinsLight),
                               maxLines: 2,
@@ -310,8 +310,8 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                         child: allShopLists(item, context, allShopsController),
                       );
                     },
-                    initialLoader: Center(
-                      child: const CircularProgressIndicator(
+                    initialLoader: const Center(
+                      child: CircularProgressIndicator(
                           backgroundColor: primary, color: secondary),
                     ),
                     loadMoreLoader: const CircularProgressIndicator(

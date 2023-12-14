@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:listview_infinite_pagination/listview_infinite_pagination.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
@@ -16,8 +16,7 @@ import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:pink_ad/utilities/custom_widgets/scafflod_dashboard.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
-import 'package:searchable_listview/searchable_listview.dart';
-import 'package:http/http.dart' as http;
+
 import '../controllers/featured_offer_controller.dart';
 
 class FeaturedOfferView extends GetView<FeaturedOfferController> {
@@ -31,7 +30,6 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
     final box = GetStorage();
     final token = box.read('user_token');
     final data = arguments['sellerData'];
-    print(data);
     final seller = arguments['seller'];
     return CustomBgDashboard(
       child: SafeArea(
@@ -90,7 +88,7 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                     autofocus: false,
                     style: TextStyle(fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Search Product',
+                      hintText: 'Search Producttt',
                       suffixIcon: Icon(
                         Icons.search_rounded,
                         color: Colors.black,
@@ -101,13 +99,9 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                       focusColor: tertiary,
                     ),
                   ),
-
-                  // suggestionsBoxDecoration:
-                  //     SuggestionsBoxDecoration(color: Colors.lightBlue[50]),
                   suggestionsCallback: (pattern) {
                     List matches = [];
                     matches.addAll(data);
-                    print(matches);
                     matches.retainWhere((s) {
                       return s['title']
                           .toLowerCase()
@@ -121,134 +115,38 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                         allOffersController.getOfferDetail(offer['id']);
                       },
                       child: Container(
-                        // margin: EdgeInsets.only(
-                        //     left: 20.0.w,
-                        //     top: 20.h,
-                        //     right: 20.0.w,
-                        //     bottom: 10.h),
-
-                        // padding: const EdgeInsets.all(20.0),
                         decoration: BoxDecoration(
                           color: Colors.white,
-
-                          // color: Colors.white,
-                          // borderRadius: BorderRadius.circular(10.0),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Colors.grey.withOpacity(0.5),
-                          //     spreadRadius: 2,
-                          //     blurRadius: 3,
-                          //     offset: const Offset(0, 3),
-                          //   ),
-                          // ],
                           border: Border(
                               bottom: BorderSide(
                                   width: 2.w, color: Colors.grey.shade600)),
                         ),
                         child: ListTile(
-                          leading: Icon(
+                          leading: const Icon(
                             Icons.travel_explore,
                             color: primary,
                           ),
                           title: Text(
-                            offer['title'] ?? '',
+                            offer['title'],
                             style: CustomTextView.getStyle(context,
-                                colorLight: Color.fromARGB(255, 41, 39, 39),
+                                colorLight:
+                                    const Color.fromARGB(255, 41, 39, 39),
                                 fontSize: 13.sp,
                                 fontFamily: Utils.poppinsSemiBold),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                           subtitle: Text(
-                            offer['description'] ?? '',
+                            offer['description'],
                             style: CustomTextView.getStyle(context,
-                                colorLight: Color.fromARGB(255, 66, 66, 66),
+                                colorLight:
+                                    const Color.fromARGB(255, 66, 66, 66),
                                 fontSize: 11.sp,
                                 fontFamily: Utils.poppinsLight),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        // child: Stack(children: [
-                        //   Column(
-                        //     crossAxisAlignment: CrossAxisAlignment.start,
-                        //     children: [
-                        //       Row(
-                        //         crossAxisAlignment: CrossAxisAlignment.start,
-                        //         mainAxisAlignment: MainAxisAlignment.start,
-                        //         children: [
-                        //           SizedBox(
-                        //             width: 200.w,
-                        //             child: Column(
-                        //               crossAxisAlignment:
-                        //                   CrossAxisAlignment.start,
-                        //               children: [
-                        //                 Text(
-                        //                   offer['title'],
-                        //                   style: CustomTextView.getStyle(
-                        //                       context,
-                        //                       colorLight: subHeadingColor,
-                        //                       fontSize: 18.sp,
-                        //                       fontFamily:
-                        //                           Utils.poppinsSemiBold),
-                        //                   maxLines: 2,
-                        //                   overflow: TextOverflow.ellipsis,
-                        //                 ),
-                        //                 // const SizedBox(height: 10.0),
-                        //                 // Text(
-                        //                 //   'shan',
-                        //                 //   style: CustomTextView.getStyle(
-                        //                 //       context,
-                        //                 //       colorLight: subHeadingColor,
-                        //                 //       fontSize: 16.sp,
-                        //                 //       fontFamily: Utils.poppinsMedium),
-                        //                 //   maxLines: 2,
-                        //                 //   overflow: TextOverflow.ellipsis,
-                        //                 // ),
-                        //               ],
-                        //             ),
-                        //           )
-                        //         ],
-                        //       ),
-                        //       const SizedBox(height: 10.0),
-                        //       Text(
-                        //         offer['description'],
-                        //         // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit ${index + 1}',
-                        //         style: CustomTextView.getStyle(
-                        //           context,
-                        //           colorLight: textColor,
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        //   Align(
-                        //     alignment: Alignment.centerRight,
-                        //     child: GestureDetector(
-                        //       onTap: () {
-                        //         allOffersController.getOfferDetail(offer['id']);
-                        //       },
-                        //       child: Container(
-                        //           height: 40.h,
-                        //           width: 115.w,
-                        //           decoration: BoxDecoration(
-                        //             color: containerColor,
-                        //             borderRadius: BorderRadius.circular(50.0),
-                        //             border: Border.all(
-                        //               color: secondary,
-                        //               width: 2,
-                        //             ),
-                        //           ),
-                        //           child: Center(
-                        //               child: Text(
-                        //             "View Offer",
-                        //             style: CustomTextView.getStyle(context,
-                        //                 colorLight: secondary,
-                        //                 fontSize: 16.sp,
-                        //                 fontFamily: Utils.poppinsSemiBold),
-                        //           ))),
-                        //     ),
-                        //   ),
-                        // ]),
                       ),
                     );
                   },
@@ -256,23 +154,6 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                     // widget.callback(suggestion);
                   },
                 ),
-                // child: TextField(
-                //   keyboardType: TextInputType.text,
-                //   style: CustomTextView.getStyle(context,
-                //       colorLight: textColor, fontSize: 15.sp),
-                //   decoration: InputDecoration(
-                //     hintText: 'Search Product',
-                //     suffixIcon: const Icon(
-                //       Icons.search_rounded,
-                //       color: Colors.black,
-                //       size: 30,
-                //     ),
-                //     hintStyle: CustomTextView.getStyle(context,
-                //         colorLight: textColor, fontSize: 15.sp),
-                //     border: InputBorder.none,
-                //     focusColor: tertiary,
-                //   ),
-                // ),
               ),
             ),
             Container(
@@ -296,116 +177,6 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                     );
                   }),
             ),
-            // Expanded(
-            //   child: ListView.builder(
-            //     padding: EdgeInsets.only(bottom: 20.0.h),
-            //     itemCount: data.length, // number of items in the list
-            //     itemBuilder: (BuildContext context, int index) {
-            //       return GestureDetector(
-            //         onTap: () {
-            //           allOffersController.getOfferDetail(data[index]['id']);
-            //         },
-            //         child: Container(
-            //           margin: EdgeInsets.only(
-            //               left: 20.0.w, top: 20.h, right: 20.0.w),
-            //           padding: const EdgeInsets.all(20.0),
-            //           decoration: BoxDecoration(
-            //             color: containerColor,
-            //             borderRadius: BorderRadius.circular(10.0),
-            //             boxShadow: [
-            //               BoxShadow(
-            //                 color: Colors.grey.withOpacity(0.5),
-            //                 spreadRadius: 2,
-            //                 blurRadius: 3,
-            //                 offset: const Offset(0, 3),
-            //               ),
-            //             ],
-            //           ),
-            //           child: Stack(children: [
-            //             Column(
-            //               crossAxisAlignment: CrossAxisAlignment.start,
-            //               children: [
-            //                 Row(
-            //                   crossAxisAlignment: CrossAxisAlignment.start,
-            //                   mainAxisAlignment: MainAxisAlignment.start,
-            //                   children: [
-            //                     SizedBox(
-            //                       width: 160.w,
-            //                       child: Column(
-            //                         crossAxisAlignment:
-            //                             CrossAxisAlignment.start,
-            //                         children: [
-            //                           Text(
-            //                             data[index]['title'],
-            //                             // 'Offer ${index + 1}',
-            //                             style: CustomTextView.getStyle(context,
-            //                                 colorLight: subHeadingColor,
-            //                                 fontSize: 18.sp,
-            //                                 fontFamily: Utils.poppinsSemiBold),
-            //                             maxLines: 2,
-            //                             overflow: TextOverflow.ellipsis,
-            //                           ),
-            //                           const SizedBox(height: 10.0),
-            //                           Text(
-            //                             'Shan',
-            //                             style: CustomTextView.getStyle(context,
-            //                                 colorLight: subHeadingColor,
-            //                                 fontSize: 16.sp,
-            //                                 fontFamily: Utils.poppinsMedium),
-            //                             maxLines: 2,
-            //                             overflow: TextOverflow.ellipsis,
-            //                           ),
-            //                         ],
-            //                       ),
-            //                     )
-            //                   ],
-            //                 ),
-            //                 const SizedBox(height: 10.0),
-            //                 Text(
-            //                   data[index]['description'],
-            //                   // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit ${index + 1}',
-            //                   style: CustomTextView.getStyle(
-            //                     context,
-            //                     colorLight: textColor,
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //             Align(
-            //               alignment: Alignment.centerRight,
-            //               child: GestureDetector(
-            //                 onTap: () {
-            //                   allOffersController
-            //                       .getOfferDetail(data[index]['id']);
-            //                 },
-            //                 child: Container(
-            //                     height: 40.h,
-            //                     width: 115.w,
-            //                     decoration: BoxDecoration(
-            //                       color: containerColor,
-            //                       borderRadius: BorderRadius.circular(50.0),
-            //                       border: Border.all(
-            //                         color: secondary,
-            //                         width: 2,
-            //                       ),
-            //                     ),
-            //                     child: Center(
-            //                         child: Text(
-            //                       "View Offer",
-            //                       style: CustomTextView.getStyle(context,
-            //                           colorLight: secondary,
-            //                           fontSize: 16.sp,
-            //                           fontFamily: Utils.poppinsSemiBold),
-            //                     ))),
-            //               ),
-            //             ),
-            //           ]),
-            //         ),
-            //       );
-
-            //     },
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -448,14 +219,14 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                     ),
                   ],
                 ),
-                child: ClipRRect(
-                  child: Image.network(
-                    ApiService.imageBaseUrl + item["shop"]["logo"],
-                    width: 60.w,
-                    height: 60.h,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                // child: ClipRRect(
+                //   child: Image.network(
+                //     ApiService.imageBaseUrl + (item["shop"]["logo"] ?? ""),
+                //     width: 60.w,
+                //     height: 60.h,
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
               ),
               SizedBox(width: 10.w),
               Flexible(
@@ -464,7 +235,7 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${item["title"].toString()} By ${item["shop"]["name"].toString()}",
+                      "${item["title"]} By ${item["shop"]["name"]}",
                       style: CustomTextView.getStyle(context,
                           colorLight: subHeadingColor,
                           fontSize: 12.sp,
@@ -474,7 +245,7 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                     ),
                     const SizedBox(height: 10.0),
                     Text(
-                      item['description'].toString() ?? "",
+                      item['description'],
                       style: CustomTextView.getStyle(
                         fontSize: 10.sp,
                         context,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -16,19 +15,17 @@ import '../../../../utilities/custom_widgets/custom_appbar.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 
 class AllShopsView extends GetView {
+  const AllShopsView({super.key});
+
   @override
   Widget build(BuildContext context) {
     AllShopsController allShopsController = AllShopsController();
     final box = GetStorage();
     final token = box.read('user_token');
-<<<<<<< Updated upstream
-    List<dynamic> shops = box.read('allSeller');
-=======
     List<dynamic> shops = box.read('allSeller') ?? [];
 
     print("Shops data: $shops");
 
->>>>>>> Stashed changes
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomBgDashboard(
@@ -121,14 +118,15 @@ class AllShopsView extends GetView {
                                     width: 2.w, color: Colors.grey.shade600)),
                           ),
                           child: ListTile(
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.travel_explore,
                               color: primary,
                             ),
                             title: Text(
                               offer['user']["name"],
                               style: CustomTextView.getStyle(context,
-                                  colorLight: Color.fromARGB(255, 41, 39, 39),
+                                  colorLight:
+                                      const Color.fromARGB(255, 41, 39, 39),
                                   fontSize: 13.sp,
                                   fontFamily: Utils.poppinsSemiBold),
                               maxLines: 2,
@@ -137,7 +135,8 @@ class AllShopsView extends GetView {
                             subtitle: Text(
                               offer['description'] ?? '',
                               style: CustomTextView.getStyle(context,
-                                  colorLight: Color.fromARGB(255, 66, 66, 66),
+                                  colorLight:
+                                      const Color.fromARGB(255, 66, 66, 66),
                                   fontSize: 11.sp,
                                   fontFamily: Utils.poppinsLight),
                               maxLines: 2,

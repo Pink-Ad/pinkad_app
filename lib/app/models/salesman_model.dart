@@ -2,7 +2,7 @@ import 'package:pink_ad/app/models/user_model.dart';
 
 class Salesman {
   final int? id;
-  final String? userId;
+  final int? userId;
   final String? phone;
   final String? qualification;
   final String? cnic;
@@ -14,9 +14,9 @@ class Salesman {
   final String? bankAccount;
   final String? age;
   final String? address;
-  final String? status;
-  final String? createdAt;
-  final String? updatedAt;
+  final int? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final User? user;
 
   Salesman({
@@ -41,7 +41,7 @@ class Salesman {
 
   Salesman.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        userId = json['user_id'] as String?,
+        userId = json['user_id'] as int?,
         phone = json['phone'] as String?,
         qualification = json['qualification'] as String?,
         cnic = json['cnic'] as String?,
@@ -53,9 +53,15 @@ class Salesman {
         bankAccount = json['bank_account'] as String?,
         age = json['age'] as String?,
         address = json['address'] as String?,
-        status = json['status'] as String?,
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?,
+        status = json['status'] as int?,
+        createdAt =
+            json['created_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['created_at'] as String),
+        updatedAt =
+            json['updated_at'] == null // Convert from String to DateTime
+                ? null
+                : DateTime.parse(json['updated_at'] as String),
         user = (json['user'] as Map<String, dynamic>?) != null
             ? User.fromJson(json['user'] as Map<String, dynamic>)
             : null;
@@ -75,50 +81,9 @@ class Salesman {
         'age': age,
         'address': address,
         'status': status,
-        'created_at': createdAt,
-        'updated_at': updatedAt,
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String(),
         'user': user?.toJson()
       };
 }
 
-<<<<<<< Updated upstream
-class User {
-  final int? id;
-  final String? name;
-  final String? email;
-  final String? role;
-  final dynamic emailVerifiedAt;
-  final String? createdAt;
-  final String? updatedAt;
-
-  User({
-    this.id,
-    this.name,
-    this.email,
-    this.role,
-    this.emailVerifiedAt,
-    this.createdAt,
-    this.updatedAt,
-  });
-
-  User.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?,
-        email = json['email'] as String?,
-        role = json['role'] as String?,
-        emailVerifiedAt = json['email_verified_at'],
-        createdAt = json['created_at'] as String?,
-        updatedAt = json['updated_at'] as String?;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'email': email,
-        'role': role,
-        'email_verified_at': emailVerifiedAt,
-        'created_at': createdAt,
-        'updated_at': updatedAt
-      };
-}
-=======
->>>>>>> Stashed changes
