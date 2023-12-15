@@ -88,7 +88,7 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                     autofocus: false,
                     style: TextStyle(fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Search Producttt',
+                      hintText: 'Search Product',
                       suffixIcon: Icon(
                         Icons.search_rounded,
                         color: Colors.black,
@@ -219,14 +219,16 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                     ),
                   ],
                 ),
-                // child: ClipRRect(
-                //   child: Image.network(
-                //     ApiService.imageBaseUrl + (item["shop"]["logo"] ?? ""),
-                //     width: 60.w,
-                //     height: 60.h,
-                //     fit: BoxFit.cover,
-                //   ),
-                // ),
+                child: ClipRRect(
+                  child: item["shop"]["logo"] != null
+                      ? Image.network(
+                          ApiService.imageBaseUrl + item["shop"]["logo"],
+                          width: 60.w,
+                          height: 60.h,
+                          fit: BoxFit.cover,
+                        )
+                      : SizedBox(width: 60.w, height: 60.h),
+                ),
               ),
               SizedBox(width: 10.w),
               Flexible(

@@ -39,6 +39,7 @@ dependencies:
   searchable_listview: ^2.4.0
   chewie: ^1.7.0
   share_plus: ^7.2.1
+  cached_network_image: ^3.3.0
 
 dev_dependencies: 
   flutter_lints: 2.0.1
