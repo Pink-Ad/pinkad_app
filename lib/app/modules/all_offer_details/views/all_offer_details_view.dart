@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
@@ -16,7 +17,6 @@ import '../../../../utilities/custom_widgets/custom_button.dart';
 import '../../../../utilities/custom_widgets/main_controlller.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
-import 'package:http/http.dart' as http;
 
 class AllOfferDetailsView extends GetView {
   AllOfferDetailsView({super.key});
@@ -30,7 +30,7 @@ class AllOfferDetailsView extends GetView {
     print(data);
     HomeController homeController = HomeController();
     final MainControllers mainControllers = MainControllers();
-    final ApiService _apiService = ApiService(http.Client());
+    final ApiService apiService = ApiService(http.Client());
 
     const String facebookUrl = "https://www.facebook.com/";
     return Scaffold(
@@ -334,7 +334,7 @@ class AllOfferDetailsView extends GetView {
                     "offer_id": data['id'].toString(),
                     "reach": 1.toString()
                   };
-                  await _apiService.postData('insights/update', data1);
+                  await apiService.postData('insights/update', data1);
                 },
                 textColor: Colors.white,
                 buttonColor: data["shop"]["seller"]["web_url"] == null

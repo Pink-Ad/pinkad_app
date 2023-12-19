@@ -15,6 +15,7 @@ import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/models/login_response.dart';
 import 'package:pink_ad/app/models/province_model.dart';
 import 'package:pink_ad/app/models/shop_model.dart';
+import 'package:pink_ad/app/models/subcategory_model.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';

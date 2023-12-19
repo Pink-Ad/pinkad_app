@@ -152,8 +152,7 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                             title: Text(
                               offer['user']['name'],
                               style: CustomTextView.getStyle(context,
-                                  colorLight:
-                                      const Color.fromARGB(255, 41, 39, 39),
+                                  colorLight: const Color.fromARGB(255, 41, 39, 39),
                                   fontSize: 13.sp,
                                   fontFamily: Utils.poppinsSemiBold),
                               maxLines: 2,
@@ -162,8 +161,7 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                             subtitle: Text(
                               offer['description'] ?? '',
                               style: CustomTextView.getStyle(context,
-                                  colorLight:
-                                      const Color.fromARGB(255, 66, 66, 66),
+                                  colorLight: const Color.fromARGB(255, 66, 66, 66),
                                   fontSize: 11.sp,
                                   fontFamily: Utils.poppinsLight),
                               maxLines: 2,

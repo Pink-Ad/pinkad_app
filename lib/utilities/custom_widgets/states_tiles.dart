@@ -4,7 +4,7 @@ import 'package:pink_ad/utilities/custom_widgets/tiles.dart';
 
 class StatsTiles extends StatelessWidget {
   final int view, reach, impression, conversion;
-  StatsTiles({
+  const StatsTiles({
     super.key,
     required this.reach,
     required this.view,

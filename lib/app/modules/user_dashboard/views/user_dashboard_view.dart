@@ -14,9 +14,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utilities/colors/colors.dart';
-import '../../../../utilities/custom_widgets/custom_appbar.dart';
 import '../../../../utilities/custom_widgets/custom_appbar_user.dart';
-import '../../../../utilities/custom_widgets/share_dialogue.dart';
 import '../../../../utilities/custom_widgets/slider_page.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
@@ -30,6 +28,8 @@ class UserDashboardView extends GetView {
   AllShopsController allShopsController = AllShopsController();
   AllOffersController allOffersController = AllOffersController();
   HomeController homeController = HomeController();
+
+  UserDashboardView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -183,191 +183,217 @@ class UserDashboardView extends GetView {
                         ),
                         SizedBox(
                           height: 330.h,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: fOffer.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              print(fOffer[index]);
-                              return InkWell(
-                                onTap: () {
-                                  homeController.setLoading();
-                                  allOffersController
-                                      .getOfferDetail(fOffer[index]['id'])
-                                      .then((value) =>
-                                          homeController.setLoading());
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, bottom: 10),
-                                  child: Container(
-                                    width: 217.w,
-                                    height: 325.h,
-                                    decoration: BoxDecoration(
-                                      color: lightGray,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 220.w,
-                                          height: 210.h,
+                          child: fOffer.isNotEmpty
+                              ? ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: fOffer.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    print(fOffer[index]);
+                                    return InkWell(
+                                      onTap: () {
+                                        homeController.setLoading();
+                                        allOffersController
+                                            .getOfferDetail(fOffer[index]['id'])
+                                            .then((value) =>
+                                                homeController.setLoading());
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0, bottom: 10),
+                                        child: Container(
+                                          width: 217.w,
+                                          height: 325.h,
                                           decoration: BoxDecoration(
                                             color: lightGray,
                                             borderRadius:
-                                                const BorderRadius.only(
-                                                    topRight:
-                                                        Radius.circular(10.0),
-                                                    topLeft:
-                                                        Radius.circular(10.0)),
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                  ApiService.imageBaseUrl +
-                                                      fOffer[index]['banner']),
-                                              fit: BoxFit.cover,
-                                            ),
+                                                BorderRadius.circular(8.0),
                                           ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 5.0, left: 10.h, right: 10),
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text(fOffer[index]['title'] ?? '',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style:
-                                                      CustomTextView.getStyle(
-                                                          context,
-                                                          colorLight:
-                                                              Colors.black,
-                                                          fontSize: 16.sp,
-                                                          fontFamily: Utils
-                                                              .poppinsBold)),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Text(
-                                                        fOffer[index]['shop']
-                                                                ['name'] ??
+                                              Container(
+                                                width: 220.w,
+                                                height: 210.h,
+                                                decoration: const BoxDecoration(
+                                                  color: lightGray,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  10.0),
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  10.0)),
+                                                  // image: DecorationImage(
+                                                  //   image: NetworkImage(
+                                                  //       ApiService.imageBaseUrl +
+                                                  //           fOffer[index]['banner']),
+                                                  //   fit: BoxFit.cover,
+                                                  // ),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    top: 5.0,
+                                                    left: 10.h,
+                                                    right: 10),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        fOffer[index]
+                                                                ['title'] ??
                                                             '',
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style: CustomTextView
                                                             .getStyle(context,
                                                                 colorLight:
-                                                                    secondary,
-                                                                fontSize: 14.sp,
+                                                                    Colors
+                                                                        .black,
+                                                                fontSize: 16.sp,
                                                                 fontFamily: Utils
-                                                                    .poppinsMedium)),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () async {
-                                                          Share.share(
-                                                              "${fOffer[index]['title']}, ${fOffer[index]['description']},${fOffer[index]['shop']['name'] ?? ''},contact ${fOffer[index]['shop']['seller']['faecbook_page']}. $appUrl");
-                                                          // homeController
-                                                          //     .showCustomDialog(
-                                                          //         fOffer[index]);
-                                                        },
-                                                        child: Container(
-                                                          height: 25.h,
-                                                          width: 30.w,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: secondary,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                          ),
-                                                          child: const Icon(
-                                                            Icons.share,
-                                                            color: Colors.white,
-                                                            size: 20,
-                                                          ),
+                                                                    .poppinsBold)),
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Text(
+                                                              fOffer[index][
+                                                                          'shop']
+                                                                      [
+                                                                      'name'] ??
+                                                                  '',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: CustomTextView.getStyle(
+                                                                  context,
+                                                                  colorLight:
+                                                                      secondary,
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                  fontFamily: Utils
+                                                                      .poppinsMedium)),
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10.w,
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () async {
-                                                          // final appInstalled =
-                                                          //     await canLaunchUrl(
-                                                          //         Uri.parse(
-                                                          //             'whatsapp://'));
-                                                          // if (appInstalled) {
-                                                          await launchUrl(Uri.parse(
-                                                              'whatsapp://send?phone=${fOffer[index]['shop']['seller']['whatsapp']}'));
-                                                          // 'whatsapp://send?text=${fOffer[index]['title']}, ${fOffer[index]['description']},${fOffer[index]['shop']['name']},contact ${fOffer[index]['shop']['seller']['phone']}. $appUrl'));
-
-                                                          // 'whatsapp://send?text=${fOffer[index]['shop']['seller']['whatsapp']}'));
-                                                          // } else {
-                                                          //   await launchUrl(Uri.parse(
-                                                          //       'https://api.whatsapp.com/send?phone=03001234567'));
-                                                          // }
-                                                        },
-                                                        child: Container(
-                                                            height: 25.h,
-                                                            width: 30.w,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: greenColor,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          5.0),
+                                                        Row(
+                                                          children: [
+                                                            GestureDetector(
+                                                              onTap: () async {
+                                                                Share.share(
+                                                                    "${fOffer[index]['title']}, ${fOffer[index]['description']},${fOffer[index]['shop']['name'] ?? ''},contact ${fOffer[index]['shop']['seller']['faecbook_page']}. $appUrl");
+                                                                // homeController
+                                                                //     .showCustomDialog(
+                                                                //         fOffer[index]);
+                                                              },
+                                                              child: Container(
+                                                                height: 25.h,
+                                                                width: 30.w,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color:
+                                                                      secondary,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                ),
+                                                                child:
+                                                                    const Icon(
+                                                                  Icons.share,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  size: 20,
+                                                                ),
+                                                              ),
                                                             ),
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(5.0),
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                      "assets/svgIcons/whatsapp.svg"),
-                                                            )),
+                                                            SizedBox(
+                                                              width: 10.w,
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () async {
+                                                                // final appInstalled =
+                                                                //     await canLaunchUrl(
+                                                                //         Uri.parse(
+                                                                //             'whatsapp://'));
+                                                                // if (appInstalled) {
+                                                                await launchUrl(
+                                                                    Uri.parse(
+                                                                        'whatsapp://send?phone=${fOffer[index]['shop']['seller']['whatsapp']}'));
+                                                                // 'whatsapp://send?text=${fOffer[index]['title']}, ${fOffer[index]['description']},${fOffer[index]['shop']['name']},contact ${fOffer[index]['shop']['seller']['phone']}. $appUrl'));
+
+                                                                // 'whatsapp://send?text=${fOffer[index]['shop']['seller']['whatsapp']}'));
+                                                                // } else {
+                                                                //   await launchUrl(Uri.parse(
+                                                                //       'https://api.whatsapp.com/send?phone=03001234567'));
+                                                                // }
+                                                              },
+                                                              child: Container(
+                                                                  height: 25.h,
+                                                                  width: 30.w,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color:
+                                                                        greenColor,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5.0),
+                                                                  ),
+                                                                  child:
+                                                                      Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            5.0),
+                                                                    child: SvgPicture
+                                                                        .asset(
+                                                                            "assets/svgIcons/whatsapp.svg"),
+                                                                  )),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5.h,
+                                                    ),
+                                                    Text(
+                                                      fOffer[index]
+                                                          ['description'],
+                                                      // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: CustomTextView
+                                                          .getStyle(
+                                                        context,
+                                                        colorLight: textColor,
+                                                        fontSize: 13.sp,
                                                       ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5.h,
-                                              ),
-                                              Text(
-                                                fOffer[index]['description'],
-                                                // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: CustomTextView.getStyle(
-                                                  context,
-                                                  colorLight: textColor,
-                                                  fontSize: 13.sp,
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
+                                              )
                                             ],
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                )
+                              : const Center(
+                                  child: Text('No featured offers available.'),
                                 ),
-                              );
-                            },
-                          ),
                         ),
                         SizedBox(
                           height: 10.h,
@@ -552,7 +578,7 @@ class UserDashboardView extends GetView {
                                                           context,
                                                           colorLight:
                                                               Colors.black,
-                                                          fontSize: 16.sp,
+                                                          fontSize: 15.sp,
                                                           fontFamily: Utils
                                                               .poppinsBold)),
                                               Row(
@@ -574,7 +600,7 @@ class UserDashboardView extends GetView {
                                                             .getStyle(context,
                                                                 colorLight:
                                                                     secondary,
-                                                                fontSize: 14.sp,
+                                                                fontSize: 13.sp,
                                                                 fontFamily: Utils
                                                                     .poppinsMedium)),
                                                   ),
@@ -590,7 +616,7 @@ class UserDashboardView extends GetView {
                                                         },
                                                         child: Container(
                                                           height: 25.h,
-                                                          width: 30.w,
+                                                          width: 25.w,
                                                           decoration:
                                                               BoxDecoration(
                                                             color: secondary,
@@ -626,7 +652,7 @@ class UserDashboardView extends GetView {
                                                         },
                                                         child: Container(
                                                             height: 25.h,
-                                                            width: 30.w,
+                                                            width: 25.w,
                                                             decoration:
                                                                 BoxDecoration(
                                                               color: greenColor,
@@ -649,12 +675,12 @@ class UserDashboardView extends GetView {
                                                 ],
                                               ),
                                               SizedBox(
-                                                height: 5.h,
+                                                height: 4.h,
                                               ),
                                               Text(
                                                 tOffer[index]['description'],
                                                 // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
-                                                maxLines: 2,
+                                                maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: CustomTextView.getStyle(
                                                   context,
@@ -680,7 +706,7 @@ class UserDashboardView extends GetView {
                     ),
                   ),
                   Obx(() => homeController.isLoading.isTrue
-                      ? MyLoading()
+                      ? const MyLoading()
                       : Container()),
                 ],
               )),

@@ -1,3 +1,5 @@
+import 'package:pink_ad/app/models/seller_model.dart';
+
 class Shop {
   final int? id;
   final int? sellerId;
@@ -11,6 +13,7 @@ class Shop {
   final int? status;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final Seller? seller;
 
   Shop({
     this.id,
@@ -25,6 +28,7 @@ class Shop {
     this.status,
     this.createdAt,
     this.updatedAt,
+    this.seller,
   });
 
   Shop.fromJson(Map<String, dynamic> json)
@@ -45,7 +49,10 @@ class Shop {
         updatedAt =
             json['updated_at'] == null // Convert from String to DateTime
                 ? null
-                : DateTime.parse(json['updated_at'] as String);
+                : DateTime.parse(json['updated_at'] as String),
+        seller = (json['seller'] as Map<String, dynamic>?) != null
+            ? Seller.fromJson(json['seller'] as Map<String, dynamic>)
+            : null;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -60,5 +67,6 @@ class Shop {
         'status': status,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
+        'seller': seller?.toJson()
       };
 }

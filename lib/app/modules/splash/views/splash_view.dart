@@ -47,7 +47,7 @@ class SplashView extends StatelessWidget {
                   SizedBox(
                     height: 20.h,
                   ),
-                  Container(
+                  SizedBox(
                     width: 200.w,
                     child: const ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(10)),

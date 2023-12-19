@@ -1,13 +1,15 @@
-class Category {
+class SubCategory {
   final int? id;
+  final int? categoryId;
   final String? name;
   final String? code;
   final int? status;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  Category({
+  SubCategory({
     this.id,
+    this.categoryId,
     this.name,
     this.code,
     this.status,
@@ -15,8 +17,9 @@ class Category {
     this.updatedAt,
   });
 
-  Category.fromJson(Map<String, dynamic> json)
+  SubCategory.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
+        categoryId = json['category_id'] as int?,
         name = json['name'] as String?,
         code = json['code'] as String?,
         status = json['status'] as int?,
@@ -29,6 +32,7 @@ class Category {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'category_id': categoryId,
         'name': name,
         'code': code,
         'status': status,
@@ -36,4 +40,3 @@ class Category {
         'updated_at': updatedAt?.toIso8601String(),
       };
 }
-
