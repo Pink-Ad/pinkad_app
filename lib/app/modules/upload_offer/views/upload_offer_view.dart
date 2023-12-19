@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:multiselect/multiselect.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
@@ -17,12 +16,13 @@ import '../../../../utilities/custom_widgets/custom_appbar_user.dart';
 import '../../../../utilities/custom_widgets/custom_button.dart';
 import '../../../../utilities/custom_widgets/custom_text_field.dart';
 import '../../../../utilities/custom_widgets/scafflod_dashboard.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/upload_offer_controller.dart';
 
 class UploadOfferView extends GetView {
   final uploadOfferController = Get.put(UploadOfferController());
   HomeController homeController = Get.put(HomeController());
+
+  UploadOfferView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +31,7 @@ class UploadOfferView extends GetView {
 
     return CustomBgDashboard(
       child: SafeArea(
+        
         child: Column(
           children: [
             UserAppBar(
@@ -98,8 +99,6 @@ class UploadOfferView extends GetView {
                                 keyboardType: TextInputType.text,
                               ),
                               ShadowedTextField(
-                                // height: 120.0.h,
-                                //onChanged: controller.username,
                                 hintText: 'Description',
                                 iconName: 'description',
                                 controller: uploadOfferController
@@ -140,7 +139,7 @@ class UploadOfferView extends GetView {
                                               width: 10.h,
                                             ),
                                             Obx(
-                                              () => Container(
+                                              () => SizedBox(
                                                 width: 170.w,
                                                 child: Text(
                                                   uploadOfferController
@@ -323,7 +322,7 @@ class UploadOfferView extends GetView {
                             ],
                           ),
                           Obx(() => homeController.isLoading.isTrue
-                              ? MyLoading()
+                              ? const MyLoading()
                               : Container()),
                         ],
                       ),

@@ -7,13 +7,11 @@ import 'package:pink_ad/utilities/custom_widgets/image_recommended_size.dart';
 
 import '../../../../utilities/colors/colors.dart';
 import '../../../../utilities/custom_widgets/area_dropdown.dart';
-import '../../../../utilities/custom_widgets/categories_dropdown.dart';
 import '../../../../utilities/custom_widgets/custom_bottom_button.dart';
 import '../../../../utilities/custom_widgets/custom_button.dart';
 import '../../../../utilities/custom_widgets/custom_dropdown.dart';
 import '../../../../utilities/custom_widgets/custom_text_field.dart';
 import '../../../../utilities/custom_widgets/my_scafflod.dart';
-import '../../../../utilities/custom_widgets/snackbars.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../routes/app_pages.dart';
 
@@ -30,6 +28,8 @@ class SignupView extends GetView<SignupController> {
   FocusNode instagramFocus = FocusNode();
   FocusNode websiteUrlFocus = FocusNode();
   RxList temp = [].obs;
+
+  SignupView({super.key});
   //FocusNode passFocus = FocusNode();
 
   @override
@@ -47,7 +47,7 @@ class SignupView extends GetView<SignupController> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Sign Up",
+                    Text("Seller Sign Up",
                         style: CustomTextView.getStyle(context,
                             colorLight: Colors.white,
                             fontSize: 24.sp,
@@ -65,7 +65,7 @@ class SignupView extends GetView<SignupController> {
               SizedBox(
                 height: 80.h,
               ),
-              Container(
+              SizedBox(
                 height: Get.height * .58,
                 width: Get.width * 1,
                 child: SingleChildScrollView(
@@ -232,7 +232,7 @@ class SignupView extends GetView<SignupController> {
                                           width: 10.h,
                                         ),
                                         Obx(
-                                          () => Container(
+                                          () => SizedBox(
                                             width: 170.w,
                                             child: Text(
                                               controller
@@ -323,14 +323,14 @@ class SignupView extends GetView<SignupController> {
                                           width: 10.h,
                                         ),
                                         Obx(
-                                          () => Container(
+                                          () => SizedBox(
                                             width: 210.w,
                                             child: Text(
                                               controller.coverLogoName.value
                                                       .isNotEmpty
                                                   ? controller
                                                       .coverLogoName.value
-                                                  : 'Cover Image (optional)',
+                                                  : 'Promotional Cover (optional)',
                                               style: CustomTextView.getStyle(
                                                   context,
                                                   colorLight: textColor,
@@ -477,12 +477,14 @@ class SignupView extends GetView<SignupController> {
               Get.toNamed(Routes.CHAT_INBOX);
             },
           )),
-      if (controller.isLoading.value) MyProcessLoading()
+      if (controller.isLoading.value) const MyProcessLoading()
     ]);
   }
 }
 
 class MyProcessLoading extends StatelessWidget {
+  const MyProcessLoading({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(

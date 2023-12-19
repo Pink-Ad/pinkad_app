@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -7,7 +6,6 @@ import 'package:pink_ad/app/modules/add_shop/controllers/add_shop_controller.dar
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/app/modules/user_profile/controllers/user_profile_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
-import 'package:pink_ad/utilities/custom_widgets/area_dropdown.dart';
 import 'package:pink_ad/utilities/custom_widgets/area_dropdown_shop.dart';
 import 'package:pink_ad/utilities/custom_widgets/image_recommended_size.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
@@ -16,9 +14,10 @@ import '../../../../utilities/custom_widgets/custom_appbar_user.dart';
 import '../../../../utilities/custom_widgets/custom_button.dart';
 import '../../../../utilities/custom_widgets/custom_text_field.dart';
 import '../../../../utilities/custom_widgets/scafflod_dashboard.dart';
-import '../../../routes/app_pages.dart';
 
 class AddShopView extends GetView<AddShopController> {
+  const AddShopView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final userProfileController = Get.find<UserProfileController>();
@@ -118,12 +117,12 @@ class AddShopView extends GetView<AddShopController> {
                                         width: 10.h,
                                       ),
                                       Obx(
-                                        () => Container(
+                                        () => SizedBox(
                                           width: 170.w,
                                           child: Text(
                                             controller.logoName.value.isNotEmpty
                                                 ? controller.logoName.value
-                                                : 'Cover Image',
+                                                : 'Promotional Cover',
                                             style: CustomTextView.getStyle(
                                                 context,
                                                 colorLight: textColor,
@@ -169,7 +168,7 @@ class AddShopView extends GetView<AddShopController> {
                             ],
                           ),
                         ),
-                        Align(
+                        const Align(
                             alignment: Alignment.topLeft,
                             child: ImageRecommendedSizeText()),
                         // ShadowedTextField(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -10,10 +9,8 @@ import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.d
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/app/modules/user_profile/controllers/user_profile_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
-import 'package:pink_ad/utilities/custom_widgets/area_dropdown.dart';
 import 'package:pink_ad/utilities/custom_widgets/image_recommended_size.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
-import 'package:pink_ad/utilities/custom_widgets/user_area_dropDown.dart';
 import 'package:pink_ad/utilities/utils.dart';
 
 import '../../../../utilities/custom_widgets/custom_appbar_user.dart';
@@ -26,6 +23,8 @@ class UserProfileView extends GetView {
   final box = GetStorage();
   final allShopsController = AllShopsController();
   UserProfileController userProfileController = UserProfileController();
+
+  UserProfileView({super.key});
   @override
   Widget build(BuildContext context) {
     List<dynamic> sellerShop = box.read('sellerShop') ?? [];
@@ -366,7 +365,7 @@ class UserProfileView extends GetView {
                                                   width: 10.h,
                                                 ),
                                                 Obx(
-                                                  () => Container(
+                                                  () => SizedBox(
                                                     width: 170.w,
                                                     child: Text(
                                                       userProfileController
@@ -375,7 +374,7 @@ class UserProfileView extends GetView {
                                                               .isNotEmpty
                                                           ? userProfileController
                                                               .logoName.value
-                                                          : 'Cover Image',
+                                                          : 'Promotional Cover',
                                                       style: CustomTextView
                                                           .getStyle(context,
                                                               colorLight:
@@ -512,7 +511,7 @@ class UserProfileView extends GetView {
                                                               .imageBaseUrl +
                                                           sellerShop[index]
                                                               ['logo'])
-                                                      : NetworkImage(
+                                                      : const NetworkImage(
                                                           "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg"),
                                                 ),
                                               ),

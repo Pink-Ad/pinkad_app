@@ -43,6 +43,7 @@ class SplashController extends GetxController {
     token = box.read('user_token');
     email = box.read('email');
     password = box.read('password');
+    Future.delayed(const Duration(milliseconds: 2));
     // Timer(const Duration(seconds: 8), () async {
     if (token != null) {
       try {
