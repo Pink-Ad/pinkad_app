@@ -43,4 +43,8 @@ class City {
   String name;
 
   City({required this.id, required this.name});
+
+
+  @override
+  String toString() => name;
 }

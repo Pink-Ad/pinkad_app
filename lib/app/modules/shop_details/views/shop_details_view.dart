@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -9,7 +8,6 @@ import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/app/modules/shop_details/controllers/shop_details_controller.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:pink_ad/utilities/utils.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utilities/colors/colors.dart';
@@ -20,6 +18,8 @@ import '../../../../utilities/custom_widgets/text_utils.dart';
 class ShopDetailsView extends GetView {
   final shopDetailsController = Get.put(ShopDetailsController());
   final arguments = Get.arguments as Map<String, dynamic>;
+
+  ShopDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -238,24 +238,67 @@ class ShopDetailsView extends GetView {
                                 }
                               },
                               child: Container(
-                                  height: 40.h,
-                                  width: 40.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Center(
-                                    child: SvgPicture.asset(
-                                        "assets/svgIcons/insta.svg"),
-                                  )),
+                                height: 40.h,
+                                width: 40.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                      "assets/svgIcons/insta.svg"),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 15.w),
+                            GestureDetector(
+                              onTap: () async {
+                                if (data['seller']['web_url'] != null &&
+                                    Uri.tryParse(data['seller']['web_url']) !=
+                                        null) {
+                                  // Launch the web URL
+                                  final url =
+                                      Uri.parse(data['seller']['web_url']);
+                                  await launchUrl(url);
+                                } else {
+                                  // Handle the case where the web URL is null or not valid.
+                                  // For example, show an error message:
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('Web URL is not available.'),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                height: 40.h,
+                                width: 40.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                      "assets/svgIcons/website.svg"),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -371,7 +414,7 @@ class ShopDetailsView extends GetView {
                       buttonColor: errorColor,
                     )
                   : GlobalButton(
-                      title: "Go To Seller Website",
+                      title: "Go To Seller Profile",
                       onPressed: () async {
                         await launchUrl(Uri.parse(data['seller']['web_url']));
                       },

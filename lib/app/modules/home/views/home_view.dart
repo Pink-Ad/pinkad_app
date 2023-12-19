@@ -35,6 +35,7 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
+        
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/bg_home.png"),

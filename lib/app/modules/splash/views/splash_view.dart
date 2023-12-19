@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
+
 import '../controllers/splash_controller.dart';
 
 class SplashView extends StatelessWidget {
@@ -30,8 +31,8 @@ class SplashView extends StatelessWidget {
                 children: [
                   Image.asset(
                     'assets/images/newTile.png',
-                    width: 300.w,
-                    height: 50.h,
+                    width: 270.w,
+                    height: 45.h,
                     fit: BoxFit.fill,
                   ),
                   //   SvgPicture.asset("assets/svgIcons/app_logo.svg"),
@@ -42,7 +43,7 @@ class SplashView extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: CustomTextView.getStyle(context,
                           colorLight: Colors.white,
-                          fontSize: 18.sp,
+                          fontSize: 15.sp,
                           fontFamily: "Poppins-SemiBold")),
                   SizedBox(
                     height: 20.h,

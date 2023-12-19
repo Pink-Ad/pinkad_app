@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pink_ad/app/data/api_service.dart';
@@ -19,8 +20,8 @@ import 'package:pink_ad/app/models/subcategory_model.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
-import 'package:http/http.dart' as http;
 import 'package:pink_ad/utilities/utils.dart';
+
 import '../../../../utilities/custom_widgets/snackbars.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../routes/app_pages.dart';
@@ -51,8 +52,8 @@ class UploadOfferController extends GetxController {
   RxList<City> areaName = <City>[].obs;
   RxList<City> provinceName = <City>[].obs;
   Rx<City?> selectedProvince = Rx<City?>(null);
-  RxList selectedarea = [].obs;
-
+  //RxList selectedarea = [].obs;
+  RxList<City> selectedarea = <City>[].obs;
   // Rx<City?> selectedarea = Rx<City?>(null);
   Rx<City?> selectedCity = Rx<City?>(null);
   var emailVerified;
@@ -70,16 +71,6 @@ class UploadOfferController extends GetxController {
     // getShop();
     // getProvince();
     gerCities();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 
   void toggleSwitchValue() {

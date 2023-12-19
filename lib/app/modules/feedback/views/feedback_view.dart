@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
@@ -67,6 +66,10 @@ class FeedbackView extends GetView<FeedbackController> {
             ShadowedTextField(
               hintText: 'Description',
               iconName: "description",
+              prefixIcon: const Icon(
+                Icons.description,
+              ),
+              height: 80.h,
               controller: feedbackController.descriptionController.value,
             ),
             SizedBox(height: 25.h),

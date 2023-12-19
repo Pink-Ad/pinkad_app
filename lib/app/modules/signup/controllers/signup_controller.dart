@@ -101,16 +101,6 @@ class SignupController extends GetxController {
     gerCities();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   Future<XFile?> pickImage() async {
     // Request permission from the user
     final permissionStatus = await Permission.photos.request();

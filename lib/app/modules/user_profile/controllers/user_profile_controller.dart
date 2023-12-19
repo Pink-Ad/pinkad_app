@@ -1,17 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/models/login_response.dart';
-import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/custom_widgets/snackbars.dart';
 
@@ -103,8 +102,9 @@ class UserProfileController extends GetxController {
     whatsappNoController.value.text = data.user!.seller!.whatsapp!;
     // businessNameController.value.text = data.user!.seller!.businessName!;
     businessAddressController.value.text = data.user!.seller!.businessAddress!;
-    facebookController.value.text = data.user!.seller!.faecbookPage!;
-    instagramController.value.text = data.user!.seller!.instaPage!;
+    //facebookController.value.text = data.user!.seller!.faecbookPage!;
+    facebookController.value.text = data.user?.seller?.faecbookPage ?? '';
+    instagramController.value.text = data.user?.seller?.instaPage ?? '';
     webSiteController.value.text = data.user!.seller!.webUrl!;
   }
 
@@ -220,11 +220,6 @@ class UserProfileController extends GetxController {
   void onReady() {
     super.onReady();
     getData();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 
   var selectedButton = 0.obs;

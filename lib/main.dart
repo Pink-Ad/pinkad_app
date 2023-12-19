@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
           title: "Pink Ad",
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primaryColor: const Color(0xFF460C68),
             primaryColorLight: Colors.transparent,
