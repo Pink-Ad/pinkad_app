@@ -1,4 +1,3 @@
-import 'package:d_chart/d_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,20 +9,16 @@ import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller
 import 'package:pink_ad/app/modules/shops_insight/controllers/shops_insight_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
-import 'package:pink_ad/utilities/custom_widgets/slider_page_dashboard.dart';
-import 'package:pink_ad/utilities/custom_widgets/states_tiles.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 
-import '../../../../utilities/custom_widgets/custom_appbar.dart';
-import '../../../../utilities/custom_widgets/custom_text_field.dart';
 import '../../../../utilities/custom_widgets/scafflod_dashboard.dart';
-import '../../../../utilities/custom_widgets/slider_page.dart';
 import '../../../../utilities/utils.dart';
-import '../../../routes/app_pages.dart';
 import '../../profile/views/profile_view.dart';
 
 class ShopsInsightView extends GetView {
   final box = GetStorage();
+
+  ShopsInsightView({super.key});
   @override
   Widget build(BuildContext context) {
     LoginResponse data = box.read('user_data');
@@ -61,16 +56,17 @@ class ShopsInsightView extends GetView {
                           premierFeaturesController.selectButton(0);
                         },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: premierFeaturesController
-                                        .selectedButton.value ==
-                                    0
-                                ? secondary
-                                : Colors.white,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  topRight: Radius.circular(8.0)),
-                            )),
+                          backgroundColor:
+                              premierFeaturesController.selectedButton.value ==
+                                      0
+                                  ? secondary
+                                  : Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(8),
+                                topRight: Radius.circular(8.0)),
+                          ),
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -246,7 +242,8 @@ class ShopsInsightView extends GetView {
                                             ? const Center(
                                                 child:
                                                     CircularProgressIndicator(
-                                                        color: primary))
+                                                        color: primary),
+                                              )
                                             : ListView.builder(
                                                 // scrollDirection: Axis.horizontal,
                                                 itemCount:
@@ -624,7 +621,7 @@ class ShopsInsightView extends GetView {
                                                                               ),
                                                                             ],
                                                                           )
-                                                                        : Row(
+                                                                        : const Row(
                                                                             children: [
                                                                               Text('Pending'),
                                                                               SizedBox(width: 10),

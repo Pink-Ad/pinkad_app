@@ -211,7 +211,7 @@ class SignupController extends GetxController {
 
   Future<void> registerUser() async {
     isLoading.value = true;
-    const url = 'https://ms-hostingladz.com/DigitalBrand/api/register';
+    const url = 'https://pinkad.pk/portal/api/register';
     final name = nameController.value.text.trim();
     final whatsappNo = whatsappNoController.value.text.trim();
     final phoneNo = phoneNoController.value.text.trim();

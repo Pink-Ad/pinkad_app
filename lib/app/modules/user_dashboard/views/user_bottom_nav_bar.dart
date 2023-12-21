@@ -12,6 +12,8 @@ import '../../all_offers/views/all_offers_view.dart';
 import '../../upload_offer/views/upload_offer_view.dart';
 
 class UserBottomNavBar extends StatefulWidget {
+  const UserBottomNavBar({super.key});
+
   @override
   _UserBottomNavBarState createState() => _UserBottomNavBarState();
 }
@@ -156,7 +158,8 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.video_collection_outlined, color: Colors.white),
+                const Icon(Icons.video_collection_outlined,
+                    color: Colors.white),
                 SizedBox(
                   height: 5.h,
                 ),
@@ -193,9 +196,9 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
         },
         children: [
           UploadOfferView(),
-          AllOffersView(),
+          const AllOffersView(),
           UserDashboardView(),
-          AllShopsView(),
+          const AllShopsView(),
           TutorialView(),
         ],
       ),

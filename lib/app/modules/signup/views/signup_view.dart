@@ -56,9 +56,11 @@ class SignupView extends GetView<SignupController> {
                     SizedBox(
                       height: 7.0.h,
                     ),
-                    Text("For Free Business Promotion",
-                        style: CustomTextView.getStyle(context,
-                            colorLight: Colors.white)),
+                    Text(
+                      "Area wise business directory and FREE classified solution for small businesses.",
+                      style: CustomTextView.getStyle(context,
+                          colorLight: Colors.white),
+                    ),
                   ],
                 ),
               ),
