@@ -429,7 +429,7 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => const FeedbackView());
+                            Get.to(() => FeedbackView());
                             // Get.toNamed(Routes.TERMS);
                             controller.hideMenu();
                           },

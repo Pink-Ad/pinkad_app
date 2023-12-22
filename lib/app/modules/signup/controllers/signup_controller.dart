@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +105,31 @@ class SignupController extends GetxController {
     gerCities();
   }
 
+  Future<bool> validateImageSize(String imagePath) async {
+    try {
+      final List<int> imageBytes = await File(imagePath).readAsBytes();
+      final Uint8List uint8List = Uint8List.fromList(imageBytes);
+
+      final Completer<bool> completer = Completer<bool>();
+
+      ui.decodeImageFromList(uint8List, (ui.Image image) {
+        final int width = image.width;
+        final int height = image.height;
+
+        if (width == 1080 && height == 1080) {
+          completer.complete(true);
+        } else {
+          completer.complete(false);
+        }
+      });
+
+      return completer.future;
+    } catch (e) {
+      print("Error decoding image: $e");
+      return false;
+    }
+  }
+
   Future<XFile?> pickImage() async {
     if (await showImageDialog() != true) return null;
     // Request permission from the user
@@ -137,6 +165,35 @@ class SignupController extends GetxController {
     }
     return coverFile;
   }
+
+// Future<XFile?> pickCoverImage() async {
+//     // Request permission from the user
+//     final permissionStatus = await Permission.photos.request();
+//     if (permissionStatus.isGranted) {
+//       // User has granted permission, proceed with picking an image
+//       final picker = ImagePicker();
+//       final XFile? pickedFile =
+//           await picker.pickImage(source: ImageSource.gallery);
+
+//       if (pickedFile != null) {
+//         final bool isValidSize = await validateImageSize(pickedFile.path);
+
+//         if (!isValidSize) {
+//           showSnackBarError(
+//               "Error", "Promotional cover size should be 1080px by 1080px");
+//           return null;
+//         }
+
+//         coverFile = pickedFile;
+//         coverLogoName.value = coverFile!.name;
+//       }
+//     } else {
+//       // User has denied permission, show an error message
+//       print('Permission denied');
+//     }
+
+//     return coverFile;
+// }
 
   Future<void> getCategory() async {
     // isLoading.value = true;
@@ -213,7 +270,7 @@ class SignupController extends GetxController {
 
   Future<void> registerUser() async {
     isLoading.value = true;
-    const url = 'https://ms-hostingladz.com/DigitalBrand/api/register';
+    const url = 'https://pinkad.pk/portal/api/register';
     final name = nameController.value.text.trim();
     final whatsappNo = whatsappNoController.value.text.trim();
     final phoneNo = phoneNoController.value.text.trim();
@@ -262,12 +319,13 @@ class SignupController extends GetxController {
         'insta_page': instagram,
         'web_url': ensureHttps(website),
         'isFeatured': "1",
-        'reference': selectedOption.value == 'Other'
-            ? '0'
-            : selectedSalesman.value!.name,
-        'salesman_id': selectedOption.value == 'Other'
-            ? '0'
-            : selectedSalesman.value!.id.toString(),
+        'reference': '0',
+        // 'reference': selectedOption.value == 'Other'
+        //     ? '0'
+        //     : selectedSalesman.value!.name,
+        // 'salesman_id': selectedOption.value == 'Other'
+        //     ? '0'
+        //     : selectedSalesman.value!.id.toString(),
         // "branch_name": branchName,
         'shop_name': name,
         'area_id': selectedarea.value!.id.toString(),

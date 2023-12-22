@@ -42,7 +42,7 @@ class UserDashboardView extends GetView {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bg_home.png"),
+            image: AssetImage("assets/images/bg_homecopy.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -61,8 +61,7 @@ class UserDashboardView extends GetView {
                 },
                 profileIconVisibility: true,
               ),
-              SizedBox(height: 130.h, child: HomePageSlider()),
-              SizedBox(height: 10.h),
+              SizedBox(height: 160.h, child: const HomePageSlider()),
               Expanded(
                   child: Stack(
                 children: [

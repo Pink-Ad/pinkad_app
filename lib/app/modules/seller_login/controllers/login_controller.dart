@@ -80,7 +80,7 @@ class LoginController extends GetxController {
     final email = emailController.value.text;
     final password = passwordController.value.text;
     try {
-      Map data = {"email": email, "password": password, 'role': "2"};
+      Map data = {"email": email, "password": password, "role": "2"};
 
       print(data);
       final response = await _apiService.postData(

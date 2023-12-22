@@ -88,7 +88,7 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                     autofocus: false,
                     style: TextStyle(fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Search Product',
+                      hintText: '',
                       suffixIcon: Icon(
                         Icons.search_rounded,
                         color: Colors.black,

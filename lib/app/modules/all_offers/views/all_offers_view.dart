@@ -88,7 +88,7 @@ class AllOffersView extends GetView {
                     autofocus: false,
                     style: TextStyle(fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Search Product',
+                      hintText: 'Search Offers',
                       suffixIcon: Icon(
                         Icons.search_rounded,
                         color: Colors.black,
