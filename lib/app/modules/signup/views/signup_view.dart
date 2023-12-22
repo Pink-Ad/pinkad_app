@@ -9,7 +9,6 @@ import '../../../../utilities/colors/colors.dart';
 import '../../../../utilities/custom_widgets/area_dropdown.dart';
 import '../../../../utilities/custom_widgets/custom_bottom_button.dart';
 import '../../../../utilities/custom_widgets/custom_button.dart';
-import '../../../../utilities/custom_widgets/custom_dropdown.dart';
 import '../../../../utilities/custom_widgets/custom_text_field.dart';
 import '../../../../utilities/custom_widgets/my_scafflod.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
@@ -382,11 +381,62 @@ class SignupView extends GetView<SignupController> {
                           const Align(
                               alignment: Alignment.centerLeft,
                               child: ImageRecommendedSizeText()),
-                          ShadowedTextField(
-                            hintText: 'Description',
-                            iconName: 'description',
-                            controller: controller.descriptionController.value,
-                            keyboardType: TextInputType.multiline,
+                          // ShadowedTextField(
+                          //   hintText: 'Description',
+                          //   iconName: 'description',
+                          //   controller: controller.descriptionController.value,
+                          //   keyboardType: TextInputType.multiline,
+                          // ),
+                          Container(
+                            height: 80.h,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20.w, vertical: 10.h),
+                            padding: EdgeInsets.only(
+                                left: 20.0.w,
+                                right: 5.w,
+                                top: 5.h,
+                                bottom: 5.h),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: SvgPicture.asset(
+                                    "assets/svgIcons/description.svg",
+                                  ),
+                                ),
+                                SizedBox(width: 15.w),
+                                Expanded(
+                                  child: TextField(
+                                    controller:
+                                        controller.descriptionController.value,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Description',
+                                      hintStyle: TextStyle(fontSize: 18.sp),
+                                      isDense: true,
+                                      contentPadding:
+                                          EdgeInsets.symmetric(vertical: 10.h),
+                                    ),
+                                    style: TextStyle(fontSize: 14.sp),
+                                    maxLines: null,
+                                    keyboardType: TextInputType.multiline,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           Obx(
                             () => ShadowedTextField(
@@ -412,7 +462,7 @@ class SignupView extends GetView<SignupController> {
                               ),
                             ),
                           ),
-                          MyDropdown(),
+                          //MyDropdown(),
                           SizedBox(height: 25.h),
                           Obx(
                             () => controller.isLoading.value

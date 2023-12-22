@@ -7,14 +7,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
-import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/modules/terms/views/terms_view.dart';
 import 'package:pink_ad/app/modules/user_dashboard/controllers/user_dashboard_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
-import 'package:http/http.dart' as http;
+
 import '../../app/modules/feedback/views/feedback_view.dart';
 import '../../app/modules/user_profile/views/user_profile_view.dart';
 import '../../app/routes/app_pages.dart';
@@ -420,7 +420,7 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => const FeedbackView());
+                            Get.to(() => FeedbackView());
                             // Get.toNamed(Routes.TERMS);
                             controller.hideMenu();
                           },
@@ -653,10 +653,10 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
     final box = GetStorage();
 
     final data = await box.read('user_token');
-    final ApiService _apiService = ApiService(http.Client());
+    final ApiService apiService = ApiService(http.Client());
     try {
       final response =
-          await _apiService.getDataWithHeader(Endpoints.deleteUser, data);
+          await apiService.getDataWithHeader(Endpoints.deleteUser, data);
 
       if (response.statusCode == 200) {
         box.remove('user_token');
