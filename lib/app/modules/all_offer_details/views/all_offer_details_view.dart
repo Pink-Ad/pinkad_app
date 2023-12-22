@@ -246,7 +246,6 @@ class AllOfferDetailsView extends GetView {
                 child: Container(
                   margin:
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                  height: 360.h,
                   decoration: BoxDecoration(
                     color: containerGray,
                     borderRadius: BorderRadius.circular(8.0),
@@ -259,67 +258,69 @@ class AllOfferDetailsView extends GetView {
                       ),
                     ],
                   ),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 167.h,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(8.0),
-                              topRight: Radius.circular(8.0)),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                ApiService.imageBaseUrl + data['banner']),
-                            fit: BoxFit.cover, // or any other value for fit
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: SingleChildScrollView(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1.2,
                           child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 20.0),
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Text(
-                                //   'Address',
-                                //   style: CustomTextView.getStyle(context,
-                                //       colorLight: Colors.black,
-                                //       fontSize: 16.sp,
-                                //       fontFamily: Utils.poppinsSemiBold),
-                                // ),
-                                // const SizedBox(height: 8),
-                                // Text(
-                                //   'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
-                                //   style: CustomTextView.getStyle(
-                                //     context,
-                                //     colorLight: textColor,
-                                //   ),
-                                // ),
-                                Text(
-                                  'Description',
-                                  style: CustomTextView.getStyle(context,
-                                      colorLight: Colors.black,
-                                      fontSize: 16.sp,
-                                      fontFamily: Utils.poppinsSemiBold),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  data['description'] ?? '',
-                                  // 'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: textColor,
-                                  ),
-                                ),
-                              ],
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(8.0),
+                                  topRight: Radius.circular(8.0)),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    ApiService.imageBaseUrl + data['banner']),
+                                fit: BoxFit
+                                    .contain, // or any other value for fit
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 20.0),
+                          // alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Text(
+                              //   'Address',
+                              //   style: CustomTextView.getStyle(context,
+                              //       colorLight: Colors.black,
+                              //       fontSize: 16.sp,
+                              //       fontFamily: Utils.poppinsSemiBold),
+                              // ),
+                              // const SizedBox(height: 8),
+                              // Text(
+                              //   'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
+                              //   style: CustomTextView.getStyle(
+                              //     context,
+                              //     colorLight: textColor,
+                              //   ),
+                              // ),
+                              Text(
+                                'Description',
+                                style: CustomTextView.getStyle(context,
+                                    colorLight: Colors.black,
+                                    fontSize: 16.sp,
+                                    fontFamily: Utils.poppinsSemiBold),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                data['description'] ?? '',
+                                // 'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
+                                style: CustomTextView.getStyle(
+                                  context,
+                                  colorLight: textColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

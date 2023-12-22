@@ -10,6 +10,7 @@ import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/models/province_model.dart';
 import 'package:pink_ad/app/models/salesman_model.dart';
+import 'package:pink_ad/utilities/functions/show_image_dialog.dart';
 
 import '../../../../utilities/custom_widgets/snackbars.dart';
 import '../../../data/api_service.dart';
@@ -102,6 +103,7 @@ class SignupController extends GetxController {
   }
 
   Future<XFile?> pickImage() async {
+    if (await showImageDialog() != true) return null;
     // Request permission from the user
     final permissionStatus = await Permission.photos.request();
     print(permissionStatus);

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/modules/signup/controllers/signup_controller.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
+import 'package:pink_ad/utilities/functions/loading_wrapper.dart';
 
 import '../colors/colors.dart';
 
@@ -18,6 +19,8 @@ class AreaDropDown extends GetView<SignupController> {
   ];
   final RxString selectedSalesman = 'Select Area'.obs;
   final RxBool showAnotherDropdown = true.obs;
+
+  AreaDropDown({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +124,7 @@ class AreaDropDown extends GetView<SignupController> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 0,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -140,7 +143,7 @@ class AreaDropDown extends GetView<SignupController> {
                 ),
                 items: controller.citiesName.value,
                 itemAsString: (City u) => u.name,
-                enabled: controller.citiesName.value.length > 0 ? true : false,
+                enabled: controller.citiesName.value.isNotEmpty ? true : false,
                 dropdownDecoratorProps: DropDownDecoratorProps(
                   baseStyle: CustomTextView.getStyle(context,
                       colorLight: textColor, fontSize: 15.sp),
@@ -151,11 +154,11 @@ class AreaDropDown extends GetView<SignupController> {
                         colorLight: textColor, fontSize: 15.sp),
                   ),
                 ),
-                onChanged: (value) {
+                onChanged: (value) async {
                   controller.selectedCity.value = value;
                   controller.selectedarea.value = null;
                   controller.areaName.value = [];
-                  controller.getAreas(value!.id);
+                  await loadingWrapper(() => controller.getAreas(value!.id));
                 },
                 // selectedItem: "Brazil",
               ),
@@ -191,7 +194,7 @@ class AreaDropDown extends GetView<SignupController> {
             ),
             if (showAnotherDropdown.value)
               AnimatedSwitcher(
-                duration: Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 200),
                 child: Container(
                   key: ValueKey(controller.selectedCity.value),
                   height: 50.h,
@@ -208,7 +211,7 @@ class AreaDropDown extends GetView<SignupController> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 0,
                         blurRadius: 5,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
@@ -228,7 +231,7 @@ class AreaDropDown extends GetView<SignupController> {
                     items: controller.areaName.value,
                     itemAsString: (City u) => u.name,
                     enabled:
-                        controller.areaName.value.length > 0 ? true : false,
+                        controller.areaName.value.isNotEmpty ? true : false,
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       baseStyle: CustomTextView.getStyle(context,
                           colorLight: textColor, fontSize: 15.sp),

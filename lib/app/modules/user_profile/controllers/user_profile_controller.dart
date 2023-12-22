@@ -13,6 +13,7 @@ import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/models/login_response.dart';
 import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/custom_widgets/snackbars.dart';
+import 'package:pink_ad/utilities/functions/show_image_dialog.dart';
 
 class UserProfileController extends GetxController {
   //TODO: Implement UserProfileController
@@ -109,6 +110,7 @@ class UserProfileController extends GetxController {
   }
 
   Future<XFile?> pickImage() async {
+    if (await showImageDialog() != true) return null;
     // Request permission from the user
     final permissionStatus = await Permission.photos.request();
     print(permissionStatus);

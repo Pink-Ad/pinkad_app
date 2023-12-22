@@ -31,7 +31,6 @@ class UploadOfferView extends GetView {
 
     return CustomBgDashboard(
       child: SafeArea(
-        
         child: Column(
           children: [
             UserAppBar(

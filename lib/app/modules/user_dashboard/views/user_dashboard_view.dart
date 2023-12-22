@@ -360,7 +360,8 @@ class UserDashboardView extends GetView {
                                                                   child:
                                                                       Padding(
                                                                     padding:
-                                                                        const EdgeInsets.all(
+                                                                        const EdgeInsets
+                                                                            .all(
                                                                             5.0),
                                                                     child: SvgPicture
                                                                         .asset(
@@ -563,7 +564,7 @@ class UserDashboardView extends GetView {
                                             children: [
                                               Container(
                                                 width: 220.w,
-                                                height: 210.h,
+                                                height: 220.w,
                                                 decoration: BoxDecoration(
                                                   color: lightGray,
                                                   borderRadius:
@@ -580,7 +581,7 @@ class UserDashboardView extends GetView {
                                                                 .imageBaseUrl +
                                                             tOffer[index]
                                                                 ['banner']),
-                                                    fit: BoxFit.fitHeight,
+                                                    fit: BoxFit.cover,
                                                   ),
                                                 ),
                                               ),
@@ -596,6 +597,7 @@ class UserDashboardView extends GetView {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(tOffer[index]['title'],
+                                                        maxLines: 1,
                                                         style: CustomTextView
                                                             .getStyle(context,
                                                                 colorLight:
@@ -696,7 +698,8 @@ class UserDashboardView extends GetView {
                                                                   child:
                                                                       Padding(
                                                                     padding:
-                                                                        const EdgeInsets.all(
+                                                                        const EdgeInsets
+                                                                            .all(
                                                                             5.0),
                                                                     child: SvgPicture
                                                                         .asset(

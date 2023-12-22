@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/utilities/custom_widgets/snackbars.dart';
+import 'package:pink_ad/utilities/functions/show_toast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,32 +20,12 @@ class HomeController extends GetxController {
   RxBool isLoading = false.obs;
 
   final count = 0.obs;
-  //   List<dynamic> fSeller =[].obs;
-  // List<dynamic> tSeller =[].obs;
-  // List<dynamic> fOffer = [].obs;
-  // List<dynamic> tOffer = [].obs;
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-    //  fSeller = await box.read('fseller');
-    //    tSeller = await box.read('topSeller');
-    //    fOffer = await box.read('fOffer');
-    //    tOffer = await box.read('topOffer');
-  }
 
   void setLoading() {
     isLoading.value = !isLoading.value;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  
 
   void showCustomDialog(var temp) {
     print(temp);
@@ -257,7 +238,7 @@ class HomeController extends GetxController {
                           SizedBox(
                             width: 3.h,
                           ),
-                          Container(
+                          SizedBox(
                             width: 150.w,
                             child: Text(
                               temp['shop']['seller']['web_url'] ?? '',

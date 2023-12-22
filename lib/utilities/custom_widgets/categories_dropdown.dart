@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +6,7 @@ import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/modules/upload_offer/controllers/upload_offer_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
+import 'package:pink_ad/utilities/functions/loading_wrapper.dart';
 
 // ignore: must_be_immutable
 class CategoriesDropDown extends GetView<UploadOfferController> {
@@ -41,7 +40,7 @@ class CategoriesDropDown extends GetView<UploadOfferController> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 0,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -61,7 +60,7 @@ class CategoriesDropDown extends GetView<UploadOfferController> {
                 items: controller.categoryName.value,
                 itemAsString: (City u) => u.name,
                 enabled:
-                    controller.categoryName.value.length > 0 ? true : false,
+                    controller.categoryName.value.isNotEmpty ? true : false,
                 dropdownDecoratorProps: DropDownDecoratorProps(
                   baseStyle: CustomTextView.getStyle(context,
                       colorLight: textColor, fontSize: 15.sp),
@@ -72,9 +71,10 @@ class CategoriesDropDown extends GetView<UploadOfferController> {
                         colorLight: textColor, fontSize: 15.sp),
                   ),
                 ),
-                onChanged: (value) {
+                onChanged: (value) async {
                   controller.selectedCategory.value = value;
-                  controller.getSubCategories(value!.id);
+                  await loadingWrapper(
+                      () => controller.getSubCategories(value!.id));
                   controller.subCategoryName.clear();
                   showAnotherDropdown.value = true;
                 },
@@ -178,7 +178,7 @@ class CategoriesDropDown extends GetView<UploadOfferController> {
             ),
             if (showAnotherDropdown.value)
               AnimatedSwitcher(
-                duration: Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 200),
                 child: Container(
                   key: ValueKey(selectedOption),
                   // height: 50.h,
@@ -195,7 +195,7 @@ class CategoriesDropDown extends GetView<UploadOfferController> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 0,
                         blurRadius: 5,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
@@ -212,7 +212,7 @@ class CategoriesDropDown extends GetView<UploadOfferController> {
                       )),
                       showSelectedItems: false,
                     ),
-                    enabled: controller.subCategoryName.value.length > 0
+                    enabled: controller.subCategoryName.value.isNotEmpty
                         ? true
                         : false,
                     items: controller.subCategoryName.value,
@@ -234,6 +234,14 @@ class CategoriesDropDown extends GetView<UploadOfferController> {
                             .add(value[i].id.toString());
                       }
                       print(controller.selectedSubCategory.value);
+                    },
+                    asyncItems: (val) async {
+                      print('Search: $val');
+                      if (controller.isFetching.isFalse) {
+                        return controller.subCategoryName.toList();
+                      }
+                      final fetched = await controller.isFetching.stream.first;
+                      return controller.subCategoryName.toList();
                     },
                     // selectedItem: "Brazil",
                   ),
@@ -431,7 +439,7 @@ class CategoriesDropDown extends GetView<UploadOfferController> {
 Widget _customPopupItemBuilderExample2(
     BuildContext context, City item, bool isSelected) {
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: 8),
+    margin: const EdgeInsets.symmetric(horizontal: 8),
     decoration: !isSelected
         ? null
         : BoxDecoration(

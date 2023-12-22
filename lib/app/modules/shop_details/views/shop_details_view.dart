@@ -27,8 +27,8 @@ class ShopDetailsView extends GetView {
     final token = box.read('user_token');
     final data = arguments['data'] ?? '';
     final seller = arguments['seller'] ?? '';
-    String facebookUrl = 'fb://${data['seller']['faecbook_page']}' ??
-        'fb://https://www.facebook.com/';
+    // String facebookUrl = 'fb://${data['seller']['faecbook_page']}';
+    String? facebookUrl = data['seller']['faecbook_page'];
     // const String facebookUrl = "https://www.facebook.com/";
     String logoUrl = data['seller']['coverimage'] != null
         ? ApiService.imageBaseUrl + data['seller']['coverimage']
@@ -150,13 +150,23 @@ class ShopDetailsView extends GetView {
                             GestureDetector(
                               onTap: () async {
                                 // Share.share(facebookUrl);
-
-                                if (await canLaunchUrl(
-                                    Uri.parse(facebookUrl))) {
-                                  await launchUrl(Uri.parse(facebookUrl));
-                                } else {
+                                facebookUrl =
+                                    'https://www.facebook.com/MTGArena';
+                                if (facebookUrl == null) return;
+                                try {
+                                  final String nativeUrl;
+                                  if (facebookUrl!.startsWith('http')) {
+                                    nativeUrl =
+                                        'fb://facewebmodal/f?href=$facebookUrl';
+                                  } else {
+                                    nativeUrl = 'fb://$facebookUrl';
+                                  }
+                                  await launchUrl(Uri.parse(nativeUrl));
+                                } catch (e) {
                                   // If the Facebook app is not installed, open the Facebook website
-                                  await launchUrl(Uri.parse(facebookUrl));
+                                  if (facebookUrl!.startsWith('http')) {
+                                    await launchUrl(Uri.parse(facebookUrl!));
+                                  }
                                 }
                               },
                               child: Container(
@@ -223,18 +233,24 @@ class ShopDetailsView extends GetView {
                             SizedBox(width: 15.w),
                             GestureDetector(
                               onTap: () async {
-                                // Share.share(data['seller']['insta_page']);
-
-                                print(data['seller']['insta_page']);
-                                final url = Uri.parse(
-                                    'instagram://${data['seller']['insta_page']}');
-
-                                if (data['seller']['insta_page'] != null) {
-                                  // await launchUrl(Uri.parse('instagram://'));
-                                  await launchUrl(url);
-                                } else {
-                                  await launchUrl(
-                                      Uri.parse('https://www.instagram.com/'));
+                                const String instaUrl =
+                                    'user?username=jaanixworld';
+                                try {
+                                  final String nativeUrl;
+                                  if (instaUrl.startsWith('http')) {
+                                    final uri = Uri.parse(instaUrl);
+                                    // Invalid URL
+                                    if (uri.pathSegments.isEmpty) return;
+                                    nativeUrl =
+                                        'instagram://user?username=${uri.pathSegments.first}';
+                                  } else {
+                                    nativeUrl = 'instagram://$instaUrl';
+                                  }
+                                  await launchUrl(Uri.parse(nativeUrl));
+                                } catch (e) {
+                                  if (instaUrl.startsWith('http')) {
+                                    await launchUrl(Uri.parse(instaUrl));
+                                  }
                                 }
                               },
                               child: Container(
@@ -416,7 +432,10 @@ class ShopDetailsView extends GetView {
                   : GlobalButton(
                       title: "Go To Seller Profile",
                       onPressed: () async {
-                        await launchUrl(Uri.parse(data['seller']['web_url']));
+                        await launchUrl(
+                          Uri.parse(data['seller']['web_url']),
+                          mode: LaunchMode.externalApplication,
+                        );
                       },
                       textColor: Colors.white,
                       buttonColor: data['seller']['web_url'] == null

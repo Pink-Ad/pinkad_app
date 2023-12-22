@@ -305,7 +305,8 @@ class UserProfileView extends GetView {
                                     //onChanged: controller.username,
                                     controller: userProfileController
                                         .facebookController.value,
-                                    hintText: 'e.g page/page_id',
+                                    hintText: 'Facebook URL',
+                                    // hintText: 'e.g page/page_id',
                                     iconName: "facebook",
                                     keyboardType: TextInputType.text,
                                   ),
@@ -318,7 +319,8 @@ class UserProfileView extends GetView {
                                     //onChanged: controller.username,
                                     controller: userProfileController
                                         .instagramController.value,
-                                    hintText: 'e.g user?username=pinkad.pk',
+                                    hintText: 'Instagram URL',
+                                    // hintText: 'e.g user?username=pinkad.pk',
                                     iconName: "insta",
                                     keyboardType: TextInputType.text,
                                   ),

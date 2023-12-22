@@ -7,11 +7,13 @@ environment:
 
 dependencies:
   awesome_dialog: ^3.0.2
+  cached_network_image: ^3.3.0
   chewie: ^1.7.0
   circle_nav_bar: ^2.0.1+1
   cupertino_icons: ^1.0.5
   custom_pop_up_menu: ^1.2.4
   d_chart: ^2.2.11
+  device_preview: ^1.1.0
   dropdown_search: ^5.0.6
   flutter:
     sdk: flutter
@@ -31,7 +33,6 @@ dependencies:
   permission_handler: ^8.2.0
   searchable_listview: ^2.4.0
   share_plus: ^7.2.1
-  cached_network_image: ^3.3.0
   simple_animations: ^5.0.0+3
   smooth_page_indicator: ^1.0.1
   url_launcher: ^6.1.10
