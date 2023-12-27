@@ -105,8 +105,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 // }
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/data/api_service.dart';
+import 'package:pink_ad/utilities/colors/colors.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePageSlider extends StatefulWidget {
@@ -119,6 +122,7 @@ class HomePageSlider extends StatefulWidget {
 class _HomePageSliderState extends State<HomePageSlider> {
   final box = GetStorage();
   final CarouselController _carouselController = CarouselController();
+  int currentBanner = 0;
 
   @override
   void initState() {
@@ -152,47 +156,60 @@ class _HomePageSliderState extends State<HomePageSlider> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            if (banner.isNotEmpty)
-              CarouselSlider.builder(
-                itemCount: banner.length,
-                itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-                  return InkWell(
-                    onTap: () {
-                      launchUrl(Uri.parse(banner[itemIndex].redirectUrl));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey.shade300,
-                          image: DecorationImage(
-                            image: NetworkImage(ApiService.imageBaseUrl + banner[itemIndex].image!),
-                            fit: BoxFit.fill,
+        child: (banner.isNotEmpty)
+            ? Column(
+                children: <Widget>[
+                  CarouselSlider.builder(
+                    itemCount: banner.length,
+                    itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
+                      return InkWell(
+                        onTap: () {
+                          launchUrl(Uri.parse(banner[itemIndex].redirectUrl));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.grey.shade300,
+                              image: DecorationImage(
+                                image: NetworkImage(ApiService.imageBaseUrl + banner[itemIndex].image!),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      );
+                    },
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      viewportFraction: 0.8,
+                      aspectRatio: 2.3,
+                      initialPage: currentBanner,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          currentBanner = index;
+                          // Update the current page if you need to keep track of the index
+                        });
+                      },
                     ),
-                  );
-                },
-                options: CarouselOptions(
-                  autoPlay: true,
-                  enlargeCenterPage: true,
-                  viewportFraction: 0.8,
-                  aspectRatio: 2.3,
-                  initialPage: 0,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      // Update the current page if you need to keep track of the index
-                    });
-                  },
-                ),
-                carouselController: _carouselController,
-              ),
-          ],
-        ),
+                    carouselController: _carouselController,
+                  ),
+                  10.verticalSpace,
+                  AnimatedSmoothIndicator(
+                    activeIndex: currentBanner % 4,
+                    count: 4,
+                    effect: ExpandingDotsEffect(
+                      activeDotColor: primary,
+                      expansionFactor: 2.5,
+                      dotHeight: 12,
+                      dotWidth: 12,
+                    ),
+                  ),
+                ],
+              )
+            : SizedBox(),
       ),
     );
   }

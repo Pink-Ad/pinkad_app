@@ -63,24 +63,27 @@ class SignupController extends GetxController {
 
   bool isValidPhoneNumber(String input) {
     final RegExp regex = RegExp(
-        r'^\+?1?\d{9,15}$'); // This regex matches US phone numbers in various formats
+      r'^\+?1?\d{9,15}$',
+    ); // This regex matches US phone numbers in various formats
     return regex.hasMatch(input);
   }
 
   void onSubmit() {
     if (nameController.value.text.isEmpty) {
-      showSnackBarError("Error", "Name field cannot be empty");
+      showSnackBarError('Error', 'Name field cannot be empty');
     } else if (!isValidPhoneNumber(whatsappNoController.value.text)) {
       showSnackBarError(
-          "Error", "Invalid whatsapp number format / field cannot be empty");
+        'Error',
+        'Invalid whatsapp number format / field cannot be empty',
+      );
     } else if (!isValidPhoneNumber(phoneNoController.value.text)) {
-      showSnackBarError("Error", "Invalid phone number format");
+      showSnackBarError('Error', 'Invalid phone number format');
     } else if (emailController.value.text.isEmpty) {
-      showSnackBarError("Error", "Email field cannot be empty");
+      showSnackBarError('Error', 'Email field cannot be empty');
     } else if (passwordController.value.text.isEmpty) {
-      showSnackBarError("Error", "Password cannot be empty");
+      showSnackBarError('Error', 'Password cannot be empty');
     } else if (businessAddressController.value.text.isEmpty) {
-      showSnackBarError("Error", "Business address field cannot be empty");
+      showSnackBarError('Error', 'Business address field cannot be empty');
     }
     // else if (facebookController.value.text.isEmpty) {
     //   showSnackBarError("Error", "Facebook field cannot be empty");
@@ -90,7 +93,7 @@ class SignupController extends GetxController {
     //   showSnackBarError("Error", "Website field cannot be empty");
     // }
     else if (descriptionController.value.text.isEmpty) {
-      showSnackBarError("Error", "Description field cannot be empty");
+      showSnackBarError('Error', 'Description field cannot be empty');
     } else {
       registerUser();
     }
@@ -125,7 +128,7 @@ class SignupController extends GetxController {
 
       return completer.future;
     } catch (e) {
-      print("Error decoding image: $e");
+      print('Error decoding image: $e');
       return false;
     }
   }
@@ -150,6 +153,7 @@ class SignupController extends GetxController {
   }
 
   Future<XFile?> pickCoverImage() async {
+    if (await showImageDialog() != true) return null;
     // Request permission from the user
     final permissionStatus = await Permission.photos.request();
     if (permissionStatus.isGranted) {
@@ -200,7 +204,7 @@ class SignupController extends GetxController {
 
     final response = await _apiService.getData(Endpoints.category);
     if (kDebugMode) {
-      print("controller status${response.body}");
+      print('controller status${response.body}');
     }
     final result = json.decode(response.body);
     // isLoading.value = false;
@@ -228,7 +232,9 @@ class SignupController extends GetxController {
       print(isLoading.value);
 
       showSnackBarError(
-          "Error", "Something went wrong please try again later12");
+        'Error',
+        'Something went wrong please try again later12',
+      );
     }
   }
 
@@ -285,31 +291,41 @@ class SignupController extends GetxController {
     final description = descriptionController.value.text.trim();
     String ensureHttps(String url) {
       // Check if the URL already contains "http://" or "https://"
-      if (url.startsWith("http://") || url.startsWith("https://")) {
+      if (url.startsWith('http://') || url.startsWith('https://')) {
         return url; // Already has http:// or https://, return as is
       } else {
         // Add "https://" to the beginning of the URL
-        return "https://$url";
+        return 'https://$url';
       }
     }
 
     try {
       print(coverFile);
       final request = http.MultipartRequest(
-          'POST', Uri.parse(url)); // Create the multipart request
-      request.files.add(await http.MultipartFile.fromPath(
-          'logo', pickedFile!.path)); // Add the file to the request
+        'POST',
+        Uri.parse(url),
+      ); // Create the multipart request
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'logo',
+          pickedFile!.path,
+        ),
+      ); // Add the file to the request
       {
         coverFile != null
-            ? request.files.add(await http.MultipartFile.fromPath(
-                'coverimage', coverFile!.path))
+            ? request.files.add(
+                await http.MultipartFile.fromPath(
+                  'coverimage',
+                  coverFile!.path,
+                ),
+              )
             : null;
       }
       request.fields.addAll({
         'name': name,
         'email': email,
         'password': password,
-        'role': "2",
+        'role': '2',
         'phone': phoneNo,
         'whatsapp': whatsappNo,
         'business_name': name,
@@ -318,7 +334,7 @@ class SignupController extends GetxController {
         'faecbook_page': facebook,
         'insta_page': instagram,
         'web_url': ensureHttps(website),
-        'isFeatured': "1",
+        'isFeatured': '1',
         'reference': '0',
         // 'reference': selectedOption.value == 'Other'
         //     ? '0'
@@ -330,34 +346,34 @@ class SignupController extends GetxController {
         'shop_name': name,
         'area_id': selectedarea.value!.id.toString(),
         // 'address': address,
-        'description': description.toString()
+        'description': description.toString(),
       }); // Add the other fields to the request
       print(request.fields.toString());
       final response = await http.Response.fromStream(
-          await request.send()); // Send the request
-      final postResponse =
-          RegisterPostResponse.fromJson(json.decode(response.body));
+        await request.send(),
+      ); // Send the request
+      final postResponse = RegisterPostResponse.fromJson(json.decode(response.body));
       print(response.body.toString());
       if (response.statusCode == 200) {
         // Successful request
         isLoading.value = false;
-        if (postResponse.status == "success") {
+        if (postResponse.status == 'success') {
           showSnackBarSuccess(
-            "Message",
+            'Message',
             postResponse.message!,
           );
           Get.toNamed(Routes.LOGIN);
         } else {
           showSnackBarError(
-            "Message",
+            'Message',
             postResponse.message!,
           );
         }
       } else {
         isLoading.value = false;
         showSnackBarError(
-          "Message",
-          "Something went wrong please try again later",
+          'Message',
+          'Something went wrong please try again later',
         );
         // Error occurred
         print('Error occurred while registering user: ${response.statusCode}');
@@ -365,8 +381,8 @@ class SignupController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       showSnackBarError(
-        "Message",
-        "Something went wrong please try again later",
+        'Message',
+        'Something went wrong please try again later',
       );
       // Exception occurred
       print('Exception occurred while registering user: $e');

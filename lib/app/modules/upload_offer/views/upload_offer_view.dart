@@ -37,25 +37,26 @@ class UploadOfferView extends GetView {
               profileIconVisibility: true,
               showBanner: true,
               backButton: false,
-              title: "Upload Offer",
+              title: 'Upload Offer',
               onMenuTap: () {
-                print("object");
+                print('object');
               },
               onProfileTap: () {
-                print("object");
+                print('object');
                 Get.to(ProfileView());
               },
             ),
             Expanded(
               child: ListView(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 children: [
                   Center(
                     child: Container(
                       width: Get.width,
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
                       decoration: const BoxDecoration(
                         color: containerColor,
                         borderRadius: BorderRadius.all(
@@ -84,21 +85,25 @@ class UploadOfferView extends GetView {
                                   height: 20.h,
                                 ),
                                 Container(
-                                    margin: EdgeInsets.only(
-                                        left: 20.w, bottom: 10.h),
-                                    child: Text(
-                                      "Add Offer",
-                                      style: CustomTextView.getStyle(context,
-                                          colorLight: Colors.black,
-                                          fontFamily: Utils.poppinsBold,
-                                          fontSize: 20.sp),
-                                    )),
+                                  margin: EdgeInsets.only(
+                                    left: 20.w,
+                                    bottom: 10.h,
+                                  ),
+                                  child: Text(
+                                    'Add Offer',
+                                    style: CustomTextView.getStyle(
+                                      context,
+                                      colorLight: Colors.black,
+                                      fontFamily: Utils.poppinsBold,
+                                      fontSize: 20.sp,
+                                    ),
+                                  ),
+                                ),
                                 ShadowedTextField(
                                   //onChanged: controller.username,
                                   hintText: 'Title',
                                   iconName: 'tag',
-                                  controller: uploadOfferController
-                                      .titleController.value,
+                                  controller: uploadOfferController.titleController.value,
                                   keyboardType: TextInputType.text,
                                 ),
                                 // ShadowedTextField(
@@ -111,12 +116,15 @@ class UploadOfferView extends GetView {
                                 Container(
                                   height: 80.h,
                                   margin: EdgeInsets.symmetric(
-                                      horizontal: 20.w, vertical: 10.h),
+                                    horizontal: 20.w,
+                                    vertical: 10.h,
+                                  ),
                                   padding: EdgeInsets.only(
-                                      left: 20.0.w,
-                                      right: 5.w,
-                                      top: 5.h,
-                                      bottom: 5.h),
+                                    left: 20.0.w,
+                                    right: 5.w,
+                                    top: 5.h,
+                                    bottom: 5.h,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8.0),
@@ -130,29 +138,26 @@ class UploadOfferView extends GetView {
                                     ],
                                   ),
                                   child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Align(
                                         alignment: Alignment.center,
                                         child: SvgPicture.asset(
-                                          "assets/svgIcons/description.svg",
+                                          'assets/svgIcons/description.svg',
                                         ),
                                       ),
                                       SizedBox(width: 15.w),
                                       Expanded(
                                         child: TextField(
-                                          controller: uploadOfferController
-                                              .descriptionController.value,
+                                          controller: uploadOfferController.descriptionController.value,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintText: 'Description',
-                                            hintStyle:
-                                                TextStyle(fontSize: 18.sp),
+                                            hintStyle: TextStyle(fontSize: 18.sp),
                                             isDense: true,
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    vertical: 10.h),
+                                            contentPadding: EdgeInsets.symmetric(
+                                              vertical: 10.h,
+                                            ),
                                           ),
                                           style: TextStyle(fontSize: 14.sp),
                                           maxLines: null,
@@ -165,9 +170,13 @@ class UploadOfferView extends GetView {
                                 Container(
                                   height: 50.0.h,
                                   margin: EdgeInsets.symmetric(
-                                      horizontal: 20.w, vertical: 10.h),
+                                    horizontal: 20.w,
+                                    vertical: 10.h,
+                                  ),
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0, vertical: 5.0),
+                                    horizontal: 5.0,
+                                    vertical: 5.0,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10.0),
@@ -185,13 +194,15 @@ class UploadOfferView extends GetView {
                                       Center(
                                         child: Container(
                                           margin: EdgeInsets.only(
-                                              left: 15.0.w, right: 50.w),
+                                            left: 15.0.w,
+                                            right: 50.w,
+                                          ),
                                           child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               SvgPicture.asset(
-                                                  "assets/svgIcons/image_icon.svg"),
+                                                'assets/svgIcons/image_icon.svg',
+                                              ),
                                               SizedBox(
                                                 width: 10.h,
                                               ),
@@ -199,25 +210,19 @@ class UploadOfferView extends GetView {
                                                 () => SizedBox(
                                                   width: 170.w,
                                                   child: Text(
-                                                    uploadOfferController
-                                                            .imageName
-                                                            .value
-                                                            .isNotEmpty
-                                                        ? uploadOfferController
-                                                            .imageName.value
+                                                    uploadOfferController.imageName.value.isNotEmpty
+                                                        ? uploadOfferController.imageName.value
                                                         : 'Upload Image',
-                                                    style:
-                                                        CustomTextView.getStyle(
-                                                            context,
-                                                            colorLight:
-                                                                textColor,
-                                                            fontSize: 16.sp),
+                                                    style: CustomTextView.getStyle(
+                                                      context,
+                                                      colorLight: textColor,
+                                                      fontSize: 16.sp,
+                                                    ),
                                                     maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -233,12 +238,10 @@ class UploadOfferView extends GetView {
                                             width: 50.w,
                                             decoration: BoxDecoration(
                                               color: secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
+                                              borderRadius: BorderRadius.circular(10.0),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
+                                                  color: Colors.grey.withOpacity(0.5),
                                                   spreadRadius: 2,
                                                   blurRadius: 7,
                                                   offset: const Offset(0, 3),
@@ -248,7 +251,8 @@ class UploadOfferView extends GetView {
                                             child: Padding(
                                               padding: const EdgeInsets.all(15),
                                               child: SvgPicture.asset(
-                                                  "assets/svgIcons/upload_file.svg"),
+                                                'assets/svgIcons/upload_file.svg',
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -311,34 +315,40 @@ class UploadOfferView extends GetView {
 
                                 Container(
                                   margin: EdgeInsets.only(
-                                      left: 20.w, right: 10.w, top: 10.h),
+                                    left: 20.w,
+                                    right: 10.w,
+                                    top: 10.h,
+                                  ),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Featured Now?",
-                                        style: CustomTextView.getStyle(context,
-                                            colorLight: textColor,
-                                            fontSize: 16.sp),
+                                        'Featured Now?',
+                                        style: CustomTextView.getStyle(
+                                          context,
+                                          colorLight: textColor,
+                                          fontSize: 16.sp,
+                                        ),
                                       ),
-                                      Obx(() => Switch.adaptive(
-                                            value: uploadOfferController
-                                                .switchValue.value,
-                                            onChanged: (bool newValue) {
-                                              uploadOfferController
-                                                  .toggleSwitchValue();
-                                              uploadOfferController
-                                                      .activeColor.value =
-                                                  newValue
-                                                      ? Colors.green
-                                                      : Colors.red;
-                                            },
-                                            activeColor: secondary,
-                                            materialTapTargetSize:
-                                                MaterialTapTargetSize
-                                                    .shrinkWrap,
-                                          )),
+                                      Obx(
+                                        () => Switch(
+                                          thumbIcon: MaterialStatePropertyAll(
+                                            Icon(
+                                              Icons.circle,
+                                              color: secondary,
+                                            ),
+                                          ),
+                                          value: uploadOfferController.switchValue.value,
+                                          onChanged: (bool newValue) {
+                                            uploadOfferController.toggleSwitchValue();
+                                            uploadOfferController.activeColor.value = newValue ? Colors.green : Colors.red;
+                                          },
+
+                                          inactiveThumbColor: secondary,
+                                          activeColor: secondary,
+                                          // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -349,7 +359,9 @@ class UploadOfferView extends GetView {
                                   child: Text(
                                     'Note: Offer will be visible for 7 days only',
                                     style: TextStyle(
-                                        fontSize: 11.sp, color: Colors.red),
+                                      fontSize: 11.sp,
+                                      color: Colors.red,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(height: 25.h),
@@ -357,10 +369,11 @@ class UploadOfferView extends GetView {
                                   () => uploadOfferController.isLoading.value
                                       ? const Center(
                                           child: CircularProgressIndicator(
-                                          color: primary,
-                                        ))
+                                            color: primary,
+                                          ),
+                                        )
                                       : GlobalButton(
-                                          title: "Upload",
+                                          title: 'Upload',
                                           onPressed: () {
                                             // controller.isFormValid() ? controller.registerUser : showSnackBarError("Error", "Fill all fields");
                                             // uploadOfferController.uploadOffers();
@@ -370,8 +383,7 @@ class UploadOfferView extends GetView {
                                             //     ? uploadOfferController
                                             //         .showUnverifiedDialog()
                                             //     :
-                                            uploadOfferController
-                                                .showAwesomeDialog();
+                                            uploadOfferController.showAwesomeDialog();
                                           },
                                           textColor: Colors.white,
                                           buttonColor: secondary,
@@ -380,9 +392,9 @@ class UploadOfferView extends GetView {
                                 const SizedBox(height: 10),
                               ],
                             ),
-                            Obx(() => homeController.isLoading.isTrue
-                                ? const MyLoading()
-                                : Container()),
+                            Obx(
+                              () => homeController.isLoading.isTrue ? const MyLoading() : Container(),
+                            ),
                           ],
                         ),
                       ),
@@ -390,7 +402,7 @@ class UploadOfferView extends GetView {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

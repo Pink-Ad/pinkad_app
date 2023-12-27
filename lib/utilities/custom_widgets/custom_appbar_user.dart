@@ -26,16 +26,16 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool profileIconVisibility;
   final bool showBanner;
-  const UserAppBar(
-      {Key? key,
-      required this.title,
-      this.size = 20,
-      required this.onMenuTap,
-      required this.onProfileTap,
-      required this.backButton,
-      required this.profileIconVisibility,
-      this.showBanner = true})
-      : super(key: key);
+  const UserAppBar({
+    Key? key,
+    required this.title,
+    this.size = 20,
+    required this.onMenuTap,
+    required this.onProfileTap,
+    required this.backButton,
+    required this.profileIconVisibility,
+    this.showBanner = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.transparent,
         leading: profileIconVisibility
             ? IconButton(
-                icon: SvgPicture.asset("assets/svgIcons/profile_icon.svg"),
+                icon: SvgPicture.asset('assets/svgIcons/profile_icon.svg'),
                 onPressed: () {
                   // Navigator.push(context,
                   //     MaterialPageRoute(builder: (_) => UserProfileView()));
@@ -192,358 +192,392 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors.white,
                 child: IntrinsicWidth(
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     isExpanded.toggle();
-                        //   },
-                        //   child: Container(
-                        //     padding: EdgeInsets.only(
-                        //         left: 16.w,
-                        //         top: 13.h,
-                        //         right: 10.w,
-                        //         bottom: 13.h),
-                        //     child: Row(
-                        //         // mainAxisAlignment:
-                        //         // MainAxisAlignment.spaceEvenly,
-                        //         // crossAxisAlignment: CrossAxisAlignment.center,
-                        //         children: [
-                        //           SvgPicture.asset(
-                        //             "assets/svgIcons/change_profile.svg",
-                        //             width: 13.w,
-                        //             height: 13.h,
-                        //           ),
-                        //           SizedBox(
-                        //             width: 17.w,
-                        //           ),
-                        //           Center(
-                        //             child: Text('Switch Branch',
-                        //                 style: CustomTextView.getStyle(
-                        //                   context,
-                        //                   colorLight: Colors.black,
-                        //                   fontSize: 15.sp,
-                        //                 )),
-                        //           ),
-                        //           // Obx(
-                        //           //   () => Icon(
-                        //           //     isExpanded.value
-                        //           //         ? Icons.arrow_drop_up_sharp
-                        //           //         : Icons.arrow_drop_down_sharp,
-                        //           //     color: Colors.black,
-                        //           //   ),
-                        //           // )
-                        //         ]),
-                        //   ),
-                        // ),
-                        // const Divider(
-                        //   color: lightGrayCircle,
-                        //   thickness: 1,
-                        //   height: 0,
-                        // ),
-                        // Obx(
-                        //   () => isExpanded.value && sellerShop.length > 0
-                        //       ? Container(
-                        //           color: Colors.white,
-                        //           height: 80.h,
-                        //           width: 100.w,
-                        //           // padding: EdgeInsets.symmetric(
-                        //           //     horizontal: 15, vertical: 10.h),
-                        //           // child: Row(children: [
-                        //           //   Container(
-                        //           //     width: 20.0.w,
-                        //           //     height: 20.0.h,
-                        //           //     decoration: BoxDecoration(
-                        //           //       shape: BoxShape.circle,
-                        //           //       border: Border.all(
-                        //           //         color: secondary,
-                        //           //       ),
-                        //           //     ),
-                        //           //     child: const CircleAvatar(
-                        //           //       radius: 18.0,
-                        //           //       backgroundImage: AssetImage(
-                        //           //           'assets/images/profile.png'),
-                        //           //     ),
-                        //           //   ),
-                        //           //   SizedBox(
-                        //           //     width: 10.w,
-                        //           //   ),
-                        //           //   Text('John Doe',
-                        //           //       style: CustomTextView.getStyle(
-                        //           //         context,
-                        //           //         colorLight: Colors.black,
-                        //           //         fontSize: 15.sp,
-                        //           //       )),
-                        //           // ]),
-                        //           child: ListView.builder(
-                        //             shrinkWrap: true,
-                        //             itemCount: sellerShop.length,
-                        //             itemBuilder:
-                        //                 (BuildContext context, int index) {
-                        //               return GestureDetector(
-                        //                 onTap: () async {
-                        //                   await box.write('selectedShop',
-                        //                       sellerShop[index]['id']);
-                        //                   controller.hideMenu();
-                        //                   Get.snackbar("Switch Branch",
-                        //                       sellerShop[index]['branch_name'],
-                        //                       colorText: Colors.white,
-                        //                       backgroundColor: primary,
-                        //                       snackPosition: SnackPosition.TOP);
-                        //                 },
-                        //                 child: Container(
-                        //                   alignment: Alignment.topLeft,
-                        //                   padding: EdgeInsets.symmetric(
-                        //                       horizontal: 10.w, vertical: 5.h),
-                        //                   child: Column(
-                        //                     children: [
-                        //                       Text(
-                        //                           sellerShop[index]
-                        //                                   ['branch_name'] ??
-                        //                               '',
-                        //                           style:
-                        //                               CustomTextView.getStyle(
-                        //                             context,
-                        //                             colorLight: Colors.black,
-                        //                             fontSize: 15.sp,
-                        //                           )),
-                        //                       // SizedBox(height: 5.h),
-                        //                       // const Divider(
-                        //                       //   color: lightGrayCircle,
-                        //                       //   thickness: 1,
-                        //                       //   height: 0,
-                        //                       // ),
-                        //                     ],
-                        //                   ),
-                        //                 ),
-                        //               );
-                        //             },
-                        //           ),
-                        //         )
-                        //       : const SizedBox(),
-                        // ),
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     isExpanded.toggle();
+                      //   },
+                      //   child: Container(
+                      //     padding: EdgeInsets.only(
+                      //         left: 16.w,
+                      //         top: 13.h,
+                      //         right: 10.w,
+                      //         bottom: 13.h),
+                      //     child: Row(
+                      //         // mainAxisAlignment:
+                      //         // MainAxisAlignment.spaceEvenly,
+                      //         // crossAxisAlignment: CrossAxisAlignment.center,
+                      //         children: [
+                      //           SvgPicture.asset(
+                      //             "assets/svgIcons/change_profile.svg",
+                      //             width: 13.w,
+                      //             height: 13.h,
+                      //           ),
+                      //           SizedBox(
+                      //             width: 17.w,
+                      //           ),
+                      //           Center(
+                      //             child: Text('Switch Branch',
+                      //                 style: CustomTextView.getStyle(
+                      //                   context,
+                      //                   colorLight: Colors.black,
+                      //                   fontSize: 15.sp,
+                      //                 )),
+                      //           ),
+                      //           // Obx(
+                      //           //   () => Icon(
+                      //           //     isExpanded.value
+                      //           //         ? Icons.arrow_drop_up_sharp
+                      //           //         : Icons.arrow_drop_down_sharp,
+                      //           //     color: Colors.black,
+                      //           //   ),
+                      //           // )
+                      //         ]),
+                      //   ),
+                      // ),
+                      // const Divider(
+                      //   color: lightGrayCircle,
+                      //   thickness: 1,
+                      //   height: 0,
+                      // ),
+                      // Obx(
+                      //   () => isExpanded.value && sellerShop.length > 0
+                      //       ? Container(
+                      //           color: Colors.white,
+                      //           height: 80.h,
+                      //           width: 100.w,
+                      //           // padding: EdgeInsets.symmetric(
+                      //           //     horizontal: 15, vertical: 10.h),
+                      //           // child: Row(children: [
+                      //           //   Container(
+                      //           //     width: 20.0.w,
+                      //           //     height: 20.0.h,
+                      //           //     decoration: BoxDecoration(
+                      //           //       shape: BoxShape.circle,
+                      //           //       border: Border.all(
+                      //           //         color: secondary,
+                      //           //       ),
+                      //           //     ),
+                      //           //     child: const CircleAvatar(
+                      //           //       radius: 18.0,
+                      //           //       backgroundImage: AssetImage(
+                      //           //           'assets/images/profile.png'),
+                      //           //     ),
+                      //           //   ),
+                      //           //   SizedBox(
+                      //           //     width: 10.w,
+                      //           //   ),
+                      //           //   Text('John Doe',
+                      //           //       style: CustomTextView.getStyle(
+                      //           //         context,
+                      //           //         colorLight: Colors.black,
+                      //           //         fontSize: 15.sp,
+                      //           //       )),
+                      //           // ]),
+                      //           child: ListView.builder(
+                      //             shrinkWrap: true,
+                      //             itemCount: sellerShop.length,
+                      //             itemBuilder:
+                      //                 (BuildContext context, int index) {
+                      //               return GestureDetector(
+                      //                 onTap: () async {
+                      //                   await box.write('selectedShop',
+                      //                       sellerShop[index]['id']);
+                      //                   controller.hideMenu();
+                      //                   Get.snackbar("Switch Branch",
+                      //                       sellerShop[index]['branch_name'],
+                      //                       colorText: Colors.white,
+                      //                       backgroundColor: primary,
+                      //                       snackPosition: SnackPosition.TOP);
+                      //                 },
+                      //                 child: Container(
+                      //                   alignment: Alignment.topLeft,
+                      //                   padding: EdgeInsets.symmetric(
+                      //                       horizontal: 10.w, vertical: 5.h),
+                      //                   child: Column(
+                      //                     children: [
+                      //                       Text(
+                      //                           sellerShop[index]
+                      //                                   ['branch_name'] ??
+                      //                               '',
+                      //                           style:
+                      //                               CustomTextView.getStyle(
+                      //                             context,
+                      //                             colorLight: Colors.black,
+                      //                             fontSize: 15.sp,
+                      //                           )),
+                      //                       // SizedBox(height: 5.h),
+                      //                       // const Divider(
+                      //                       //   color: lightGrayCircle,
+                      //                       //   thickness: 1,
+                      //                       //   height: 0,
+                      //                       // ),
+                      //                     ],
+                      //                   ),
+                      //                 ),
+                      //               );
+                      //             },
+                      //           ),
+                      //         )
+                      //       : const SizedBox(),
+                      // ),
 
-                        // Obx(
-                        //   () => isExpanded.value
-                        //       ? GestureDetector(
-                        //           onTap: () {
-                        //             Get.snackbar("Account", "John Smith",
-                        //                 colorText: Colors.white,
-                        //                 backgroundColor: primary,
-                        //                 snackPosition: SnackPosition.TOP);
-                        //             controller.hideMenu();
-                        //           },
-                        //           child: Container(
-                        //             color: dropdownBg,
-                        //             padding: EdgeInsets.symmetric(
-                        //                 horizontal: 15, vertical: 10.h),
-                        //             child: Row(children: [
-                        //               Container(
-                        //                 width: 20.0.w,
-                        //                 height: 20.0.h,
-                        //                 decoration: BoxDecoration(
-                        //                   shape: BoxShape.circle,
-                        //                   border: Border.all(
-                        //                     color: containerGray,
-                        //                   ),
-                        //                 ),
-                        //                 child: const CircleAvatar(
-                        //                   radius: 18.0,
-                        //                   backgroundImage: AssetImage(
-                        //                       'assets/images/profile.png'),
-                        //                 ),
-                        //               ),
-                        //               SizedBox(
-                        //                 width: 10.w,
-                        //               ),
-                        //               Text('John Smith',
-                        //                   style: CustomTextView.getStyle(
-                        //                     context,
-                        //                     colorLight: Colors.black,
-                        //                     fontSize: 15.sp,
-                        //                   )),
-                        //             ]),
-                        //           ),
-                        //         )
-                        //       : const SizedBox(),
-                        // ),
-
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed(Routes.SHOPS_INSIGHT);
-                            controller.hideMenu();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                                left: 16, top: 15, right: 10, bottom: 15),
-                            child: Row(children: [
-                              SvgPicture.asset(
-                                "assets/svgIcons/dashboard.svg",
-                                width: 13.w,
-                                height: 13.h,
+                      // Obx(
+                      //   () => isExpanded.value
+                      //       ? GestureDetector(
+                      //           onTap: () {
+                      //             Get.snackbar("Account", "John Smith",
+                      //                 colorText: Colors.white,
+                      //                 backgroundColor: primary,
+                      //                 snackPosition: SnackPosition.TOP);
+                      //             controller.hideMenu();
+                      //           },
+                      //           child: Container(
+                      //             color: dropdownBg,
+                      //             padding: EdgeInsets.symmetric(
+                      //                 horizontal: 15, vertical: 10.h),
+                      //             child: Row(children: [
+                      //               Container(
+                      //                 width: 20.0.w,
+                      //                 height: 20.0.h,
+                      //                 decoration: BoxDecoration(
+                      //                   shape: BoxShape.circle,
+                      //                   border: Border.all(
+                      //                     color: containerGray,
+                      //                   ),
+                      //                 ),
+                      //                 child: const CircleAvatar(
+                      //                   radius: 18.0,
+                      //                   backgroundImage: AssetImage(
+                      //                       'assets/images/profile.png'),
+                      //                 ),
+                      //               ),
+                      //               SizedBox(
+                      //                 width: 10.w,
+                      //               ),
+                      //               Text('John Smith',
+                      //                   style: CustomTextView.getStyle(
+                      //                     context,
+                      //                     colorLight: Colors.black,
+                      //                     fontSize: 15.sp,
+                      //                   )),
+                      //             ]),
+                      //           ),
+                      //         )
+                      //       : const SizedBox(),
+                      // ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.UPLOAD_OFFER);
+                          controller.hideMenu();
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 16, top: 15, right: 10, bottom: 15),
+                          child: Row(
+                            children: [
+                              Icon(Icons.post_add_rounded, color: secondary),
+                              SizedBox(width: 15.w),
+                              Text(
+                                'Upload Offer',
+                                style: CustomTextView.getStyle(
+                                  context,
+                                  colorLight: Colors.black,
+                                  fontSize: 15.sp,
+                                ),
                               ),
-                              SizedBox(
-                                width: 20.w,
-                              ),
-                              Text('Dashboard',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: Colors.black,
-                                    fontSize: 15.sp,
-                                  )),
-                            ]),
+                            ],
                           ),
                         ),
-                        const Divider(
-                          color: lightGrayCircle,
-                          thickness: 1,
-                          height: 0,
+                      ),
+                      const Divider(
+                        color: lightGrayCircle,
+                        thickness: 1,
+                        height: 0,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.SHOPS_INSIGHT);
+                          controller.hideMenu();
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 16, top: 15, right: 10, bottom: 15),
+                          child: Row(
+                            children: [
+                              Icon(Icons.dashboard_customize_outlined, color: secondary),
+                              // SvgPicture.asset(
+                              //   'assets/svgIcons/dashboard.svg',
+                              //   width: 13.w,
+                              //   height: 13.h,
+                              // ),
+                              SizedBox(width: 15.w),
+                              Text(
+                                'Dashboard',
+                                style: CustomTextView.getStyle(
+                                  context,
+                                  colorLight: Colors.black,
+                                  fontSize: 15.sp,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(() => const TermsView());
-                            // Get.toNamed(Routes.TERMS);
-                            controller.hideMenu();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                                left: 16, top: 15, right: 10, bottom: 15),
-                            child: Row(children: [
+                      ),
+                      const Divider(
+                        color: lightGrayCircle,
+                        thickness: 1,
+                        height: 0,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          showAwesomeDialog();
+                          // Get.toNamed(Routes.FEEDBACK);
+                          controller.hideMenu();
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 16, top: 10, right: 10, bottom: 10),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.delete_outline_outlined, color: secondary),
+                              SizedBox(width: 15.w),
+                              Text(
+                                'Delete Account',
+                                style: CustomTextView.getStyle(
+                                  context,
+                                  colorLight: Colors.black,
+                                  fontSize: 15.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        color: lightGrayCircle,
+                        thickness: 1,
+                        height: 0,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          box.remove('user_token');
+                          box.remove('user_type');
+                          box.remove('email');
+                          box.remove('password');
+                          Get.offAllNamed('/bottom-nav-bar');
+
+                          controller.hideMenu();
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 16, top: 15, right: 10, bottom: 15),
+                          child: Row(
+                            children: [
+                              // SvgPicture.asset('assets/svgIcons/logout.svg'),
+                              const Icon(Icons.logout, color: secondary),
+                              SizedBox(width: 15.w),
+                              Text(
+                                'Logout',
+                                style: CustomTextView.getStyle(
+                                  context,
+                                  colorLight: Colors.black,
+                                  fontSize: 15.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        color: lightGrayCircle,
+                        thickness: 1,
+                        height: 0,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => FeedbackView());
+                          // Get.toNamed(Routes.TERMS);
+                          controller.hideMenu();
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 16, top: 15, right: 10, bottom: 15),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.reviews_outlined, color: secondary),
+                              SizedBox(width: 15.w),
+                              Text(
+                                'Feedback',
+                                style: CustomTextView.getStyle(
+                                  context,
+                                  colorLight: Colors.black,
+                                  fontSize: 15.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        color: lightGrayCircle,
+                        thickness: 1,
+                        height: 0,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => const TermsView());
+                          // Get.toNamed(Routes.TERMS);
+                          controller.hideMenu();
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 16, top: 15, right: 10, bottom: 15),
+                          child: Row(
+                            children: [
                               const Icon(Icons.feed_outlined, color: secondary),
-                              SizedBox(
-                                width: 16.w,
+                              SizedBox(width: 15.w),
+                              Text(
+                                'Terms & Conditions',
+                                style: CustomTextView.getStyle(
+                                  context,
+                                  colorLight: Colors.black,
+                                  fontSize: 15.sp,
+                                ),
                               ),
-                              Text('Terms & Conditions',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: Colors.black,
-                                    fontSize: 15.sp,
-                                  )),
-                            ]),
+                            ],
                           ),
                         ),
-                        const Divider(
-                          color: lightGrayCircle,
-                          thickness: 1,
-                          height: 0,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(() => FeedbackView());
-                            // Get.toNamed(Routes.TERMS);
-                            controller.hideMenu();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                                left: 16, top: 15, right: 10, bottom: 15),
-                            child: Row(children: [
-                              const Icon(Icons.reviews_outlined,
-                                  color: secondary),
-                              SizedBox(
-                                width: 17.w,
-                              ),
-                              Text('Feedback',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: Colors.black,
-                                    fontSize: 15.sp,
-                                  )),
-                            ]),
-                          ),
-                        ),
-                        // const Divider(
-                        //   color: lightGrayCircle,
-                        //   thickness: 1,
-                        //   height: 0,
-                        // ),
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     // Get.to(() => const TermsView());
-                        //     // Get.toNamed(Routes.TERMS);
-                        //     controller.hideMenu();
-                        //   },
-                        //   child: Container(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 16, top: 15, right: 10, bottom: 15),
-                        //     child: Row(children: [
-                        //       const Icon(Icons.delete_outline,
-                        //           color: secondary),
-                        //       SizedBox(
-                        //         width: 16.w,
-                        //       ),
-                        //       Text('Delete Data',
-                        //           style: CustomTextView.getStyle(
-                        //             context,
-                        //             colorLight: Colors.black,
-                        //             fontSize: 15.sp,
-                        //           )),
-                        //     ]),
-                        //   ),
-                        // ),
-                        const Divider(
-                          color: lightGrayCircle,
-                          thickness: 1,
-                          height: 0,
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            showAwesomeDialog();
-                            // Get.toNamed(Routes.FEEDBACK);
-                            controller.hideMenu();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                                left: 16, top: 10, right: 10, bottom: 10),
-                            child: Row(children: [
-                              const Icon(Icons.delete_outline_outlined,
-                                  color: secondary),
-                              SizedBox(
-                                width: 15.w,
-                              ),
-                              Text('Delete Account',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: Colors.black,
-                                    fontSize: 15.sp,
-                                  )),
-                            ]),
-                          ),
-                        ),
-                        const Divider(
-                          color: lightGrayCircle,
-                          thickness: 1,
-                          height: 0,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            box.remove('user_token');
-                            box.remove('email');
-                            box.remove('password');
-                            Get.offAllNamed('/bottom-nav-bar');
-
-                            controller.hideMenu();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                                left: 16, top: 15, right: 10, bottom: 15),
-                            child: Row(children: [
-                              SvgPicture.asset("assets/svgIcons/logout.svg"),
-                              SizedBox(
-                                width: 20.w,
-                              ),
-                              Text('Logout',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: Colors.black,
-                                    fontSize: 15.sp,
-                                  )),
-                            ]),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                      ]),
+                      ),
+                      // const Divider(
+                      //   color: lightGrayCircle,
+                      //   thickness: 1,
+                      //   height: 0,
+                      // ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     // Get.to(() => const TermsView());
+                      //     // Get.toNamed(Routes.TERMS);
+                      //     controller.hideMenu();
+                      //   },
+                      //   child: Container(
+                      //     padding: const EdgeInsets.only(
+                      //         left: 16, top: 15, right: 10, bottom: 15),
+                      //     child: Row(children: [
+                      //       const Icon(Icons.delete_outline,
+                      //           color: secondary),
+                      //       SizedBox(
+                      //         width: 16.w,
+                      //       ),
+                      //       Text('Delete Data',
+                      //           style: CustomTextView.getStyle(
+                      //             context,
+                      //             colorLight: Colors.black,
+                      //             fontSize: 15.sp,
+                      //           )),
+                      //     ]),
+                      //   ),
+                      // ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -552,7 +586,7 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             child: Container(
               padding: EdgeInsets.only(right: 20.w, left: 20.w),
-              child: SvgPicture.asset("assets/svgIcons/dots.svg"),
+              child: SvgPicture.asset('assets/svgIcons/dots.svg'),
             ),
           ),
         ],
@@ -589,10 +623,7 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Text(
             'Are you sure?',
-            style: CustomTextView.getStyle(Get.context!,
-                colorLight: secondary,
-                fontSize: 20.sp,
-                fontFamily: Utils.poppinsBold),
+            style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 20.sp, fontFamily: Utils.poppinsBold),
           ),
           SizedBox(
             height: 15.h,
@@ -602,8 +633,7 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: Text(
               'You want to delete your account?',
               textAlign: TextAlign.center,
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: textColor, fontSize: 14.sp),
+              style: CustomTextView.getStyle(Get.context!, colorLight: textColor, fontSize: 14.sp),
             ),
           ),
           SizedBox(
@@ -625,10 +655,7 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Center(
             child: Text(
               'Delete',
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: Colors.white,
-                  fontSize: 16.sp,
-                  fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
             ),
           ),
         ),
@@ -647,10 +674,7 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Center(
             child: Text(
               'Cancel',
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: Colors.white,
-                  fontSize: 16.sp,
-                  fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
             ),
           ),
         ),
@@ -664,8 +688,7 @@ class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
     final data = await box.read('user_token');
     final ApiService apiService = ApiService(http.Client());
     try {
-      final response =
-          await apiService.getDataWithHeader(Endpoints.deleteUser, data);
+      final response = await apiService.getDataWithHeader(Endpoints.deleteUser, data);
 
       if (response.statusCode == 200) {
         box.remove('user_token');

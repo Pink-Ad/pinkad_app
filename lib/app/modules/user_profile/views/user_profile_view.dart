@@ -48,12 +48,12 @@ class UserProfileView extends GetView {
             UserAppBar(
               profileIconVisibility: false,
               backButton: true,
-              title: "Profile",
+              title: 'Profile',
               onMenuTap: () {
-                print("object");
+                print('object');
               },
               onProfileTap: () {
-                print("object");
+                print('object');
                 Get.to(ProfileView());
               },
             ),
@@ -66,11 +66,10 @@ class UserProfileView extends GetView {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(data.user!.name!,
-                          style: CustomTextView.getStyle(context,
-                              colorLight: Colors.white,
-                              fontSize: 20.sp,
-                              fontFamily: Utils.poppinsBold)),
+                      Text(
+                        data.user!.name!,
+                        style: CustomTextView.getStyle(context, colorLight: Colors.white, fontSize: 20.sp, fontFamily: Utils.poppinsBold),
+                      ),
                       const SizedBox(height: 5.0),
                       // RatingBar.builder(
                       //   initialRating: 3,
@@ -229,226 +228,196 @@ class UserProfileView extends GetView {
                   ? Expanded(
                       child: Center(
                         child: Container(
-                            height: Get.height,
-                            width: Get.width,
-                            decoration: BoxDecoration(
-                                color: containerColor,
-                                border: Border.all(width: .5, color: secondary),
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(20.0),
-                                    topRight: Radius.circular(20.0))),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 10.h,
+                          height: Get.height,
+                          width: Get.width,
+                          decoration: BoxDecoration(
+                            color: containerColor,
+                            border: Border.all(width: .5, color: secondary),
+                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                ShadowedTextField(
+                                  //onChanged: controller.username,
+                                  focusNode: phoneFocus,
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(whatsappFocus);
+                                  },
+                                  controller: userProfileController.phoneNoController.value,
+                                  hintText: '+923001234567',
+                                  iconName: 'phone',
+                                  keyboardType: TextInputType.phone,
+                                ),
+                                ShadowedTextField(
+                                  //onChanged: controller.username,
+                                  focusNode: whatsappFocus,
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(emailFocus);
+                                  },
+                                  controller: userProfileController.whatsappNoController.value,
+                                  hintText: '+923001234567',
+                                  iconName: 'whatsapp_icon',
+                                  keyboardType: TextInputType.phone,
+                                ),
+                                // ShadowedTextField(
+                                //   focusNode: businessNameFocus,
+                                //   onFieldSubmitted: (v) {
+                                //     FocusScope.of(context)
+                                //         .requestFocus(branchNameFocus);
+                                //   },
+                                //   //onChanged: controller.username,
+                                //   controller: userProfileController
+                                //       .businessNameController.value,
+                                //   hintText: 'Business Name (optional)',
+                                //   iconName: "business",
+                                //   keyboardType: TextInputType.text,
+                                // ),
+                                ShadowedTextField(
+                                  focusNode: businessAddressFocus,
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(facebookFocus);
+                                  },
+                                  //onChanged: controller.username,
+                                  controller: userProfileController.businessAddressController.value,
+                                  hintText: 'Business Address',
+                                  iconName: 'business_map',
+                                  keyboardType: TextInputType.text,
+                                ),
+                                ShadowedTextField(
+                                  focusNode: facebookFocus,
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(instagramFocus);
+                                  },
+                                  //onChanged: controller.username,
+                                  controller: userProfileController.facebookController.value,
+                                  hintText: 'Facebook URL',
+                                  // hintText: 'e.g page/page_id',
+                                  iconName: 'facebook',
+                                  keyboardType: TextInputType.text,
+                                ),
+                                ShadowedTextField(
+                                  focusNode: instagramFocus,
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(websiteUrlFocus);
+                                  },
+                                  //onChanged: controller.username,
+                                  controller: userProfileController.instagramController.value,
+                                  hintText: 'Instagram URL',
+                                  // hintText: 'e.g user?username=pinkad.pk',
+                                  iconName: 'insta',
+                                  keyboardType: TextInputType.text,
+                                ),
+                                ShadowedTextField(
+                                  focusNode: websiteUrlFocus,
+                                  //onChanged: controller.username,
+                                  controller: userProfileController.webSiteController.value,
+                                  hintText: 'Website URL  (optional)',
+                                  iconName: 'website',
+                                  keyboardType: TextInputType.text,
+                                ),
+                                Container(
+                                  height: 55.0.h,
+                                  margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                                  padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 7,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
                                   ),
-                                  ShadowedTextField(
-                                    //onChanged: controller.username,
-                                    focusNode: phoneFocus,
-                                    onFieldSubmitted: (v) {
-                                      FocusScope.of(context)
-                                          .requestFocus(whatsappFocus);
-                                    },
-                                    controller: userProfileController
-                                        .phoneNoController.value,
-                                    hintText: '+923001234567',
-                                    iconName: "phone",
-                                    keyboardType: TextInputType.phone,
-                                  ),
-                                  ShadowedTextField(
-                                    //onChanged: controller.username,
-                                    focusNode: whatsappFocus,
-                                    onFieldSubmitted: (v) {
-                                      FocusScope.of(context)
-                                          .requestFocus(emailFocus);
-                                    },
-                                    controller: userProfileController
-                                        .whatsappNoController.value,
-                                    hintText: '+923001234567',
-                                    iconName: "whatsapp_icon",
-                                    keyboardType: TextInputType.phone,
-                                  ),
-                                  // ShadowedTextField(
-                                  //   focusNode: businessNameFocus,
-                                  //   onFieldSubmitted: (v) {
-                                  //     FocusScope.of(context)
-                                  //         .requestFocus(branchNameFocus);
-                                  //   },
-                                  //   //onChanged: controller.username,
-                                  //   controller: userProfileController
-                                  //       .businessNameController.value,
-                                  //   hintText: 'Business Name (optional)',
-                                  //   iconName: "business",
-                                  //   keyboardType: TextInputType.text,
-                                  // ),
-                                  ShadowedTextField(
-                                    focusNode: businessAddressFocus,
-                                    onFieldSubmitted: (v) {
-                                      FocusScope.of(context)
-                                          .requestFocus(facebookFocus);
-                                    },
-                                    //onChanged: controller.username,
-                                    controller: userProfileController
-                                        .businessAddressController.value,
-                                    hintText: 'Business Address',
-                                    iconName: "business_map",
-                                    keyboardType: TextInputType.text,
-                                  ),
-                                  ShadowedTextField(
-                                    focusNode: facebookFocus,
-                                    onFieldSubmitted: (v) {
-                                      FocusScope.of(context)
-                                          .requestFocus(instagramFocus);
-                                    },
-                                    //onChanged: controller.username,
-                                    controller: userProfileController
-                                        .facebookController.value,
-                                    hintText: 'Facebook URL',
-                                    // hintText: 'e.g page/page_id',
-                                    iconName: "facebook",
-                                    keyboardType: TextInputType.text,
-                                  ),
-                                  ShadowedTextField(
-                                    focusNode: instagramFocus,
-                                    onFieldSubmitted: (v) {
-                                      FocusScope.of(context)
-                                          .requestFocus(websiteUrlFocus);
-                                    },
-                                    //onChanged: controller.username,
-                                    controller: userProfileController
-                                        .instagramController.value,
-                                    hintText: 'Instagram URL',
-                                    // hintText: 'e.g user?username=pinkad.pk',
-                                    iconName: "insta",
-                                    keyboardType: TextInputType.text,
-                                  ),
-                                  ShadowedTextField(
-                                    focusNode: websiteUrlFocus,
-                                    //onChanged: controller.username,
-                                    controller: userProfileController
-                                        .webSiteController.value,
-                                    hintText: 'Website URL  (optional)',
-                                    iconName: "website",
-                                    keyboardType: TextInputType.text,
-                                  ),
-                                  Container(
-                                    height: 55.0.h,
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 20.w, vertical: 10.h),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5.0, vertical: 5.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 7,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Stack(
-                                      children: [
-                                        Center(
-                                          child: Container(
-                                            margin: EdgeInsets.only(
-                                                left: 15.0.w, right: 50.w),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                SvgPicture.asset(
-                                                    "assets/svgIcons/image_icon.svg"),
-                                                SizedBox(
-                                                  width: 10.h,
-                                                ),
-                                                Obx(
-                                                  () => SizedBox(
-                                                    width: 170.w,
-                                                    child: Text(
-                                                      userProfileController
-                                                              .logoName
-                                                              .value
-                                                              .isNotEmpty
-                                                          ? userProfileController
-                                                              .logoName.value
-                                                          : 'Promotional Cover',
-                                                      style: CustomTextView
-                                                          .getStyle(context,
-                                                              colorLight:
-                                                                  textColor,
-                                                              fontSize: 16.sp),
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
+                                  child: Stack(
+                                    children: [
+                                      Center(
+                                        child: Container(
+                                          margin: EdgeInsets.only(left: 15.0.w, right: 50.w),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              SvgPicture.asset('assets/svgIcons/image_icon.svg'),
+                                              SizedBox(
+                                                width: 10.h,
+                                              ),
+                                              Obx(
+                                                () => SizedBox(
+                                                  width: 170.w,
+                                                  child: Text(
+                                                    userProfileController.logoName.value.isNotEmpty
+                                                        ? userProfileController.logoName.value
+                                                        : 'Promotional Cover',
+                                                    style: CustomTextView.getStyle(context, colorLight: textColor, fontSize: 16.sp),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
-                                                )
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            userProfileController.pickImage();
+                                          },
+                                          child: Container(
+                                            height: Get.height,
+                                            width: 50.w,
+                                            decoration: BoxDecoration(
+                                              color: secondary,
+                                              borderRadius: BorderRadius.circular(10.0),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.5),
+                                                  spreadRadius: 2,
+                                                  blurRadius: 7,
+                                                  offset: const Offset(0, 3),
+                                                ),
                                               ],
                                             ),
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              userProfileController.pickImage();
-                                            },
-                                            child: Container(
-                                              height: Get.height,
-                                              width: 50.w,
-                                              decoration: BoxDecoration(
-                                                color: secondary,
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.5),
-                                                    spreadRadius: 2,
-                                                    blurRadius: 7,
-                                                    offset: const Offset(0, 3),
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(15.0),
-                                                child: SvgPicture.asset(
-                                                    "assets/svgIcons/upload_file.svg"),
-                                              ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(15.0),
+                                              child: SvgPicture.asset('assets/svgIcons/upload_file.svg'),
                                             ),
                                           ),
-                                        )
-                                      ],
-                                    ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: ImageRecommendedSizeText()),
-                                  SizedBox(height: 25.h),
-                                  Obx(() => userProfileController
-                                          .isLoading.value
+                                ),
+                                const Align(alignment: Alignment.centerLeft, child: ImageRecommendedSizeText()),
+                                SizedBox(height: 25.h),
+                                Obx(
+                                  () => userProfileController.isLoading.value
                                       ? const CircularProgressIndicator(
                                           color: primary,
                                         )
                                       : GlobalButton(
-                                          title: "Update",
+                                          title: 'Update',
                                           onPressed: () {
                                             userProfileController.onSubmit();
                                             // Get.toNamed(Routes.User_Bottom_Nav_Bar);
                                           },
                                           textColor: Colors.white,
                                           buttonColor: secondary,
-                                        )),
-                                  const SizedBox(height: 10),
-                                ],
-                              ),
-                            )),
+                                        ),
+                                ),
+                                const SizedBox(height: 10),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     )
                   : Expanded(
@@ -457,175 +426,158 @@ class UserProfileView extends GetView {
                           height: Get.height,
                           width: Get.width,
                           decoration: BoxDecoration(
-                              color: containerColor,
-                              border: Border.all(width: .5, color: secondary),
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20.0),
-                                  topRight: Radius.circular(20.0))),
-                          child: Stack(children: [
-                            ListView.builder(
-                              itemCount: sellerShop
-                                  .length, // number of items in the list
-                              itemBuilder: (BuildContext context, int index) {
-                                print(sellerShop[index]);
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10.0.w, vertical: 3.h),
-                                  child: Container(
-                                    margin: const EdgeInsets.all(8.0),
-                                    padding: const EdgeInsets.all(16.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 3,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Stack(children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                            color: containerColor,
+                            border: Border.all(width: .5, color: secondary),
+                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+                          ),
+                          child: Stack(
+                            children: [
+                              ListView.builder(
+                                itemCount: sellerShop.length, // number of items in the list
+                                itemBuilder: (BuildContext context, int index) {
+                                  print(sellerShop[index]);
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 3.h),
+                                    child: Container(
+                                      margin: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(16.0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 2,
+                                            blurRadius: 3,
+                                            offset: const Offset(0, 3),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Stack(
                                         children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Container(
-                                                width: 50.0.w,
-                                                height: 50.0.h,
-                                                decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: CircleAvatar(
-                                                  radius: 38.0,
-                                                  backgroundColor: Colors.grey,
-                                                  backgroundImage: sellerShop[
-                                                              index]['logo'] !=
-                                                          null
-                                                      ? NetworkImage(ApiService
-                                                              .imageBaseUrl +
-                                                          sellerShop[index]
-                                                              ['logo'])
-                                                      : const NetworkImage(
-                                                          "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg"),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    left: 10.0.w, top: 5.0.h),
-                                                width: 140.w,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      sellerShop[index]
-                                                              ['branch_name'] ??
-                                                          '',
-                                                      style: CustomTextView
-                                                          .getStyle(context,
-                                                              fontSize: 18.sp,
-                                                              fontFamily: Utils
-                                                                  .poppinsSemiBold,
-                                                              colorLight:
-                                                                  Colors.black),
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    width: 50.0.w,
+                                                    height: 50.0.h,
+                                                    decoration: const BoxDecoration(
+                                                      shape: BoxShape.circle,
                                                     ),
-                                                    const SizedBox(height: 8.0),
-                                                    // RatingBar.builder(
-                                                    //   initialRating: 3,
-                                                    //   minRating: 1,
-                                                    //   itemSize: 15,
-                                                    //   direction:
-                                                    //       Axis.horizontal,
-                                                    //   allowHalfRating: true,
-                                                    //   itemCount: 5,
-                                                    //   itemPadding:
-                                                    //       const EdgeInsets
-                                                    //               .symmetric(
-                                                    //           horizontal: 1.0),
-                                                    //   itemBuilder:
-                                                    //       (context, _) =>
-                                                    //           const Icon(
-                                                    //     Icons.star,
-                                                    //     color: ratingColor,
-                                                    //   ),
-                                                    //   onRatingUpdate: (rating) {
-                                                    //     print(rating);
-                                                    //   },
-                                                    // ),
-                                                  ],
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  print(sellerShop[index]);
-                                                  allShopsController
-                                                      .getShopDetail(
-                                                          sellerShop[index]
-                                                              ['id']);
+                                                    child: CircleAvatar(
+                                                      radius: 38.0,
+                                                      backgroundColor: Colors.grey,
+                                                      backgroundImage: sellerShop[index]['logo'] != null
+                                                          ? NetworkImage(ApiService.imageBaseUrl + sellerShop[index]['logo'])
+                                                          : const NetworkImage(
+                                                              'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
+                                                            ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(left: 10.0.w, top: 5.0.h),
+                                                    width: 140.w,
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Text(
+                                                          sellerShop[index]['branch_name'] ?? '',
+                                                          style: CustomTextView.getStyle(
+                                                            context,
+                                                            fontSize: 18.sp,
+                                                            fontFamily: Utils.poppinsSemiBold,
+                                                            colorLight: Colors.black,
+                                                          ),
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow.ellipsis,
+                                                        ),
+                                                        const SizedBox(height: 8.0),
+                                                        // RatingBar.builder(
+                                                        //   initialRating: 3,
+                                                        //   minRating: 1,
+                                                        //   itemSize: 15,
+                                                        //   direction:
+                                                        //       Axis.horizontal,
+                                                        //   allowHalfRating: true,
+                                                        //   itemCount: 5,
+                                                        //   itemPadding:
+                                                        //       const EdgeInsets
+                                                        //               .symmetric(
+                                                        //           horizontal: 1.0),
+                                                        //   itemBuilder:
+                                                        //       (context, _) =>
+                                                        //           const Icon(
+                                                        //     Icons.star,
+                                                        //     color: ratingColor,
+                                                        //   ),
+                                                        //   onRatingUpdate: (rating) {
+                                                        //     print(rating);
+                                                        //   },
+                                                        // ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      print(sellerShop[index]);
+                                                      allShopsController.getShopDetail(sellerShop[index]['id']);
 
-                                                  // Get.toNamed(
-                                                  //     Routes.SHOP_DETAILS);
-                                                },
-                                                child: Container(
-                                                  height: 40.h,
-                                                  width: 88.w,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30.0),
-                                                    border: Border.all(
-                                                      color: secondary,
-                                                      width: 1.5,
+                                                      // Get.toNamed(
+                                                      //     Routes.SHOP_DETAILS);
+                                                    },
+                                                    child: Container(
+                                                      height: 40.h,
+                                                      width: 88.w,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius.circular(30.0),
+                                                        border: Border.all(
+                                                          color: secondary,
+                                                          width: 1.5,
+                                                        ),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Open',
+                                                          style: CustomTextView.getStyle(
+                                                            context,
+                                                            colorLight: secondary,
+                                                            fontSize: 16.sp,
+                                                            fontFamily: Utils.poppinsSemiBold,
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
-                                                  child: Center(
-                                                    child: Text("Open",
-                                                        style: CustomTextView
-                                                            .getStyle(context,
-                                                                colorLight:
-                                                                    secondary,
-                                                                fontSize: 16.sp,
-                                                                fontFamily: Utils
-                                                                    .poppinsSemiBold)),
-                                                  ),
-                                                ),
-                                              )
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         ],
                                       ),
-                                    ]),
-                                  ),
-                                );
-                              },
-                            ),
-                            Positioned(
-                              bottom: 16.0,
-                              right: 16.0,
-                              child: FloatingActionButton(
-                                backgroundColor: secondary,
-                                onPressed: () {
-                                  Get.toNamed(Routes.ADD_SHOP);
-                                  // Add your action here
+                                    ),
+                                  );
                                 },
-                                child: const Icon(Icons.add),
                               ),
-                            ),
-                          ]),
+                              Positioned(
+                                bottom: 16.0,
+                                right: 16.0,
+                                child: FloatingActionButton(
+                                  backgroundColor: secondary,
+                                  onPressed: () {
+                                    Get.toNamed(Routes.ADD_SHOP);
+                                    // Add your action here
+                                  },
+                                  child: const Icon(Icons.add),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

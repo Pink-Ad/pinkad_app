@@ -29,25 +29,29 @@ Future<bool?> showCustomDialog({
         // SizedBox(
         //   height: 20.h,
         // ),
-      if (title != null)
+        if (title != null)
           Text(
             title,
-            style: CustomTextView.getStyle(Get.context!,
-                colorLight: secondary,
-                fontSize: 20.sp,
-                fontFamily: Utils.poppinsBold),
+            style: CustomTextView.getStyle(
+              Get.context!,
+              colorLight: secondary,
+              fontSize: 20.sp,
+              fontFamily: Utils.poppinsBold,
+            ),
           ),
-        if (title != null)
-          SizedBox(
-            height: 15.h,
-          ),
+        SizedBox(
+          height: 15.h,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             message,
             textAlign: TextAlign.center,
-            style: CustomTextView.getStyle(Get.context!,
-                colorLight: textColor, fontSize: 14.sp),
+            style: CustomTextView.getStyle(
+              Get.context!,
+              colorLight: textColor,
+              fontSize: 14.sp,
+            ),
           ),
         ),
         SizedBox(
@@ -70,10 +74,12 @@ Future<bool?> showCustomDialog({
               child: Center(
                 child: Text(
                   confirmText,
-                  style: CustomTextView.getStyle(Get.context!,
-                      colorLight: Colors.white,
-                      fontSize: 16.sp,
-                      fontFamily: Utils.poppinsMedium),
+                  style: CustomTextView.getStyle(
+                    Get.context!,
+                    colorLight: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: Utils.poppinsMedium,
+                  ),
                 ),
               ),
             ),
@@ -94,10 +100,12 @@ Future<bool?> showCustomDialog({
               child: Center(
                 child: Text(
                   cancelText,
-                  style: CustomTextView.getStyle(Get.context!,
-                      colorLight: Colors.white,
-                      fontSize: 16.sp,
-                      fontFamily: Utils.poppinsMedium),
+                  style: CustomTextView.getStyle(
+                    Get.context!,
+                    colorLight: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: Utils.poppinsMedium,
+                  ),
                 ),
               ),
             ),

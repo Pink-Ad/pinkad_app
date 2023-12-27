@@ -11,7 +11,6 @@ import 'package:pink_ad/utilities/functions/show_toast.dart';
 
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../all_offers/views/all_offers_view.dart';
-import '../../upload_offer/views/upload_offer_view.dart';
 
 class UserBottomNavBar extends StatefulWidget {
   const UserBottomNavBar({super.key});
@@ -64,13 +63,12 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
           resizeToAvoidBottomInset: false,
           extendBody: true,
           bottomNavigationBar: SafeArea(
-            bottom: true,
             child: CircleNavBar(
               activeIcons: [
                 const Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Icon(
-                    Icons.post_add_outlined,
+                    Icons.video_collection_outlined,
                     color: Colors.white,
                   ),
                 ),
@@ -116,7 +114,7 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Icons.post_add_rounded,
+                      Icons.video_collection_outlined,
                       color: Colors.white,
                       size: 22.h,
                     ),
@@ -125,7 +123,7 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
                       height: 5.h,
                     ),
                     Text(
-                      'Create',
+                      'Reels',
                       style: CustomTextView.getStyle(
                         context,
                         fontSize: 12.sp,
@@ -198,7 +196,7 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(
-                      Icons.video_collection_outlined,
+                      Icons.library_books,
                       color: Colors.white,
                     ),
                     SizedBox(
@@ -215,18 +213,20 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
                   ],
                 ),
               ],
-              color: primary,
+              color: secondary,
               height: 60.h,
               iconCurve: Curves.bounceInOut,
               circleWidth: 60,
               circleColor: bottomActiveColor,
               activeIndex: tabIndex,
-              elevation: 10,
+              // elevation: 0,
               onTap: (index) {
                 tabIndex = index;
                 pageController.jumpToPage(tabIndex);
               },
-              shadowColor: Colors.deepPurple,
+              // shadowColor: Colors.deepPurple,
+              // shadowColor: Colors.white,
+
               // cornerRadius: const BorderRadius.only(
               //     topRight: Radius.circular(30.0), topLeft: Radius.circular(30.0)),
             ),
@@ -238,7 +238,8 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
               tabIndex = v;
             },
             children: [
-              UploadOfferView(),
+              // UploadOfferView(),
+              Center(child: Text('REELS')),
               AllOffersView(),
               UserDashboardView(),
               const AllShopsView(),

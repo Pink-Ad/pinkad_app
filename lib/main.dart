@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +23,13 @@ Future<void> main() async {
     // DeviceOrientation.landscapeRight, // Uncomment this line to lock the device in landscape mode
   ]);
   Get.put<SplashController>(SplashController());
-  runApp(MyApp());
+  runApp(
+    DevicePreview(
+      // enabled: !kReleaseMode,
+      enabled: false,
+      builder: (context) => MyApp(), // Wrap your app
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -48,6 +55,9 @@ class MyApp extends StatelessWidget {
           child: RefreshConfiguration(
             headerBuilder: () => MaterialClassicHeader(color: primary),
             child: GetMaterialApp(
+              useInheritedMediaQuery: true,
+              locale: DevicePreview.locale(context),
+              builder: DevicePreview.appBuilder,
               title: 'Pink Ad',
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
@@ -55,8 +65,7 @@ class MyApp extends StatelessWidget {
                 primaryColorLight: Colors.transparent,
                 // primaryColorDark: Color(0xFF460C68),
                 // colorScheme: const ColorScheme.light(),
-
-                colorScheme: ColorScheme.fromSwatch().copyWith(secondary: secondary),
+                colorScheme: ColorScheme.fromSwatch(backgroundColor: Colors.white).copyWith(secondary: secondary),
                 // useMaterial3: true,
                 // primaryTextTheme: Typography().white, // or white
                 // Set the default text style for the app
@@ -105,7 +114,6 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ),
-              useInheritedMediaQuery: true,
               initialBinding: SplashBinding(),
               home: const SplashView(),
               initialRoute: AppPages.INITIAL,

@@ -77,7 +77,7 @@ class AreaDropDownUserSignup extends GetView<ChatInboxController> {
                 ),
                 dropdownSearchDecoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Select you City',
+                  hintText: 'Select your City',
                   hintStyle: CustomTextView.getStyle(
                     context,
                     colorLight: textColor,
@@ -147,7 +147,7 @@ class AreaDropDownUserSignup extends GetView<ChatInboxController> {
                     ),
                     dropdownSearchDecoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Select you Area',
+                      hintText: 'Select your Area',
                       hintStyle: CustomTextView.getStyle(
                         context,
                         colorLight: textColor,

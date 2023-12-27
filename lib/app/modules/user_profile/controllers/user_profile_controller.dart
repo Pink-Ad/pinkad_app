@@ -51,15 +51,17 @@ class UserProfileController extends GetxController {
   void onSubmit() {
     if (!isValidPhoneNumber(whatsappNoController.value.text)) {
       showSnackBarError(
-          "Error", "Invalid whatsapp number format / field cannot be empty");
+        'Error',
+        'Invalid whatsapp number format / field cannot be empty',
+      );
     } else if (!isValidPhoneNumber(phoneNoController.value.text)) {
-      showSnackBarError("Error", "Invalid phone number format");
+      showSnackBarError('Error', 'Invalid phone number format');
     }
     // else if (businessNameController.value.text.isEmpty) {
     //   showSnackBarError("Error", "Business name field cannot be empty");
     // }
     else if (businessAddressController.value.text.isEmpty) {
-      showSnackBarError("Error", "Business address field cannot be empty");
+      showSnackBarError('Error', 'Business address field cannot be empty');
     }
     // else if (facebookController.value.text.isEmpty) {
     //   showSnackBarError("Error", "Facebook field cannot be empty");
@@ -93,7 +95,8 @@ class UserProfileController extends GetxController {
 
   bool isValidPhoneNumber(String input) {
     final RegExp regex = RegExp(
-        r'^\+?1?\d{9,15}$'); // This regex matches US phone numbers in various formats
+      r'^\+?1?\d{9,15}$',
+    ); // This regex matches US phone numbers in various formats
     return regex.hasMatch(input);
   }
 
@@ -145,7 +148,7 @@ class UserProfileController extends GetxController {
     final savedToken = box.read('user_token');
 
     isLoading.value = true;
-    const url = 'https://ms-hostingladz.com/DigitalBrand/api/seller/update';
+    const url = 'https://pinkad.pk/portal/api/seller/update';
     final whatsappNo = whatsappNoController.value.text.trim();
     final phoneNo = phoneNoController.value.text.trim();
     final businessName = businessNameController.value.text.trim();
@@ -155,54 +158,61 @@ class UserProfileController extends GetxController {
     final website = webSiteController.value.text.trim();
     String ensureHttps(String url) {
       // Check if the URL already contains "http://" or "https://"
-      if (url.startsWith("http://") || url.startsWith("https://")) {
+      if (url.startsWith('http://') || url.startsWith('https://')) {
         return url; // Already has http:// or https://, return as is
       } else {
         // Add "https://" to the beginning of the URL
-        return "https://$url";
+        return 'https://$url';
       }
     }
 
     try {
       final request = http.MultipartRequest(
-          'POST', Uri.parse(url)); // Create the multipart request
+        'POST',
+        Uri.parse(url),
+      ); // Create the multipart request
       {
         pickedFile != null
-            ? request.files.add(await http.MultipartFile.fromPath(
-                'coverimage', pickedFile!.path))
+            ? request.files.add(
+                await http.MultipartFile.fromPath(
+                  'coverimage',
+                  pickedFile!.path,
+                ),
+              )
             : null;
       }
 
       request.fields.addAll({
         'user_id': data.user!.id.toString(),
-        'role': "2",
+        'role': '2',
         'phone': phoneNo,
         'whatsapp': whatsappNo,
         'business_address': businessAddress,
         'faecbook_page': facebook,
         'insta_page': instagram,
         'web_url': ensureHttps(website),
-        'isFeatured': "1",
+        'isFeatured': '1',
       }); // Add the other fields to the request
       // Add the bearer token to the request headers
       request.headers['Authorization'] = 'Bearer $savedToken';
       final response = await http.Response.fromStream(
-          await request.send()); // Send the request
+        await request.send(),
+      ); // Send the request
       // http.StreamedResponse response = await request.send();
 
       final result = json.decode(response.body);
       if (response.statusCode == 200) {
         // Successful request
         isLoading.value = false;
-        if (result['status'] == "success") {
+        if (result['status'] == 'success') {
           showSnackBarSuccess(
-            "Message",
+            'Message',
             result['message'],
           );
           Get.toNamed(Routes.User_Bottom_Nav_Bar);
         } else {
           showSnackBarError(
-            "Message",
+            'Message',
             result['message'],
           );
         }

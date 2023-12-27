@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/modules/all_shops/views/all_shops_view.dart';
 import 'package:pink_ad/app/modules/home/views/home_view.dart';
+import 'package:pink_ad/app/modules/tutorial/views/tutorial_view.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/auth_dialog.dart';
 import 'package:pink_ad/utilities/functions/show_toast.dart';
@@ -25,7 +26,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   final box = GetStorage();
   DateTime? currentBackPressTime;
   final canPop = false.obs;
-  int _tabIndex = 1;
+  int _tabIndex = 2;
   int get tabIndex => _tabIndex;
   set tabIndex(int v) {
     _tabIndex = v;
@@ -71,6 +72,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 bottom: true,
                 child: CircleNavBar(
                   activeIcons: [
+                    const Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Icon(
+                        Icons.video_collection_outlined,
+                        color: Colors.white,
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Icon(
@@ -101,8 +109,36 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       //   width: 10,
                       // )
                     ),
+                    const Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Icon(
+                        Icons.video_collection_outlined,
+                        color: Colors.white,
+                      ),
+                      // child: SvgPicture.asset("assets/svgIcons/activated.svg")
+                    ),
                   ],
                   inactiveIcons: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.video_collection_outlined,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Text(
+                          'Reels',
+                          style: CustomTextView.getStyle(
+                            context,
+                            fontSize: 12.sp,
+                            colorLight: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -162,18 +198,38 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         ),
                       ],
                     ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.video_collection_outlined,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Text(
+                          'Tutorial',
+                          style: CustomTextView.getStyle(
+                            context,
+                            fontSize: 12.sp,
+                            colorLight: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                   color: primary,
                   height: 60.h,
                   circleWidth: 60,
                   circleColor: bottomActiveColor,
                   activeIndex: tabIndex,
-                  elevation: 10,
+                  // elevation: 10,
                   onTap: (index) {
                     tabIndex = index;
                     pageController.jumpToPage(tabIndex);
                   },
-                  shadowColor: Colors.deepPurple,
+                  // shadowColor: Colors.deepPurple,
                 ),
               ),
               body: PageView(
@@ -183,9 +239,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   tabIndex = v;
                 },
                 children: [
+                  Center(
+                    child: Text('REELS'),
+                  ),
                   AllOffersView(),
                   HomeView(),
                   const AllShopsView(),
+                  TutorialView(),
                 ],
               ),
             ),

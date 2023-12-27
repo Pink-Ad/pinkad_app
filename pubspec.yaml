@@ -15,6 +15,7 @@ dependencies:
   custom_pop_up_menu: ^1.2.4
   d_chart: ^2.2.11
   device_preview: ^1.1.0
+  dots_indicator: ^3.0.0
   dropdown_search: ^5.0.6
   flutter:
     sdk: flutter
@@ -37,7 +38,7 @@ dependencies:
   searchable_listview: ^2.4.0
   share_plus: ^7.2.1
   simple_animations: ^5.0.0+3
-  smooth_page_indicator: ^1.0.1
+  smooth_page_indicator: ^1.1.0
   url_launcher: ^6.1.10
 
 dev_dependencies:

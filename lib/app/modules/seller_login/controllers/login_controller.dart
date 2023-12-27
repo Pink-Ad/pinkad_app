@@ -31,8 +31,8 @@ class LoginController extends GetxController {
   @override
   void onClose() {
     // TODO: implement onClose
-    emailController.value.dispose();
-    passwordController.value.dispose();
+    // emailController.value.dispose();
+    // passwordController.value.dispose();
 
     super.onClose();
   }
