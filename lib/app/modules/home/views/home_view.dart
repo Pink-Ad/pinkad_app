@@ -8,7 +8,6 @@ import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
-import 'package:pink_ad/utilities/custom_widgets/auth_dialog.dart';
 import 'package:pink_ad/utilities/custom_widgets/loader.dart';
 import 'package:pink_ad/utilities/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -58,7 +57,7 @@ class HomeView extends GetView<HomeController> {
                     },
                   ),
 
-                  SizedBox(height: 160.h, child: const HomePageSlider()),
+                  SizedBox(height: 180.h, child: const HomePageSlider()),
                   //SizedBox(height: 10.h),
                   Expanded(
                     child: GetBuilder(
@@ -89,7 +88,8 @@ class HomeView extends GetView<HomeController> {
                                         vertical: 10.w,
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             'Featured Seller',
@@ -106,7 +106,8 @@ class HomeView extends GetView<HomeController> {
                                               Get.toNamed(
                                                 Routes.FEATURED_SELLER,
                                                 arguments: {
-                                                  'seller': Endpoints.featureSeller,
+                                                  'seller':
+                                                      Endpoints.featureSeller,
                                                   'sellerData': fSeller,
                                                 },
                                               );
@@ -129,20 +130,25 @@ class HomeView extends GetView<HomeController> {
                                           ? ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               itemCount: fSeller.length,
-                                              itemBuilder: (BuildContext context, int index) {
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return GestureDetector(
                                                   onTap: () {
                                                     controller.setLoading();
                                                     allShopsController
                                                         .getShopDetail(
-                                                          fSeller[index]['shop'][0]['id'],
+                                                          fSeller[index]['shop']
+                                                              [0]['id'],
                                                         )
                                                         .then(
-                                                          (value) => controller.setLoading(),
+                                                          (value) => controller
+                                                              .setLoading(),
                                                         );
                                                   },
                                                   child: Padding(
-                                                    padding: const EdgeInsets.only(
+                                                    padding:
+                                                        const EdgeInsets.only(
                                                       left: 20.0,
                                                       bottom: 10,
                                                     ),
@@ -151,18 +157,27 @@ class HomeView extends GetView<HomeController> {
                                                       height: 100.h,
                                                       decoration: BoxDecoration(
                                                         color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(8.0),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                         boxShadow: [
                                                           BoxShadow(
-                                                            color: Colors.grey.withOpacity(0.9),
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.9),
                                                             spreadRadius: 1,
                                                             blurRadius: 1,
-                                                            offset: const Offset(0, 2),
+                                                            offset:
+                                                                const Offset(
+                                                                    0, 2),
                                                           ),
                                                         ],
                                                         image: DecorationImage(
                                                           image: NetworkImage(
-                                                            ApiService.imageBaseUrl + fSeller[index]['logo'],
+                                                            ApiService
+                                                                    .imageBaseUrl +
+                                                                fSeller[index]
+                                                                    ['logo'],
                                                           ),
                                                           fit: BoxFit.cover,
                                                         ),
@@ -173,7 +188,8 @@ class HomeView extends GetView<HomeController> {
                                               },
                                             )
                                           : const Center(
-                                              child: Text('No featured sellers available.'),
+                                              child: Text(
+                                                  'No featured sellers available.'),
                                             ),
                                     ),
                                     SizedBox(
@@ -185,7 +201,8 @@ class HomeView extends GetView<HomeController> {
                                         vertical: 10.w,
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             'Featured Offer',
@@ -202,7 +219,8 @@ class HomeView extends GetView<HomeController> {
                                               Get.toNamed(
                                                 Routes.FEATURED_OFFER,
                                                 arguments: {
-                                                  'seller': Endpoints.featuredOffers,
+                                                  'seller':
+                                                      Endpoints.featuredOffers,
                                                   'sellerData': fOffer,
                                                 },
                                               );
@@ -225,16 +243,23 @@ class HomeView extends GetView<HomeController> {
                                           ? ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               itemCount: fOffer.length,
-                                              itemBuilder: (BuildContext context, int index) {
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return InkWell(
                                                   onTap: () {
                                                     controller.setLoading();
-                                                    allOffersController.getOfferDetail(fOffer[index]['id']).then(
-                                                          (value) => controller.setLoading(),
+                                                    allOffersController
+                                                        .getOfferDetail(
+                                                            fOffer[index]['id'])
+                                                        .then(
+                                                          (value) => controller
+                                                              .setLoading(),
                                                         );
                                                   },
                                                   child: Padding(
-                                                    padding: const EdgeInsets.only(
+                                                    padding:
+                                                        const EdgeInsets.only(
                                                       left: 20.0,
                                                       bottom: 10,
                                                     ),
@@ -243,72 +268,112 @@ class HomeView extends GetView<HomeController> {
                                                       height: 325.h,
                                                       decoration: BoxDecoration(
                                                         color: lightGray,
-                                                        borderRadius: BorderRadius.circular(8.0),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                       ),
                                                       child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Container(
                                                             width: 220.w,
                                                             height: 210.h,
-                                                            decoration: BoxDecoration(
+                                                            decoration:
+                                                                BoxDecoration(
                                                               color: lightGray,
-                                                              borderRadius: const BorderRadius.only(
-                                                                topRight: Radius.circular(
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .only(
+                                                                topRight: Radius
+                                                                    .circular(
                                                                   10.0,
                                                                 ),
-                                                                topLeft: Radius.circular(
+                                                                topLeft: Radius
+                                                                    .circular(
                                                                   10.0,
                                                                 ),
                                                               ),
-                                                              image: DecorationImage(
-                                                                image: NetworkImage(
-                                                                  ApiService.imageBaseUrl + fOffer[index]['banner'],
+                                                              image:
+                                                                  DecorationImage(
+                                                                image:
+                                                                    NetworkImage(
+                                                                  ApiService
+                                                                          .imageBaseUrl +
+                                                                      fOffer[index]
+                                                                          [
+                                                                          'banner'],
                                                                 ),
-                                                                fit: BoxFit.cover,
+                                                                fit: BoxFit
+                                                                    .cover,
                                                               ),
                                                             ),
                                                           ),
                                                           Container(
-                                                            margin: EdgeInsets.only(
+                                                            margin:
+                                                                EdgeInsets.only(
                                                               top: 5.0,
                                                               left: 10.h,
                                                               right: 10,
                                                             ),
                                                             child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
                                                               children: [
                                                                 Text(
-                                                                  fOffer[index]['title'],
-                                                                  style: CustomTextView.getStyle(
+                                                                  fOffer[index]
+                                                                      ['title'],
+                                                                  style: CustomTextView
+                                                                      .getStyle(
                                                                     context,
-                                                                    colorLight: Colors.black,
-                                                                    fontSize: 16.sp,
-                                                                    fontFamily: Utils.poppinsBold,
+                                                                    colorLight:
+                                                                        Colors
+                                                                            .black,
+                                                                    fontSize:
+                                                                        16.sp,
+                                                                    fontFamily:
+                                                                        Utils
+                                                                            .poppinsBold,
                                                                   ),
                                                                 ),
                                                                 Row(
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
                                                                   children: [
                                                                     Expanded(
                                                                       flex: 1,
-                                                                      child: Text(
-                                                                        fOffer[index]['shop']['name'] ?? '',
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        style: CustomTextView.getStyle(
+                                                                      child:
+                                                                          Text(
+                                                                        fOffer[index]['shop']['name'] ??
+                                                                            '',
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style: CustomTextView
+                                                                            .getStyle(
                                                                           context,
-                                                                          colorLight: secondary,
-                                                                          fontSize: 14.sp,
-                                                                          fontFamily: Utils.poppinsMedium,
+                                                                          colorLight:
+                                                                              secondary,
+                                                                          fontSize:
+                                                                              14.sp,
+                                                                          fontFamily:
+                                                                              Utils.poppinsMedium,
                                                                         ),
                                                                       ),
                                                                     ),
                                                                     Row(
                                                                       children: [
                                                                         GestureDetector(
-                                                                          onTap: () async {
+                                                                          onTap:
+                                                                              () async {
                                                                             Share.share(
                                                                               "${fOffer[index]['title']}, ${fOffer[index]['description']},${fOffer[index]['shop']['name'] ?? ''},contact ${fOffer[index]['shop']['seller']['faecbook_page']}. $appUrl",
                                                                             );
@@ -316,16 +381,21 @@ class HomeView extends GetView<HomeController> {
                                                                             //     .showCustomDialog(
                                                                             //         fOffer[index]);
                                                                           },
-                                                                          child: Container(
-                                                                            height: 25.h,
-                                                                            width: 30.w,
-                                                                            decoration: BoxDecoration(
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                25.h,
+                                                                            width:
+                                                                                30.w,
+                                                                            decoration:
+                                                                                BoxDecoration(
                                                                               color: secondary,
                                                                               borderRadius: BorderRadius.circular(
                                                                                 5.0,
                                                                               ),
                                                                             ),
-                                                                            child: const Icon(
+                                                                            child:
+                                                                                const Icon(
                                                                               Icons.share,
                                                                               color: Colors.white,
                                                                               size: 20,
@@ -333,10 +403,12 @@ class HomeView extends GetView<HomeController> {
                                                                           ),
                                                                         ),
                                                                         SizedBox(
-                                                                          width: 10.w,
+                                                                          width:
+                                                                              10.w,
                                                                         ),
                                                                         GestureDetector(
-                                                                          onTap: () async {
+                                                                          onTap:
+                                                                              () async {
                                                                             // final appInstalled =
                                                                             //     await canLaunchUrl(
                                                                             //         Uri.parse(
@@ -353,16 +425,21 @@ class HomeView extends GetView<HomeController> {
                                                                             //       'https://api.whatsapp.com/send?phone=03001234567'));
                                                                             // }
                                                                           },
-                                                                          child: Container(
-                                                                            height: 25.h,
-                                                                            width: 30.w,
-                                                                            decoration: BoxDecoration(
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                25.h,
+                                                                            width:
+                                                                                30.w,
+                                                                            decoration:
+                                                                                BoxDecoration(
                                                                               color: greenColor,
                                                                               borderRadius: BorderRadius.circular(
                                                                                 5.0,
                                                                               ),
                                                                             ),
-                                                                            child: Padding(
+                                                                            child:
+                                                                                Padding(
                                                                               padding: const EdgeInsets.all(
                                                                                 5.0,
                                                                               ),
@@ -380,14 +457,20 @@ class HomeView extends GetView<HomeController> {
                                                                   height: 5.h,
                                                                 ),
                                                                 Text(
-                                                                  fOffer[index]['description'],
+                                                                  fOffer[index][
+                                                                      'description'],
                                                                   // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
                                                                   maxLines: 2,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: CustomTextView.getStyle(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: CustomTextView
+                                                                      .getStyle(
                                                                     context,
-                                                                    colorLight: textColor,
-                                                                    fontSize: 13.sp,
+                                                                    colorLight:
+                                                                        textColor,
+                                                                    fontSize:
+                                                                        13.sp,
                                                                   ),
                                                                 ),
                                                               ],
@@ -401,7 +484,8 @@ class HomeView extends GetView<HomeController> {
                                               },
                                             )
                                           : const Center(
-                                              child: Text('No featured offers available.'),
+                                              child: Text(
+                                                  'No featured offers available.'),
                                             ),
                                     ),
                                     SizedBox(
@@ -414,7 +498,8 @@ class HomeView extends GetView<HomeController> {
                                         vertical: 10.w,
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             'Top Seller',
@@ -455,21 +540,26 @@ class HomeView extends GetView<HomeController> {
                                           ? ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               itemCount: tSeller.length,
-                                              itemBuilder: (BuildContext context, int index) {
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return InkWell(
                                                   onTap: () {
                                                     controller.setLoading();
                                                     allShopsController
                                                         .getShopDetail(
-                                                          tSeller[index]['shop'][0]['id'],
+                                                          tSeller[index]['shop']
+                                                              [0]['id'],
                                                         )
                                                         .then(
-                                                          (value) => controller.setLoading(),
+                                                          (value) => controller
+                                                              .setLoading(),
                                                         );
                                                     // Get.toNamed(Routes.SHOP_DETAILS);
                                                   },
                                                   child: Padding(
-                                                    padding: const EdgeInsets.only(
+                                                    padding:
+                                                        const EdgeInsets.only(
                                                       left: 20.0,
                                                       bottom: 10,
                                                     ),
@@ -478,19 +568,30 @@ class HomeView extends GetView<HomeController> {
                                                       height: 100.h,
                                                       decoration: BoxDecoration(
                                                         color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(8.0),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                         boxShadow: [
                                                           BoxShadow(
-                                                            color: Colors.grey.withOpacity(0.9),
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.9),
                                                             spreadRadius: 1,
                                                             blurRadius: 1,
-                                                            offset: const Offset(0, 2),
+                                                            offset:
+                                                                const Offset(
+                                                                    0, 2),
                                                           ),
                                                         ],
                                                         image: DecorationImage(
                                                           image: NetworkImage(
-                                                            tSeller[index]['logo'] != null
-                                                                ? ApiService.imageBaseUrl + tSeller[index]['logo']
+                                                            tSeller[index][
+                                                                        'logo'] !=
+                                                                    null
+                                                                ? ApiService
+                                                                        .imageBaseUrl +
+                                                                    tSeller[index]
+                                                                        ['logo']
                                                                 : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
                                                           ),
                                                           fit: BoxFit.cover,
@@ -502,7 +603,8 @@ class HomeView extends GetView<HomeController> {
                                               },
                                             )
                                           : const Center(
-                                              child: Text('No top sellers available.'),
+                                              child: Text(
+                                                  'No top sellers available.'),
                                             ),
                                     ),
                                     SizedBox(
@@ -514,7 +616,8 @@ class HomeView extends GetView<HomeController> {
                                         vertical: 10.w,
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             'Top Offer',
@@ -558,87 +661,135 @@ class HomeView extends GetView<HomeController> {
                                                 left: 20.0,
                                                 bottom: 10,
                                               ),
-                                              itemBuilder: (BuildContext context, int index) {
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return InkWell(
                                                   onTap: () {
                                                     controller.setLoading();
-                                                    allOffersController.getOfferDetail(tOffer[index]['id']).then(
-                                                          (value) => controller.setLoading(),
+                                                    allOffersController
+                                                        .getOfferDetail(
+                                                            tOffer[index]['id'])
+                                                        .then(
+                                                          (value) => controller
+                                                              .setLoading(),
                                                         );
                                                   },
                                                   child: Padding(
-                                                    padding: const EdgeInsets.only(right: 20.0),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 20.0),
                                                     child: Container(
                                                       width: 217.w,
                                                       height: 325.h,
                                                       decoration: BoxDecoration(
                                                         color: lightGray,
-                                                        borderRadius: BorderRadius.circular(8.0),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                       ),
                                                       child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Container(
                                                             width: 220.w,
                                                             height: 210.h,
-                                                            decoration: BoxDecoration(
+                                                            decoration:
+                                                                BoxDecoration(
                                                               color: lightGray,
-                                                              borderRadius: const BorderRadius.only(
-                                                                topRight: Radius.circular(
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .only(
+                                                                topRight: Radius
+                                                                    .circular(
                                                                   10.0,
                                                                 ),
-                                                                topLeft: Radius.circular(
+                                                                topLeft: Radius
+                                                                    .circular(
                                                                   10.0,
                                                                 ),
                                                               ),
-                                                              image: DecorationImage(
-                                                                image: NetworkImage(
-                                                                  ApiService.imageBaseUrl + tOffer[index]['banner'],
+                                                              image:
+                                                                  DecorationImage(
+                                                                image:
+                                                                    NetworkImage(
+                                                                  ApiService
+                                                                          .imageBaseUrl +
+                                                                      tOffer[index]
+                                                                          [
+                                                                          'banner'],
                                                                 ),
-                                                                fit: BoxFit.fill,
+                                                                fit:
+                                                                    BoxFit.fill,
                                                               ),
                                                             ),
                                                           ),
                                                           Container(
-                                                            margin: EdgeInsets.only(
+                                                            margin:
+                                                                EdgeInsets.only(
                                                               top: 5.0,
                                                               left: 10.h,
                                                               right: 10,
                                                             ),
                                                             child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
                                                               children: [
                                                                 Text(
-                                                                  tOffer[index]['title'],
-                                                                  style: CustomTextView.getStyle(
+                                                                  tOffer[index]
+                                                                      ['title'],
+                                                                  style: CustomTextView
+                                                                      .getStyle(
                                                                     context,
-                                                                    colorLight: Colors.black,
-                                                                    fontSize: 16.sp,
-                                                                    fontFamily: Utils.poppinsBold,
+                                                                    colorLight:
+                                                                        Colors
+                                                                            .black,
+                                                                    fontSize:
+                                                                        16.sp,
+                                                                    fontFamily:
+                                                                        Utils
+                                                                            .poppinsBold,
                                                                   ),
                                                                 ),
                                                                 Row(
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
                                                                   children: [
                                                                     Expanded(
                                                                       flex: 1,
-                                                                      child: Text(
-                                                                        tOffer[index]['shop']['name'] ?? '',
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        style: CustomTextView.getStyle(
+                                                                      child:
+                                                                          Text(
+                                                                        tOffer[index]['shop']['name'] ??
+                                                                            '',
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style: CustomTextView
+                                                                            .getStyle(
                                                                           context,
-                                                                          colorLight: secondary,
-                                                                          fontSize: 14.sp,
-                                                                          fontFamily: Utils.poppinsMedium,
+                                                                          colorLight:
+                                                                              secondary,
+                                                                          fontSize:
+                                                                              14.sp,
+                                                                          fontFamily:
+                                                                              Utils.poppinsMedium,
                                                                         ),
                                                                       ),
                                                                     ),
                                                                     Row(
                                                                       children: [
                                                                         GestureDetector(
-                                                                          onTap: () async {
+                                                                          onTap:
+                                                                              () async {
                                                                             Share.share(
                                                                               "${tOffer[index]['title']}, ${tOffer[index]['description']},${tOffer[index]['shop']['name'] ?? ''},contact ${tOffer[index]['shop']['seller']['faecbook_page']}. $appUrl",
                                                                             );
@@ -646,16 +797,21 @@ class HomeView extends GetView<HomeController> {
                                                                             //     .showCustomDialog(
                                                                             //         tOffer[index]);
                                                                           },
-                                                                          child: Container(
-                                                                            height: 25.h,
-                                                                            width: 30.w,
-                                                                            decoration: BoxDecoration(
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                25.h,
+                                                                            width:
+                                                                                30.w,
+                                                                            decoration:
+                                                                                BoxDecoration(
                                                                               color: secondary,
                                                                               borderRadius: BorderRadius.circular(
                                                                                 5.0,
                                                                               ),
                                                                             ),
-                                                                            child: const Icon(
+                                                                            child:
+                                                                                const Icon(
                                                                               Icons.share,
                                                                               color: Colors.white,
                                                                               size: 20,
@@ -663,10 +819,12 @@ class HomeView extends GetView<HomeController> {
                                                                           ),
                                                                         ),
                                                                         SizedBox(
-                                                                          width: 10.w,
+                                                                          width:
+                                                                              10.w,
                                                                         ),
                                                                         GestureDetector(
-                                                                          onTap: () async {
+                                                                          onTap:
+                                                                              () async {
                                                                             // final appInstalled =
                                                                             //     await canLaunchUrl(
                                                                             //         Uri.parse(
@@ -683,16 +841,21 @@ class HomeView extends GetView<HomeController> {
                                                                             //       'https://api.whatsapp.com/send?phone=03001234567'));
                                                                             // }
                                                                           },
-                                                                          child: Container(
-                                                                            height: 25.h,
-                                                                            width: 30.w,
-                                                                            decoration: BoxDecoration(
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                25.h,
+                                                                            width:
+                                                                                30.w,
+                                                                            decoration:
+                                                                                BoxDecoration(
                                                                               color: greenColor,
                                                                               borderRadius: BorderRadius.circular(
                                                                                 5.0,
                                                                               ),
                                                                             ),
-                                                                            child: Padding(
+                                                                            child:
+                                                                                Padding(
                                                                               padding: const EdgeInsets.all(
                                                                                 5.0,
                                                                               ),
@@ -710,14 +873,20 @@ class HomeView extends GetView<HomeController> {
                                                                   height: 5.h,
                                                                 ),
                                                                 Text(
-                                                                  tOffer[index]['description'],
+                                                                  tOffer[index][
+                                                                      'description'],
                                                                   // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
                                                                   maxLines: 1,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: CustomTextView.getStyle(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: CustomTextView
+                                                                      .getStyle(
                                                                     context,
-                                                                    colorLight: textColor,
-                                                                    fontSize: 13.sp,
+                                                                    colorLight:
+                                                                        textColor,
+                                                                    fontSize:
+                                                                        13.sp,
                                                                   ),
                                                                 ),
                                                               ],
@@ -731,7 +900,8 @@ class HomeView extends GetView<HomeController> {
                                               },
                                             )
                                           : const Center(
-                                              child: Text('No top offers available.'),
+                                              child: Text(
+                                                  'No top offers available.'),
                                             ),
                                     ),
                                     SizedBox(
@@ -742,7 +912,9 @@ class HomeView extends GetView<HomeController> {
                               ),
                             ),
                             Obx(
-                              () => controller.isLoading.isTrue ? const MyLoading() : Container(),
+                              () => controller.isLoading.isTrue
+                                  ? const MyLoading()
+                                  : Container(),
                             ),
                           ],
                         );

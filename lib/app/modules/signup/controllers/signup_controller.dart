@@ -152,52 +152,54 @@ class SignupController extends GetxController {
     return pickedFile;
   }
 
+  // Future<XFile?> pickCoverImage() async {
+  //   if (await showImageDialog() != true) return null;
+  //   // Request permission from the user
+  //   final permissionStatus = await Permission.photos.request();
+  //   if (permissionStatus.isGranted) {
+  //     // User has granted permission, proceed with picking an image
+  //     final picker = ImagePicker();
+  //     coverFile = await picker.pickImage(source: ImageSource.gallery);
+  //     if (coverFile != null) {
+  //       coverLogoName.value = coverFile!.name;
+  //     }
+  //   } else {
+  //     // User has denied permission, show an error message
+  //     print('Permission denied');
+  //   }
+  //   return coverFile;
+  // }
+
   Future<XFile?> pickCoverImage() async {
-    if (await showImageDialog() != true) return null;
     // Request permission from the user
     final permissionStatus = await Permission.photos.request();
     if (permissionStatus.isGranted) {
       // User has granted permission, proceed with picking an image
       final picker = ImagePicker();
-      coverFile = await picker.pickImage(source: ImageSource.gallery);
-      if (coverFile != null) {
+      final XFile? pickedFile =
+          await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        final bool isValidSize = await validateImageSize(pickedFile.path);
+
+        if (!isValidSize) {
+          showSnackBarError(
+            'Error',
+            'Promotional cover size should be 1080px by 1080px',
+          );
+          return null;
+        }
+
+        coverFile = pickedFile;
         coverLogoName.value = coverFile!.name;
       }
     } else {
       // User has denied permission, show an error message
       print('Permission denied');
     }
+
     return coverFile;
   }
-
-// Future<XFile?> pickCoverImage() async {
-//     // Request permission from the user
-//     final permissionStatus = await Permission.photos.request();
-//     if (permissionStatus.isGranted) {
-//       // User has granted permission, proceed with picking an image
-//       final picker = ImagePicker();
-//       final XFile? pickedFile =
-//           await picker.pickImage(source: ImageSource.gallery);
-
-//       if (pickedFile != null) {
-//         final bool isValidSize = await validateImageSize(pickedFile.path);
-
-//         if (!isValidSize) {
-//           showSnackBarError(
-//               "Error", "Promotional cover size should be 1080px by 1080px");
-//           return null;
-//         }
-
-//         coverFile = pickedFile;
-//         coverLogoName.value = coverFile!.name;
-//       }
-//     } else {
-//       // User has denied permission, show an error message
-//       print('Permission denied');
-//     }
-
-//     return coverFile;
-// }
 
   Future<void> getCategory() async {
     // isLoading.value = true;
@@ -352,7 +354,8 @@ class SignupController extends GetxController {
       final response = await http.Response.fromStream(
         await request.send(),
       ); // Send the request
-      final postResponse = RegisterPostResponse.fromJson(json.decode(response.body));
+      final postResponse =
+          RegisterPostResponse.fromJson(json.decode(response.body));
       print(response.body.toString());
       if (response.statusCode == 200) {
         // Successful request

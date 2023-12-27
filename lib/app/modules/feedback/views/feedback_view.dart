@@ -10,6 +10,7 @@ import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_button.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_text_field.dart';
 import 'package:pink_ad/utilities/custom_widgets/scafflod_dashboard.dart';
+import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 
 import '../controllers/feedback_controller.dart';
 
@@ -70,7 +71,8 @@ class FeedbackView extends GetView<FeedbackController> {
                 ),
                 Container(
                   height: 80.h,
-                  margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   padding: EdgeInsets.only(
                     left: 20.0.w,
                     right: 5.w,
@@ -101,13 +103,18 @@ class FeedbackView extends GetView<FeedbackController> {
                       SizedBox(width: 15.w),
                       Expanded(
                         child: TextField(
-                          controller: feedbackController.descriptionController.value,
+                          controller:
+                              feedbackController.descriptionController.value,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Description',
-                            hintStyle: TextStyle(fontSize: 18.sp),
+                            hintStyle: CustomTextView.getStyle(
+                              context,
+                              fontSize: 15.sp,
+                            ),
                             isDense: true,
-                            contentPadding: EdgeInsets.symmetric(vertical: 10.h),
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 10.h),
                           ),
                           style: TextStyle(fontSize: 14.sp),
                           maxLines: null,
