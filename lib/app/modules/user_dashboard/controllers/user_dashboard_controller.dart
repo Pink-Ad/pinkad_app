@@ -1,11 +1,12 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
+import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 
 import '../../../../utilities/colors/colors.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
@@ -19,7 +20,7 @@ class UserDashboardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print("called12");
+    print('called12');
   }
 
   @override
@@ -31,6 +32,8 @@ class UserDashboardController extends GetxController {
   void onClose() {
     super.onClose();
   }
+
+  Future<void> refreshDashboard() => Get.find<SplashController>().getHomeData();
 
   void showCustomDialog() {
     AwesomeDialog(
@@ -47,10 +50,7 @@ class UserDashboardController extends GetxController {
           children: [
             Text(
               'Share',
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: secondary,
-                  fontSize: 24.sp,
-                  fontFamily: Utils.poppinsSemiBold),
+              style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 24.sp, fontFamily: Utils.poppinsSemiBold),
             ),
             Text(
               'Share this link via',
@@ -69,50 +69,46 @@ class UserDashboardController extends GetxController {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Get.snackbar(
-                        snackPosition: SnackPosition.BOTTOM,
-                        "Instagram",
-                        "Click");
+                    Get.snackbar(snackPosition: SnackPosition.BOTTOM, 'Instagram', 'Click');
                   },
                   child: Container(
-                      height: 40.h,
-                      width: 45.w,
-                      decoration: BoxDecoration(
-                        color: socialMediabg,
-                        borderRadius: BorderRadius.circular(10.0),
+                    height: 40.h,
+                    width: 45.w,
+                    decoration: BoxDecoration(
+                      color: socialMediabg,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.facebook,
+                        size: 30.sp,
+                        // "assets/svgIcons/facebook.svg",
+                        color: const Color(0xFF4B69B1),
                       ),
-                      child: Center(
-                        child: Icon(
-                          Icons.facebook,
-                          size: 30.sp,
-                          // "assets/svgIcons/facebook.svg",
-                          color: const Color(0xFF4B69B1),
-                        ),
-                      )),
+                    ),
+                  ),
                 ),
                 SizedBox(width: 10.w),
 
                 GestureDetector(
                   onTap: () {
-                    Get.snackbar(
-                        snackPosition: SnackPosition.BOTTOM,
-                        "Instagram",
-                        "Click");
+                    Get.snackbar(snackPosition: SnackPosition.BOTTOM, 'Instagram', 'Click');
                   },
                   child: Container(
-                      height: 40.h,
-                      width: 45.w,
-                      decoration: BoxDecoration(
-                        color: socialMediabg,
-                        borderRadius: BorderRadius.circular(10.0),
+                    height: 40.h,
+                    width: 45.w,
+                    decoration: BoxDecoration(
+                      color: socialMediabg,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/svgIcons/insta.svg',
+                        height: 20.h,
+                        color: const Color(0xFFE32C48),
                       ),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          "assets/svgIcons/insta.svg",
-                          height: 20.h,
-                          color: const Color(0xFFE32C48),
-                        ),
-                      )),
+                    ),
+                  ),
                 ),
                 SizedBox(width: 10.w),
 
@@ -154,25 +150,23 @@ class UserDashboardController extends GetxController {
 
                 GestureDetector(
                   onTap: () {
-                    Get.snackbar(
-                        snackPosition: SnackPosition.BOTTOM,
-                        "Instagram",
-                        "Click");
+                    Get.snackbar(snackPosition: SnackPosition.BOTTOM, 'Instagram', 'Click');
                   },
                   child: Container(
-                      height: 40.h,
-                      width: 45.w,
-                      decoration: BoxDecoration(
-                        color: socialMediabg,
-                        borderRadius: BorderRadius.circular(10.0),
+                    height: 40.h,
+                    width: 45.w,
+                    decoration: BoxDecoration(
+                      color: socialMediabg,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/svgIcons/whatsapp.svg',
+                        height: 20.h,
+                        color: const Color(0xFF29A835),
                       ),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          "assets/svgIcons/whatsapp.svg",
-                          height: 20.h,
-                          color: const Color(0xFF29A835),
-                        ),
-                      )),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -180,7 +174,7 @@ class UserDashboardController extends GetxController {
               height: 20.h,
             ),
             Text(
-              "Or copy link",
+              'Or copy link',
               style: CustomTextView.getStyle(
                 Get.context!,
                 colorLight: textColor,
@@ -214,14 +208,14 @@ class UserDashboardController extends GetxController {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SvgPicture.asset("assets/svgIcons/share_icon.svg"),
+                          SvgPicture.asset('assets/svgIcons/share_icon.svg'),
                           SizedBox(
                             width: 3.h,
                           ),
                           Container(
                             width: 150.w,
                             child: Text(
-                              "example.com/share",
+                              'example.com/share',
                               style: CustomTextView.getStyle(
                                 Get.context!,
                                 colorLight: textColor,
@@ -257,17 +251,18 @@ class UserDashboardController extends GetxController {
                           ],
                         ),
                         child: const Center(
-                            child: Text(
-                          'Copy',
-                          style: TextStyle(color: Colors.white),
-                        )),
+                          child: Text(
+                            'Copy',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-            SizedBox(height: 15.h)
+            SizedBox(height: 15.h),
           ],
         ),
       ),

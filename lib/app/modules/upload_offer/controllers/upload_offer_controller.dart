@@ -2,11 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pink_ad/app/data/api_service.dart';
@@ -20,9 +19,9 @@ import 'package:pink_ad/app/models/subcategory_model.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
+import 'package:http/http.dart' as http;
 import 'package:pink_ad/utilities/functions/show_image_dialog.dart';
 import 'package:pink_ad/utilities/utils.dart';
-
 import '../../../../utilities/custom_widgets/snackbars.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../routes/app_pages.dart';
@@ -32,7 +31,7 @@ class UploadOfferController extends GetxController {
   //TODO: Implement UploadOfferController
   var switchValue = false.obs;
   final ApiService _apiService = ApiService(http.Client());
-  SplashController splashController = SplashController();
+  SplashController splashController = Get.find<SplashController>();
   var activeColor = Colors.white.obs;
   final titleController = TextEditingController().obs;
   final hashtagController = TextEditingController().obs;

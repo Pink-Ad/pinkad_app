@@ -120,7 +120,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ALL_OFFERS,
-      page: () => const AllOffersView(),
+      page: () => AllOffersView(),
       binding: AllOffersBinding(),
     ),
     GetPage(

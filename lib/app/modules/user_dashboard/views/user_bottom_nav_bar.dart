@@ -40,19 +40,16 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
     pageController = PageController(initialPage: _tabIndex);
   }
 
-  void onPopInvoked(bool popped) async {
+  Future<void> onPopInvoked(bool popped) async {
     if (popped) return;
     // If current state can be popped without closing the app then do nothing
     if (Get.global(null).currentState?.canPop() ?? false) {
       if (await Get.global(null).currentState!.maybePop()) return;
     }
     final now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime!) > popDuration) {
+    if (currentBackPressTime == null || now.difference(currentBackPressTime!) > popDuration) {
       currentBackPressTime = now;
-      showToast(message: "Press BACK again to Exit")
-          .future
-          .then((value) => canPop.value = false);
+      showToast(message: 'Press BACK again to Exit').future.then((value) => canPop.value = false);
       canPop.value = true;
     }
   }
@@ -71,11 +68,12 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
             child: CircleNavBar(
               activeIcons: [
                 const Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Icon(
-                      Icons.post_add_outlined,
-                      color: Colors.white,
-                    )),
+                  padding: EdgeInsets.all(20.0),
+                  child: Icon(
+                    Icons.post_add_outlined,
+                    color: Colors.white,
+                  ),
+                ),
                 // Padding(
                 //     padding: const EdgeInsets.all(15.0),
                 //     child: SvgPicture.asset(
@@ -84,27 +82,32 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
                 //       width: 10,
                 //     )),
                 const Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Icon(
-                      Icons.travel_explore,
-                      color: Colors.white,
-                    )),
+                  padding: EdgeInsets.all(20.0),
+                  child: Icon(
+                    Icons.travel_explore,
+                    color: Colors.white,
+                  ),
+                ),
                 Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: SvgPicture.asset("assets/svgIcons/home.svg")),
+                  padding: const EdgeInsets.all(20.0),
+                  child: SvgPicture.asset('assets/svgIcons/home.svg'),
+                ),
                 const Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Icon(
-                      Icons.store_mall_directory_outlined,
-                      color: Colors.white,
-                    )),
+                  padding: EdgeInsets.all(20.0),
+                  child: Icon(
+                    Icons.store_mall_directory_outlined,
+                    color: Colors.white,
+                  ),
+                ),
                 // Padding(
                 //     padding: const EdgeInsets.all(20.0),
                 //     child: SvgPicture.asset("assets/svgIcons/premier.svg")),
                 const Padding(
                   padding: EdgeInsets.all(20.0),
-                  child: Icon(Icons.video_collection_outlined,
-                      color: Colors.white),
+                  child: Icon(
+                    Icons.video_collection_outlined,
+                    color: Colors.white,
+                  ),
                   // child: SvgPicture.asset("assets/svgIcons/activated.svg")
                 ),
               ],
@@ -121,12 +124,14 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
                     SizedBox(
                       height: 5.h,
                     ),
-                    Text("Create",
-                        style: CustomTextView.getStyle(
-                          context,
-                          fontSize: 12.sp,
-                          colorLight: Colors.white,
-                        )),
+                    Text(
+                      'Create',
+                      style: CustomTextView.getStyle(
+                        context,
+                        fontSize: 12.sp,
+                        colorLight: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
                 Column(
@@ -140,27 +145,31 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
                     SizedBox(
                       height: 5.h,
                     ),
-                    Text("Offers",
-                        style: CustomTextView.getStyle(
-                          context,
-                          fontSize: 12.sp,
-                          colorLight: Colors.white,
-                        )),
+                    Text(
+                      'Offers',
+                      style: CustomTextView.getStyle(
+                        context,
+                        fontSize: 12.sp,
+                        colorLight: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset("assets/svgIcons/home.svg"),
+                    SvgPicture.asset('assets/svgIcons/home.svg'),
                     SizedBox(
                       height: 5.h,
                     ),
-                    Text("Home",
-                        style: CustomTextView.getStyle(
-                          context,
-                          fontSize: 12.sp,
-                          colorLight: Colors.white,
-                        )),
+                    Text(
+                      'Home',
+                      style: CustomTextView.getStyle(
+                        context,
+                        fontSize: 12.sp,
+                        colorLight: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
                 Column(
@@ -175,28 +184,34 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
                     SizedBox(
                       height: 5.h,
                     ),
-                    Text("Sellers",
-                        style: CustomTextView.getStyle(
-                          context,
-                          fontSize: 12.sp,
-                          colorLight: Colors.white,
-                        )),
+                    Text(
+                      'Sellers',
+                      style: CustomTextView.getStyle(
+                        context,
+                        fontSize: 12.sp,
+                        colorLight: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.video_collection_outlined,
-                        color: Colors.white),
+                    const Icon(
+                      Icons.video_collection_outlined,
+                      color: Colors.white,
+                    ),
                     SizedBox(
                       height: 5.h,
                     ),
-                    Text("Tutorial",
-                        style: CustomTextView.getStyle(
-                          context,
-                          fontSize: 12.sp,
-                          colorLight: Colors.white,
-                        )),
+                    Text(
+                      'Tutorial',
+                      style: CustomTextView.getStyle(
+                        context,
+                        fontSize: 12.sp,
+                        colorLight: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -224,7 +239,7 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
             },
             children: [
               UploadOfferView(),
-              const AllOffersView(),
+              AllOffersView(),
               UserDashboardView(),
               const AllShopsView(),
               TutorialView(),

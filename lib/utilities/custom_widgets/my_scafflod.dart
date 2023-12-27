@@ -1,33 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:pink_ad/utilities/colors/colors.dart';
+
+import '../bg_login.dart';
 
 class CustomBackground extends StatelessWidget {
-  Widget child;
+  final Widget child;
+  final Widget header;
 
-  CustomBackground({super.key, required this.child});
+  CustomBackground({
+    super.key,
+    required this.child,
+    required this.header,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        top: false,
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.transparent,
-          body: SingleChildScrollView(
-            child: Container(
-              height: Get.height,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/bg_login.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Column(
-                children: [child],
+      // top: false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: primary,
+        body: Column(
+          children: [
+            header,
+            10.verticalSpace,
+            Expanded(
+              child: Stack(
+                children: [
+                  CustomPaint(
+                    size: Size(
+                      Get.width,
+                      (Get.width * 2.1653333333333333).toDouble(),
+                    ), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                    painter: RPSCustomPainter(),
+                  ),
+                  child,
+                ],
               ),
             ),
-          ),
-        ));
+          ],
+        ),
+      ),
+    );
   }
 }

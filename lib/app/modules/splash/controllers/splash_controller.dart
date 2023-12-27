@@ -30,16 +30,18 @@ class SplashController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await getShop();
-    await getBanner();
-    await getTopSeller();
-    await getTopOffer();
-    await getAllSeller();
-    await getOffers();
-    await getTutorial();
-    await getFeaturedOffer();
-    await getFeaturedSeller();
-    print("SplashController onInit");
+    await Future.wait([
+      getShop(),
+      getBanner(),
+      getTopSeller(),
+      getTopOffer(),
+      getAllSeller(),
+      getOffers(),
+      getTutorial(),
+      getFeaturedOffer(),
+      getFeaturedSeller(),
+    ]);
+    print('SplashController onInit');
     token = box.read('user_token');
     email = box.read('email');
     password = box.read('password');
@@ -47,7 +49,7 @@ class SplashController extends GetxController {
     // Timer(const Duration(seconds: 8), () async {
     if (token != null) {
       try {
-        Map data = {"email": email, "password": password, 'role': '2'};
+        Map data = {'email': email, 'password': password, 'role': '2'};
 
         final response = await _apiService.postData(
           Endpoints.login,
@@ -57,11 +59,12 @@ class SplashController extends GetxController {
 
         var loginResponseData = LoginResponse.fromJson(result);
         if (response.statusCode == 200) {
-          if (loginResponseData.status == "success") {
+          if (loginResponseData.status == 'success') {
             final token = loginResponseData.authorisation!.token!;
             await getSellerShop(token);
             await box.write('user_data', loginResponseData);
             await box.write('user_token', token);
+            box.write('user_type', 'seller'); // seller or guest
             final savedToken = box.read('user_token');
             print(token);
 
@@ -87,16 +90,24 @@ class SplashController extends GetxController {
     // );
   }
 
+  Future<void> getHomeData() async {
+    await Future.wait([
+      getFeaturedSeller(),
+      getTopSeller(),
+      getTopOffer(),
+      getFeaturedOffer(),
+    ]);
+  }
+
   Future<void> getSellerShop(String token) async {
     try {
-      final response =
-          await _apiService.getDataWithHeader(Endpoints.sellerShop, token);
+      final response = await _apiService.getDataWithHeader(Endpoints.sellerShop, token);
 
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
         // List category =
         //     result.map((json) => SellerShop.fromJson(json)).toList();
-        shopName.addAll(result);
+        shopName.assignAll(result);
         // for (var city in category) {
         //   shopName.add(City(id: city?.id, name: city?.name));
         // }
@@ -116,8 +127,7 @@ class SplashController extends GetxController {
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
         // shopList = result.map((json) => ShopList.fromJson(json)).toList();
-        bannerList
-            .addAll(result.map((json) => BannerModal.fromJson(json)).toList());
+        bannerList.assignAll(result.map((json) => BannerModal.fromJson(json)).toList());
         await box.write('banner', bannerList);
       }
     } catch (e) {
@@ -135,8 +145,7 @@ class SplashController extends GetxController {
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
         // shopList = result.map((json) => ShopList.fromJson(json)).toList();
-        tutorials.addAll(
-            result.map((json) => TutorialModal.fromJson(json)).toList());
+        tutorials.assignAll(result.map((json) => TutorialModal.fromJson(json)).toList());
         print(tutorials);
         await box.write('tutorial', tutorials);
       }
@@ -248,7 +257,7 @@ class SplashController extends GetxController {
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
         // shopList = result.map((json) => ShopList.fromJson(json)).toList();
-        shopList.addAll(result.map((json) => ShopList.fromJson(json)).toList());
+        shopList.assignAll(result.map((json) => ShopList.fromJson(json)).toList());
         await box.write('shops', shopList);
       }
     } catch (e) {
@@ -265,8 +274,7 @@ class SplashController extends GetxController {
 
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
-        offerList
-            .addAll(result.map((json) => OfferList.fromJson(json)).toList());
+        offerList.assignAll(result.map((json) => OfferList.fromJson(json)).toList());
         await box.write('offers', offerList);
       }
     } catch (e) {
@@ -280,6 +288,6 @@ class SplashController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    print("SplashController onReady");
+    print('SplashController onReady');
   }
 }

@@ -5,8 +5,10 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:pink_ad/app/modules/splash/bindings/splash_binding.dart';
+import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/app/modules/splash/views/splash_view.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'app/routes/app_pages.dart';
 
@@ -19,6 +21,7 @@ Future<void> main() async {
     // DeviceOrientation.landscapeLeft, // Uncomment this line to lock the device in landscape mode
     // DeviceOrientation.landscapeRight, // Uncomment this line to lock the device in landscape mode
   ]);
+  Get.put<SplashController>(SplashController());
   runApp(MyApp());
 }
 
@@ -42,70 +45,72 @@ class MyApp extends StatelessWidget {
           //   );
           // },
           overlayColor: Colors.transparent,
-          child: GetMaterialApp(
-            title: "Pink Ad",
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primaryColor: const Color(0xFF460C68),
-              primaryColorLight: Colors.transparent,
-              // primaryColorDark: Color(0xFF460C68),
-              // colorScheme: const ColorScheme.light(),
+          child: RefreshConfiguration(
+            headerBuilder: () => MaterialClassicHeader(color: primary),
+            child: GetMaterialApp(
+              title: 'Pink Ad',
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                primaryColor: const Color(0xFF460C68),
+                primaryColorLight: Colors.transparent,
+                // primaryColorDark: Color(0xFF460C68),
+                // colorScheme: const ColorScheme.light(),
 
-              colorScheme:
-                  ColorScheme.fromSwatch().copyWith(secondary: secondary),
-              // useMaterial3: true,
-              // primaryTextTheme: Typography().white, // or white
-              // Set the default text style for the app
-              textTheme: TextTheme(
-                titleLarge: TextStyle(
-                  color: textColor,
-                  fontSize: 30.sp,
-                  fontFamily: "Radomir Tinkov - Gilroy-ExtraBold",
-                  // fontWeight: FontWeight.w700,
+                colorScheme: ColorScheme.fromSwatch().copyWith(secondary: secondary),
+                // useMaterial3: true,
+                // primaryTextTheme: Typography().white, // or white
+                // Set the default text style for the app
+                textTheme: TextTheme(
+                  titleLarge: TextStyle(
+                    color: textColor,
+                    fontSize: 30.sp,
+                    fontFamily: 'Radomir Tinkov - Gilroy-ExtraBold',
+                    // fontWeight: FontWeight.w700,
+                  ),
+                  titleMedium: TextStyle(
+                    color: textColor,
+                    fontSize: 18.sp,
+                    fontFamily: 'Radomir Tinkov - Gilroy-ExtraBold',
+                    // fontWeight: FontWeight.w700,
+                  ),
+                  titleSmall: TextStyle(
+                    color: textColor,
+                    fontSize: 16.sp,
+                    fontFamily: 'Radomir Tinkov - Gilroy-Light',
+                    // fontWeight: FontWeight.w700,
+                  ),
+                  bodyLarge: TextStyle(
+                    color: textColor,
+                    fontSize: 18.sp,
+                    fontFamily: 'Poppins-Regular',
+                    // fontWeight: FontWeight.w700,
+                  ),
+                  bodyMedium: TextStyle(
+                    color: textColor,
+                    fontSize: 16.sp,
+                    fontFamily: 'Poppins-Regular',
+                    // fontWeight: FontWeight.w700,
+                  ),
+                  bodySmall: TextStyle(
+                    color: textColor,
+                    fontSize: 14.sp,
+                    fontFamily: 'Poppins-Regular',
+                  ),
                 ),
-                titleMedium: TextStyle(
-                  color: textColor,
-                  fontSize: 18.sp,
-                  fontFamily: "Radomir Tinkov - Gilroy-ExtraBold",
-                  // fontWeight: FontWeight.w700,
-                ),
-                titleSmall: TextStyle(
-                  color: textColor,
-                  fontSize: 16.sp,
-                  fontFamily: "Radomir Tinkov - Gilroy-Light",
-                  // fontWeight: FontWeight.w700,
-                ),
-                bodyLarge: TextStyle(
-                  color: textColor,
-                  fontSize: 18.sp,
-                  fontFamily: "Poppins-Regular",
-                  // fontWeight: FontWeight.w700,
-                ),
-                bodyMedium: TextStyle(
-                  color: textColor,
-                  fontSize: 16.sp,
-                  fontFamily: "Poppins-Regular",
-                  // fontWeight: FontWeight.w700,
-                ),
-                bodySmall: TextStyle(
-                  color: textColor,
-                  fontSize: 14.sp,
-                  fontFamily: "Poppins-Regular",
+              ).copyWith(
+                elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: primary,
+                  ),
                 ),
               ),
-            ).copyWith(
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: primary,
-                ),
-              ),
+              useInheritedMediaQuery: true,
+              initialBinding: SplashBinding(),
+              home: const SplashView(),
+              initialRoute: AppPages.INITIAL,
+              getPages: AppPages.routes,
             ),
-            useInheritedMediaQuery: true,
-            initialBinding: SplashBinding(),
-            home: const SplashView(),
-            initialRoute: AppPages.INITIAL,
-            getPages: AppPages.routes,
           ),
         );
       },
