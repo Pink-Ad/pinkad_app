@@ -29,6 +29,7 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
     AllShopsController allShopsController = AllShopsController();
     final box = GetStorage();
     final token = box.read('user_token');
+    final userType = box.read('user_type');
     final data = arguments['sellerData'];
     final seller = arguments['seller'];
     return Scaffold(
@@ -37,27 +38,27 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
         child: SafeArea(
           child: Column(
             children: [
-              token == null
+              userType == 'guest'
                   ? MyAppBar(
                       backButton: true,
-                      title: "PinkAd",
+                      title: 'PinkAd',
                       onMenuTap: () {
-                        print("object");
+                        print('object');
                       },
                       onProfileTap: () {
-                        print("object");
+                        print('object');
                         Get.to(ProfileView());
                       },
                     )
                   : UserAppBar(
                       showBanner: true,
                       backButton: true,
-                      title: "All Shops",
+                      title: 'All Shops',
                       onMenuTap: () {
-                        print("object");
+                        print('object');
                       },
                       onProfileTap: () {
-                        print("object");
+                        print('object');
                         Get.to(ProfileView());
                       },
                       profileIconVisibility: true,
@@ -82,7 +83,11 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 20.0, top: 10.0, bottom: 5.0, right: 5.0),
+                    left: 20.0,
+                    top: 10.0,
+                    bottom: 5.0,
+                    right: 5.0,
+                  ),
                   child: TypeAheadField<dynamic>(
                     animationStart: 0,
                     animationDuration: Duration.zero,
@@ -109,17 +114,14 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                       List matches = [];
                       matches.addAll(data);
                       matches.retainWhere((s) {
-                        return s['user']['name']
-                            .toLowerCase()
-                            .contains(pattern.toLowerCase());
+                        return s['user']['name'].toLowerCase().contains(pattern.toLowerCase());
                       });
                       return matches;
                     },
                     itemBuilder: (context, offer) {
                       return GestureDetector(
                         onTap: () {
-                          allShopsController
-                              .getShopDetail(offer['shop'][0]['id']);
+                          allShopsController.getShopDetail(offer['shop'][0]['id']);
                         },
                         child: Container(
                           // margin: EdgeInsets.only(
@@ -141,8 +143,11 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                             //   ),
                             // ],
                             border: Border(
-                                bottom: BorderSide(
-                                    width: 2.w, color: Colors.grey.shade600)),
+                              bottom: BorderSide(
+                                width: 2.w,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
                           ),
                           child: ListTile(
                             leading: const Icon(
@@ -151,21 +156,23 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                             ),
                             title: Text(
                               offer['user']['name'],
-                              style: CustomTextView.getStyle(context,
-                                  colorLight:
-                                      const Color.fromARGB(255, 41, 39, 39),
-                                  fontSize: 13.sp,
-                                  fontFamily: Utils.poppinsSemiBold),
+                              style: CustomTextView.getStyle(
+                                context,
+                                colorLight: const Color.fromARGB(255, 41, 39, 39),
+                                fontSize: 13.sp,
+                                fontFamily: Utils.poppinsSemiBold,
+                              ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                             subtitle: Text(
                               offer['description'] ?? '',
-                              style: CustomTextView.getStyle(context,
-                                  colorLight:
-                                      const Color.fromARGB(255, 66, 66, 66),
-                                  fontSize: 11.sp,
-                                  fontFamily: Utils.poppinsLight),
+                              style: CustomTextView.getStyle(
+                                context,
+                                colorLight: const Color.fromARGB(255, 66, 66, 66),
+                                fontSize: 11.sp,
+                                fontFamily: Utils.poppinsLight,
+                              ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -297,28 +304,32 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                 ),
               ),
               Container(
-                  margin: EdgeInsets.only(top: 50.h),
-                  height: 450.h,
-                  child: ListviewInfinitePagination(
-                    itemBuilder: (index, item) {
-                      return GestureDetector(
-                        onTap: () {
-                          allShopsController
-                              .getShopDetail(item['shop'][0]['id']);
-                          //   Get.toNamed(Routes.SHOP_DETAILS);
-                        },
-                        child: allShopLists(item, context, allShopsController),
-                      );
-                    },
-                    initialLoader: const Center(
-                      child: CircularProgressIndicator(
-                          backgroundColor: primary, color: secondary),
+                margin: EdgeInsets.only(top: 50.h),
+                height: 450.h,
+                child: ListviewInfinitePagination(
+                  itemBuilder: (index, item) {
+                    return GestureDetector(
+                      onTap: () {
+                        allShopsController.getShopDetail(item['shop'][0]['id']);
+                        //   Get.toNamed(Routes.SHOP_DETAILS);
+                      },
+                      child: allShopLists(item, context, allShopsController),
+                    );
+                  },
+                  initialLoader: const Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: primary,
+                      color: secondary,
                     ),
-                    loadMoreLoader: const CircularProgressIndicator(
-                        backgroundColor: primary, color: secondary),
-                    onFinished: const Text(''),
-                    dataFetcher: (page) => dataFetchApi(page, seller),
-                  ))
+                  ),
+                  loadMoreLoader: const CircularProgressIndicator(
+                    backgroundColor: primary,
+                    color: secondary,
+                  ),
+                  onFinished: const Text(''),
+                  dataFetcher: (page) => dataFetchApi(page, seller),
+                ),
+              ),
             ],
           ),
         ),
@@ -327,7 +338,10 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
   }
 
   Container allShopLists(
-      item, BuildContext context, AllShopsController allShopsController) {
+    item,
+    BuildContext context,
+    AllShopsController allShopsController,
+  ) {
     return Container(
       margin: EdgeInsets.only(left: 20.0.w, top: 10.h, right: 20.0.w),
       padding: const EdgeInsets.all(10.0),
@@ -354,8 +368,7 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                   // borderRadius: BorderRadius.circular(20.0),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color.fromARGB(255, 147, 147, 147)
-                          .withOpacity(0.5),
+                      color: const Color.fromARGB(255, 147, 147, 147).withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 3,
                       offset: const Offset(3, 0),
@@ -364,7 +377,7 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                 ),
                 child: ClipRRect(
                   child: Image.network(
-                    ApiService.imageBaseUrl + item["logo"],
+                    ApiService.imageBaseUrl + item['logo'],
                     width: 60.w,
                     height: 60.h,
                     fit: BoxFit.cover,
@@ -378,17 +391,19 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      item['user']["name"] ?? "",
-                      style: CustomTextView.getStyle(context,
-                          colorLight: subHeadingColor,
-                          fontSize: 12.sp,
-                          fontFamily: Utils.poppinsSemiBold),
+                      item['user']['name'] ?? '',
+                      style: CustomTextView.getStyle(
+                        context,
+                        colorLight: subHeadingColor,
+                        fontSize: 12.sp,
+                        fontFamily: Utils.poppinsSemiBold,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.clip,
                     ),
                     const SizedBox(height: 10.0),
                     Text(
-                      item['business_address'] ?? "",
+                      item['business_address'] ?? '',
                       style: CustomTextView.getStyle(
                         fontSize: 10.sp,
                         context,
@@ -399,7 +414,7 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
 
@@ -498,7 +513,7 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
     // const String baseUrl = 'https://jsonplaceholder.typicode.com/posts';
     List<dynamic> testList = [];
 
-    final res = await _apiService.getData("$url?page=$page");
+    final res = await _apiService.getData('$url?page=$page');
     final result = json.decode(res.body);
     testList.addAll(result['data']);
 

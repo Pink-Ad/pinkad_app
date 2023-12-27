@@ -21,33 +21,35 @@ class LoginView extends GetView<LoginController> {
     return Stack(
       children: [
         CustomBackground(
+          header: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 30.0.h),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Seller Login',
+                  style: CustomTextView.getStyle(
+                    context,
+                    fontSize: 24.sp,
+                    colorLight: Colors.white,
+                    fontFamily: 'Radomir Tinkov - Gilroy-ExtraBold',
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(
+                  height: 7.0.h,
+                ),
+                Text(
+                  'Area wise business directory and FREE classified solution for small businesses.',
+                  style: CustomTextView.getStyle(context, colorLight: Colors.white),
+                ),
+              ],
+            ),
+          ),
           child: SafeArea(
             child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 20.0.w, vertical: 30.0.h),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Seller Login",
-                          style: CustomTextView.getStyle(context,
-                              fontSize: 24.sp,
-                              colorLight: Colors.white,
-                              fontFamily: "Radomir Tinkov - Gilroy-ExtraBold",
-                              fontWeight: FontWeight.w700)),
-                      SizedBox(
-                        height: 7.0.h,
-                      ),
-                      Text(
-                        "Area wise business directory and FREE classified solution for small businesses.",
-                        style: CustomTextView.getStyle(context,
-                            colorLight: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
                 SizedBox(
                   height: 80.h,
                 ),
@@ -55,7 +57,7 @@ class LoginView extends GetView<LoginController> {
                   // onChanged: controller.username,
                   focusNode: emailFocus,
                   hintText: 'Email / Phone Number',
-                  iconName: "email_user",
+                  iconName: 'email_user',
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).requestFocus(passwordFocus);
                   },
@@ -67,7 +69,7 @@ class LoginView extends GetView<LoginController> {
                     focusNode: passwordFocus,
                     // onChanged: controller.password,
                     hintText: 'Password',
-                    iconName: "password",
+                    iconName: 'password',
                     keyboardType: TextInputType.text,
                     controller: controller.passwordController.value,
                     obscureText: !controller.isPasswordVisible.value,
@@ -96,8 +98,7 @@ class LoginView extends GetView<LoginController> {
                         },
                         child: Text(
                           'Forgot password?',
-                          style: CustomTextView.getStyle(context,
-                              colorLight: bodyTextColor),
+                          style: CustomTextView.getStyle(context, colorLight: bodyTextColor),
                         ),
                       ),
                     ],
@@ -108,10 +109,11 @@ class LoginView extends GetView<LoginController> {
                   () => controller.loading.value
                       ? const Center(
                           child: CircularProgressIndicator(
-                          color: primary,
-                        ))
+                            color: primary,
+                          ),
+                        )
                       : GlobalButton(
-                          title: "Login",
+                          title: 'Login',
                           onPressed: () {
                             controller.loginCheck();
                           },
@@ -122,9 +124,7 @@ class LoginView extends GetView<LoginController> {
                 SizedBox(height: 20.h),
                 Column(
                   children: [
-                    Text('Don’t have an account?',
-                        style: CustomTextView.getStyle(context,
-                            colorLight: textColor, fontSize: 14.sp)),
+                    Text('Don’t have an account?', style: CustomTextView.getStyle(context, colorLight: textColor, fontSize: 14.sp)),
                     SizedBox(
                       height: 7.h,
                     ),
@@ -135,11 +135,13 @@ class LoginView extends GetView<LoginController> {
                       },
                       child: Text(
                         'Sign Up',
-                        style: CustomTextView.getStyle(context,
-                            colorLight: secondary,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "Poppins-Medium"),
+                        style: CustomTextView.getStyle(
+                          context,
+                          colorLight: secondary,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Poppins-Medium',
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -154,7 +156,7 @@ class LoginView extends GetView<LoginController> {
         Align(
           alignment: Alignment.bottomCenter,
           child: BottomButtons(
-            buttonText: "AS USER",
+            buttonText: 'AS USER',
             onTap: () {
               Get.toNamed(Routes.USER_LOGIN);
             },

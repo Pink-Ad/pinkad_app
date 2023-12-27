@@ -25,33 +25,27 @@ class ChatInboxView extends GetView {
   Widget build(BuildContext context) {
     return Stack(children: [
       CustomBackground(
+        header: Container(
+          alignment: Alignment.topLeft,
+          padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 30.0.h),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("User Sign Up",
+                  style: CustomTextView.getStyle(context,
+                      colorLight: Colors.white, fontSize: 24.sp, fontFamily: "Radomir Tinkov - Gilroy-ExtraBold", fontWeight: FontWeight.w700)),
+              SizedBox(
+                height: 7.0.h,
+              ),
+              Text("Area wise business directory and FREE classified solution for small businesses.",
+                  style: CustomTextView.getStyle(context, colorLight: Colors.white)),
+            ],
+          ),
+        ),
         child: SafeArea(
           child: Column(
             children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding:
-                    EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 30.0.h),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("User Sign Up",
-                        style: CustomTextView.getStyle(context,
-                            colorLight: Colors.white,
-                            fontSize: 24.sp,
-                            fontFamily: "Radomir Tinkov - Gilroy-ExtraBold",
-                            fontWeight: FontWeight.w700)),
-                    SizedBox(
-                      height: 7.0.h,
-                    ),
-                    Text(
-                        "Area wise business directory and FREE classified solution for small businesses.",
-                        style: CustomTextView.getStyle(context,
-                            colorLight: Colors.white)),
-                  ],
-                ),
-              ),
               SizedBox(
                 height: 80.h,
               ),
@@ -64,15 +58,13 @@ class ChatInboxView extends GetView {
                       Column(
                         children: [
                           ShadowedTextField(
-                            controller:
-                                chatInboxController.nameController.value,
+                            controller: chatInboxController.nameController.value,
                             hintText: 'Name',
                             iconName: "email_user",
                             keyboardType: TextInputType.text,
                           ),
                           ShadowedTextField(
-                            controller:
-                                chatInboxController.phoneNoController.value,
+                            controller: chatInboxController.phoneNoController.value,
                             hintText: 'Mobile Number',
                             iconName: "phone",
                             keyboardType: TextInputType.phone,
@@ -84,8 +76,7 @@ class ChatInboxView extends GetView {
                             //       .requestFocus(businessNameFocus);
                             // },
                             // onChanged: controller.username,
-                            controller:
-                                chatInboxController.emailController.value,
+                            controller: chatInboxController.emailController.value,
                             hintText: 'Email Address',
                             iconName: "email",
                             keyboardType: TextInputType.emailAddress,
@@ -99,13 +90,8 @@ class ChatInboxView extends GetView {
                                   child: Container(
                                     height: 50.h,
                                     width: Get.width,
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 20.w, vertical: 10.h),
-                                    padding: EdgeInsets.only(
-                                        left: 20.0.w,
-                                        right: 20.w,
-                                        top: 5.h,
-                                        bottom: 5.h),
+                                    margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                                    padding: EdgeInsets.only(left: 20.0.w, right: 20.w, top: 5.h, bottom: 5.h),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8.0),
@@ -125,41 +111,23 @@ class ChatInboxView extends GetView {
                                         searchFieldProps: TextFieldProps(
                                             decoration: InputDecoration(
                                           hintText: "Search",
-                                          hintStyle: CustomTextView.getStyle(
-                                              context,
-                                              colorLight: textColor,
-                                              fontSize: 15.sp),
+                                          hintStyle: CustomTextView.getStyle(context, colorLight: textColor, fontSize: 15.sp),
                                         )),
                                       ),
-                                      items:
-                                          chatInboxController.citiesName.value,
+                                      items: chatInboxController.citiesName.value,
                                       itemAsString: (City u) => u.name,
-                                      enabled: chatInboxController
-                                                  .citiesName.value.length >
-                                              0
-                                          ? true
-                                          : false,
-                                      dropdownDecoratorProps:
-                                          DropDownDecoratorProps(
-                                        baseStyle: CustomTextView.getStyle(
-                                            context,
-                                            colorLight: textColor,
-                                            fontSize: 15.sp),
-                                        dropdownSearchDecoration:
-                                            InputDecoration(
+                                      enabled: chatInboxController.citiesName.value.length > 0 ? true : false,
+                                      dropdownDecoratorProps: DropDownDecoratorProps(
+                                        baseStyle: CustomTextView.getStyle(context, colorLight: textColor, fontSize: 15.sp),
+                                        dropdownSearchDecoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText: "Select you City",
-                                          hintStyle: CustomTextView.getStyle(
-                                              context,
-                                              colorLight: textColor,
-                                              fontSize: 15.sp),
+                                          hintStyle: CustomTextView.getStyle(context, colorLight: textColor, fontSize: 15.sp),
                                         ),
                                       ),
                                       onChanged: (value) {
-                                        chatInboxController.selectedCity.value =
-                                            value;
-                                        chatInboxController.selectedarea.value =
-                                            null;
+                                        chatInboxController.selectedCity.value = value;
+                                        chatInboxController.selectedarea.value = null;
                                         chatInboxController.areaName.value = [];
                                         chatInboxController.getAreas(value!.id);
                                       },
@@ -169,17 +137,11 @@ class ChatInboxView extends GetView {
                                 AnimatedSwitcher(
                                   duration: Duration(milliseconds: 200),
                                   child: Container(
-                                    key: ValueKey(
-                                        chatInboxController.selectedCity.value),
+                                    key: ValueKey(chatInboxController.selectedCity.value),
                                     height: 50.h,
                                     width: Get.width,
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 20.w, vertical: 10.h),
-                                    padding: EdgeInsets.only(
-                                        left: 20.0.w,
-                                        right: 20.w,
-                                        top: 5.h,
-                                        bottom: 5.h),
+                                    margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                                    padding: EdgeInsets.only(left: 20.0.w, right: 20.w, top: 5.h, bottom: 5.h),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8.0),
@@ -201,33 +163,18 @@ class ChatInboxView extends GetView {
                                         searchFieldProps: TextFieldProps(
                                             decoration: InputDecoration(
                                           hintText: "Search",
-                                          hintStyle: CustomTextView.getStyle(
-                                              context,
-                                              colorLight: textColor,
-                                              fontSize: 15.sp),
+                                          hintStyle: CustomTextView.getStyle(context, colorLight: textColor, fontSize: 15.sp),
                                         )),
                                       ),
                                       items: chatInboxController.areaName.value,
                                       itemAsString: (City u) => u.name,
-                                      enabled: chatInboxController
-                                                  .areaName.value.length >
-                                              0
-                                          ? true
-                                          : false,
-                                      dropdownDecoratorProps:
-                                          DropDownDecoratorProps(
-                                        baseStyle: CustomTextView.getStyle(
-                                            context,
-                                            colorLight: textColor,
-                                            fontSize: 15.sp),
-                                        dropdownSearchDecoration:
-                                            InputDecoration(
+                                      enabled: chatInboxController.areaName.value.length > 0 ? true : false,
+                                      dropdownDecoratorProps: DropDownDecoratorProps(
+                                        baseStyle: CustomTextView.getStyle(context, colorLight: textColor, fontSize: 15.sp),
+                                        dropdownSearchDecoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText: "Select you Area",
-                                          hintStyle: CustomTextView.getStyle(
-                                              context,
-                                              colorLight: textColor,
-                                              fontSize: 15.sp),
+                                          hintStyle: CustomTextView.getStyle(context, colorLight: textColor, fontSize: 15.sp),
                                         ),
                                       ),
                                       onChanged: (value) {
@@ -246,24 +193,19 @@ class ChatInboxView extends GetView {
                               hintText: 'Password',
                               iconName: "password",
                               keyboardType: TextInputType.text,
-                              controller:
-                                  chatInboxController.passwordController.value,
-                              obscureText:
-                                  !chatInboxController.isPasswordVisible.value,
+                              controller: chatInboxController.passwordController.value,
+                              obscureText: !chatInboxController.isPasswordVisible.value,
                               suffixIcon: IconButton(
-                                onPressed: () => chatInboxController
-                                    .isPasswordVisible
-                                    .toggle(),
-                                icon:
-                                    chatInboxController.isPasswordVisible.value
-                                        ? const Icon(
-                                            Icons.visibility_off,
-                                            color: textColor,
-                                          )
-                                        : const Icon(
-                                            Icons.visibility,
-                                            color: textColor,
-                                          ),
+                                onPressed: () => chatInboxController.isPasswordVisible.toggle(),
+                                icon: chatInboxController.isPasswordVisible.value
+                                    ? const Icon(
+                                        Icons.visibility_off,
+                                        color: textColor,
+                                      )
+                                    : const Icon(
+                                        Icons.visibility,
+                                        color: textColor,
+                                      ),
                               ),
                             ),
                           ),
@@ -307,9 +249,7 @@ class ChatInboxView extends GetView {
                                 },
                                 child: Text('Login',
                                     style: CustomTextView.getStyle(context,
-                                        colorLight: secondary,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Poppins-Medium")),
+                                        colorLight: secondary, fontWeight: FontWeight.w600, fontFamily: "Poppins-Medium")),
                               ),
                               SizedBox(
                                 height: 27.h,

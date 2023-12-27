@@ -5,17 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:pink_ad/app/models/cites_model.dart';
-import 'package:pink_ad/app/models/seller_shop_model.dart';
+import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/modules/user_dashboard/views/user_bottom_nav_bar.dart';
 
 import '../../../../utilities/custom_widgets/snackbars.dart';
 import '../../../data/api_service.dart';
-
-import 'package:http/http.dart' as http;
-
 import '../../../models/login_response.dart';
-import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
   late final isPasswordVisible = false.obs;
@@ -44,9 +39,9 @@ class LoginController extends GetxController {
 
   void loginCheck() {
     if (emailController.value.text.isEmpty) {
-      showSnackBarError("Error", "Email field cannot be empty");
+      showSnackBarError('Error', 'Email field cannot be empty');
     } else if (passwordController.value.text.isEmpty) {
-      showSnackBarError("Error", "Password field cannot be empty");
+      showSnackBarError('Error', 'Password field cannot be empty');
     } else {
       login();
     }
@@ -54,8 +49,7 @@ class LoginController extends GetxController {
 
   Future<void> getSellerShop(String token) async {
     try {
-      final response =
-          await _apiService.getDataWithHeader(Endpoints.sellerShop, token);
+      final response = await _apiService.getDataWithHeader(Endpoints.sellerShop, token);
 
       print(inspect(response.body));
       if (response.statusCode == 200) {
@@ -75,12 +69,12 @@ class LoginController extends GetxController {
     }
   }
 
-  void login() async {
+  Future<void> login() async {
     loading.value = true;
     final email = emailController.value.text;
     final password = passwordController.value.text;
     try {
-      Map data = {"email": email, "password": password, "role": "2"};
+      Map data = {'email': email, 'password': password, 'role': '2'};
 
       print(data);
       final response = await _apiService.postData(
@@ -88,17 +82,18 @@ class LoginController extends GetxController {
         data,
       );
       if (kDebugMode) {
-        print("controller status${response.body}");
+        print('controller status${response.body}');
       }
       final result = json.decode(response.body);
 
       var loginResponseData = LoginResponse.fromJson(result);
       print(loginResponseData.status);
       if (response.statusCode == 200) {
-        if (loginResponseData.status == "success") {
+        if (loginResponseData.status == 'success') {
           final token = loginResponseData.authorisation!.token!;
           box.write('user_data', loginResponseData);
           box.write('user_token', token);
+          box.write('user_type', 'seller'); // seller or guest
           box.write('email', email);
           box.write('password', password);
           await getSellerShop(token);
@@ -111,17 +106,17 @@ class LoginController extends GetxController {
           // Get.toNamed(Routes.User_Bottom_Nav_Bar);
         } else {
           showSnackBarError(
-            "Message",
+            'Message',
             loginResponseData.status!,
           );
         }
       } else if (response.statusCode == 401) {
         showSnackBarError(
-          "Message",
+          'Message',
           loginResponseData.status!,
         );
       } else {
-        Get.snackbar("Login Error", "Unsuccessful");
+        Get.snackbar('Login Error', 'Unsuccessful');
       }
       // handle success response
     } catch (e) {

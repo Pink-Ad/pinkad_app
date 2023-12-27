@@ -16,7 +16,7 @@ class TutorialView extends GetView<TutorialController> {
   @override
   Widget build(BuildContext context) {
     List tutorials = box.read('tutorial') ?? [];
-    print(tutorials);
+    // print(tutorials);
     return CustomBgDashboard(
       child: SafeArea(
         child: Column(
@@ -24,12 +24,12 @@ class TutorialView extends GetView<TutorialController> {
             UserAppBar(
               profileIconVisibility: true,
               backButton: false,
-              title: "Tutorial",
+              title: 'Tutorial',
               onMenuTap: () {
-                print("object");
+                print('object');
               },
               onProfileTap: () {
-                print("object");
+                print('object');
                 Get.to(ProfileView());
               },
             ),
@@ -47,53 +47,58 @@ class TutorialView extends GetView<TutorialController> {
                         return InkWell(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => PromoScreem(
-                                          videoUrl: ApiService.imageBaseUrl +
-                                              tutorials[index].video,
-                                          promoText:
-                                              tutorials[index].title ?? '',
-                                        )));
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => PromoScreem(
+                                  videoUrl: ApiService.imageBaseUrl + tutorials[index].video,
+                                  promoText: tutorials[index].title ?? '',
+                                ),
+                              ),
+                            );
                           },
                           child: Container(
-                              padding: EdgeInsets.all(10.h),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFffffff),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    blurRadius: 10.0, // soften the shadow
-                                    spreadRadius: 5.0, //extend the shadow
-                                    offset: Offset(
-                                      1.0, // Move to right 5  horizontally
-                                      1.0, // Move to bottom 5 Vertically
-                                    ),
-                                  )
-                                ],
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: double.infinity,
-                                    height: 150.h,
-                                    child: Image.network(
-                                      ApiService.imageBaseUrl +
-                                          tutorials[index].thumbnail,
-                                      fit: BoxFit.cover,
-                                    ),
+                            padding: EdgeInsets.all(10.h),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFffffff),
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  blurRadius: 10.0, // soften the shadow
+                                  spreadRadius: 5.0, //extend the shadow
+                                  offset: Offset(
+                                    1.0, // Move to right 5  horizontally
+                                    1.0, // Move to bottom 5 Vertically
                                   ),
-                                  Text(tutorials[index]?.title ?? '',
-                                      style: TextStyle(
-                                          fontSize: 18.sp,
-                                          color: Colors.black)),
-                                  Text(tutorials[index]?.description ?? '',
-                                      style: TextStyle(fontSize: 16.sp)),
-                                ],
-                              )),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 150.h,
+                                  child: Image.network(
+                                    ApiService.imageBaseUrl + tutorials[index].thumbnail,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Text(
+                                  tutorials[index]?.title ?? '',
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  tutorials[index]?.description ?? '',
+                                  style: TextStyle(fontSize: 16.sp),
+                                ),
+                              ],
+                            ),
+                          ),
                         );
                       },
                     )

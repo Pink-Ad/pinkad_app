@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:carousel_slider/carousel_slider.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -126,25 +124,26 @@ class _HomePageSliderState extends State<HomePageSlider> {
   void initState() {
     super.initState();
     // Start the auto-play feature for the carousel
-    startAutoPlay();
+    // startAutoPlay();
   }
 
   @override
   void dispose() {
     // Dispose the carousel controller
-    _carouselController.stopAutoPlay();
+    // _timer?.cancel();
+    // _carouselController.stopAutoPlay();
     super.dispose();
   }
 
-  void startAutoPlay() {
-    // Start auto-play using a periodic timer
-    Timer.periodic(const Duration(seconds: 3), (timer) {
-      _carouselController.nextPage(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-    });
-  }
+  // void startAutoPlay() {
+  //   // Start auto-play using a periodic timer
+  //   _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+  //     _carouselController.nextPage(
+  //       duration: const Duration(milliseconds: 500),
+  //       curve: Curves.easeInOut,
+  //     );
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +157,7 @@ class _HomePageSliderState extends State<HomePageSlider> {
             if (banner.isNotEmpty)
               CarouselSlider.builder(
                 itemCount: banner.length,
-                itemBuilder:
-                    (BuildContext context, int itemIndex, int pageViewIndex) {
+                itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
                   return InkWell(
                     onTap: () {
                       launchUrl(Uri.parse(banner[itemIndex].redirectUrl));
@@ -171,8 +169,7 @@ class _HomePageSliderState extends State<HomePageSlider> {
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.grey.shade300,
                           image: DecorationImage(
-                            image: NetworkImage(ApiService.imageBaseUrl +
-                                banner[itemIndex].image!),
+                            image: NetworkImage(ApiService.imageBaseUrl + banner[itemIndex].image!),
                             fit: BoxFit.fill,
                           ),
                         ),

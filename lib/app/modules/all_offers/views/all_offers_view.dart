@@ -7,6 +7,7 @@ import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../utilities/colors/colors.dart';
 import '../../../../utilities/custom_widgets/custom_appbar.dart';
@@ -14,48 +15,41 @@ import '../../../../utilities/custom_widgets/scafflod_dashboard.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
 
-class AllOffersView extends GetView {
-  const AllOffersView({super.key});
+class AllOffersView extends GetView<AllOffersController> {
+  AllOffersView({super.key});
+  final box = GetStorage();
+  final refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
-    final AllOffersController allOffersController = AllOffersController();
-    final box = GetStorage();
     final token = box.read('user_token');
+    final userType = box.read('user_type');
     //List<dynamic> offers = box.read('offers');
-    var data = box.read('offers');
-    List<dynamic> offers;
-    if (data != null) {
-      offers = data;
-    } else {
-      // Handle the null case
-      offers = [];
-    }
     return CustomBgDashboard(
       child: SafeArea(
         child: Column(
           children: [
-            token == null
+            userType == 'guest'
                 ? MyAppBar(
                     backButton: false,
-                    title: "PinkAd",
+                    title: 'PinkAd',
                     onMenuTap: () {
-                      print("object");
+                      print('object');
                     },
                     onProfileTap: () {
-                      print("object");
+                      print('object');
                       Get.to(ProfileView());
                     },
                   )
                 : UserAppBar(
                     showBanner: true,
                     backButton: false,
-                    title: "All Offers",
+                    title: 'All Offers',
                     onMenuTap: () {
-                      print("object");
+                      print('object');
                     },
                     onProfileTap: () {
-                      print("object");
+                      print('object');
                       Get.to(ProfileView());
                     },
                     profileIconVisibility: true,
@@ -79,8 +73,7 @@ class AllOffersView extends GetView {
                 ],
               ),
               child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 20.0, top: 10.0, bottom: 0.0, right: 5.0),
+                padding: const EdgeInsets.only(left: 20.0, top: 10.0, bottom: 0.0, right: 5.0),
                 child: TypeAheadField<dynamic>(
                   animationStart: 0,
                   animationDuration: Duration.zero,
@@ -104,19 +97,17 @@ class AllOffersView extends GetView {
                   //     SuggestionsBoxDecoration(color: Colors.lightBlue[50]),
                   suggestionsCallback: (pattern) {
                     List<dynamic> matches = <dynamic>[];
-                    matches.addAll(offers);
+                    matches.addAll(controller.offers);
 
                     matches.retainWhere((s) {
-                      return s.title!
-                          .toLowerCase()
-                          .contains(pattern.toLowerCase());
+                      return s.title!.toLowerCase().contains(pattern.toLowerCase());
                     });
                     return matches;
                   },
                   itemBuilder: (context, offer) {
                     return GestureDetector(
                       onTap: () {
-                        allOffersController.getOfferDetail(offer.id!);
+                        Get.find<AllOffersController>().getOfferDetail(offer.id!);
                       },
                       child: Container(
                         // margin: EdgeInsets.only(
@@ -139,30 +130,29 @@ class AllOffersView extends GetView {
                           //     offset: const Offset(0, 3),
                           //   ),
                           // ],
-                          border: Border(
-                              bottom: BorderSide(
-                                  width: 2.w, color: Colors.grey.shade600)),
+                          border: Border(bottom: BorderSide(width: 2.w, color: Colors.grey.shade600)),
                         ),
                         child: ListTile(
-                          leading:
-                              const Icon(Icons.travel_explore, color: primary),
+                          leading: const Icon(Icons.travel_explore, color: primary),
                           title: Text(
                             offer.title!,
-                            style: CustomTextView.getStyle(context,
-                                colorLight:
-                                    const Color.fromARGB(255, 41, 39, 39),
-                                fontSize: 13.sp,
-                                fontFamily: Utils.poppinsSemiBold),
+                            style: CustomTextView.getStyle(
+                              context,
+                              colorLight: const Color.fromARGB(255, 41, 39, 39),
+                              fontSize: 13.sp,
+                              fontFamily: Utils.poppinsSemiBold,
+                            ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                           subtitle: Text(
                             offer!.description,
-                            style: CustomTextView.getStyle(context,
-                                colorLight:
-                                    const Color.fromARGB(255, 66, 66, 66),
-                                fontSize: 11.sp,
-                                fontFamily: Utils.poppinsLight),
+                            style: CustomTextView.getStyle(
+                              context,
+                              colorLight: const Color.fromARGB(255, 66, 66, 66),
+                              fontSize: 11.sp,
+                              fontFamily: Utils.poppinsLight,
+                            ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -240,7 +230,7 @@ class AllOffersView extends GetView {
                         //       alignment: Alignment.centerRight,
                         //       child: GestureDetector(
                         //         onTap: () {
-                        //           allOffersController.getOfferDetail(offer.id!);
+                        //           Get.find<AllOffersController>().getOfferDetail(offer.id!);
                         //         },
                         //         child: Container(
                         //             height: 40.h,
@@ -275,17 +265,32 @@ class AllOffersView extends GetView {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.only(bottom: 20.0.h),
-                itemCount: offers.length, // number of items in the list
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      // print(inspect(offers[index].shop.logo));
-                      allOffersController.getOfferDetail(offers[index].id);
+              child: GetBuilder<AllOffersController>(
+                init: AllOffersController(),
+                builder: (controller) {
+                  return SmartRefresher(
+                    controller: refreshController,
+                    onRefresh: () async {
+                      try {
+                        await controller.refreshOffers();
+                        refreshController.refreshCompleted();
+                      } catch (e) {
+                        refreshController.refreshFailed();
+                      }
                     },
-                    child: offerListItem(
-                        offers, index, context, allOffersController),
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(bottom: 20.0.h),
+                      itemCount: controller.offers.length, // number of items in the list
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            // print(inspect(offers[index].shop.logo));
+                            controller.getOfferDetail(controller.offers[index].id);
+                          },
+                          child: offerListItem(controller.offers, index, context),
+                        );
+                      },
+                    ),
                   );
                 },
               ),
@@ -296,8 +301,7 @@ class AllOffersView extends GetView {
     );
   }
 
-  Container offerListItem(List<dynamic> offers, int index, BuildContext context,
-      AllOffersController allOffersController) {
+  Container offerListItem(List<dynamic> offers, int index, BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 20.0.w, top: 10.h, right: 20.0.w),
       padding: const EdgeInsets.all(10.0),
@@ -324,8 +328,7 @@ class AllOffersView extends GetView {
                   // borderRadius: BorderRadius.circular(20.0),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color.fromARGB(255, 147, 147, 147)
-                          .withOpacity(0.5),
+                      color: const Color.fromARGB(255, 147, 147, 147).withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 3,
                       offset: const Offset(3, 0),
@@ -336,7 +339,7 @@ class AllOffersView extends GetView {
                   child: Image.network(
                     offers[index]!.banner != null
                         ? ApiService.imageBaseUrl + offers[index]!.banner
-                        : "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
+                        : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
                     width: 60.w,
                     height: 60.h,
                     fit: BoxFit.cover,
@@ -350,11 +353,8 @@ class AllOffersView extends GetView {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${offers[index]!.title!.toString()} By ${offers[index]!.shop!.name!.toString()}",
-                      style: CustomTextView.getStyle(context,
-                          colorLight: subHeadingColor,
-                          fontSize: 12.sp,
-                          fontFamily: Utils.poppinsSemiBold),
+                      '${offers[index]!.title!.toString()} By ${offers[index]!.shop!.name!.toString()}',
+                      style: CustomTextView.getStyle(context, colorLight: subHeadingColor, fontSize: 12.sp, fontFamily: Utils.poppinsSemiBold),
                       maxLines: 2,
                       overflow: TextOverflow.clip,
                     ),
@@ -371,7 +371,7 @@ class AllOffersView extends GetView {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
 

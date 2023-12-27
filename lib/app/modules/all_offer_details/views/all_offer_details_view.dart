@@ -25,6 +25,7 @@ class AllOfferDetailsView extends GetView {
   Widget build(BuildContext context) {
     final box = GetStorage();
     final token = box.read('user_token');
+    final userType = box.read('user_type');
     final data = arguments['data'];
     final seller = arguments['seller'];
     print(data);
@@ -45,7 +46,7 @@ class AllOfferDetailsView extends GetView {
         child: SafeArea(
           child: Column(
             children: [
-              token == null
+              userType == 'guest'
                   ? MyAppBar(
                       backButton: true,
                       title: "PinkAd",

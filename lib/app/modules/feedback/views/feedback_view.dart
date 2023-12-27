@@ -20,6 +20,7 @@ class FeedbackView extends GetView<FeedbackController> {
     FeedbackController feedbackController = FeedbackController();
     final box = GetStorage();
     final token = box.read('user_token');
+    final userType = box.read('user_type');
     return ListView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       children: [
@@ -27,27 +28,27 @@ class FeedbackView extends GetView<FeedbackController> {
           child: SafeArea(
             child: Column(
               children: [
-                token == null
+                userType == 'guest'
                     ? MyAppBar(
                         backButton: true,
-                        title: "PinkAd",
+                        title: 'PinkAd',
                         onMenuTap: () {
-                          print("object");
+                          print('object');
                         },
                         onProfileTap: () {
-                          print("object");
+                          print('object');
                           Get.to(ProfileView());
                         },
                       )
                     : UserAppBar(
                         showBanner: true,
                         backButton: true,
-                        title: "All Offers",
+                        title: 'All Offers',
                         onMenuTap: () {
-                          print("object");
+                          print('object');
                         },
                         onProfileTap: () {
-                          print("object");
+                          print('object');
                           Get.to(ProfileView());
                         },
                         profileIconVisibility: true,
@@ -58,21 +59,24 @@ class FeedbackView extends GetView<FeedbackController> {
                 ),
                 ShadowedTextField(
                   hintText: 'Name',
-                  iconName: "email_user",
+                  iconName: 'email_user',
                   controller: feedbackController.nameController.value,
                 ),
                 ShadowedTextField(
                   hintText: 'Phone Number',
-                  iconName: "phone",
+                  iconName: 'phone',
                   keyboardType: TextInputType.number,
                   controller: feedbackController.phoneNoController.value,
                 ),
                 Container(
                   height: 80.h,
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   padding: EdgeInsets.only(
-                      left: 20.0.w, right: 5.w, top: 5.h, bottom: 5.h),
+                    left: 20.0.w,
+                    right: 5.w,
+                    top: 5.h,
+                    bottom: 5.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
@@ -91,21 +95,19 @@ class FeedbackView extends GetView<FeedbackController> {
                       Align(
                         alignment: Alignment.center,
                         child: SvgPicture.asset(
-                          "assets/svgIcons/description.svg",
+                          'assets/svgIcons/description.svg',
                         ),
                       ),
                       SizedBox(width: 15.w),
                       Expanded(
                         child: TextField(
-                          controller:
-                              feedbackController.descriptionController.value,
+                          controller: feedbackController.descriptionController.value,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Description',
                             hintStyle: TextStyle(fontSize: 18.sp),
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.symmetric(vertical: 10.h),
+                            contentPadding: EdgeInsets.symmetric(vertical: 10.h),
                           ),
                           style: TextStyle(fontSize: 14.sp),
                           maxLines: null,
@@ -122,7 +124,7 @@ class FeedbackView extends GetView<FeedbackController> {
                           color: primary,
                         )
                       : GlobalButton(
-                          title: "Submit Feedback",
+                          title: 'Submit Feedback',
                           onPressed: () {
                             feedbackController.onSubmit();
                           },
