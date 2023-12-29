@@ -221,6 +221,7 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
               activeIndex: tabIndex,
               // elevation: 0,
               onTap: (index) {
+                if (index == 0) return;
                 tabIndex = index;
                 pageController.jumpToPage(tabIndex);
               },
