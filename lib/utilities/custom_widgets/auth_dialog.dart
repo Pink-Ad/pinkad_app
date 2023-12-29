@@ -35,20 +35,20 @@ class AuthDialog extends StatelessWidget {
               //   height: 20.h,
               // ),
               Text(
-                'Dialog Title',
+                'Use App',
                 style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 20.sp, fontFamily: Utils.poppinsBold),
               ),
               SizedBox(
                 height: 15.h,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                  'Dialog Message',
-                  textAlign: TextAlign.center,
-                  style: CustomTextView.getStyle(Get.context!, colorLight: textColor, fontSize: 14.sp),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              //   child: Text(
+              //     'Dialog Message',
+              //     textAlign: TextAlign.center,
+              //     style: CustomTextView.getStyle(Get.context!, colorLight: textColor, fontSize: 14.sp),
+              //   ),
+              // ),
               SizedBox(
                 height: 20.h,
               ),
