@@ -153,11 +153,10 @@ class ShopDetailsView extends GetView {
                             GestureDetector(
                               onTap: () async {
                                 // Share.share(facebookUrl);
-                                facebookUrl = 'https://www.facebook.com/MTGArena';
                                 if (facebookUrl == null) return;
                                 try {
                                   final String nativeUrl;
-                                  if (facebookUrl!.startsWith('http')) {
+                                  if (facebookUrl.startsWith('http')) {
                                     nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
                                   } else {
                                     nativeUrl = 'fb://$facebookUrl';
@@ -165,8 +164,8 @@ class ShopDetailsView extends GetView {
                                   await launchUrl(Uri.parse(nativeUrl));
                                 } catch (e) {
                                   // If the Facebook app is not installed, open the Facebook website
-                                  if (facebookUrl!.startsWith('http')) {
-                                    await launchUrl(Uri.parse(facebookUrl!));
+                                  if (facebookUrl.startsWith('http')) {
+                                    await launchUrl(Uri.parse(facebookUrl));
                                   }
                                 }
                               },
@@ -241,7 +240,8 @@ class ShopDetailsView extends GetView {
                             SizedBox(width: 15.w),
                             GestureDetector(
                               onTap: () async {
-                                const String instaUrl = 'user?username=jaanixworld';
+                                final String? instaUrl = data['seller']['insta_page'];
+                                if (instaUrl == null) return;
                                 try {
                                   final String nativeUrl;
                                   if (instaUrl.startsWith('http')) {

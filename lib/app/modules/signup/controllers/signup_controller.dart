@@ -171,13 +171,13 @@ class SignupController extends GetxController {
   // }
 
   Future<XFile?> pickCoverImage() async {
+    if (await showImageDialog() != true) return null;
     // Request permission from the user
     final permissionStatus = await Permission.photos.request();
     if (permissionStatus.isGranted) {
       // User has granted permission, proceed with picking an image
       final picker = ImagePicker();
-      final XFile? pickedFile =
-          await picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
         final bool isValidSize = await validateImageSize(pickedFile.path);
@@ -354,8 +354,7 @@ class SignupController extends GetxController {
       final response = await http.Response.fromStream(
         await request.send(),
       ); // Send the request
-      final postResponse =
-          RegisterPostResponse.fromJson(json.decode(response.body));
+      final postResponse = RegisterPostResponse.fromJson(json.decode(response.body));
       print(response.body.toString());
       if (response.statusCode == 200) {
         // Successful request
