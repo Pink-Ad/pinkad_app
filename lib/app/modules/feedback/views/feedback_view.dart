@@ -19,10 +19,14 @@ class FeedbackView extends GetView<FeedbackController> {
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();
-    final feedbackController = FeedbackController();
-    final userType = box.read('user_type');
-    final sellerName = box.read('seller_name') ?? '';
-    final sellerPhoneNumber = box.read('seller_phone_number') ?? '';
+
+    final feedbackController = Get.find<FeedbackController>();
+    final userType = GetStorage().read('user_type') ?? 'guest';
+    final sellerName =
+        userType != 'guest' ? GetStorage().read('seller_name') ?? '' : '';
+    final sellerPhoneNumber = userType != 'guest'
+        ? GetStorage().read('seller_phone_number') ?? ''
+        : '';
 
     return ListView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -74,13 +78,17 @@ class FeedbackView extends GetView<FeedbackController> {
                 ShadowedTextField(
                   hintText: 'Name',
                   iconName: 'email_user',
-                  controller: TextEditingController(text: sellerName),
+                  controller: userType == 'guest'
+                      ? feedbackController.nameController.value
+                      : TextEditingController(text: sellerName),
                 ),
                 ShadowedTextField(
                   hintText: 'Phone Number',
                   iconName: 'phone',
                   keyboardType: TextInputType.number,
-                  controller: TextEditingController(text: sellerPhoneNumber),
+                  controller: userType == 'guest'
+                      ? feedbackController.phoneNoController.value
+                      : TextEditingController(text: sellerPhoneNumber),
                 ),
 
                 Container(

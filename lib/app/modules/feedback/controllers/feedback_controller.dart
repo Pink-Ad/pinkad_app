@@ -24,6 +24,8 @@ class FeedbackController extends GetxController {
     return regex.hasMatch(input);
   }
 
+  bool get isUserLoggedIn => box.read('user_type') != 'guest';
+
   Future<void> autoFill() async {
     LoginResponse data = await box.read('user_data');
     phoneNoController.value.text = data.user!.seller!.phone!;
@@ -31,9 +33,9 @@ class FeedbackController extends GetxController {
   }
 
   onSubmit() {
-    if (nameController.value.text.isEmpty) {
+   if (!isUserLoggedIn && nameController.value.text.isEmpty) {
       showSnackBarError('Error', 'Name field cannot be empty');
-    } else if (!isValidPhoneNumber(phoneNoController.value.text)) {
+    } else if (!isUserLoggedIn && !isValidPhoneNumber(phoneNoController.value.text)) {
       showSnackBarError('Error', 'Invalid phone number format');
     } else if (descriptionController.value.text.isEmpty) {
       showSnackBarError('Error', 'Description field cannot be empty');
@@ -61,7 +63,9 @@ class FeedbackController extends GetxController {
   final count = 0.obs;
   @override
   void onInit() {
-    autoFill();
+    if (isUserLoggedIn) {
+      autoFill();
+    }
     super.onInit();
   }
 
