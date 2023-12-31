@@ -116,7 +116,7 @@ class UploadOfferView extends GetView {
                                 //   keyboardType: TextInputType.multiline,
                                 // ),
                                 Container(
-                                  height: 80.h,
+                                  height: 100.h,
                                   margin: EdgeInsets.symmetric(
                                     horizontal: 20.w,
                                     vertical: 10.h,
@@ -230,7 +230,7 @@ class UploadOfferView extends GetView {
                                                         CustomTextView.getStyle(
                                                       context,
                                                       colorLight: textColor,
-                                                      fontSize: 16.sp,
+                                                      fontSize: 15.sp,
                                                     ),
                                                     maxLines: 1,
                                                     overflow:

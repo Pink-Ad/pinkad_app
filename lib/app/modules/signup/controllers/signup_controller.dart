@@ -61,23 +61,62 @@ class SignupController extends GetxController {
     return regex.hasMatch(name);
   }
 
-  bool isValidPhoneNumber(String input) {
-    final RegExp regex = RegExp(
-      r'^\+?1?\d{9,15}$',
-    ); // This regex matches US phone numbers in various formats
-    return regex.hasMatch(input);
+  var enteredName = ''.obs;
+  var enteredPhoneNumber = ''.obs;
+
+  // bool isValidPhoneNumber(String input) {
+  //   final RegExp regex = RegExp(
+  //     r'^\+?1?\d{9,15}$',
+  //   ); // This regex matches US phone numbers in various formats
+  //   return regex.hasMatch(input);
+  // }
+
+  String? validatePakistaniPhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    value = value.replaceAll('-', ''); // Remove dashes before validation
+    if (value.length != 10) {
+      // Change this to 10 if you need 10 digits excluding the country code
+      return 'The phone number must be 10 digits long';
+    }
+    if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+      // Ensure this regex matches the number of digits you need
+      return 'Enter a valid phone number';
+    }
+    return null;
   }
 
-  void onSubmit() {
+  String? validateWhatsppNumber(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'WhatsApp number is required';
+    }
+    value = value.replaceAll('-', '');
+    if (value.length != 10) {
+      return 'The WhatsApp number must be 10 digits long';
+    }
+    if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+      return 'Enter a valid WhatsApp number';
+    }
+    return null;
+  }
+
+  Future<void> onSubmit() async {
     if (nameController.value.text.isEmpty) {
       showSnackBarError('Error', 'Name field cannot be empty');
-    } else if (!isValidPhoneNumber(whatsappNoController.value.text)) {
-      showSnackBarError(
-        'Error',
-        'Invalid whatsapp number format / field cannot be empty',
-      );
-    } else if (!isValidPhoneNumber(phoneNoController.value.text)) {
-      showSnackBarError('Error', 'Invalid phone number format');
+    }
+    String? phoneError =
+        validatePakistaniPhoneNumber(phoneNoController.value.text);
+    if (phoneError != null) {
+      showSnackBarError('Error', phoneError);
+      return; // Stop execution if there is an error
+    }
+
+    String? whatsappError =
+        validateWhatsppNumber(whatsappNoController.value.text);
+    if (whatsappError != null) {
+      showSnackBarError('Error', whatsappError);
+      return; // Stop execution if there is an error
     } else if (emailController.value.text.isEmpty) {
       showSnackBarError('Error', 'Email field cannot be empty');
     } else if (passwordController.value.text.isEmpty) {
@@ -85,6 +124,19 @@ class SignupController extends GetxController {
     } else if (businessAddressController.value.text.isEmpty) {
       showSnackBarError('Error', 'Business address field cannot be empty');
     }
+
+    if (coverFile != null) {
+      // Validate the image size
+      final bool isCoverSizeValid = await validateImageSize(coverFile!.path);
+      if (!isCoverSizeValid) {
+        showSnackBarError(
+          'Error',
+          'Promotional cover size should be 1080px by 1080px',
+        );
+        return; // Stop the submission process
+      }
+    }
+
     // else if (facebookController.value.text.isEmpty) {
     //   showSnackBarError("Error", "Facebook field cannot be empty");
     // } else if (instagramController.value.text.isEmpty) {
@@ -95,6 +147,9 @@ class SignupController extends GetxController {
     else if (descriptionController.value.text.isEmpty) {
       showSnackBarError('Error', 'Description field cannot be empty');
     } else {
+      enteredName.value = nameController.value.text.trim();
+      enteredPhoneNumber.value = phoneNoController.value.text.trim();
+
       registerUser();
     }
   }
@@ -177,7 +232,8 @@ class SignupController extends GetxController {
     if (permissionStatus.isGranted) {
       // User has granted permission, proceed with picking an image
       final picker = ImagePicker();
-      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile =
+          await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
         final bool isValidSize = await validateImageSize(pickedFile.path);
@@ -354,7 +410,8 @@ class SignupController extends GetxController {
       final response = await http.Response.fromStream(
         await request.send(),
       ); // Send the request
-      final postResponse = RegisterPostResponse.fromJson(json.decode(response.body));
+      final postResponse =
+          RegisterPostResponse.fromJson(json.decode(response.body));
       print(response.body.toString());
       if (response.statusCode == 200) {
         // Successful request

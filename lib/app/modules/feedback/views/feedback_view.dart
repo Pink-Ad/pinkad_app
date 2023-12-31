@@ -18,10 +18,12 @@ class FeedbackView extends GetView<FeedbackController> {
   const FeedbackView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    FeedbackController feedbackController = FeedbackController();
     final box = GetStorage();
-    final token = box.read('user_token');
+    final feedbackController = FeedbackController();
     final userType = box.read('user_type');
+    final sellerName = box.read('seller_name') ?? '';
+    final sellerPhoneNumber = box.read('seller_phone_number') ?? '';
+
     return ListView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       children: [
@@ -58,19 +60,31 @@ class FeedbackView extends GetView<FeedbackController> {
                   margin: EdgeInsets.only(top: 125.h),
                   height: 10,
                 ),
+                // ShadowedTextField(
+                //   hintText: 'Name',
+                //   iconName: 'email_user',
+                //   controller: feedbackController.nameController.value,
+                // ),
+                // ShadowedTextField(
+                //   hintText: 'Phone Number',
+                //   iconName: 'phone',
+                //   keyboardType: TextInputType.number,
+                //   controller: feedbackController.phoneNoController.value,
+                // ),
                 ShadowedTextField(
                   hintText: 'Name',
                   iconName: 'email_user',
-                  controller: feedbackController.nameController.value,
+                  controller: TextEditingController(text: sellerName),
                 ),
                 ShadowedTextField(
                   hintText: 'Phone Number',
                   iconName: 'phone',
                   keyboardType: TextInputType.number,
-                  controller: feedbackController.phoneNoController.value,
+                  controller: TextEditingController(text: sellerPhoneNumber),
                 ),
+
                 Container(
-                  height: 80.h,
+                  height: 100.h,
                   margin:
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   padding: EdgeInsets.only(

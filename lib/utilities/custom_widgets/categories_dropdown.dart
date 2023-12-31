@@ -234,7 +234,9 @@ class CategoriesDropDown extends GetView<UploadOfferController> {
                     ),
                     showSelectedItems: false,
                   ),
-                  enabled: controller.subCategoryName.value.isNotEmpty ? true : false,
+                  enabled: controller.subCategoryName.value.isNotEmpty
+                      ? true
+                      : false,
                   items: controller.subCategoryName.value,
                   itemAsString: (City u) => u.name,
                   dropdownDecoratorProps: DropDownDecoratorProps(
@@ -256,7 +258,8 @@ class CategoriesDropDown extends GetView<UploadOfferController> {
                   onChanged: (value) {
                     controller.selectedSubCategory.value = [];
                     for (int i = 0; i < value.length; i++) {
-                      controller.selectedSubCategory.value.add(value[i].id.toString());
+                      controller.selectedSubCategory.value
+                          .add(value[i].id.toString());
                     }
                     print(controller.selectedSubCategory.value);
                   },

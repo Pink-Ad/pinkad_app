@@ -67,7 +67,7 @@ class _ShadowedTextFieldState extends State<ShadowedTextField> {
       child: Row(
         children: [
           SvgPicture.asset(
-            "assets/svgIcons/${widget.iconName}.svg",
+            'assets/svgIcons/${widget.iconName}.svg',
           ),
           SizedBox(
             width: 15.w,
@@ -89,8 +89,11 @@ class _ShadowedTextFieldState extends State<ShadowedTextField> {
                 prefixIcon: widget.prefixIcon,
                 suffixIcon: widget.suffixIcon,
                 contentPadding: widget.contentPadding,
-                hintStyle: CustomTextView.getStyle(context,
-                    colorLight: textColor, fontSize: 15.sp),
+                hintStyle: CustomTextView.getStyle(
+                  context,
+                  colorLight: textColor,
+                  fontSize: 15.sp,
+                ),
                 border: InputBorder.none,
                 errorText: widget.errorText,
                 errorStyle: const TextStyle(color: Colors.redAccent),

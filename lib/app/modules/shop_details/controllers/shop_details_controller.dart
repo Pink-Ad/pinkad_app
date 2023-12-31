@@ -26,88 +26,99 @@ class ShopDetailsController extends GetxController {
   }
 
   void increment() => count.value++;
-  void showAwesomeDialog() {
+  void showAwesomeDialog({
+    required String title,
+    required String content,
+    required String confirmButtonText,
+    required Color confirmButtonColor,
+    required VoidCallback onConfirm,
+    bool showCancelButton = true, // Add this parameter
+  }) {
     AwesomeDialog(
-      dialogType: DialogType.noHeader,
+      dialogType:
+          DialogType.noHeader, // You can change the dialog type if needed
       context: Get.overlayContext!,
       animType: AnimType.scale,
-      btnOkColor: secondary,
+      btnOkColor: confirmButtonColor,
       padding: EdgeInsets.symmetric(vertical: 10.h),
       btnCancelColor: bodyTextColor,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // SvgPicture.asset("assets/svgIcons/dialog_icon.svg"),
-          // SizedBox(
-          //   height: 20.h,
-          // ),
           Text(
-            'Are you sure?',
-            style: CustomTextView.getStyle(Get.context!,
-                colorLight: secondary,
-                fontSize: 20.sp,
-                fontFamily: Utils.poppinsBold),
+            title,
+            style: CustomTextView.getStyle(
+              Get.context!,
+              colorLight: secondary,
+              fontSize: 20.sp,
+              fontFamily: Utils.poppinsBold,
+            ),
           ),
-          SizedBox(
-            height: 15.h,
-          ),
+          SizedBox(height: 15.h),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Text(
-              'Do you really want to delete this shop?',
+              content,
               textAlign: TextAlign.center,
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: textColor, fontSize: 14.sp),
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: textColor,
+                fontSize: 14.sp,
+              ),
             ),
           ),
-          SizedBox(
-            height: 20.h,
-          ),
+          SizedBox(height: 20.h),
         ],
       ),
       btnOk: GestureDetector(
-        onTap: () {},
+        onTap: onConfirm,
         child: Container(
           width: 138.0.w,
           height: 50.0.h,
           decoration: BoxDecoration(
-            color: errorColor,
+            color: confirmButtonColor,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Center(
             child: Text(
-              'Delete',
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: Colors.white,
-                  fontSize: 16.sp,
-                  fontFamily: Utils.poppinsMedium),
+              confirmButtonText,
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: Utils.poppinsMedium,
+              ),
             ),
           ),
         ),
       ),
-      btnCancel: GestureDetector(
-        onTap: () {
-          Get.back();
-        },
-        child: Container(
-          width: 138.0.w,
-          height: 50.0.h,
-          decoration: BoxDecoration(
-            color: bodyTextColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Center(
-            child: Text(
-              'Cancel',
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: Colors.white,
-                  fontSize: 16.sp,
-                  fontFamily: Utils.poppinsMedium),
-            ),
-          ),
-        ),
-      ),
+      btnCancel: showCancelButton
+          ? GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                width: 138.0.w,
+                height: 50.0.h,
+                decoration: BoxDecoration(
+                  color: bodyTextColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    'Cancel',
+                    style: CustomTextView.getStyle(
+                      Get.context!,
+                      colorLight: Colors.white,
+                      fontSize: 16.sp,
+                      fontFamily: Utils.poppinsMedium,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : null,
     ).show();
   }
 }

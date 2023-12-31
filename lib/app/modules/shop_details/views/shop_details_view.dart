@@ -73,7 +73,8 @@ class ShopDetailsView extends GetView {
                     ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
-                padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
+                padding:
+                    EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
                 decoration: BoxDecoration(
                   color: containerColor,
                   borderRadius: BorderRadius.circular(10.0),
@@ -93,7 +94,26 @@ class ShopDetailsView extends GetView {
                             fontFamily: Utils.poppinsBold,
                           ),
                         ),
-                        const SizedBox(height: 10.0),
+                        // Text(
+                        //   'Description',
+                        //   style: CustomTextView.getStyle(
+                        //     context,
+                        //     colorLight: Colors.black,
+                        //     fontSize: 16.sp,
+                        //     fontFamily: Utils.poppinsSemiBold,
+                        //   ),
+                        // ),
+                        const SizedBox(height: 5),
+                        Text(
+                          data['description'] ?? '',
+                          // 'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
+                          style: CustomTextView.getStyle(
+                            context,
+                            colorLight: textColor,
+                            fontSize: 15.sp,
+                          ),
+                        ),
+                        //const SizedBox(height: 10.0),
                         // RatingBar.builder(
                         //   initialRating: 3,
                         //   minRating: 1,
@@ -111,18 +131,18 @@ class ShopDetailsView extends GetView {
                         //     print(rating);
                         //   },
                         // ),
-                        SizedBox(height: 15.0.h),
-                        Text(
-                          // 'www.yourwebsite.com',
-                          data['seller']['web_url'] ?? '',
-                          style: CustomTextView.getStyle(
-                            context,
-                            fontSize: 16.sp,
-                            colorLight: Colors.black,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        //SizedBox(height: 15.0.h),
+                        // Text(
+                        //   // 'www.yourwebsite.com',
+                        //   data['seller']['web_url'] ?? '',
+                        //   style: CustomTextView.getStyle(
+                        //     context,
+                        //     fontSize: 16.sp,
+                        //     colorLight: Colors.black,
+                        //   ),
+                        //   maxLines: 1,
+                        //   overflow: TextOverflow.ellipsis,
+                        // ),
                         SizedBox(height: 15.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -157,7 +177,8 @@ class ShopDetailsView extends GetView {
                                 try {
                                   final String nativeUrl;
                                   if (facebookUrl.startsWith('http')) {
-                                    nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
+                                    nativeUrl =
+                                        'fb://facewebmodal/f?href=$facebookUrl';
                                   } else {
                                     nativeUrl = 'fb://$facebookUrl';
                                   }
@@ -240,7 +261,8 @@ class ShopDetailsView extends GetView {
                             SizedBox(width: 15.w),
                             GestureDetector(
                               onTap: () async {
-                                final String? instaUrl = data['seller']['insta_page'];
+                                final String? instaUrl =
+                                    data['seller']['insta_page'];
                                 if (instaUrl == null) return;
                                 try {
                                   final String nativeUrl;
@@ -248,7 +270,8 @@ class ShopDetailsView extends GetView {
                                     final uri = Uri.parse(instaUrl);
                                     // Invalid URL
                                     if (uri.pathSegments.isEmpty) return;
-                                    nativeUrl = 'instagram://user?username=${uri.pathSegments.first}';
+                                    nativeUrl =
+                                        'instagram://user?username=${uri.pathSegments.first}';
                                   } else {
                                     nativeUrl = 'instagram://$instaUrl';
                                   }
@@ -284,16 +307,20 @@ class ShopDetailsView extends GetView {
                             SizedBox(width: 15.w),
                             GestureDetector(
                               onTap: () async {
-                                if (data['seller']['web_url'] != null && Uri.tryParse(data['seller']['web_url']) != null) {
+                                if (data['seller']['web_url'] != null &&
+                                    Uri.tryParse(data['seller']['web_url']) !=
+                                        null) {
                                   // Launch the web URL
-                                  final url = Uri.parse(data['seller']['web_url']);
+                                  final url =
+                                      Uri.parse(data['seller']['web_url']);
                                   await launchUrl(url);
                                 } else {
                                   // Handle the case where the web URL is null or not valid.
                                   // For example, show an error message:
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content: Text('Web URL is not available.'),
+                                      content:
+                                          Text('Web URL is not available.'),
                                     ),
                                   );
                                 }
@@ -320,6 +347,44 @@ class ShopDetailsView extends GetView {
                                 ),
                               ),
                             ),
+                            SizedBox(width: 15.w),
+                            GestureDetector(
+                              onTap: () async {
+                                shopDetailsController.showAwesomeDialog(
+                                  title: 'Address',
+                                  content:
+                                      data['address'] ?? 'No address available',
+                                  confirmButtonText: 'Close',
+                                  confirmButtonColor: bodyTextColor,
+                                  onConfirm: () => Get.back(),
+                                  showCancelButton: false,
+                                );
+                              },
+                              child: Container(
+                                height: 40.h,
+                                width: 40.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 2.0),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      'assets/svgIcons/location.svg',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -337,8 +402,8 @@ class ShopDetailsView extends GetView {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                  height: 360.h,
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   decoration: BoxDecoration(
                     color: containerGray,
                     borderRadius: BorderRadius.circular(8.0),
@@ -351,78 +416,15 @@ class ShopDetailsView extends GetView {
                       ),
                     ],
                   ),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 167.h,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(8.0),
-                            topRight: Radius.circular(8.0),
-                          ),
-                          image: DecorationImage(
-                            image: NetworkImage(logoUrl),
-                            fit: BoxFit.cover, // or any other value for fit
-                          ),
-                        ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    child: AspectRatio(
+                      aspectRatio: 1 / 1, // Maintains the 1:1 aspect ratio
+                      child: Image.network(
+                        logoUrl,
+                        fit: BoxFit.fill,
                       ),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 20.0,
-                              vertical: 20.0,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Address',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: Colors.black,
-                                    fontSize: 16.sp,
-                                    fontFamily: Utils.poppinsSemiBold,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  data['address'] ?? '',
-                                  // 'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: textColor,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10.h,
-                                ),
-                                Text(
-                                  'Description',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: Colors.black,
-                                    fontSize: 16.sp,
-                                    fontFamily: Utils.poppinsSemiBold,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  data['description'] ?? '',
-                                  // 'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: textColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -434,7 +436,15 @@ class ShopDetailsView extends GetView {
                   ? GlobalButton(
                       title: 'Delete Shop',
                       onPressed: () {
-                        shopDetailsController.showAwesomeDialog();
+                        shopDetailsController.showAwesomeDialog(
+                          title: 'Are you sure?',
+                          content: 'Do you really want to delete this shop?',
+                          confirmButtonText: 'Delete',
+                          confirmButtonColor: errorColor,
+                          onConfirm: () {
+                            // Code to handle deletion
+                          },
+                        );
                       },
                       textColor: Colors.white,
                       buttonColor: errorColor,
@@ -448,7 +458,9 @@ class ShopDetailsView extends GetView {
                         );
                       },
                       textColor: Colors.white,
-                      buttonColor: data['seller']['web_url'] == null ? Colors.grey : secondary,
+                      buttonColor: data['seller']['web_url'] == null
+                          ? Colors.grey
+                          : secondary,
                     ),
               SizedBox(
                 height: 20.h,

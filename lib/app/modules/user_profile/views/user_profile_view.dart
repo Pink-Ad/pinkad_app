@@ -67,10 +67,12 @@ class UserProfileView extends GetView {
                     children: [
                       Text(
                         data.user!.name!,
-                        style: CustomTextView.getStyle(context,
-                            colorLight: Colors.white,
-                            fontSize: 20.sp,
-                            fontFamily: Utils.poppinsBold),
+                        style: CustomTextView.getStyle(
+                          context,
+                          colorLight: Colors.white,
+                          fontSize: 20.sp,
+                          fontFamily: Utils.poppinsBold,
+                        ),
                       ),
                       const SizedBox(height: 5.0),
                       // RatingBar.builder(
@@ -236,8 +238,9 @@ class UserProfileView extends GetView {
                             color: containerColor,
                             border: Border.all(width: .5, color: secondary),
                             borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20.0),
-                                topRight: Radius.circular(20.0)),
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0),
+                            ),
                           ),
                           child: SingleChildScrollView(
                             child: Column(
@@ -338,9 +341,13 @@ class UserProfileView extends GetView {
                                 Container(
                                   height: 55.0.h,
                                   margin: EdgeInsets.symmetric(
-                                      horizontal: 20.w, vertical: 10.h),
+                                    horizontal: 20.w,
+                                    vertical: 10.h,
+                                  ),
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0, vertical: 5.0),
+                                    horizontal: 5.0,
+                                    vertical: 5.0,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10.0),
@@ -358,13 +365,16 @@ class UserProfileView extends GetView {
                                       Center(
                                         child: Container(
                                           margin: EdgeInsets.only(
-                                              left: 15.0.w, right: 50.w),
+                                            left: 15.0.w,
+                                            right: 50.w,
+                                          ),
                                           child: Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
                                               SvgPicture.asset(
-                                                  'assets/svgIcons/image_icon.svg'),
+                                                'assets/svgIcons/image_icon.svg',
+                                              ),
                                               SizedBox(
                                                 width: 10.h,
                                               ),
@@ -381,10 +391,10 @@ class UserProfileView extends GetView {
                                                         : 'Promotional Cover',
                                                     style:
                                                         CustomTextView.getStyle(
-                                                            context,
-                                                            colorLight:
-                                                                textColor,
-                                                            fontSize: 16.sp),
+                                                      context,
+                                                      colorLight: textColor,
+                                                      fontSize: 16.sp,
+                                                    ),
                                                     maxLines: 1,
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -422,7 +432,8 @@ class UserProfileView extends GetView {
                                               padding:
                                                   const EdgeInsets.all(15.0),
                                               child: SvgPicture.asset(
-                                                  'assets/svgIcons/upload_file.svg'),
+                                                'assets/svgIcons/upload_file.svg',
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -477,8 +488,9 @@ class UserProfileView extends GetView {
                             color: containerColor,
                             border: Border.all(width: .5, color: secondary),
                             borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20.0),
-                                topRight: Radius.circular(20.0)),
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0),
+                            ),
                           ),
                           child: Stack(
                             children: [
@@ -489,7 +501,9 @@ class UserProfileView extends GetView {
                                   print(sellerShop[index]);
                                   return Padding(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10.0.w, vertical: 3.h),
+                                      horizontal: 10.0.w,
+                                      vertical: 3.h,
+                                    ),
                                     child: Container(
                                       margin: const EdgeInsets.all(8.0),
                                       padding: const EdgeInsets.all(16.0),
@@ -533,10 +547,13 @@ class UserProfileView extends GetView {
                                                                       index]
                                                                   ['logo'] !=
                                                               null
-                                                          ? NetworkImage(ApiService
-                                                                  .imageBaseUrl +
-                                                              sellerShop[index]
-                                                                  ['logo'])
+                                                          ? NetworkImage(
+                                                              ApiService
+                                                                      .imageBaseUrl +
+                                                                  sellerShop[
+                                                                          index]
+                                                                      ['logo'],
+                                                            )
                                                           : const NetworkImage(
                                                               'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
                                                             ),
@@ -544,8 +561,9 @@ class UserProfileView extends GetView {
                                                   ),
                                                   Container(
                                                     margin: EdgeInsets.only(
-                                                        left: 10.0.w,
-                                                        top: 5.0.h),
+                                                      left: 10.0.w,
+                                                      top: 5.0.h,
+                                                    ),
                                                     width: 140.w,
                                                     child: Column(
                                                       crossAxisAlignment:
@@ -573,7 +591,8 @@ class UserProfileView extends GetView {
                                                               .ellipsis,
                                                         ),
                                                         const SizedBox(
-                                                            height: 8.0),
+                                                          height: 8.0,
+                                                        ),
                                                         // RatingBar.builder(
                                                         //   initialRating: 3,
                                                         //   minRating: 1,
@@ -604,8 +623,8 @@ class UserProfileView extends GetView {
                                                       print(sellerShop[index]);
                                                       allShopsController
                                                           .getShopDetail(
-                                                              sellerShop[index]
-                                                                  ['id']);
+                                                        sellerShop[index]['id'],
+                                                      );
 
                                                       // Get.toNamed(
                                                       //     Routes.SHOP_DETAILS);

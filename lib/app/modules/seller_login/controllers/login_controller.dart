@@ -49,7 +49,8 @@ class LoginController extends GetxController {
 
   Future<void> getSellerShop(String token) async {
     try {
-      final response = await _apiService.getDataWithHeader(Endpoints.sellerShop, token);
+      final response =
+          await _apiService.getDataWithHeader(Endpoints.sellerShop, token);
 
       print(inspect(response.body));
       if (response.statusCode == 200) {
@@ -102,8 +103,16 @@ class LoginController extends GetxController {
           emailController.value.clear();
           passwordController.value.clear();
           Get.offAll(UserBottomNavBar());
+          final sellerName = loginResponseData.user?.name;
+          final sellerPhoneNumber = loginResponseData.user?.seller?.phone;
+          //Get.toNamed(Routes.User_Bottom_Nav_Bar);
 
-          // Get.toNamed(Routes.User_Bottom_Nav_Bar);
+          if (sellerName != null) {
+            await box.write('seller_name', sellerName);
+          }
+          if (sellerPhoneNumber != null) {
+            await box.write('seller_phone_number', sellerPhoneNumber);
+          }
         } else {
           showSnackBarError(
             'Message',
