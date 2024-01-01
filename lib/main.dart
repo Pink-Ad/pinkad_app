@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:pink_ad/app/modules/feedback/controllers/feedback_controller.dart';
 import 'package:pink_ad/app/modules/splash/bindings/splash_binding.dart';
 import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/app/modules/splash/views/splash_view.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
     // DeviceOrientation.landscapeRight, // Uncomment this line to lock the device in landscape mode
   ]);
   Get.put<SplashController>(SplashController());
+  Get.put<FeedbackController>(FeedbackController());
   runApp(
     DevicePreview(
       // enabled: !kReleaseMode,
