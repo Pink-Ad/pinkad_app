@@ -253,7 +253,7 @@ class SignupView extends GetView<SignupController> {
                                   //onChanged: controller.username,
                                   controller:
                                       controller.facebookController.value,
-                                  hintText: 'Facebook URL',
+                                  hintText: 'Facebook URL (Optional)',
                                   // hintText: 'e.g page/page_id',
                                   iconName: 'facebook',
                                   keyboardType: TextInputType.text,
@@ -267,7 +267,7 @@ class SignupView extends GetView<SignupController> {
                                   //onChanged: controller.username,
                                   controller:
                                       controller.instagramController.value,
-                                  hintText: 'Instagram URL',
+                                  hintText: 'Instagram URL (Optional)',
                                   // hintText: 'e.g user?username=pinkad.pk',
                                   iconName: 'insta',
                                   keyboardType: TextInputType.text,
