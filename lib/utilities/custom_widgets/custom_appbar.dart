@@ -21,7 +21,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool backButton;
   final box = GetStorage();
   CustomPopupMenuController controller = CustomPopupMenuController();
-  MyAppBar({Key? key, required this.title, required this.onMenuTap, required this.onProfileTap, required this.backButton}) : super(key: key);
+  MyAppBar({
+    Key? key,
+    required this.title,
+    required this.onMenuTap,
+    required this.onProfileTap,
+    required this.backButton,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +35,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     var userType = box.read('user_type');
     // print(data['status']);
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.h),
+      // margin: EdgeInsets.symmetric(vertical: 10.h),
       child: AppBar(
         elevation: 0.0,
         automaticallyImplyLeading: backButton,
@@ -39,15 +45,25 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               ? data['status'] == 'success'
                   ? IconButton(
                       icon: ConstrainedBox(
-                        constraints: BoxConstraints.tight(const Size(double.infinity, 256)),
+                        constraints: BoxConstraints.tight(
+                          const Size(double.infinity, 256),
+                        ),
                         child: Stack(
                           alignment: AlignmentDirectional.center,
                           children: <Widget>[
-                            Positioned(top: 7.0, child: SvgPicture.asset('assets/svgIcons/profile_icon.svg')),
+                            Positioned(
+                              top: 7.0,
+                              child: SvgPicture.asset(
+                                'assets/svgIcons/profile_icon.svg',
+                              ),
+                            ),
                             const Positioned(
                               top: 21,
                               right: 20,
-                              child: CircleAvatar(radius: 5, backgroundColor: activeColor),
+                              child: CircleAvatar(
+                                radius: 5,
+                                backgroundColor: activeColor,
+                              ),
                             ),
                           ],
                         ),
@@ -77,10 +93,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 Get.toNamed(Routes.FEEDBACK);
                               },
                               child: Container(
-                                padding: const EdgeInsets.only(left: 16, top: 10, right: 10, bottom: 10),
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  top: 10,
+                                  right: 10,
+                                  bottom: 10,
+                                ),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.reviews_outlined, color: secondary),
+                                    const Icon(
+                                      Icons.reviews_outlined,
+                                      color: secondary,
+                                    ),
                                     SizedBox(
                                       width: 17.w,
                                     ),
@@ -104,10 +128,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 // Get.toNamed(Routes.FEEDBACK);
                               },
                               child: Container(
-                                padding: const EdgeInsets.only(left: 16, top: 10, right: 10, bottom: 10),
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  top: 10,
+                                  right: 10,
+                                  bottom: 10,
+                                ),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.delete_outline_outlined, color: secondary),
+                                    const Icon(
+                                      Icons.delete_outline_outlined,
+                                      color: secondary,
+                                    ),
                                     SizedBox(width: 15.w),
                                     Text(
                                       'Delete Account',
@@ -130,7 +162,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 Get.offAllNamed(Routes.Bottom_Nav_Bar);
                               },
                               child: Container(
-                                padding: const EdgeInsets.only(left: 16, top: 10, right: 10, bottom: 10),
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  top: 10,
+                                  right: 10,
+                                  bottom: 10,
+                                ),
                                 child: Row(
                                   children: [
                                     SvgPicture.asset(
@@ -162,7 +199,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 Get.toNamed(Routes.LOGIN);
                               },
                               child: Container(
-                                padding: const EdgeInsets.only(left: 16, top: 10, right: 10, bottom: 10),
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  top: 10,
+                                  right: 10,
+                                  bottom: 10,
+                                ),
                                 child: Row(
                                   children: [
                                     // SvgPicture.asset(
@@ -191,10 +233,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 Get.toNamed(Routes.SIGNUP);
                               },
                               child: Container(
-                                padding: const EdgeInsets.only(left: 16, top: 5, right: 10, bottom: 10),
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  top: 5,
+                                  right: 10,
+                                  bottom: 10,
+                                ),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.person_add_alt_1_outlined, color: secondary),
+                                    const Icon(
+                                      Icons.person_add_alt_1_outlined,
+                                      color: secondary,
+                                    ),
                                     // SvgPicture.asset(
                                     //   "assets/svgIcons/logout.svg",
                                     //   width: 13.w,
@@ -220,10 +270,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 Get.toNamed(Routes.FEEDBACK);
                               },
                               child: Container(
-                                padding: const EdgeInsets.only(left: 16, top: 10, right: 10, bottom: 10),
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  top: 10,
+                                  right: 10,
+                                  bottom: 10,
+                                ),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.reviews_outlined, color: secondary),
+                                    const Icon(
+                                      Icons.reviews_outlined,
+                                      color: secondary,
+                                    ),
                                     // SvgPicture.asset(
                                     //   "assets/svgIcons/dashboard.svg",
                                     //   width: 13.w,
@@ -281,7 +339,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Text(
             'Are you sure?',
-            style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 20.sp, fontFamily: Utils.poppinsBold),
+            style: CustomTextView.getStyle(
+              Get.context!,
+              colorLight: secondary,
+              fontSize: 20.sp,
+              fontFamily: Utils.poppinsBold,
+            ),
           ),
           SizedBox(
             height: 15.h,
@@ -291,7 +354,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: Text(
               'You want to delete your account?',
               textAlign: TextAlign.center,
-              style: CustomTextView.getStyle(Get.context!, colorLight: textColor, fontSize: 14.sp),
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: textColor,
+                fontSize: 14.sp,
+              ),
             ),
           ),
           SizedBox(
@@ -313,7 +380,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Center(
             child: Text(
               'Delete',
-              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: Utils.poppinsMedium,
+              ),
             ),
           ),
         ),
@@ -332,7 +404,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Center(
             child: Text(
               'Cancel',
-              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: Utils.poppinsMedium,
+              ),
             ),
           ),
         ),
@@ -344,7 +421,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     final data = await box.read('customer_data');
     final ApiService _apiService = ApiService(http.Client());
     try {
-      final response = await _apiService.getDataWithHeader(Endpoints.deleteUser, data['authorisation']['token']);
+      final response = await _apiService.getDataWithHeader(
+        Endpoints.deleteUser,
+        data['authorisation']['token'],
+      );
 
       if (response.statusCode == 200) {
         box.write('customer_data', null);

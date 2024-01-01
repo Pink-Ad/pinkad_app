@@ -155,62 +155,62 @@ class _HomePageSliderState extends State<HomePageSlider> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: (banner.isNotEmpty)
-            ? Column(
-                children: <Widget>[
-                  CarouselSlider.builder(
-                    itemCount: banner.length,
-                    itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-                      return InkWell(
-                        onTap: () {
-                          launchUrl(Uri.parse(banner[itemIndex].redirectUrl));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.grey.shade300,
-                              image: DecorationImage(
-                                image: NetworkImage(ApiService.imageBaseUrl + banner[itemIndex].image!),
-                                fit: BoxFit.fill,
-                              ),
+      body: (banner.isNotEmpty)
+          ? Column(
+              children: <Widget>[
+                CarouselSlider.builder(
+                  itemCount: banner.length,
+                  itemBuilder:
+                      (BuildContext context, int itemIndex, int pageViewIndex) {
+                    return InkWell(
+                      onTap: () {
+                        launchUrl(Uri.parse(banner[itemIndex].redirectUrl));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.grey.shade300,
+                            image: DecorationImage(
+                              image: NetworkImage(ApiService.imageBaseUrl +
+                                  banner[itemIndex].image!),
+                              fit: BoxFit.fill,
                             ),
                           ),
                         ),
-                      );
+                      ),
+                    );
+                  },
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    viewportFraction: 0.8,
+                    aspectRatio: 2.3,
+                    initialPage: currentBanner,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        currentBanner = index;
+                        // Update the current page if you need to keep track of the index
+                      });
                     },
-                    options: CarouselOptions(
-                      autoPlay: true,
-                      enlargeCenterPage: true,
-                      viewportFraction: 0.8,
-                      aspectRatio: 2.3,
-                      initialPage: currentBanner,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          currentBanner = index;
-                          // Update the current page if you need to keep track of the index
-                        });
-                      },
-                    ),
-                    carouselController: _carouselController,
                   ),
-                  10.verticalSpace,
-                  AnimatedSmoothIndicator(
-                    activeIndex: currentBanner % 4,
-                    count: 4,
-                    effect: ExpandingDotsEffect(
-                      activeDotColor: primary,
-                      expansionFactor: 2.5,
-                      dotHeight: 12,
-                      dotWidth: 12,
-                    ),
+                  carouselController: _carouselController,
+                ),
+                10.verticalSpace,
+                AnimatedSmoothIndicator(
+                  activeIndex: currentBanner % 4,
+                  count: 4,
+                  effect: ExpandingDotsEffect(
+                    activeDotColor: primary,
+                    expansionFactor: 2.5,
+                    dotHeight: 12,
+                    dotWidth: 12,
                   ),
-                ],
-              )
-            : SizedBox(),
-      ),
+                ),
+              ],
+            )
+          : SizedBox(),
     );
   }
 }
