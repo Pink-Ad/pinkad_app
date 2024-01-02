@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
@@ -16,7 +17,6 @@ import '../../../../utilities/custom_widgets/custom_button.dart';
 import '../../../../utilities/custom_widgets/main_controlller.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
-import 'package:http/http.dart' as http;
 
 class AllOfferDetailsView extends GetView {
   AllOfferDetailsView({super.key});
@@ -25,12 +25,13 @@ class AllOfferDetailsView extends GetView {
   Widget build(BuildContext context) {
     final box = GetStorage();
     final token = box.read('user_token');
+    final userType = box.read('user_type');
     final data = arguments['data'];
     final seller = arguments['seller'];
     print(data);
     HomeController homeController = HomeController();
     final MainControllers mainControllers = MainControllers();
-    final ApiService _apiService = ApiService(http.Client());
+    final ApiService apiService = ApiService(http.Client());
 
     const String facebookUrl = "https://www.facebook.com/";
     return Scaffold(
@@ -45,7 +46,7 @@ class AllOfferDetailsView extends GetView {
         child: SafeArea(
           child: Column(
             children: [
-              token == null
+              userType == 'guest'
                   ? MyAppBar(
                       backButton: true,
                       title: "PinkAd",
@@ -246,7 +247,6 @@ class AllOfferDetailsView extends GetView {
                 child: Container(
                   margin:
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                  height: 360.h,
                   decoration: BoxDecoration(
                     color: containerGray,
                     borderRadius: BorderRadius.circular(8.0),
@@ -259,67 +259,69 @@ class AllOfferDetailsView extends GetView {
                       ),
                     ],
                   ),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 167.h,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(8.0),
-                              topRight: Radius.circular(8.0)),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                ApiService.imageBaseUrl + data['banner']),
-                            fit: BoxFit.cover, // or any other value for fit
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: SingleChildScrollView(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1.2,
                           child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 20.0),
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Text(
-                                //   'Address',
-                                //   style: CustomTextView.getStyle(context,
-                                //       colorLight: Colors.black,
-                                //       fontSize: 16.sp,
-                                //       fontFamily: Utils.poppinsSemiBold),
-                                // ),
-                                // const SizedBox(height: 8),
-                                // Text(
-                                //   'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
-                                //   style: CustomTextView.getStyle(
-                                //     context,
-                                //     colorLight: textColor,
-                                //   ),
-                                // ),
-                                Text(
-                                  'Description',
-                                  style: CustomTextView.getStyle(context,
-                                      colorLight: Colors.black,
-                                      fontSize: 16.sp,
-                                      fontFamily: Utils.poppinsSemiBold),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  data['description'] ?? '',
-                                  // 'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: textColor,
-                                  ),
-                                ),
-                              ],
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(8.0),
+                                  topRight: Radius.circular(8.0)),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    ApiService.imageBaseUrl + data['banner']),
+                                fit: BoxFit
+                                    .contain, // or any other value for fit
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 20.0),
+                          // alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Text(
+                              //   'Address',
+                              //   style: CustomTextView.getStyle(context,
+                              //       colorLight: Colors.black,
+                              //       fontSize: 16.sp,
+                              //       fontFamily: Utils.poppinsSemiBold),
+                              // ),
+                              // const SizedBox(height: 8),
+                              // Text(
+                              //   'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
+                              //   style: CustomTextView.getStyle(
+                              //     context,
+                              //     colorLight: textColor,
+                              //   ),
+                              // ),
+                              Text(
+                                'Description',
+                                style: CustomTextView.getStyle(context,
+                                    colorLight: Colors.black,
+                                    fontSize: 16.sp,
+                                    fontFamily: Utils.poppinsSemiBold),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                data['description'] ?? '',
+                                // 'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
+                                style: CustomTextView.getStyle(
+                                  context,
+                                  colorLight: textColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -334,7 +336,7 @@ class AllOfferDetailsView extends GetView {
                     "offer_id": data['id'].toString(),
                     "reach": 1.toString()
                   };
-                  await _apiService.postData('insights/update', data1);
+                  await apiService.postData('insights/update', data1);
                 },
                 textColor: Colors.white,
                 buttonColor: data["shop"]["seller"]["web_url"] == null

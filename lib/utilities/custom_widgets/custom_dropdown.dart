@@ -14,6 +14,8 @@ class MyDropdown extends GetView<SignupController> {
   // final RxString selectedSalesman = 'Select Salesman'.obs;
   final RxBool showAnotherDropdown = false.obs;
 
+  MyDropdown({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => Column(
@@ -102,7 +104,7 @@ class MyDropdown extends GetView<SignupController> {
                     items: controller.salesmanName.value,
                     itemAsString: (City u) => u.name,
                     enabled:
-                        controller.salesmanName.value.length > 0 ? true : false,
+                        controller.salesmanName.value.isNotEmpty ? true : false,
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       baseStyle: CustomTextView.getStyle(context,
                           colorLight: textColor, fontSize: 15.sp),

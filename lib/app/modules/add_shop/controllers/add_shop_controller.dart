@@ -3,15 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
-import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/models/login_response.dart';
 import 'package:pink_ad/app/models/province_model.dart';
-import 'package:pink_ad/app/models/shop_list_model.dart';
 import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/custom_widgets/snackbars.dart';
 
@@ -57,8 +56,7 @@ class AddShopController extends GetxController {
 
   Future<void> getSellerShop(String token) async {
     try {
-      final response =
-          await _apiService.getDataWithHeader(Endpoints.sellerShop, token);
+      final response = await _apiService.getDataWithHeader(Endpoints.sellerShop, token);
 
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
@@ -143,13 +141,13 @@ class AddShopController extends GetxController {
 
   void onSubmit() {
     if (businessNameController.value.text.isEmpty) {
-      showSnackBarError("Error", "Business name field cannot be empty");
+      showSnackBarError('Error', 'Business name field cannot be empty');
     } else if (addressController.value.text.isEmpty) {
-      showSnackBarError("Error", "Address field cannot be empty");
+      showSnackBarError('Error', 'Address field cannot be empty');
     } else if (descriptionController.value.text.isEmpty) {
-      showSnackBarError("Error", "Description field cannot be empty");
+      showSnackBarError('Error', 'Description field cannot be empty');
     } else if (phoneController.value.text.isEmpty) {
-      showSnackBarError("Error", "Contact Number field cannot be empty");
+      showSnackBarError('Error', 'Contact Number field cannot be empty');
     } else {
       addShop();
     }
@@ -161,8 +159,7 @@ class AddShopController extends GetxController {
     LoginResponse data = await box.read('user_data');
 
     isLoading.value = true;
-    const url =
-        'https://ms-hostingladz.com/DigitalBrand/api/${Endpoints.createShop}';
+    const url = 'https://ms-hostingladz.com/DigitalBrand/api/${Endpoints.createShop}';
     final businessName = businessNameController.value.text.trim();
     final address = addressController.value.text.trim();
     final descroption = descriptionController.value.text.trim();
@@ -170,9 +167,15 @@ class AddShopController extends GetxController {
 
     try {
       final request = http.MultipartRequest(
-          'POST', Uri.parse(url)); // Create the multipart request
-      request.files.add(await http.MultipartFile.fromPath(
-          'logo', pickedFile!.path)); // Add the file to the request
+        'POST',
+        Uri.parse(url),
+      ); // Create the multipart request
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'logo',
+          pickedFile!.path,
+        ),
+      ); // Add the file to the request
       request.fields.addAll({
         'name': data.user!.seller!.businessName!,
         'branch_name': businessName,
@@ -187,7 +190,8 @@ class AddShopController extends GetxController {
 
       print(request.fields.toString());
       final response = await http.Response.fromStream(
-          await request.send()); // Send the request
+        await request.send(),
+      ); // Send the request
       // final postResponse =
       //     RegisterPostResponse.fromJson(json.decode(response.body));
       print(json.decode(response.body));
@@ -198,7 +202,7 @@ class AddShopController extends GetxController {
         // addShop();
         // if (postResponse.status == "success") {
         showSnackBarSuccess(
-          "Message",
+          'Message',
           'Shop created Successfully',
         );
         Get.toNamed(Routes.User_Bottom_Nav_Bar);
@@ -207,8 +211,8 @@ class AddShopController extends GetxController {
       } else {
         isLoading.value = false;
         showSnackBarError(
-          "Message",
-          "Something went wrong",
+          'Message',
+          'Something went wrong',
         );
         // }
         // } else {

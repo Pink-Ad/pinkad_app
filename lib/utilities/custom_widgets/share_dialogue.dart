@@ -234,7 +234,7 @@ extension DialogExtension on GetxController {
                           SizedBox(
                             width: 10.h,
                           ),
-                          Container(
+                          SizedBox(
                             width: 170.w,
                             child: Text(
                               "Image(s)jsdljadjalksjdkladjkaljdklasaldajdlaksdjklas",

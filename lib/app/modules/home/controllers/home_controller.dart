@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/utilities/custom_widgets/snackbars.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,31 +20,14 @@ class HomeController extends GetxController {
   RxBool isLoading = false.obs;
 
   final count = 0.obs;
-  //   List<dynamic> fSeller =[].obs;
-  // List<dynamic> tSeller =[].obs;
-  // List<dynamic> fOffer = [].obs;
-  // List<dynamic> tOffer = [].obs;
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-    //  fSeller = await box.read('fseller');
-    //    tSeller = await box.read('topSeller');
-    //    fOffer = await box.read('fOffer');
-    //    tOffer = await box.read('topOffer');
-  }
 
   void setLoading() {
     isLoading.value = !isLoading.value;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
+  Future<void> refreshDashboard() async {
+    await Get.find<SplashController>().getHomeData();
+    update();
   }
 
   void showCustomDialog(var temp) {
@@ -65,21 +49,16 @@ class HomeController extends GetxController {
               children: [
                 Text(
                   'Share',
-                  style: CustomTextView.getStyle(Get.context!,
-                      colorLight: secondary,
-                      fontSize: 24.sp,
-                      fontFamily: Utils.poppinsSemiBold),
+                  style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 24.sp, fontFamily: Utils.poppinsSemiBold),
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
+                  onTap: Get.back,
                   child: const Icon(
                     Icons.close,
                     color: Colors.red,
                     size: 30,
                   ),
-                )
+                ),
               ],
             ),
             Text(
@@ -100,7 +79,8 @@ class HomeController extends GetxController {
                 GestureDetector(
                   onTap: () async {
                     Share.share(
-                        "${temp['title']}, ${temp['description']},${temp['shop']['name'] ?? ''},contact ${temp['shop']['seller']['faecbook_page']}. $appUrl");
+                      "${temp['title']}, ${temp['description']},${temp['shop']['name'] ?? ''},contact ${temp['shop']['seller']['faecbook_page']}. $appUrl",
+                    );
                     // if (await canLaunchUrl(
                     //     Uri.parse(temp['shop']['seller']['faecbook_page']))) {
                     //   await launchUrl(
@@ -111,26 +91,28 @@ class HomeController extends GetxController {
                     // }
                   },
                   child: Container(
-                      height: 40.h,
-                      width: 45.w,
-                      decoration: BoxDecoration(
-                        color: socialMediabg,
-                        borderRadius: BorderRadius.circular(10.0),
+                    height: 40.h,
+                    width: 45.w,
+                    decoration: BoxDecoration(
+                      color: socialMediabg,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.facebook,
+                        size: 30.sp,
+                        // "assets/svgIcons/facebook.svg",
+                        color: const Color(0xFF4B69B1),
                       ),
-                      child: Center(
-                        child: Icon(
-                          Icons.facebook,
-                          size: 30.sp,
-                          // "assets/svgIcons/facebook.svg",
-                          color: const Color(0xFF4B69B1),
-                        ),
-                      )),
+                    ),
+                  ),
                 ),
                 SizedBox(width: 10.w),
                 GestureDetector(
                   onTap: () async {
                     Share.share(
-                        "${temp['title']}, ${temp['description']},${temp['shop']['name'] ?? ''},contact ${temp['shop']['seller']['insta_page']}. $appUrl");
+                      "${temp['title']}, ${temp['description']},${temp['shop']['name'] ?? ''},contact ${temp['shop']['seller']['insta_page']}. $appUrl",
+                    );
                     // final appInstalled = await canLaunchUrl(Uri.parse(
                     //     'instagram://${temp['shop']['seller']['insta_page']}'));
                     // if (appInstalled) {
@@ -141,19 +123,20 @@ class HomeController extends GetxController {
                     // }
                   },
                   child: Container(
-                      height: 40.h,
-                      width: 45.w,
-                      decoration: BoxDecoration(
-                        color: socialMediabg,
-                        borderRadius: BorderRadius.circular(10.0),
+                    height: 40.h,
+                    width: 45.w,
+                    decoration: BoxDecoration(
+                      color: socialMediabg,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/svgIcons/insta.svg',
+                        height: 20.h,
+                        color: const Color(0xFFE32C48),
                       ),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          "assets/svgIcons/insta.svg",
-                          height: 20.h,
-                          color: const Color(0xFFE32C48),
-                        ),
-                      )),
+                    ),
+                  ),
                 ),
                 SizedBox(width: 10.w),
 
@@ -195,23 +178,27 @@ class HomeController extends GetxController {
 
                 GestureDetector(
                   onTap: () async {
-                    await launchUrl(Uri.parse(
-                        'whatsapp://send?text=${temp['title']}, ${temp['description']},${temp['shop']['name'] ?? ''},contact ${temp['shop']['seller']['phone']}. $appUrl'));
+                    await launchUrl(
+                      Uri.parse(
+                        'whatsapp://send?text=${temp['title']}, ${temp['description']},${temp['shop']['name'] ?? ''},contact ${temp['shop']['seller']['phone']}. $appUrl',
+                      ),
+                    );
                   },
                   child: Container(
-                      height: 40.h,
-                      width: 45.w,
-                      decoration: BoxDecoration(
-                        color: socialMediabg,
-                        borderRadius: BorderRadius.circular(10.0),
+                    height: 40.h,
+                    width: 45.w,
+                    decoration: BoxDecoration(
+                      color: socialMediabg,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/svgIcons/whatsapp.svg',
+                        height: 20.h,
+                        color: const Color(0xFF29A835),
                       ),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          "assets/svgIcons/whatsapp.svg",
-                          height: 20.h,
-                          color: const Color(0xFF29A835),
-                        ),
-                      )),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -219,7 +206,7 @@ class HomeController extends GetxController {
               height: 20.h,
             ),
             Text(
-              "Or copy link",
+              'Or copy link',
               style: CustomTextView.getStyle(
                 Get.context!,
                 colorLight: textColor,
@@ -253,11 +240,11 @@ class HomeController extends GetxController {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SvgPicture.asset("assets/svgIcons/share_icon.svg"),
+                          SvgPicture.asset('assets/svgIcons/share_icon.svg'),
                           SizedBox(
                             width: 3.h,
                           ),
-                          Container(
+                          SizedBox(
                             width: 150.w,
                             child: Text(
                               temp['shop']['seller']['web_url'] ?? '',
@@ -276,12 +263,12 @@ class HomeController extends GetxController {
                   ),
                   InkWell(
                     onTap: () {
-                      Clipboard.setData(ClipboardData(
-                              text: temp['shop']['seller']['web_url'] ?? ''))
-                          .then((value) => showSnackBarSuccess(
-                                "Message",
-                                'Link Copied Successfully',
-                              ));
+                      Clipboard.setData(ClipboardData(text: temp['shop']['seller']['web_url'] ?? '')).then(
+                        (value) => showSnackBarSuccess(
+                          'Message',
+                          'Link Copied Successfully',
+                        ),
+                      );
                     },
                     child: Align(
                       alignment: Alignment.centerRight,
@@ -301,17 +288,18 @@ class HomeController extends GetxController {
                           ],
                         ),
                         child: const Center(
-                            child: Text(
-                          'Copy',
-                          style: TextStyle(color: Colors.white),
-                        )),
+                          child: Text(
+                            'Copy',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 15.h)
+            SizedBox(height: 15.h),
           ],
         ),
       ),

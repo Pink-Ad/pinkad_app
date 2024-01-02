@@ -1,4 +1,17 @@
 include: package:flutter_lints/flutter.yaml
 linter:
   rules:
-    
+    avoid_print: false # Uncomment to disable the `avoid_print` rule
+    prefer_single_quotes: true # Uncomment to enable the `prefer_single_quotes` rule
+    always_declare_return_types: true
+    avoid_return_types_on_setters: true
+    require_trailing_commas: true
+    avoid_annotating_with_dynamic: true
+    avoid_void_async: true
+    avoid_null_checks_in_equality_operators: true
+    unnecessary_await_in_return: true
+    # unnecessary_lambdas: true
+    unnecessary_null_checks: true
+    unnecessary_parenthesis: true
+    unnecessary_to_list_in_spreads: true
+    ignore: use_build_context_synchronously

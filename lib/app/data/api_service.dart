@@ -11,14 +11,10 @@ class ApiService {
   static const String imageBaseUrl = 'https://pinkad.pk/portal/public/storage/';
   final http.Client _client;
   static const String modelBaseUrl = 'https://model.pinkad.pk/aimodel/';
-  late String? _username = "";
-  late String? _password = "";
 
   ApiService(this._client);
 
   void setAuthCredentials(String username, String password) {
-    _username = username;
-    _password = password;
   }
 
   Future<http.Response> postData(String endpoint, dynamic body) async {

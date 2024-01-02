@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import '../../../../utilities/colors/colors.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
-import '../../../routes/app_pages.dart';
 
 class ActivePackageDetailsController extends GetxController {
   //TODO: Implement ActivePackageDetailsController

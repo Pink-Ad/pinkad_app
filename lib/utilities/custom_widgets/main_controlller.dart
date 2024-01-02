@@ -1,5 +1,6 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,21 +11,6 @@ import '../colors/colors.dart';
 import '../utils.dart';
 
 class MainControllers extends GetxController {
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   void showCustomDialog(var temp) {
     print(temp);
     AwesomeDialog(
@@ -89,7 +75,7 @@ class MainControllers extends GetxController {
                           Icons.facebook,
                           size: 30.sp,
                           // "assets/svgIcons/facebook.svg",
-                          color: Color(0xFF4B69B1),
+                          color: const Color(0xFF4B69B1),
                         ),
                       )),
                 ),
@@ -113,7 +99,7 @@ class MainControllers extends GetxController {
                         child: SvgPicture.asset(
                           height: 20.h,
                           "assets/svgIcons/insta.svg",
-                          color: Color(0xFFE32C48),
+                          color: const Color(0xFFE32C48),
                         ),
                       )),
                 ),
@@ -173,7 +159,7 @@ class MainControllers extends GetxController {
                         child: SvgPicture.asset(
                           height: 20.h,
                           "assets/svgIcons/whatsapp.svg",
-                          color: Color(0xFF29A835),
+                          color: const Color(0xFF29A835),
                         ),
                       )),
                 ),
@@ -221,7 +207,7 @@ class MainControllers extends GetxController {
                           SizedBox(
                             width: 3.h,
                           ),
-                          Container(
+                          SizedBox(
                             width: 150.w,
                             child: Text(
                               "example.com/share",
@@ -255,7 +241,7 @@ class MainControllers extends GetxController {
                           ),
                         ],
                       ),
-                      child: Center(
+                      child: const Center(
                           child: Text(
                         'Copy',
                         style: TextStyle(color: Colors.white),

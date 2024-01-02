@@ -15,10 +15,12 @@ import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/models/login_response.dart';
 import 'package:pink_ad/app/models/province_model.dart';
 import 'package:pink_ad/app/models/shop_model.dart';
+import 'package:pink_ad/app/models/subcategory_model.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:pink_ad/utilities/functions/show_image_dialog.dart';
 import 'package:pink_ad/utilities/utils.dart';
 import '../../../../utilities/custom_widgets/snackbars.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
@@ -29,7 +31,7 @@ class UploadOfferController extends GetxController {
   //TODO: Implement UploadOfferController
   var switchValue = false.obs;
   final ApiService _apiService = ApiService(http.Client());
-  SplashController splashController = SplashController();
+  SplashController splashController = Get.find<SplashController>();
   var activeColor = Colors.white.obs;
   final titleController = TextEditingController().obs;
   final hashtagController = TextEditingController().obs;
@@ -50,8 +52,8 @@ class UploadOfferController extends GetxController {
   RxList<City> areaName = <City>[].obs;
   RxList<City> provinceName = <City>[].obs;
   Rx<City?> selectedProvince = Rx<City?>(null);
-  RxList selectedarea = [].obs;
-
+  //RxList selectedarea = [].obs;
+  RxList<City> selectedarea = <City>[].obs;
   // Rx<City?> selectedarea = Rx<City?>(null);
   Rx<City?> selectedCity = Rx<City?>(null);
   var emailVerified;
@@ -59,6 +61,7 @@ class UploadOfferController extends GetxController {
   XFile? pickedFile;
   final inputImage = Image.asset('assets/images/title.png');
   var isLoading = false.obs;
+  var isFetching = false.obs;
   final box = GetStorage();
   List temp = [];
   @override
@@ -69,16 +72,6 @@ class UploadOfferController extends GetxController {
     // getShop();
     // getProvince();
     gerCities();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 
   void toggleSwitchValue() {
@@ -137,6 +130,7 @@ class UploadOfferController extends GetxController {
 
   Future<void> getSubCategories(int id) async {
     try {
+      isFetching.value = true;
       final response = await _apiService.getData('subcategory?cat_id=$id');
       print(inspect(response.body));
       if (response.statusCode == 200) {
@@ -156,10 +150,13 @@ class UploadOfferController extends GetxController {
       print(e);
 
       // showSnackBarError("Error", "Something went wrong please try again later");
+    } finally {
+      isFetching.value = false;
     }
   }
 
   Future<XFile?> pickImage() async {
+    if (await showImageDialog() != true) return null;
     // Request permission from the user
     final permissionStatus = await Permission.photos.request();
     if (permissionStatus.isGranted) {

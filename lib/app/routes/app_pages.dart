@@ -69,7 +69,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.SPLASH,
-      page: () => SplashView(),
+      page: () => const SplashView(),
       binding: SplashBinding(),
     ),
     GetPage(
@@ -125,7 +125,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ALL_SHOPS,
-      page: () => AllShopsView(),
+      page: () => const AllShopsView(),
       binding: AllShopsBinding(),
     ),
     GetPage(
@@ -147,7 +147,7 @@ class AppPages {
     // user pages
     GetPage(
       name: _Paths.UserBottomNavBar,
-      page: () => UserBottomNavBar(),
+      page: () => const UserBottomNavBar(),
       binding: UserDashboardBinding(),
     ),
     GetPage(
@@ -157,7 +157,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ADD_SHOP,
-      page: () => AddShopView(),
+      page: () => const AddShopView(),
       binding: AddShopBinding(),
     ),
     GetPage(
@@ -207,7 +207,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FEEDBACK,
-      page: () => const FeedbackView(),
+      page: () => FeedbackView(),
       binding: FeedbackBinding(),
     ),
     GetPage(

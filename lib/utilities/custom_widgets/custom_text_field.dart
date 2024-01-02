@@ -18,6 +18,7 @@ class ShadowedTextField extends StatefulWidget {
   final List<TextInputFormatter>? textInputFormatter;
   final void Function(String)? onFieldSubmitted;
   final String? errorText;
+  final EdgeInsetsGeometry? contentPadding;
   final String? iconName;
 
   final void Function(String)? onChanged;
@@ -36,6 +37,7 @@ class ShadowedTextField extends StatefulWidget {
     this.errorText,
     this.iconName,
     this.suffixIcon,
+    this.contentPadding,
     this.onChanged,
   }) : super(key: key);
 
@@ -64,34 +66,39 @@ class _ShadowedTextFieldState extends State<ShadowedTextField> {
       ),
       child: Row(
         children: [
-          SvgPicture.asset("assets/svgIcons/${widget.iconName}.svg"),
+          SvgPicture.asset(
+            'assets/svgIcons/${widget.iconName}.svg',
+          ),
           SizedBox(
             width: 15.w,
           ),
           Expanded(
-            child: Center(
-              child: TextFormField(
-                focusNode: widget.focusNode,
-                inputFormatters: widget.textInputFormatter,
-                onFieldSubmitted: widget.onFieldSubmitted,
-                controller: widget.controller,
-                obscureText: widget.obscureText,
-                keyboardType: widget.keyboardType,
-                textInputAction: TextInputAction.newline,
-                cursorColor: textColor,
-                style: CustomTextView.getStyle(context, colorLight: textColor),
-                decoration: InputDecoration(
-                  hintText: widget.hintText,
-                  prefixIcon: widget.prefixIcon,
-                  suffixIcon: widget.suffixIcon,
-                  hintStyle: CustomTextView.getStyle(context,
-                      colorLight: textColor, fontSize: 15.sp),
-                  border: InputBorder.none,
-                  errorText: widget.errorText,
-                  errorStyle: const TextStyle(color: Colors.redAccent),
+            child: TextFormField(
+              focusNode: widget.focusNode,
+              inputFormatters: widget.textInputFormatter,
+              onFieldSubmitted: widget.onFieldSubmitted,
+              controller: widget.controller,
+              obscureText: widget.obscureText,
+              keyboardType: widget.keyboardType,
+              textInputAction: TextInputAction.newline,
+              textAlignVertical: TextAlignVertical.center,
+              cursorColor: textColor,
+              style: CustomTextView.getStyle(context, colorLight: textColor),
+              decoration: InputDecoration(
+                hintText: widget.hintText,
+                prefixIcon: widget.prefixIcon,
+                suffixIcon: widget.suffixIcon,
+                contentPadding: widget.contentPadding,
+                hintStyle: CustomTextView.getStyle(
+                  context,
+                  colorLight: textColor,
+                  fontSize: 15.sp,
                 ),
-                onChanged: widget.onChanged,
+                border: InputBorder.none,
+                errorText: widget.errorText,
+                errorStyle: const TextStyle(color: Colors.redAccent),
               ),
+              onChanged: widget.onChanged,
             ),
           ),
         ],
