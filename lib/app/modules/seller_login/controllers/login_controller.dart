@@ -38,13 +38,24 @@ class LoginController extends GetxController {
   }
 
   void loginCheck() {
-    if (emailController.value.text.isEmpty) {
+    final email = emailController.value.text;
+    final password = passwordController.value.text;
+
+    if (email.isEmpty) {
       showSnackBarError('Error', 'Email field cannot be empty');
-    } else if (passwordController.value.text.isEmpty) {
+    } else if (!isValidEmail(email)) {
+      showSnackBarError('Error', 'Invalid email format');
+    } else if (password.isEmpty) {
       showSnackBarError('Error', 'Password field cannot be empty');
     } else {
       login();
     }
+  }
+
+  bool isValidEmail(String email) {
+    final emailRegExp =
+        RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    return emailRegExp.hasMatch(email);
   }
 
   Future<void> getSellerShop(String token) async {

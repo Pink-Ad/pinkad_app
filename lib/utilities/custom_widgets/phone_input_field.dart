@@ -87,7 +87,7 @@ class CustomPhoneInputField extends StatelessWidget {
       padding: EdgeInsets.only(
         left: 20.0.w,
         right: 5.w,
-        top: 3.h,
+        top: 4.h,
         bottom: 5.h,
       ),
       decoration: BoxDecoration(
@@ -133,7 +133,7 @@ class CustomPhoneInputField extends StatelessWidget {
                 prefixIcon: Padding(
                   padding: EdgeInsets.fromLTRB(
                     20.w,
-                    9.h,
+                    8.h,
                     4.w,
                     10.h,
                   ),
@@ -142,7 +142,7 @@ class CustomPhoneInputField extends StatelessWidget {
                     style: CustomTextView.getStyle(
                       context,
                       colorLight: textColor,
-                      fontSize: 15.sp,
+                      fontSize: 15.5.sp,
                     ),
                   ),
                 ),

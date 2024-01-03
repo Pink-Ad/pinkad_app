@@ -170,48 +170,110 @@ class ShopDetailsView extends GetView {
                             //                       Utils.poppinsMedium)))),
                             // ),
                             GestureDetector(
-                              onTap: () async {
-                                // Share.share(facebookUrl);
+                              onTap: facebookUrl != null &&
+                                      facebookUrl.isNotEmpty
+                                  ? () async {
+                                      // Share.share(facebookUrl);
                                 print(facebookUrl);
-                                if (facebookUrl == null) return;
-                                try {
-                                  final String nativeUrl;
-                                  if (facebookUrl!.toLowerCase().contains('facebook.com')) {
+                                      try {
+                                        final String nativeUrl;
+                                        if (facebookUrl!.toLowerCase().contains('facebook.com')) {
                                     if (!facebookUrl!.startsWith('http')) {
-                                      facebookUrl = 'https://' + facebookUrl!;
-                                    }
+                                            facebookUrl = 'https://' + facebookUrl!;
+                                          }
                                     nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
-                                  } else {
-                                    nativeUrl = 'fb://$facebookUrl';
-                                  }
-                                  await launchUrl(Uri.parse(nativeUrl));
-                                } catch (e) {
-                                  // If the Facebook app is not installed, open the Facebook website
-                                  if (facebookUrl!.startsWith('http')) {
-                                    await launchUrl(Uri.parse(facebookUrl!));
-                                  }
-                                }
-                              },
-                              child: Container(
-                                height: 40.h,
-                                width: 40.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 3),
+                                        } else {
+                                          nativeUrl = 'fb://$facebookUrl';
+                                        }
+                                        await launchUrl(Uri.parse(nativeUrl));
+                                      } catch (e) {
+                                        // If the Facebook app is not installed, open the Facebook website
+                                        if (facebookUrl!.startsWith('http')) {
+                                          await launchUrl(
+                                            Uri.parse(facebookUrl!),
+                                          );
+                                        }
+                                      }
+                                    }
+                                  : null,
+                              child: Opacity(
+                                opacity: facebookUrl != null &&
+                                        facebookUrl.isNotEmpty
+                                    ? 1
+                                    : 0.7,
+                                child: Container(
+                                  height: 40.h,
+                                  width: 40.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        'assets/svgIcons/facebook.svg',
+                                        color: facebookUrl != null &&
+                                                facebookUrl.isNotEmpty
+                                            ? null
+                                            : Colors.grey,
+                                      ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
+                              ),
+                            ),
+                            SizedBox(width: 15.w),
+                            GestureDetector(
+                              onTap: data['seller']['whatsapp'] != null &&
+                                      data['seller']['whatsapp'].isNotEmpty
+                                  ? () async {
+                                      // Replace 'whatsapp://send?phone=${data['seller']['whatsapp']}' with your actual logic to launch WhatsApp.
+                                      await launchUrl(
+                                        Uri.parse(
+                                          'whatsapp://send?phone=${data['seller']['whatsapp']}',
+                                        ),
+                                      );
+                                    }
+                                  : null, // Disable the onTap when WhatsApp number is not available
+                              child: Opacity(
+                                opacity: data['seller']['whatsapp'] != null &&
+                                        data['seller']['whatsapp'].isNotEmpty
+                                    ? 1
+                                    : 0.5, // Make icon translucent if disabled
+                                child: Container(
+                                  height: 40.h,
+                                  width: 40.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
                                   child: Center(
                                     child: SvgPicture.asset(
-                                      'assets/svgIcons/facebook.svg',
+                                      'assets/svgIcons/whatsapp_icon.svg',
+                                      color: data['seller']['whatsapp'] !=
+                                                  null &&
+                                              data['seller']['whatsapp']
+                                                  .isNotEmpty
+                                          ? null
+                                          : Colors
+                                              .grey, // Change color if disabled
                                     ),
                                   ),
                                 ),
@@ -219,167 +281,164 @@ class ShopDetailsView extends GetView {
                             ),
                             SizedBox(width: 15.w),
                             GestureDetector(
-                              onTap: () async {
-                                // final appInstalled = await canLaunchUrl(
-                                //     Uri.parse('whatsapp://'));
-                                // if (appInstalled) {
-                                print(data);
-                                await launchUrl(
-                                  Uri.parse(
-                                    // 'whatsapp://send?phone=03001234567'));
-                                    'whatsapp://send?phone=${data['seller']['whatsapp']}',
-                                  ),
-                                );
-                                // 'whatsapp://send?text=${data['name']},contact ${data['seller']['phone']}. $appUrl'));
-
-                                // 'whatsapp://send?text=${data['seller']['whatsapp']}'));
-                                // } else {
-                                //   await launchUrl(Uri.parse(
-                                //       'https://api.whatsapp.com/send?phone=03001234567'));
-                                // }
-                              },
-                              child: Container(
-                                height: 40.h,
-                                width: 40.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    'assets/svgIcons/whatsapp_icon.svg',
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 15.w),
-                            GestureDetector(
-                              onTap: () async {
-                                String? instaUrl = data['seller']['insta_page'];
-                                print(instaUrl);
-                                if (instaUrl == null) return;
-                                try {
-                                  final String nativeUrl;
-                                  if (instaUrl.toLowerCase().contains('instagram.com')) {
+                              onTap: data['seller']['insta_page'] != null &&
+                                      data['seller']['insta_page'].isNotEmpty
+                                  ? () async {
+                                      String? instaUrl = data['seller']['insta_page'];
+                                      print(instaUrl);
+                                      if (instaUrl == null) return;
+                                      try {
+                                        final String nativeUrl;
+                                        if (instaUrl.toLowerCase().contains('instagram.com')) {
                                     if (!instaUrl.startsWith('http')) {
                                       instaUrl = 'https://' + instaUrl;
                                     }
-                                    final uri = Uri.parse(instaUrl);
-                                    // Invalid URL
-                                    if (uri.pathSegments.isEmpty) return;
-                                    print(uri.pathSegments);
-                                    nativeUrl = 'instagram://user?username=${uri.pathSegments.first}';
-                                  } else {
-                                    nativeUrl = 'instagram://$instaUrl';
-                                  }
-                                  await launchUrl(Uri.parse(nativeUrl));
-                                } catch (e) {
-                                  if (instaUrl!.startsWith('http')) {
-                                    await launchUrl(Uri.parse(instaUrl));
-                                  }
-                                }
-                              },
-                              child: Container(
-                                height: 40.h,
-                                width: 40.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    'assets/svgIcons/insta.svg',
+                                          final uri = Uri.parse(instaUrl);
+                                          // Invalid URL
+                                          if (uri.pathSegments.isEmpty) return;
+                                          print(uri.pathSegments);
+                                          nativeUrl = 'instagram://user?username=${uri.pathSegments.first}';
+                                        } else {
+                                          nativeUrl = 'instagram://$instaUrl';
+                                        }
+                                        await launchUrl(Uri.parse(nativeUrl));
+                                      } catch (e) {
+                                        if (instaUrl!.startsWith('http')) {
+                                          await launchUrl(Uri.parse(instaUrl));
+                                        }
+                                      }
+                                    }
+                                  : null, // Disable onTap when Instagram page is not available
+                              child: Opacity(
+                                opacity: data['seller']['insta_page'] != null &&
+                                        data['seller']['insta_page'].isNotEmpty
+                                    ? 1
+                                    : 0.7, // Adjust opacity if disabled
+                                child: Container(
+                                  height: 40.h,
+                                  width: 40.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 15.w),
-                            GestureDetector(
-                              onTap: () async {
-                                if (data['seller']['web_url'] != null && Uri.tryParse(data['seller']['web_url']) != null) {
-                                  // Launch the web URL
-                                  final url = Uri.parse(data['seller']['web_url']);
-                                  await launchUrl(url);
-                                } else {
-                                  // Handle the case where the web URL is null or not valid.
-                                  // For example, show an error message:
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Web URL is not available.'),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Container(
-                                height: 40.h,
-                                width: 40.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    'assets/svgIcons/website.svg',
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 15.w),
-                            GestureDetector(
-                              onTap: () async {
-                                shopDetailsController.showAwesomeDialog(
-                                  title: 'Address',
-                                  content: data['address'] ?? 'No address available',
-                                  confirmButtonText: 'Close',
-                                  confirmButtonColor: bodyTextColor,
-                                  onConfirm: () => Get.back(),
-                                  showCancelButton: false,
-                                );
-                              },
-                              child: Container(
-                                height: 40.h,
-                                width: 40.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 2.0),
                                   child: Center(
                                     child: SvgPicture.asset(
-                                      'assets/svgIcons/location.svg',
+                                      'assets/svgIcons/insta.svg',
+                                      color: data['seller']['insta_page'] !=
+                                                  null &&
+                                              data['seller']['insta_page']
+                                                  .isNotEmpty
+                                          ? null
+                                          : Colors
+                                              .grey, // Change color if disabled
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 15.w),
+                            GestureDetector(
+                              onTap: data['seller']['web_url'] != null &&
+                                      Uri.tryParse(data['seller']['web_url']) !=
+                                          null
+                                  ? () async {
+                                      final url =
+                                          Uri.parse(data['seller']['web_url']);
+                                      await launchUrl(url);
+                                    }
+                                  : null, // Disable onTap when web URL is not valid or available
+                              child: Opacity(
+                                opacity: data['seller']['web_url'] != null &&
+                                        Uri.tryParse(
+                                              data['seller']['web_url'],
+                                            ) !=
+                                            null
+                                    ? 1
+                                    : 0.5, // Adjust opacity if disabled
+                                child: Container(
+                                  height: 40.h,
+                                  width: 40.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      'assets/svgIcons/website.svg',
+                                      color: data['seller']['web_url'] !=
+                                                  null &&
+                                              Uri.tryParse(
+                                                    data['seller']['web_url'],
+                                                  ) !=
+                                                  null
+                                          ? null
+                                          : Colors
+                                              .grey, // Change color if disabled
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 15.w),
+                            GestureDetector(
+                              onTap: data['address'] != null
+                                  ? () async {
+                                      shopDetailsController.showAwesomeDialog(
+                                        title: 'Address',
+                                        content: data['address'] ??
+                                            'No address available',
+                                        confirmButtonText: 'Close',
+                                        confirmButtonColor: bodyTextColor,
+                                        onConfirm: () => Get.back(),
+                                        showCancelButton: false,
+                                      );
+                                    }
+                                  : null, // Disable onTap when address is not available
+                              child: Opacity(
+                                opacity: data['address'] != null
+                                    ? 1
+                                    : 0.5, // Adjust opacity if disabled
+                                child: Container(
+                                  height: 40.h,
+                                  width: 40.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 2.0),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        'assets/svgIcons/location.svg',
+                                        color: data['address'] != null
+                                            ? null
+                                            : Colors
+                                                .grey, // Change color if disabled
+                                      ),
                                     ),
                                   ),
                                 ),

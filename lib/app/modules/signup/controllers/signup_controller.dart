@@ -111,6 +111,11 @@ class SignupController extends GetxController {
       showSnackBarError('Error', phoneError);
       return; // Stop execution if there is an error
     }
+    bool isValidEmail(String email) {
+      final emailRegExp =
+          RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+      return emailRegExp.hasMatch(email);
+    }
 
     String? whatsappError =
         validateWhatsppNumber(whatsappNoController.value.text);
@@ -119,6 +124,8 @@ class SignupController extends GetxController {
       return; // Stop execution if there is an error
     } else if (emailController.value.text.isEmpty) {
       showSnackBarError('Error', 'Email field cannot be empty');
+    } else if (!isValidEmail(emailController.value.text)) {
+      showSnackBarError('Error', 'Invalid email format');
     } else if (passwordController.value.text.isEmpty) {
       showSnackBarError('Error', 'Password cannot be empty');
     } else if (businessAddressController.value.text.isEmpty) {
