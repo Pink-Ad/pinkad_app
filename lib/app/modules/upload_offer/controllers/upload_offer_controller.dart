@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/areas_model.dart';
@@ -32,7 +31,6 @@ class UploadOfferController extends GetxController {
   HomeController homeController = Get.put(HomeController());
   //TODO: Implement UploadOfferController
   var switchValue = false.obs;
-  final selectAll = ValueItem(value: -1, label: 'Select All');
   final ApiService _apiService = ApiService(http.Client());
   SplashController splashController = Get.find<SplashController>();
   var activeColor = Colors.white.obs;
@@ -75,10 +73,6 @@ class UploadOfferController extends GetxController {
     // getShop();
     // getProvince();
     gerCities();
-  }
-
-  Widget myFunc(BuildContext ctx, Widget child) {
-    return child;
   }
 
   void toggleSwitchValue() {
