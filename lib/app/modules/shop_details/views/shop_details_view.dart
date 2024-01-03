@@ -170,18 +170,17 @@ class ShopDetailsView extends GetView {
                             //                       Utils.poppinsMedium)))),
                             // ),
                             GestureDetector(
-                              onTap: facebookUrl != null &&
-                                      facebookUrl.isNotEmpty
+                              onTap: facebookUrl != null && facebookUrl.isNotEmpty
                                   ? () async {
                                       // Share.share(facebookUrl);
-                                print(facebookUrl);
+                                      print(facebookUrl);
                                       try {
                                         final String nativeUrl;
                                         if (facebookUrl!.toLowerCase().contains('facebook.com')) {
-                                    if (!facebookUrl!.startsWith('http')) {
+                                          if (!facebookUrl!.startsWith('http')) {
                                             facebookUrl = 'https://' + facebookUrl!;
                                           }
-                                    nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
+                                          nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
                                         } else {
                                           nativeUrl = 'fb://$facebookUrl';
                                         }
@@ -197,10 +196,7 @@ class ShopDetailsView extends GetView {
                                     }
                                   : null,
                               child: Opacity(
-                                opacity: facebookUrl != null &&
-                                        facebookUrl.isNotEmpty
-                                    ? 1
-                                    : 0.7,
+                                opacity: facebookUrl != null && facebookUrl!.isNotEmpty ? 1 : 0.7,
                                 child: Container(
                                   height: 40.h,
                                   width: 40.w,
@@ -221,10 +217,7 @@ class ShopDetailsView extends GetView {
                                     child: Center(
                                       child: SvgPicture.asset(
                                         'assets/svgIcons/facebook.svg',
-                                        color: facebookUrl != null &&
-                                                facebookUrl.isNotEmpty
-                                            ? null
-                                            : Colors.grey,
+                                        color: facebookUrl != null && facebookUrl!.isNotEmpty ? null : Colors.grey,
                                       ),
                                     ),
                                   ),
@@ -233,8 +226,7 @@ class ShopDetailsView extends GetView {
                             ),
                             SizedBox(width: 15.w),
                             GestureDetector(
-                              onTap: data['seller']['whatsapp'] != null &&
-                                      data['seller']['whatsapp'].isNotEmpty
+                              onTap: data['seller']['whatsapp'] != null && data['seller']['whatsapp'].isNotEmpty
                                   ? () async {
                                       // Replace 'whatsapp://send?phone=${data['seller']['whatsapp']}' with your actual logic to launch WhatsApp.
                                       await launchUrl(
@@ -245,8 +237,7 @@ class ShopDetailsView extends GetView {
                                     }
                                   : null, // Disable the onTap when WhatsApp number is not available
                               child: Opacity(
-                                opacity: data['seller']['whatsapp'] != null &&
-                                        data['seller']['whatsapp'].isNotEmpty
+                                opacity: data['seller']['whatsapp'] != null && data['seller']['whatsapp'].isNotEmpty
                                     ? 1
                                     : 0.5, // Make icon translucent if disabled
                                 child: Container(
@@ -267,13 +258,9 @@ class ShopDetailsView extends GetView {
                                   child: Center(
                                     child: SvgPicture.asset(
                                       'assets/svgIcons/whatsapp_icon.svg',
-                                      color: data['seller']['whatsapp'] !=
-                                                  null &&
-                                              data['seller']['whatsapp']
-                                                  .isNotEmpty
+                                      color: data['seller']['whatsapp'] != null && data['seller']['whatsapp'].isNotEmpty
                                           ? null
-                                          : Colors
-                                              .grey, // Change color if disabled
+                                          : Colors.grey, // Change color if disabled
                                     ),
                                   ),
                                 ),
@@ -281,8 +268,7 @@ class ShopDetailsView extends GetView {
                             ),
                             SizedBox(width: 15.w),
                             GestureDetector(
-                              onTap: data['seller']['insta_page'] != null &&
-                                      data['seller']['insta_page'].isNotEmpty
+                              onTap: data['seller']['insta_page'] != null && data['seller']['insta_page'].isNotEmpty
                                   ? () async {
                                       String? instaUrl = data['seller']['insta_page'];
                                       print(instaUrl);
@@ -290,9 +276,9 @@ class ShopDetailsView extends GetView {
                                       try {
                                         final String nativeUrl;
                                         if (instaUrl.toLowerCase().contains('instagram.com')) {
-                                    if (!instaUrl.startsWith('http')) {
-                                      instaUrl = 'https://' + instaUrl;
-                                    }
+                                          if (!instaUrl.startsWith('http')) {
+                                            instaUrl = 'https://' + instaUrl;
+                                          }
                                           final uri = Uri.parse(instaUrl);
                                           // Invalid URL
                                           if (uri.pathSegments.isEmpty) return;
@@ -310,8 +296,7 @@ class ShopDetailsView extends GetView {
                                     }
                                   : null, // Disable onTap when Instagram page is not available
                               child: Opacity(
-                                opacity: data['seller']['insta_page'] != null &&
-                                        data['seller']['insta_page'].isNotEmpty
+                                opacity: data['seller']['insta_page'] != null && data['seller']['insta_page'].isNotEmpty
                                     ? 1
                                     : 0.7, // Adjust opacity if disabled
                                 child: Container(
@@ -332,13 +317,9 @@ class ShopDetailsView extends GetView {
                                   child: Center(
                                     child: SvgPicture.asset(
                                       'assets/svgIcons/insta.svg',
-                                      color: data['seller']['insta_page'] !=
-                                                  null &&
-                                              data['seller']['insta_page']
-                                                  .isNotEmpty
+                                      color: data['seller']['insta_page'] != null && data['seller']['insta_page'].isNotEmpty
                                           ? null
-                                          : Colors
-                                              .grey, // Change color if disabled
+                                          : Colors.grey, // Change color if disabled
                                     ),
                                   ),
                                 ),
@@ -346,12 +327,9 @@ class ShopDetailsView extends GetView {
                             ),
                             SizedBox(width: 15.w),
                             GestureDetector(
-                              onTap: data['seller']['web_url'] != null &&
-                                      Uri.tryParse(data['seller']['web_url']) !=
-                                          null
+                              onTap: data['seller']['web_url'] != null && Uri.tryParse(data['seller']['web_url']) != null
                                   ? () async {
-                                      final url =
-                                          Uri.parse(data['seller']['web_url']);
+                                      final url = Uri.parse(data['seller']['web_url']);
                                       await launchUrl(url);
                                     }
                                   : null, // Disable onTap when web URL is not valid or available
@@ -381,15 +359,13 @@ class ShopDetailsView extends GetView {
                                   child: Center(
                                     child: SvgPicture.asset(
                                       'assets/svgIcons/website.svg',
-                                      color: data['seller']['web_url'] !=
-                                                  null &&
+                                      color: data['seller']['web_url'] != null &&
                                               Uri.tryParse(
                                                     data['seller']['web_url'],
                                                   ) !=
                                                   null
                                           ? null
-                                          : Colors
-                                              .grey, // Change color if disabled
+                                          : Colors.grey, // Change color if disabled
                                     ),
                                   ),
                                 ),
@@ -401,8 +377,7 @@ class ShopDetailsView extends GetView {
                                   ? () async {
                                       shopDetailsController.showAwesomeDialog(
                                         title: 'Address',
-                                        content: data['address'] ??
-                                            'No address available',
+                                        content: data['address'] ?? 'No address available',
                                         confirmButtonText: 'Close',
                                         confirmButtonColor: bodyTextColor,
                                         onConfirm: () => Get.back(),
@@ -411,9 +386,7 @@ class ShopDetailsView extends GetView {
                                     }
                                   : null, // Disable onTap when address is not available
                               child: Opacity(
-                                opacity: data['address'] != null
-                                    ? 1
-                                    : 0.5, // Adjust opacity if disabled
+                                opacity: data['address'] != null ? 1 : 0.5, // Adjust opacity if disabled
                                 child: Container(
                                   height: 40.h,
                                   width: 40.w,
@@ -434,10 +407,7 @@ class ShopDetailsView extends GetView {
                                     child: Center(
                                       child: SvgPicture.asset(
                                         'assets/svgIcons/location.svg',
-                                        color: data['address'] != null
-                                            ? null
-                                            : Colors
-                                                .grey, // Change color if disabled
+                                        color: data['address'] != null ? null : Colors.grey, // Change color if disabled
                                       ),
                                     ),
                                   ),
