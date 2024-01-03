@@ -159,7 +159,7 @@ class AddShopController extends GetxController {
     LoginResponse data = await box.read('user_data');
 
     isLoading.value = true;
-    const url = 'https://ms-hostingladz.com/DigitalBrand/api/${Endpoints.createShop}';
+    const url = '${ApiService.baseUrl}/${Endpoints.createShop}';
     final businessName = businessNameController.value.text.trim();
     final address = addressController.value.text.trim();
     final descroption = descriptionController.value.text.trim();

@@ -85,10 +85,10 @@ class CategoriesDropDownBanner extends GetView<UploadOfferController> {
               ),
               onChanged: (value) async {
                 controller.selectedCategory.value = value;
+                controller.subCategoryName.clear();
                 await loadingWrapper(
                   () => controller.getSubCategories(value!.id),
                 );
-                controller.subCategoryName.clear();
                 showAnotherDropdown.value = true;
               },
               // selectedItem: "Brazil",

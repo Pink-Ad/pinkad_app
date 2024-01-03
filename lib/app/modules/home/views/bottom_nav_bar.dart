@@ -48,12 +48,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
       if (await Get.global(null).currentState!.maybePop()) return;
     }
     final now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime!) > popDuration) {
+    if (currentBackPressTime == null || now.difference(currentBackPressTime!) > popDuration) {
       currentBackPressTime = now;
-      showToast(message: 'Press BACK again to Exit')
-          .future
-          .then((value) => canPop.value = false);
+      showToast(message: 'Press BACK again to Exit').future.then((value) => canPop.value = false);
       canPop.value = true;
     }
   }
@@ -70,7 +67,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           children: [
             Scaffold(
               resizeToAvoidBottomInset: false,
-              extendBody: true,
+              // extendBody: true,
               bottomNavigationBar: Container(
                 color: primary,
                 child: SafeArea(
@@ -107,8 +104,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(20.0),
-                              child:
-                                  SvgPicture.asset('assets/svgIcons/home.svg'),
+                              child: SvgPicture.asset('assets/svgIcons/home.svg'),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(15.0),
@@ -137,7 +133,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const Icon(
-                                  Icons.video_collection_outlined,
+                                  Icons.watch_later_outlined,
                                   color: Colors.white,
                                 ),
                                 SizedBox(

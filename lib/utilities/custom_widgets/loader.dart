@@ -8,10 +8,13 @@ class MyLoading extends StatelessWidget {
     return Positioned.fill(
       child: Container(
         color: Colors.transparent,
-        child: Image.asset(
-          "assets/icons/ic_loader.gif",
-          scale: 3.6,
+        child: Center(
+          child: CircularProgressIndicator(),
         ),
+        // child: Image.asset(
+        //   "assets/icons/ic_loader.gif",
+        //   scale: 3.6,
+        // ),
       ),
     );
   }

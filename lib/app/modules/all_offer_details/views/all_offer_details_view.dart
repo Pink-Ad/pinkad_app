@@ -28,18 +28,17 @@ class AllOfferDetailsView extends GetView {
     final userType = box.read('user_type');
     final data = arguments['data'];
     final seller = arguments['seller'];
-    print(data);
+    // print(data);
     HomeController homeController = HomeController();
     final MainControllers mainControllers = MainControllers();
     final ApiService apiService = ApiService(http.Client());
 
-    const String facebookUrl = "https://www.facebook.com/";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bg_home.png"),
+            image: AssetImage('assets/images/bg_home.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -49,32 +48,31 @@ class AllOfferDetailsView extends GetView {
               userType == 'guest'
                   ? MyAppBar(
                       backButton: true,
-                      title: "PinkAd",
+                      title: 'PinkAd',
                       onMenuTap: () {
-                        print("object");
+                        print('object');
                       },
                       onProfileTap: () {
-                        print("object");
+                        print('object');
                         Get.to(ProfileView());
                       },
                     )
                   : UserAppBar(
                       showBanner: true,
                       backButton: true,
-                      title: "All Shops",
+                      title: 'All Shops',
                       onMenuTap: () {
-                        print("object");
+                        print('object');
                       },
                       onProfileTap: () {
-                        print("object");
+                        print('object');
                         Get.to(ProfileView());
                       },
                       profileIconVisibility: true,
                     ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
-                padding:
-                    EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
+                padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
                 decoration: BoxDecoration(
                   color: containerColor,
                   borderRadius: BorderRadius.circular(10.0),
@@ -82,11 +80,10 @@ class AllOfferDetailsView extends GetView {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(data['title'],
-                        style: CustomTextView.getStyle(context,
-                            fontSize: 20.sp,
-                            colorLight: Colors.black,
-                            fontFamily: Utils.poppinsBold)),
+                    Text(
+                      data['title'],
+                      style: CustomTextView.getStyle(context, fontSize: 20.sp, colorLight: Colors.black, fontFamily: Utils.poppinsBold),
+                    ),
                     const SizedBox(height: 10.0),
                     Text(
                       data['shop']['name'] ?? '',
@@ -104,39 +101,50 @@ class AllOfferDetailsView extends GetView {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            // Share.share(
-                            //     data['shop']['seller']['faecbook_page']);
-                            if (await canLaunchUrl(Uri.parse(
-                                data['shop']['seller']['faecbook_page']))) {
-                              await launchUrl(Uri.parse(
-                                  'fb://${data['shop']['seller']['faecbook_page']}'));
-                            } else {
+                            String? facebookUrl = data['shop']?['seller']?['faecbook_page'];
+                            if (facebookUrl == null) return;
+                            try {
+                              final String nativeUrl;
+                              if (facebookUrl.toLowerCase().contains('facebook.com')) {
+                                if (!facebookUrl.startsWith('http')) {
+                                  facebookUrl = 'https://' + facebookUrl;
+                                }
+                                nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
+                              } else {
+                                nativeUrl = 'fb://$facebookUrl';
+                              }
+                              await launchUrl(Uri.parse(nativeUrl));
+                            } catch (e) {
                               // If the Facebook app is not installed, open the Facebook website
-                              await launchUrl(Uri.parse(facebookUrl));
+                              if (facebookUrl!.startsWith('http')) {
+                                await launchUrl(Uri.parse(facebookUrl));
+                              }
                             }
                           },
                           child: Container(
-                              height: 40.h,
-                              width: 45.w,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 4,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ],
+                            height: 40.h,
+                            width: 45.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  'assets/svgIcons/facebook.svg',
+                                ),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Center(
-                                    child: SvgPicture.asset(
-                                  "assets/svgIcons/facebook.svg",
-                                )),
-                              )),
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           width: 10.0,
@@ -146,68 +154,86 @@ class AllOfferDetailsView extends GetView {
                             // final appInstalled = await canLaunchUrl(
                             //     Uri.parse('whatsapp://'));
                             // if (appInstalled) {
-                            await launchUrl(Uri.parse(
+                            await launchUrl(
+                              Uri.parse(
                                 // 'whatsapp://send?text=${data['title']}, ${data['description']},${data['shop']['name']},contact ${data['shop']['seller']['phone']}. $appUrl'));
 
-                                'whatsapp://send?phone=${data['shop']['seller']['whatsapp']}'));
+                                'whatsapp://send?phone=${data['shop']?['seller']?['whatsapp']}',
+                              ),
+                            );
                             // } else {
                             //   await launchUrl(Uri.parse(
                             //       'https://api.whatsapp.com/send?phone=03001234567'));
                             // }
                           },
                           child: Container(
-                              height: 40.h,
-                              width: 45.w,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 4,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                    "assets/svgIcons/whatsapp_icon.svg"),
-                              )),
+                            height: 40.h,
+                            width: 45.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: SvgPicture.asset('assets/svgIcons/whatsapp_icon.svg'),
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           width: 10.0,
                         ),
                         GestureDetector(
                           onTap: () async {
-                            // Share.share(data['shop']['seller']['insta_page']);
-                            if (data['shop']['seller']['insta_page'] != null) {
-                              await launchUrl(Uri.parse(
-                                  'instagram://${data['shop']['seller']['insta_page']}'));
-                            } else {
-                              await launchUrl(
-                                  Uri.parse('https://www.instagram.com/'));
+                            String? instaUrl = data['shop']?['seller']?['insta_page'];
+                            print(instaUrl);
+                            if (instaUrl == null) return;
+                            try {
+                              final String nativeUrl;
+                              if (instaUrl.toLowerCase().contains('instagram.com')) {
+                                if (!instaUrl.startsWith('http')) {
+                                  instaUrl = 'https://' + instaUrl;
+                                }
+                                final uri = Uri.parse(instaUrl);
+                                // Invalid URL
+                                if (uri.pathSegments.isEmpty) return;
+                                print(uri.pathSegments);
+                                nativeUrl = 'instagram://user?username=${uri.pathSegments.first}';
+                              } else {
+                                nativeUrl = 'instagram://$instaUrl';
+                              }
+                              await launchUrl(Uri.parse(nativeUrl));
+                            } catch (e) {
+                              if (instaUrl!.startsWith('http')) {
+                                await launchUrl(Uri.parse(instaUrl));
+                              }
                             }
                           },
                           child: Container(
-                              height: 40.h,
-                              width: 45.w,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 1,
-                                    blurRadius: 4,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                    "assets/svgIcons/insta.svg"),
-                              )),
+                            height: 40.h,
+                            width: 45.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: SvgPicture.asset('assets/svgIcons/insta.svg'),
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           width: 10.0,
@@ -215,28 +241,30 @@ class AllOfferDetailsView extends GetView {
                         GestureDetector(
                           onTap: () async {
                             Share.share(
-                                "${data['title']}, ${data['description']},${data['shop']['name'] ?? ''},contact ${data['shop']['seller']['faecbook_page']}. $appUrl");
+                              "${data['title']}, ${data['description']},${data['shop']?['name'] ?? ''},contact ${data['shop']?['seller']?['facebook_page']}. $appUrl",
+                            );
 
                             // homeController.showCustomDialog(data);
                           },
                           child: Container(
-                              height: 40.h,
-                              width: 45.w,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 1,
-                                    blurRadius: 4,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              child: const Center(
-                                child: Icon(Icons.share),
-                              )),
+                            height: 40.h,
+                            width: 45.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: const Center(
+                              child: Icon(Icons.share),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -245,8 +273,7 @@ class AllOfferDetailsView extends GetView {
               ),
               Expanded(
                 child: Container(
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   decoration: BoxDecoration(
                     color: containerGray,
                     borderRadius: BorderRadius.circular(8.0),
@@ -267,21 +294,16 @@ class AllOfferDetailsView extends GetView {
                           aspectRatio: 1.2,
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(8.0),
-                                  topRight: Radius.circular(8.0)),
+                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
                               image: DecorationImage(
-                                image: NetworkImage(
-                                    ApiService.imageBaseUrl + data['banner']),
-                                fit: BoxFit
-                                    .contain, // or any other value for fit
+                                image: NetworkImage(ApiService.imageBaseUrl + data['banner']),
+                                fit: BoxFit.contain, // or any other value for fit
                               ),
                             ),
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 20.0),
+                          margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
                           // alignment: Alignment.centerLeft,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,10 +325,7 @@ class AllOfferDetailsView extends GetView {
                               // ),
                               Text(
                                 'Description',
-                                style: CustomTextView.getStyle(context,
-                                    colorLight: Colors.black,
-                                    fontSize: 16.sp,
-                                    fontFamily: Utils.poppinsSemiBold),
+                                style: CustomTextView.getStyle(context, colorLight: Colors.black, fontSize: 16.sp, fontFamily: Utils.poppinsSemiBold),
                               ),
                               const SizedBox(height: 8),
                               Text(
@@ -329,19 +348,14 @@ class AllOfferDetailsView extends GetView {
                 height: 15.h,
               ),
               GlobalButton(
-                title: "Go To Seller Website",
+                title: 'Go To Seller Website',
                 onPressed: () async {
-                  await launchUrl(Uri.parse(data["shop"]["seller"]["web_url"]));
-                  Map data1 = {
-                    "offer_id": data['id'].toString(),
-                    "reach": 1.toString()
-                  };
+                  await launchUrl(Uri.parse(data['shop']['seller']['web_url']));
+                  Map data1 = {'offer_id': data['id'].toString(), 'reach': 1.toString()};
                   await apiService.postData('insights/update', data1);
                 },
                 textColor: Colors.white,
-                buttonColor: data["shop"]["seller"]["web_url"] == null
-                    ? Colors.grey
-                    : secondary,
+                buttonColor: data['shop']['seller']['web_url'] == null ? Colors.grey : secondary,
               ),
               SizedBox(
                 height: 20.h,

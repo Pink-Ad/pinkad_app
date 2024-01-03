@@ -65,9 +65,7 @@ class MyApp extends StatelessWidget {
                 primaryColorLight: Colors.transparent,
                 // primaryColorDark: Color(0xFF460C68),
                 // colorScheme: const ColorScheme.light(),
-                colorScheme:
-                    ColorScheme.fromSwatch(backgroundColor: Colors.white)
-                        .copyWith(secondary: secondary),
+                colorScheme: ColorScheme.fromSwatch(backgroundColor: Colors.white).copyWith(secondary: secondary),
                 // useMaterial3: true,
                 // primaryTextTheme: Typography().white, // or white
                 // Set the default text style for the app

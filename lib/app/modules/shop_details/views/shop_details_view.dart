@@ -73,8 +73,7 @@ class ShopDetailsView extends GetView {
                     ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
-                padding:
-                    EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
+                padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
                 decoration: BoxDecoration(
                   color: containerColor,
                   borderRadius: BorderRadius.circular(10.0),
@@ -173,20 +172,23 @@ class ShopDetailsView extends GetView {
                             GestureDetector(
                               onTap: () async {
                                 // Share.share(facebookUrl);
+                                print(facebookUrl);
                                 if (facebookUrl == null) return;
                                 try {
                                   final String nativeUrl;
-                                  if (facebookUrl.startsWith('http')) {
-                                    nativeUrl =
-                                        'fb://facewebmodal/f?href=$facebookUrl';
+                                  if (facebookUrl!.toLowerCase().contains('facebook.com')) {
+                                    if (!facebookUrl!.startsWith('http')) {
+                                      facebookUrl = 'https://' + facebookUrl!;
+                                    }
+                                    nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
                                   } else {
                                     nativeUrl = 'fb://$facebookUrl';
                                   }
                                   await launchUrl(Uri.parse(nativeUrl));
                                 } catch (e) {
                                   // If the Facebook app is not installed, open the Facebook website
-                                  if (facebookUrl.startsWith('http')) {
-                                    await launchUrl(Uri.parse(facebookUrl));
+                                  if (facebookUrl!.startsWith('http')) {
+                                    await launchUrl(Uri.parse(facebookUrl!));
                                   }
                                 }
                               },
@@ -261,23 +263,26 @@ class ShopDetailsView extends GetView {
                             SizedBox(width: 15.w),
                             GestureDetector(
                               onTap: () async {
-                                final String? instaUrl =
-                                    data['seller']['insta_page'];
+                                String? instaUrl = data['seller']['insta_page'];
+                                print(instaUrl);
                                 if (instaUrl == null) return;
                                 try {
                                   final String nativeUrl;
-                                  if (instaUrl.startsWith('http')) {
+                                  if (instaUrl.toLowerCase().contains('instagram.com')) {
+                                    if (!instaUrl.startsWith('http')) {
+                                      instaUrl = 'https://' + instaUrl;
+                                    }
                                     final uri = Uri.parse(instaUrl);
                                     // Invalid URL
                                     if (uri.pathSegments.isEmpty) return;
-                                    nativeUrl =
-                                        'instagram://user?username=${uri.pathSegments.first}';
+                                    print(uri.pathSegments);
+                                    nativeUrl = 'instagram://user?username=${uri.pathSegments.first}';
                                   } else {
                                     nativeUrl = 'instagram://$instaUrl';
                                   }
                                   await launchUrl(Uri.parse(nativeUrl));
                                 } catch (e) {
-                                  if (instaUrl.startsWith('http')) {
+                                  if (instaUrl!.startsWith('http')) {
                                     await launchUrl(Uri.parse(instaUrl));
                                   }
                                 }
@@ -307,20 +312,16 @@ class ShopDetailsView extends GetView {
                             SizedBox(width: 15.w),
                             GestureDetector(
                               onTap: () async {
-                                if (data['seller']['web_url'] != null &&
-                                    Uri.tryParse(data['seller']['web_url']) !=
-                                        null) {
+                                if (data['seller']['web_url'] != null && Uri.tryParse(data['seller']['web_url']) != null) {
                                   // Launch the web URL
-                                  final url =
-                                      Uri.parse(data['seller']['web_url']);
+                                  final url = Uri.parse(data['seller']['web_url']);
                                   await launchUrl(url);
                                 } else {
                                   // Handle the case where the web URL is null or not valid.
                                   // For example, show an error message:
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content:
-                                          Text('Web URL is not available.'),
+                                      content: Text('Web URL is not available.'),
                                     ),
                                   );
                                 }
@@ -352,8 +353,7 @@ class ShopDetailsView extends GetView {
                               onTap: () async {
                                 shopDetailsController.showAwesomeDialog(
                                   title: 'Address',
-                                  content:
-                                      data['address'] ?? 'No address available',
+                                  content: data['address'] ?? 'No address available',
                                   confirmButtonText: 'Close',
                                   confirmButtonColor: bodyTextColor,
                                   onConfirm: () => Get.back(),
@@ -402,8 +402,7 @@ class ShopDetailsView extends GetView {
               ),
               Expanded(
                 child: Container(
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   decoration: BoxDecoration(
                     color: containerGray,
                     borderRadius: BorderRadius.circular(8.0),
@@ -458,9 +457,7 @@ class ShopDetailsView extends GetView {
                         );
                       },
                       textColor: Colors.white,
-                      buttonColor: data['seller']['web_url'] == null
-                          ? Colors.grey
-                          : secondary,
+                      buttonColor: data['seller']['web_url'] == null ? Colors.grey : secondary,
                     ),
               SizedBox(
                 height: 20.h,
