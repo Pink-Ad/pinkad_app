@@ -241,7 +241,7 @@ class AllOfferDetailsView extends GetView {
                         GestureDetector(
                           onTap: () async {
                             Share.share(
-                              "${data['title']}, ${data['description']},${data['shop']?['name'] ?? ''},contact ${data['shop']?['seller']?['facebook_page']}. $appUrl",
+                              "${data['title']}, ${data['description']},${data['shop']?['name'] ?? ''},contact ${data['shop']?['seller']?['faecbook_page']}. $appUrl",
                             );
 
                             // homeController.showCustomDialog(data);

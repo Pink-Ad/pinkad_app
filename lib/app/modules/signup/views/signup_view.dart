@@ -122,8 +122,7 @@ class SignupView extends GetView<SignupController> {
                                   //onChanged: controller.username,
                                   focusNode: nameFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(phoneFocus);
+                                    FocusScope.of(context).requestFocus(phoneFocus);
                                   },
                                   controller: controller.nameController.value,
                                   hintText: 'Seller / Shop Name',
@@ -157,25 +156,21 @@ class SignupView extends GetView<SignupController> {
                                 // ),
 
                                 CustomPhoneInputField(
-                                  controller:
-                                      controller.phoneNoController.value,
+                                  controller: controller.phoneNoController.value,
                                   focusNode: phoneFocus,
                                   hintText: 'XXX-XXXXXXX',
                                   textInputAction: TextInputAction.next,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(whatsappFocus);
+                                    FocusScope.of(context).requestFocus(whatsappFocus);
                                   },
                                   validator: validatePakistaniPhoneNumber,
                                   iconName: 'phone',
                                 ),
                                 CustomPhoneInputField(
-                                  controller:
-                                      controller.whatsappNoController.value,
+                                  controller: controller.whatsappNoController.value,
                                   focusNode: whatsappFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(emailFocus);
+                                    FocusScope.of(context).requestFocus(emailFocus);
                                   },
                                   hintText: 'XXX-XXXXXXX',
                                   textInputAction: TextInputAction.next,
@@ -198,8 +193,7 @@ class SignupView extends GetView<SignupController> {
                                 ShadowedTextField(
                                   focusNode: emailFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(businessNameFocus);
+                                    FocusScope.of(context).requestFocus(businessNameFocus);
                                   },
                                   // onChanged: controller.username,
                                   controller: controller.emailController.value,
@@ -234,12 +228,10 @@ class SignupView extends GetView<SignupController> {
                                 ShadowedTextField(
                                   focusNode: businessAddressFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(facebookFocus);
+                                    FocusScope.of(context).requestFocus(facebookFocus);
                                   },
                                   //onChanged: controller.username,
-                                  controller: controller
-                                      .businessAddressController.value,
+                                  controller: controller.businessAddressController.value,
                                   hintText: 'Business Address',
                                   iconName: 'business_map',
                                   keyboardType: TextInputType.text,
@@ -247,12 +239,10 @@ class SignupView extends GetView<SignupController> {
                                 ShadowedTextField(
                                   focusNode: facebookFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(instagramFocus);
+                                    FocusScope.of(context).requestFocus(instagramFocus);
                                   },
                                   //onChanged: controller.username,
-                                  controller:
-                                      controller.facebookController.value,
+                                  controller: controller.facebookController.value,
                                   hintText: 'Facebook URL (Optional)',
                                   // hintText: 'e.g page/page_id',
                                   iconName: 'facebook',
@@ -261,12 +251,10 @@ class SignupView extends GetView<SignupController> {
                                 ShadowedTextField(
                                   focusNode: instagramFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(websiteUrlFocus);
+                                    FocusScope.of(context).requestFocus(websiteUrlFocus);
                                   },
                                   //onChanged: controller.username,
-                                  controller:
-                                      controller.instagramController.value,
+                                  controller: controller.instagramController.value,
                                   hintText: 'Instagram URL (Optional)',
                                   // hintText: 'e.g user?username=pinkad.pk',
                                   iconName: 'insta',
@@ -275,8 +263,7 @@ class SignupView extends GetView<SignupController> {
                                 ShadowedTextField(
                                   focusNode: websiteUrlFocus,
                                   //onChanged: controller.username,
-                                  controller:
-                                      controller.webSiteController.value,
+                                  controller: controller.webSiteController.value,
                                   hintText: 'Website URL  (optional)',
                                   iconName: 'website',
                                   keyboardType: TextInputType.text,
@@ -322,8 +309,7 @@ class SignupView extends GetView<SignupController> {
                                             right: 50.w,
                                           ),
                                           child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               SvgPicture.asset(
                                                 'assets/svgIcons/image_icon.svg',
@@ -335,20 +321,14 @@ class SignupView extends GetView<SignupController> {
                                                 () => SizedBox(
                                                   width: 170.w,
                                                   child: Text(
-                                                    controller.logoName.value
-                                                            .isNotEmpty
-                                                        ? controller
-                                                            .logoName.value
-                                                        : 'Business Logo',
-                                                    style:
-                                                        CustomTextView.getStyle(
+                                                    controller.logoName.value.isNotEmpty ? controller.logoName.value : 'Business Logo',
+                                                    style: CustomTextView.getStyle(
                                                       context,
                                                       colorLight: textColor,
                                                       fontSize: 15.sp,
                                                     ),
                                                     maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ),
@@ -367,12 +347,10 @@ class SignupView extends GetView<SignupController> {
                                             width: 50.w,
                                             decoration: BoxDecoration(
                                               color: secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
+                                              borderRadius: BorderRadius.circular(10.0),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
+                                                  color: Colors.grey.withOpacity(0.5),
                                                   spreadRadius: 2,
                                                   blurRadius: 7,
                                                   offset: const Offset(0, 3),
@@ -380,8 +358,7 @@ class SignupView extends GetView<SignupController> {
                                               ],
                                             ),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(15.0),
+                                              padding: const EdgeInsets.all(15.0),
                                               child: SvgPicture.asset(
                                                 'assets/svgIcons/upload_file.svg',
                                               ),
@@ -428,8 +405,7 @@ class SignupView extends GetView<SignupController> {
                                             right: 50.w,
                                           ),
                                           child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               SvgPicture.asset(
                                                 'assets/svgIcons/image_icon.svg',
@@ -441,20 +417,16 @@ class SignupView extends GetView<SignupController> {
                                                 () => SizedBox(
                                                   width: 210.w,
                                                   child: Text(
-                                                    controller.coverLogoName
-                                                            .value.isNotEmpty
-                                                        ? controller
-                                                            .coverLogoName.value
+                                                    controller.coverLogoName.value.isNotEmpty
+                                                        ? controller.coverLogoName.value
                                                         : 'Promotional Cover (optional)',
-                                                    style:
-                                                        CustomTextView.getStyle(
+                                                    style: CustomTextView.getStyle(
                                                       context,
                                                       colorLight: textColor,
                                                       fontSize: 15.sp,
                                                     ),
                                                     maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ),
@@ -473,12 +445,10 @@ class SignupView extends GetView<SignupController> {
                                             width: 50.w,
                                             decoration: BoxDecoration(
                                               color: secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
+                                              borderRadius: BorderRadius.circular(10.0),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
+                                                  color: Colors.grey.withOpacity(0.5),
                                                   spreadRadius: 2,
                                                   blurRadius: 7,
                                                   offset: const Offset(0, 3),
@@ -486,8 +456,7 @@ class SignupView extends GetView<SignupController> {
                                               ],
                                             ),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(15.0),
+                                              padding: const EdgeInsets.all(15.0),
                                               child: SvgPicture.asset(
                                                 'assets/svgIcons/upload_file.svg',
                                               ),
@@ -544,8 +513,7 @@ class SignupView extends GetView<SignupController> {
                                     ],
                                   ),
                                   child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Align(
                                         alignment: Alignment.center,
@@ -556,8 +524,7 @@ class SignupView extends GetView<SignupController> {
                                       SizedBox(width: 15.w),
                                       Expanded(
                                         child: TextField(
-                                          controller: controller
-                                              .descriptionController.value,
+                                          controller: controller.descriptionController.value,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintText: 'Description',
@@ -566,8 +533,7 @@ class SignupView extends GetView<SignupController> {
                                               fontSize: 15.sp,
                                             ),
                                             isDense: true,
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
+                                            contentPadding: EdgeInsets.symmetric(
                                               vertical: 10.h,
                                             ),
                                           ),
@@ -586,13 +552,10 @@ class SignupView extends GetView<SignupController> {
                                     hintText: 'Password',
                                     iconName: 'password',
                                     keyboardType: TextInputType.text,
-                                    controller:
-                                        controller.passwordController.value,
-                                    obscureText:
-                                        !controller.isPasswordVisible.value,
+                                    controller: controller.passwordController.value,
+                                    obscureText: !controller.isPasswordVisible.value,
                                     suffixIcon: IconButton(
-                                      onPressed: () =>
-                                          controller.isPasswordVisible.toggle(),
+                                      onPressed: () => controller.isPasswordVisible.toggle(),
                                       icon: controller.isPasswordVisible.value
                                           ? const Icon(
                                               Icons.visibility_off,

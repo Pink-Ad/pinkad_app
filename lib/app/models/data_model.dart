@@ -14,7 +14,7 @@ class Data {
   final String? whatsapp;
   final String? businessName;
   final String? businessAddress;
-  final String? faecbookPage;
+  final String? facebookPage;
   final String? instaPage;
   final String? webUrl;
   final String? banner;
@@ -48,7 +48,7 @@ class Data {
     this.whatsapp,
     this.businessName,
     this.businessAddress,
-    this.faecbookPage,
+    this.facebookPage,
     this.instaPage,
     this.webUrl,
     this.status,
@@ -81,32 +81,23 @@ class Data {
         whatsapp = json['whatsapp'] as String?,
         businessName = json['business_name'] as String?,
         businessAddress = json['business_address'] as String?,
-        faecbookPage = json['facebook_page'] as String?,
+        facebookPage = json['faecbook_page'] as String?,
         instaPage = json['insta_page'] as String?,
         webUrl = json['web_url'] as String?,
         logo = json['logo'] as String?,
         reference = json['reference'] as String?,
         salesmanId = json['salesman_id'] as int?,
-        createdAt =
-            json['created_at'] == null // Convert from String to DateTime
-                ? null
-                : DateTime.parse(json['created_at'] as String),
-        updatedAt =
-            json['updated_at'] == null // Convert from String to DateTime
-                ? null
-                : DateTime.parse(json['updated_at'] as String),
-        shop = (json['shop'] as Map<String, dynamic>?) != null
-            ? Shop.fromJson(json['shop'] as Map<String, dynamic>)
-            : null,
-        category = (json['category'] as Map<String, dynamic>?) != null
-            ? Category.fromJson(json['category'] as Map<String, dynamic>)
-            : null,
-        subcategory = (json['subcategory'] as Map<String, dynamic>?) != null
-            ? SubCategory.fromJson(json['subcategory'] as Map<String, dynamic>)
-            : null,
-        user = (json['user'] as Map<String, dynamic>?) != null
-            ? User.fromJson(json['user'] as Map<String, dynamic>)
-            : null;
+        createdAt = json['created_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['created_at'] as String),
+        updatedAt = json['updated_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['updated_at'] as String),
+        shop = (json['shop'] as Map<String, dynamic>?) != null ? Shop.fromJson(json['shop'] as Map<String, dynamic>) : null,
+        category = (json['category'] as Map<String, dynamic>?) != null ? Category.fromJson(json['category'] as Map<String, dynamic>) : null,
+        subcategory =
+            (json['subcategory'] as Map<String, dynamic>?) != null ? SubCategory.fromJson(json['subcategory'] as Map<String, dynamic>) : null,
+        user = (json['user'] as Map<String, dynamic>?) != null ? User.fromJson(json['user'] as Map<String, dynamic>) : null;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -117,7 +108,7 @@ class Data {
         'whatsapp': whatsapp,
         'business_name': businessName,
         'business_address': businessAddress,
-        'facebook_page': faecbookPage,
+        'faecbook_page': facebookPage,
         'insta_page': instaPage,
         'web_url': webUrl,
         'area': area,
