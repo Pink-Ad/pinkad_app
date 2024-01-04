@@ -5,7 +5,7 @@ class Seller {
   final String? whatsapp;
   final String? businessName;
   final String? businessAddress;
-  final String? faecbookPage;
+  final String? facebookPage;
   final String? instaPage;
   final String? webUrl;
   final int? isFeatured;
@@ -23,7 +23,7 @@ class Seller {
     this.whatsapp,
     this.businessName,
     this.businessAddress,
-    this.faecbookPage,
+    this.facebookPage,
     this.instaPage,
     this.webUrl,
     this.isFeatured,
@@ -42,7 +42,7 @@ class Seller {
         whatsapp = json['whatsapp'] as String?,
         businessName = json['business_name'] as String?,
         businessAddress = json['business_address'] as String?,
-        faecbookPage = json['faecbook_page'] as String?,
+        facebookPage = json['faecbook_page'] as String?,
         instaPage = json['insta_page'] as String?,
         webUrl = json['web_url'] as String?,
         isFeatured = json['isFeatured'] as int?,
@@ -50,14 +50,12 @@ class Seller {
         reference = json['reference'] as String?,
         salesmanId = json['salesman_id'] as int?,
         status = json['status'] as int?,
-        createdAt =
-            json['created_at'] == null // Convert from String to DateTime
-                ? null
-                : DateTime.parse(json['created_at'] as String),
-        updatedAt =
-            json['updated_at'] == null // Convert from String to DateTime
-                ? null
-                : DateTime.parse(json['updated_at'] as String);
+        createdAt = json['created_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['created_at'] as String),
+        updatedAt = json['updated_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['updated_at'] as String);
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -66,7 +64,7 @@ class Seller {
         'whatsapp': whatsapp,
         'business_name': businessName,
         'business_address': businessAddress,
-        'faecbook_page': faecbookPage,
+        'faecbook_page': facebookPage,
         'insta_page': instaPage,
         'web_url': webUrl,
         'isFeatured': isFeatured,

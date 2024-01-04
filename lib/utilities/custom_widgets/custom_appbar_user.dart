@@ -52,6 +52,7 @@ class _UserAppBarState extends State<UserAppBar> {
     return AppBar(
       elevation: 0.0,
       automaticallyImplyLeading: widget.backButton,
+      iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       backgroundColor: primary,
       scrolledUnderElevation: 0,
       actions: [
