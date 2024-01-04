@@ -27,7 +27,7 @@ class FeedbackController extends GetxController {
   bool get isUserLoggedIn => box.read('user_type') != 'guest';
 
   Future<void> autoFill() async {
-    LoginResponse data = await box.read('user_data');
+    final data = LoginResponse.fromJson(await box.read('user_data'));
     phoneNoController.value.text = data.user!.seller!.phone!;
     nameController.value.text = data.user!.seller!.businessName!;
   }
