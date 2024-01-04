@@ -5,15 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/offer_list_model.dart';
-import 'package:pink_ad/app/models/shop_offer_model.dart';
-import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/states_tiles.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
-import 'package:http/http.dart' as http;
 
 class ShopsInsightController extends GetxController {
   // SplashController splashController = Get.put(SplashController());
@@ -49,29 +47,26 @@ class ShopsInsightController extends GetxController {
     selectedButton.value = buttonIndex;
   }
 
-  Future<void> activeDeActiveOffer(
-      {required int offerId, required String status}) async {
+  Future<void> activeDeActiveOffer({required int offerId, required String status}) async {
     // void login() async {
     isLoading.value = true;
     try {
-      Map data = {"offer_id": offerId, "status": status};
+      Map data = {'offer_id': offerId, 'status': status};
 
       print(data);
-      const url = 'https://ms-hostingladz.com/DigitalBrand/api/offer/status';
+      const url = '${ApiService.baseUrl}/api/offer/status';
       // final response = await _apiService.postData(
       //   Endpoints.offerStatus,
       //   data,
       // );
-      final request = http.MultipartRequest(
-          'POST', Uri.parse(url)); // Create the multipart request
+      final request = http.MultipartRequest('POST', Uri.parse(url)); // Create the multipart request
       request.fields.addAll({
         'offer_id': offerId.toString(),
         'status': status.toString(),
       }); // Add the other fields to the request
 
-      final response = await http.Response.fromStream(
-          await request.send()); // Send the request
-      print("controller status${response.body}");
+      final response = await http.Response.fromStream(await request.send()); // Send the request
+      print('controller status${response.body}');
       final result = json.decode(response.body);
       await getShopOffer();
       await getOffers();
@@ -137,7 +132,7 @@ class ShopsInsightController extends GetxController {
         deActive = [];
         // shopList = result.map((json) => ShopList.fromJson(json)).toList();
         result.forEach((obj) {
-          if (obj['status'] == "1") {
+          if (obj['status']?.toString() == '1') {
             active.add(obj); // Sort into list1
           } else {
             deActive.add(obj); // Sort into list2'
@@ -173,10 +168,7 @@ class ShopsInsightController extends GetxController {
           // ),
           Text(
             'Are you sure?',
-            style: CustomTextView.getStyle(Get.context!,
-                colorLight: secondary,
-                fontSize: 20.sp,
-                fontFamily: Utils.poppinsBold),
+            style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 20.sp, fontFamily: Utils.poppinsBold),
           ),
           SizedBox(
             height: 15.h,
@@ -186,8 +178,7 @@ class ShopsInsightController extends GetxController {
             child: Text(
               'You want to delete this offer?',
               textAlign: TextAlign.center,
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: textColor, fontSize: 14.sp),
+              style: CustomTextView.getStyle(Get.context!, colorLight: textColor, fontSize: 14.sp),
             ),
           ),
           SizedBox(
@@ -197,7 +188,7 @@ class ShopsInsightController extends GetxController {
       ),
       btnOk: GestureDetector(
         onTap: () async {
-          await activeDeActiveOffer(offerId: offerId, status: "0");
+          await activeDeActiveOffer(offerId: offerId, status: '0');
           Get.back();
         },
         child: Container(
@@ -210,10 +201,7 @@ class ShopsInsightController extends GetxController {
           child: Center(
             child: Text(
               'Delete',
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: Colors.white,
-                  fontSize: 16.sp,
-                  fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
             ),
           ),
         ),
@@ -232,10 +220,7 @@ class ShopsInsightController extends GetxController {
           child: Center(
             child: Text(
               'Cancel',
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: Colors.white,
-                  fontSize: 16.sp,
-                  fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
             ),
           ),
         ),
@@ -249,8 +234,7 @@ class ShopsInsightController extends GetxController {
 
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
-        offerList
-            .addAll(result.map((json) => OfferList.fromJson(json)).toList());
+        offerList.addAll(result.map((json) => OfferList.fromJson(json)).toList());
         await box.write('offers', offerList);
       }
     } catch (e) {
@@ -322,10 +306,7 @@ class ShopsInsightController extends GetxController {
           // ),
           Text(
             'Are you sure?',
-            style: CustomTextView.getStyle(Get.context!,
-                colorLight: secondary,
-                fontSize: 20.sp,
-                fontFamily: Utils.poppinsBold),
+            style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 20.sp, fontFamily: Utils.poppinsBold),
           ),
           SizedBox(
             height: 15.h,
@@ -335,8 +316,7 @@ class ShopsInsightController extends GetxController {
             child: Text(
               'You want to re-active this offer?',
               textAlign: TextAlign.center,
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: textColor, fontSize: 14.sp),
+              style: CustomTextView.getStyle(Get.context!, colorLight: textColor, fontSize: 14.sp),
             ),
           ),
           SizedBox(
@@ -346,7 +326,7 @@ class ShopsInsightController extends GetxController {
       ),
       btnOk: GestureDetector(
         onTap: () async {
-          await activeDeActiveOffer(offerId: offerId, status: "1");
+          await activeDeActiveOffer(offerId: offerId, status: '1');
           Get.back();
         },
         child: Container(
@@ -359,10 +339,7 @@ class ShopsInsightController extends GetxController {
           child: Center(
             child: Text(
               'Re-active',
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: Colors.white,
-                  fontSize: 16.sp,
-                  fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
             ),
           ),
         ),
@@ -381,10 +358,7 @@ class ShopsInsightController extends GetxController {
           child: Center(
             child: Text(
               'Cancel',
-              style: CustomTextView.getStyle(Get.context!,
-                  colorLight: Colors.white,
-                  fontSize: 16.sp,
-                  fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
             ),
           ),
         ),
@@ -392,11 +366,7 @@ class ShopsInsightController extends GetxController {
     ).show();
   }
 
-  void showCustomDialog(
-      {required int reach,
-      required int view,
-      required int impression,
-      required int conversion}) {
+  void showCustomDialog({required int reach, required int view, required int impression, required int conversion}) {
     AwesomeDialog(
       dialogType: DialogType.noHeader,
       context: Get.overlayContext!,
@@ -414,25 +384,19 @@ class ShopsInsightController extends GetxController {
               children: [
                 Text(
                   'Insight',
-                  style: CustomTextView.getStyle(Get.context!,
-                      colorLight: secondary,
-                      fontSize: 22.sp,
-                      fontFamily: Utils.poppinsSemiBold),
+                  style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 22.sp, fontFamily: Utils.poppinsSemiBold),
                 ),
                 InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: const Icon(Icons.close))
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: const Icon(Icons.close),
+                ),
               ],
             ),
             SizedBox(height: 15.h),
-            StatsTiles(
-                conversion: conversion,
-                view: view,
-                impression: impression,
-                reach: reach),
-            SizedBox(height: 20.h)
+            StatsTiles(conversion: conversion, view: view, impression: impression, reach: reach),
+            SizedBox(height: 20.h),
           ],
         ),
       ),

@@ -20,9 +20,7 @@ class AreaDropDownUpload extends GetView<UploadOfferController> {
   final RxString selectedSalesman = 'Select Area'.obs;
   final RxBool showAnotherDropdown = true.obs;
 
-  final List<City> allAreas = [
-    City(id: -1, name: 'Select All'),
-  ];
+  final City selectAll = City(id: -1, name: 'Select All');
 
   AreaDropDownUpload({super.key});
 
@@ -92,7 +90,7 @@ class AreaDropDownUpload extends GetView<UploadOfferController> {
               ),
               onChanged: (value) async {
                 controller.selectedCity.value = value;
-                controller.selectedarea.value.clear();
+                controller.selectedarea.clear();
                 controller.areaName.value = [];
                 await loadingWrapper(() => controller.getAreas(value!.id));
               },
@@ -108,8 +106,8 @@ class AreaDropDownUpload extends GetView<UploadOfferController> {
                 width: Get.width,
                 margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                 padding: EdgeInsets.only(
-                  left: 20.0.w,
-                  right: 20.w,
+                  left: 10.w,
+                  right: 10.w,
                   top: 5.h,
                   bottom: 5.h,
                 ),
@@ -125,6 +123,76 @@ class AreaDropDownUpload extends GetView<UploadOfferController> {
                     ),
                   ],
                 ),
+                // child: GetBuilder<UploadOfferController>(
+                //   builder: (controller) {
+                //     print(controller.selectedAreas);
+                //     return IgnorePointer(
+                //       ignoring: controller.areaOptions.isEmpty,
+                //       child: MultiSelectDropDown<int>(
+                //         controller: controller.areaController,
+                //         selectedOptions: controller.selectedAreas,
+                //         onOptionSelected: (newSelections) {
+                //           // final areaController = controller.areaController;
+                //           controller.selectedAreas = [controller.selectAll];
+                //           controller.update();
+                //           // final selectedAreas = controller.selectedAreas;
+                //           // print('option selected');
+                //           // print(newSelections.map((e) => e.label));
+                //           // print(selectedAreas.map((e) => e.label));
+                //           // final ids = Set();
+                //           // newSelections..retainWhere((x) => ids.add(x.value));
+                //           // final allSelectedBefore = controller.selectedAreas.any((area) => area.value == controller.selectAll.value);
+                //           // final allSelectedAfter = newSelections.any((area) => area.value == controller.selectAll.value);
+                //           // if (allSelectedBefore && !allSelectedAfter) {
+                //           //   print('clearing all');
+                //           //   selectedAreas.clear();
+                //           //   // areaController.clearAllSelection();
+                //           // } else if (!allSelectedBefore && allSelectedAfter) {
+                //           //   print('selecting all');
+                //           //   controller.selectedAreas = controller.areaOptions;
+                //           //   controller.selectedAreas.add(controller.selectAll);
+                //           //   // areaController.setSelectedOptions(controller.areaOptions + [controller.selectAll]);
+                //           // } else {
+                //           //   controller.selectedAreas = newSelections;
+                //           //   if (!allSelectedBefore && newSelections.length == controller.areaOptions.length) {
+                //           //     selectedAreas.add(controller.selectAll);
+                //           //     // areaController.addSelectedOption(controller.selectAll);
+                //           //   } else if (allSelectedBefore && newSelections.length < controller.areaOptions.length) {
+                //           //     selectedAreas.remove(controller.selectAll);
+                //           //     // areaController.clearSelection(controller.selectAll);
+                //           //   }
+                //           // }
+                //           // controller.update();
+                //         },
+                //         options: [controller.selectAll, ...controller.areaOptions],
+                //         selectionType: SelectionType.multi,
+                //         chipConfig: const ChipConfig(
+                //           wrapType: WrapType.wrap,
+                //           runSpacing: -10,
+                //           spacing: 0,
+                //           backgroundColor: primary,
+                //         ),
+                //         showClearIcon: false,
+                //         dropdownHeight: 300,
+                //         optionTextStyle: const TextStyle(fontSize: 16),
+                //         selectedOptionIcon: const Icon(
+                //           Icons.check_circle,
+                //           color: primary,
+                //         ),
+                //         selectedOptionBackgroundColor: primary.withOpacity(0.1),
+                //         borderColor: Colors.transparent,
+                //         suffixIcon: Icon(Icons.arrow_drop_down, color: controller.areaName.isEmpty ? textColor : null),
+                //         searchEnabled: true,
+                //         hintStyle: CustomTextView.getStyle(
+                //           context,
+                //           colorLight: textColor,
+                //           fontSize: 15.sp,
+                //         ),
+                //         padding: EdgeInsets.only(right: 20.w),
+                //       ),
+                //     );
+                //   },
+                // ),
                 child: DropdownSearch<City>.multiSelection(
                   popupProps: PopupPropsMultiSelection.menu(
                     showSearchBox: true,
@@ -138,10 +206,30 @@ class AreaDropDownUpload extends GetView<UploadOfferController> {
                         ),
                       ),
                     ),
-                    showSelectedItems: false,
+                    // onItemAdded: (value, addedItem) {
+                    //   if (addedItem.id == -1) {
+                    //     controller.selectedarea.value = controller.areaName.toList();
+                    //     controller.selectedarea.add(addedItem);
+                    //   } else {
+                    //     final ids = Set();
+                    //     value..retainWhere((x) => ids.add(x.id));
+                    //     controller.selectedarea.value = value;
+                    //   }
+                    //   controller.update();
+                    // },
+                    // onItemRemoved: (value, removedItem) {
+                    //   if (removedItem.id == -1) {
+                    //     controller.selectedarea.clear();
+                    //   } else {
+                    //     final ids = Set();
+                    //     value..retainWhere((x) => ids.add(x.id));
+                    //     controller.selectedarea.value = value;
+                    //   }
+                    //   controller.update();
+                    // },
                   ),
-                  enabled: controller.areaName.value.isNotEmpty ? true : false,
-                  items: [City(id: -1, name: 'Select All')] + controller.areaName.value,
+                  enabled: controller.areaName.isNotEmpty ? true : false,
+                  items: [selectAll, ...controller.areaName],
                   itemAsString: (City u) => u.name,
                   dropdownDecoratorProps: DropDownDecoratorProps(
                     baseStyle: CustomTextView.getStyle(
@@ -174,21 +262,20 @@ class AreaDropDownUpload extends GetView<UploadOfferController> {
                       return const Text('No area selected');
                     }
                   },
+                  compareFn: (item1, item2) => item1.id == item2.id,
                   onChanged: (List<City>? value) {
+                    final ids = Set();
+                    value?..retainWhere((x) => ids.add(x.id));
                     if (value != null) {
                       // Check if the 'Select All' option is part of the selection.
-                      if (value.any((city) => city.id == -1)) {
+                      if (value.any((area) => area.id == -1)) {
                         // If 'Select All' is selected, add all the areas to selectedarea.
-                        controller.selectedarea.value = List<City>.from(controller.areaName.value);
+                        controller.selectedarea.value = controller.areaName.toList();
                         // Also, make sure to add 'Select All' option itself to the list
-                        if (!controller.selectedarea.contains(allAreas[0])) {
-                          controller.selectedarea.add(allAreas[0]);
-                        }
+                        controller.selectedarea.add(selectAll);
                       } else {
                         // If 'Select All' is not selected, set the selectedarea to the current value.
-                        controller.selectedarea.value = List<City>.from(value);
-                        // Optionally, if 'Select All' is deselected, remove it from the list.
-                        controller.selectedarea.remove(allAreas[0]);
+                        controller.selectedarea.value = value;
                       }
                     } else {
                       // If the selection is cleared, also clear the selectedarea.
@@ -197,7 +284,7 @@ class AreaDropDownUpload extends GetView<UploadOfferController> {
                     // This call updates the UI based on the new state of the selected items.
                     controller.update();
                   },
-                  selectedItems: controller.selectedarea,
+                  selectedItems: controller.selectedarea.toList(),
                 ),
               ),
             ),

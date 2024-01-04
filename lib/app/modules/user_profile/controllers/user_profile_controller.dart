@@ -106,8 +106,8 @@ class UserProfileController extends GetxController {
     whatsappNoController.value.text = data.user!.seller!.whatsapp!;
     // businessNameController.value.text = data.user!.seller!.businessName!;
     businessAddressController.value.text = data.user!.seller!.businessAddress!;
-    //facebookController.value.text = data.user!.seller!.faecbookPage!;
-    facebookController.value.text = data.user?.seller?.faecbookPage ?? '';
+    //facebookController.value.text = data.user!.seller!.facebookPage!;
+    facebookController.value.text = data.user?.seller?.facebookPage ?? '';
     instagramController.value.text = data.user?.seller?.instaPage ?? '';
     webSiteController.value.text = data.user!.seller!.webUrl!;
   }

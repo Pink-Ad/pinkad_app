@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -7,21 +8,20 @@ import 'package:http/http.dart' as http;
 import '../../utilities/custom_widgets/snackbars.dart';
 
 class ApiService {
-  static const String _baseUrl = 'https://pinkad.pk/portal/api';
+  static const String baseUrl = 'https://pinkad.pk/portal/api';
   static const String imageBaseUrl = 'https://pinkad.pk/portal/public/storage/';
   final http.Client _client;
   static const String modelBaseUrl = 'https://model.pinkad.pk/aimodel/';
 
   ApiService(this._client);
 
-  void setAuthCredentials(String username, String password) {
-  }
+  void setAuthCredentials(String username, String password) {}
 
-  Future<http.Response> postData(String endpoint, dynamic body) async {
+  Future<http.Response> postData(String endpoint, body) async {
     try {
       var response = await http
           .post(
-            Uri.parse('$_baseUrl/$endpoint'),
+            Uri.parse('$baseUrl/$endpoint'),
 
             // headers: {
             //   'Authorization': 'Basic ${base64Encode(utf8.encode('$_username:$_password'))}'
@@ -42,7 +42,7 @@ class ApiService {
       } else if (response.statusCode == 401) {
         // If the user is unauthorized, show a snackbar with a message
         showSnackBarError(
-          "Error",
+          'Error',
           'Unauthorized',
         );
         // Get.snackbar('Error', 'Unauthorized');
@@ -69,19 +69,22 @@ class ApiService {
 
   Future<dynamic> getData(String endpoint) async {
     final response = await _client.get(
-      Uri.parse('$_baseUrl/$endpoint'),
+      Uri.parse('$baseUrl/$endpoint'),
       // headers: {
       //   'Content-Type': 'application/json',
       //   'Authorization': 'Basic ${base64Encode(utf8.encode('$_username:$_password'))}'
       // },
     );
-    print("${Uri.parse('$_baseUrl/$endpoint')}");
+    print("${Uri.parse('$baseUrl/$endpoint')}");
     if (response.statusCode == 200) {
       //  final jsonData = jsonDecode(response.body);
       return response;
     } else if (response.statusCode == 500) {
       showSnackBarRetry(
-          "Server Error", "Something went worng on server side", () {});
+        'Server Error',
+        'Something went worng on server side',
+        () {},
+      );
     } else {
       throw Exception('Request failed with status: ${response.statusCode}.');
     }
@@ -89,13 +92,13 @@ class ApiService {
 
   Future<dynamic> getDataWithHeader(String endpoint, String token) async {
     final response = await _client.get(
-      Uri.parse('$_baseUrl/$endpoint'),
+      Uri.parse('$baseUrl/$endpoint'),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token'
+        'Authorization': 'Bearer $token',
       },
     );
-    print("${Uri.parse('$_baseUrl/$endpoint')}");
+    print("${Uri.parse('$baseUrl/$endpoint')}");
     if (response.statusCode == 200) {
       //  final jsonData = jsonDecode(response.body);
       return response;
@@ -109,7 +112,7 @@ class ApiService {
 
   Future<dynamic> put(String endpoint, Map<String, dynamic> body) async {
     final response = await _client.put(
-      Uri.parse('$_baseUrl/$endpoint'),
+      Uri.parse('$baseUrl/$endpoint'),
       // headers: {
       //   'Content-Type': 'application/json',
       //   'Authorization': 'Basic ${base64Encode(utf8.encode('$_username:$_password'))}'
@@ -127,7 +130,7 @@ class ApiService {
 
   Future<dynamic> delete(String endpoint) async {
     final response = await _client.delete(
-      Uri.parse('$_baseUrl/$endpoint'),
+      Uri.parse('$baseUrl/$endpoint'),
       headers: {
         'Content-Type': 'application/json',
         // 'Authorization': 'Basic ${base64Encode(utf8.encode('$_username:$_password'))}'
@@ -165,9 +168,9 @@ class Endpoints {
   static const String offerStatus = 'offer/status';
   static const String customerLogin = 'cutomer/login';
   static const String tutorial = 'tutorial/video';
-  static const String feedback = "feedback/store";
-  static const String deleteUser = "delete/user";
-  static const String aiModel = "predict";
-  static const String forgetPassword = "password/email";
-  static const String getAllSeller = "all-selller-list";
+  static const String feedback = 'feedback/store';
+  static const String deleteUser = 'delete/user';
+  static const String aiModel = 'predict';
+  static const String forgetPassword = 'password/email';
+  static const String getAllSeller = 'all-selller-list';
 }

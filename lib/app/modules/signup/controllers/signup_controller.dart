@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -105,20 +103,17 @@ class SignupController extends GetxController {
     if (nameController.value.text.isEmpty) {
       showSnackBarError('Error', 'Name field cannot be empty');
     }
-    String? phoneError =
-        validatePakistaniPhoneNumber(phoneNoController.value.text);
+    String? phoneError = validatePakistaniPhoneNumber(phoneNoController.value.text);
     if (phoneError != null) {
       showSnackBarError('Error', phoneError);
       return; // Stop execution if there is an error
     }
     bool isValidEmail(String email) {
-      final emailRegExp =
-          RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+      final emailRegExp = RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
       return emailRegExp.hasMatch(email);
     }
 
-    String? whatsappError =
-        validateWhatsppNumber(whatsappNoController.value.text);
+    String? whatsappError = validateWhatsppNumber(whatsappNoController.value.text);
     if (whatsappError != null) {
       showSnackBarError('Error', whatsappError);
       return; // Stop execution if there is an error
@@ -132,17 +127,17 @@ class SignupController extends GetxController {
       showSnackBarError('Error', 'Business address field cannot be empty');
     }
 
-    if (coverFile != null) {
-      // Validate the image size
-      final bool isCoverSizeValid = await validateImageSize(coverFile!.path);
-      if (!isCoverSizeValid) {
-        showSnackBarError(
-          'Error',
-          'Promotional cover size should be 1080px by 1080px',
-        );
-        return; // Stop the submission process
-      }
-    }
+    // if (coverFile != null) {
+    //   // Validate the image size
+    //   final bool isCoverSizeValid = await validateImageSize(coverFile!.path);
+    //   if (!isCoverSizeValid) {
+    //     showSnackBarError(
+    //       'Error',
+    //       'Promotional cover size should be 1080px by 1080px',
+    //     );
+    //     return; // Stop the submission process
+    //   }
+    // }
 
     // else if (facebookController.value.text.isEmpty) {
     //   showSnackBarError("Error", "Facebook field cannot be empty");
@@ -170,30 +165,30 @@ class SignupController extends GetxController {
     gerCities();
   }
 
-  Future<bool> validateImageSize(String imagePath) async {
-    try {
-      final List<int> imageBytes = await File(imagePath).readAsBytes();
-      final Uint8List uint8List = Uint8List.fromList(imageBytes);
+  // Future<bool> validateImageSize(String imagePath) async {
+  //   try {
+  //     final List<int> imageBytes = await File(imagePath).readAsBytes();
+  //     final Uint8List uint8List = Uint8List.fromList(imageBytes);
 
-      final Completer<bool> completer = Completer<bool>();
+  //     final Completer<bool> completer = Completer<bool>();
 
-      ui.decodeImageFromList(uint8List, (ui.Image image) {
-        final int width = image.width;
-        final int height = image.height;
+  //     ui.decodeImageFromList(uint8List, (ui.Image image) {
+  //       final int width = image.width;
+  //       final int height = image.height;
 
-        if (width == 1080 && height == 1080) {
-          completer.complete(true);
-        } else {
-          completer.complete(false);
-        }
-      });
+  //       if (width == 1080 && height == 1080) {
+  //         completer.complete(true);
+  //       } else {
+  //         completer.complete(false);
+  //       }
+  //     });
 
-      return completer.future;
-    } catch (e) {
-      print('Error decoding image: $e');
-      return false;
-    }
-  }
+  //     return completer.future;
+  //   } catch (e) {
+  //     print('Error decoding image: $e');
+  //     return false;
+  //   }
+  // }
 
   Future<XFile?> pickImage() async {
     if (await showImageDialog() != true) return null;
@@ -239,19 +234,18 @@ class SignupController extends GetxController {
     if (permissionStatus.isGranted) {
       // User has granted permission, proceed with picking an image
       final picker = ImagePicker();
-      final XFile? pickedFile =
-          await picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
-        final bool isValidSize = await validateImageSize(pickedFile.path);
+        // final bool isValidSize = await validateImageSize(pickedFile.path);
 
-        if (!isValidSize) {
-          showSnackBarError(
-            'Error',
-            'Promotional cover size should be 1080px by 1080px',
-          );
-          return null;
-        }
+        // if (!isValidSize) {
+        //   showSnackBarError(
+        //     'Error',
+        //     'Promotional cover size should be 1080px by 1080px',
+        //   );
+        //   return null;
+        // }
 
         coverFile = pickedFile;
         coverLogoName.value = coverFile!.name;
@@ -339,6 +333,16 @@ class SignupController extends GetxController {
     // isLoading.value = false;
   }
 
+  String ensureHttps(String url) {
+    // Check if the URL already contains "http://" or "https://"
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url; // Already has http:// or https://, return as is
+    } else {
+      // Add "https://" to the beginning of the URL
+      return 'https://$url';
+    }
+  }
+
   Future<void> registerUser() async {
     isLoading.value = true;
     const url = 'https://pinkad.pk/portal/api/register';
@@ -354,15 +358,6 @@ class SignupController extends GetxController {
     final address = addressController.value.text.trim();
     // final branchName = branchNameController.value.text.trim();
     final description = descriptionController.value.text.trim();
-    String ensureHttps(String url) {
-      // Check if the URL already contains "http://" or "https://"
-      if (url.startsWith('http://') || url.startsWith('https://')) {
-        return url; // Already has http:// or https://, return as is
-      } else {
-        // Add "https://" to the beginning of the URL
-        return 'https://$url';
-      }
-    }
 
     try {
       print(coverFile);
@@ -417,8 +412,7 @@ class SignupController extends GetxController {
       final response = await http.Response.fromStream(
         await request.send(),
       ); // Send the request
-      final postResponse =
-          RegisterPostResponse.fromJson(json.decode(response.body));
+      final postResponse = RegisterPostResponse.fromJson(json.decode(response.body));
       print(response.body.toString());
       if (response.statusCode == 200) {
         // Successful request

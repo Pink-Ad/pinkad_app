@@ -45,7 +45,7 @@ class SplashController extends GetxController {
     token = box.read('user_token');
     email = box.read('email');
     password = box.read('password');
-    Future.delayed(const Duration(milliseconds: 2));
+    // Future.delayed(const Duration(milliseconds: 2));
     // Timer(const Duration(seconds: 8), () async {
     if (token != null) {
       try {
@@ -76,10 +76,11 @@ class SplashController extends GetxController {
         Get.offAll(BottomNavBar());
       }
     } else {
-      Timer(
-        const Duration(seconds: 3),
-        () => Get.offAll(BottomNavBar()),
-      );
+      Get.offAll(BottomNavBar());
+      // Timer(
+      //   const Duration(seconds: 3),
+      //   () => Get.offAll(BottomNavBar()),
+      // );
     }
     // });
     // token = box.read('email');
