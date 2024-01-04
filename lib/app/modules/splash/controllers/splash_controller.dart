@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app_links/app_links.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,7 @@ import 'package:pink_ad/app/models/shop_list_model.dart';
 import 'package:pink_ad/app/models/tutorial_model.dart';
 import 'package:pink_ad/app/modules/home/views/bottom_nav_bar.dart';
 import 'package:pink_ad/app/modules/user_dashboard/views/user_bottom_nav_bar.dart';
+import 'package:pink_ad/utilities/functions/show_toast.dart';
 
 class SplashController extends GetxController {
   final box = GetStorage();
@@ -26,6 +28,8 @@ class SplashController extends GetxController {
   List<FeaturedSeller> fSellerList = <FeaturedSeller>[].obs;
   var password;
   final ApiService _apiService = ApiService(http.Client());
+  late AppLinks _appLinks;
+  StreamSubscription<Uri>? _linkSubscription;
 
   @override
   Future<void> onInit() async {
@@ -41,10 +45,28 @@ class SplashController extends GetxController {
       getFeaturedOffer(),
       getFeaturedSeller(),
     ]);
+
+    // Subscribe to all events when app is started.
+    // (Use allStringLinkStream to get it as [String])
     print('SplashController onInit');
     token = box.read('user_token');
     email = box.read('email');
     password = box.read('password');
+
+    _appLinks = AppLinks();
+    // Check initial link if app was in cold state (terminated)
+    final appLink = await _appLinks.getInitialAppLink();
+    if (appLink?.host == 'verified') {
+      showToast(message: 'Your account has been verified!');
+    }
+
+    // Handle link when app is in warm state (front or background)
+    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
+      if (uri.host == 'verified') {
+        showToast(message: 'Your account has been verified!');
+      }
+    });
+
     // Future.delayed(const Duration(milliseconds: 2));
     // Timer(const Duration(seconds: 8), () async {
     if (token != null) {
@@ -64,24 +86,24 @@ class SplashController extends GetxController {
             await getSellerShop(token);
             await box.write('user_data', loginResponseData);
             await box.write('user_token', token);
-            box.write('user_type', 'seller'); // seller or guest
+            // await box.write('user_type', 'seller'); // seller or guest
             final savedToken = box.read('user_token');
             print(token);
-
-            Get.offAll(UserBottomNavBar());
+            if (box.read('user_type') != 'guest') {
+              return Get.offAll(UserBottomNavBar());
+            }
           }
         }
         // handle success response
       } catch (e) {
-        Get.offAll(BottomNavBar());
+        // return Get.offAll(BottomNavBar());
       }
-    } else {
-      Get.offAll(BottomNavBar());
-      // Timer(
-      //   const Duration(seconds: 3),
-      //   () => Get.offAll(BottomNavBar()),
-      // );
     }
+    Get.offAll(BottomNavBar());
+    // Timer(
+    //   const Duration(seconds: 3),
+    //   () => Get.offAll(BottomNavBar()),
+    // );
     // });
     // token = box.read('email');
 
@@ -89,6 +111,12 @@ class SplashController extends GetxController {
     //   const Duration(seconds: 3),
     //   () => Get.offNamed('/bottom-nav-bar'),
     // );
+  }
+
+  @override
+  void dispose() {
+    _linkSubscription?.cancel();
+    super.dispose();
   }
 
   Future<void> getHomeData() async {

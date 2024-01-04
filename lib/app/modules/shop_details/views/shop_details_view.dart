@@ -174,24 +174,29 @@ class ShopDetailsView extends GetView {
                                   ? () async {
                                       // Share.share(facebookUrl);
                                       print(facebookUrl);
-                                      try {
-                                        final String nativeUrl;
-                                        if (facebookUrl!.toLowerCase().contains('facebook.com')) {
-                                          if (!facebookUrl!.startsWith('http')) {
-                                            facebookUrl = 'https://' + facebookUrl!;
-                                          }
-                                          nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
-                                        } else {
-                                          nativeUrl = 'fb://$facebookUrl';
+                                      final Uri nativeUrl;
+                                      if (facebookUrl!.toLowerCase().contains('facebook.com')) {
+                                        if (!facebookUrl!.startsWith('http')) {
+                                          facebookUrl = 'https://' + facebookUrl!;
                                         }
-                                        await launchUrl(Uri.parse(nativeUrl));
+                                        nativeUrl = Uri.parse(
+                                          'fb://facewebmodal/f?href=$facebookUrl',
+                                        );
+                                      } else {
+                                        nativeUrl = Uri.parse('fb://$facebookUrl');
+                                      }
+                                      try {
+                                        final success = await launchUrl(nativeUrl);
+                                        if (!success) throw '';
                                       } catch (e) {
                                         // If the Facebook app is not installed, open the Facebook website
-                                        if (facebookUrl!.startsWith('http')) {
-                                          await launchUrl(
-                                            Uri.parse(facebookUrl!),
-                                          );
+                                        if (!facebookUrl!.startsWith('http')) {
+                                          facebookUrl = 'https://facebook.com/${nativeUrl.pathSegments.last}';
                                         }
+                                        await launchUrl(
+                                          Uri.parse(facebookUrl!),
+                                          mode: LaunchMode.externalApplication,
+                                        );
                                       }
                                     }
                                   : null,
@@ -271,27 +276,32 @@ class ShopDetailsView extends GetView {
                               onTap: data['seller']['insta_page'] != null && data['seller']['insta_page'].isNotEmpty
                                   ? () async {
                                       String? instaUrl = data['seller']['insta_page'];
-                                      print(instaUrl);
                                       if (instaUrl == null) return;
+                                      final Uri nativeUrl;
+                                      if (instaUrl.toLowerCase().contains('instagram.com')) {
+                                        if (!instaUrl.startsWith('http')) {
+                                          instaUrl = 'https://' + instaUrl;
+                                        }
+                                        final uri = Uri.parse(instaUrl);
+                                        // Invalid URL
+                                        if (uri.pathSegments.isEmpty) return;
+                                        nativeUrl = Uri.parse(
+                                          'instagram://user?username=${uri.pathSegments.first}',
+                                        );
+                                      } else {
+                                        nativeUrl = Uri.parse('instagram://$instaUrl');
+                                      }
                                       try {
-                                        final String nativeUrl;
-                                        if (instaUrl.toLowerCase().contains('instagram.com')) {
-                                          if (!instaUrl.startsWith('http')) {
-                                            instaUrl = 'https://' + instaUrl;
-                                          }
-                                          final uri = Uri.parse(instaUrl);
-                                          // Invalid URL
-                                          if (uri.pathSegments.isEmpty) return;
-                                          print(uri.pathSegments);
-                                          nativeUrl = 'instagram://user?username=${uri.pathSegments.first}';
-                                        } else {
-                                          nativeUrl = 'instagram://$instaUrl';
-                                        }
-                                        await launchUrl(Uri.parse(nativeUrl));
+                                        final success = await launchUrl(nativeUrl);
+                                        if (!success) throw '';
                                       } catch (e) {
-                                        if (instaUrl!.startsWith('http')) {
-                                          await launchUrl(Uri.parse(instaUrl));
+                                        if (!instaUrl.startsWith('http')) {
+                                          instaUrl = 'https://instagram.com/${nativeUrl.queryParameters['username']}';
                                         }
+                                        await launchUrl(
+                                          Uri.parse(instaUrl),
+                                          mode: LaunchMode.externalApplication,
+                                        );
                                       }
                                     }
                                   : null, // Disable onTap when Instagram page is not available
