@@ -72,7 +72,8 @@ class AllOfferDetailsView extends GetView {
                     ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
-                padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
+                padding:
+                    EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
                 decoration: BoxDecoration(
                   color: containerColor,
                   borderRadius: BorderRadius.circular(10.0),
@@ -82,7 +83,10 @@ class AllOfferDetailsView extends GetView {
                   children: [
                     Text(
                       data['title'],
-                      style: CustomTextView.getStyle(context, fontSize: 20.sp, colorLight: Colors.black, fontFamily: Utils.poppinsBold),
+                      style: CustomTextView.getStyle(context,
+                          fontSize: 20.sp,
+                          colorLight: Colors.black,
+                          fontFamily: Utils.poppinsBold),
                     ),
                     const SizedBox(height: 10.0),
                     Text(
@@ -101,15 +105,19 @@ class AllOfferDetailsView extends GetView {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            String? facebookUrl = data['shop']?['seller']?['faecbook_page'];
+                            String? facebookUrl =
+                                data['shop']?['seller']?['faecbook_page'];
                             if (facebookUrl == null) return;
                             try {
                               final String nativeUrl;
-                              if (facebookUrl.toLowerCase().contains('facebook.com')) {
+                              if (facebookUrl
+                                  .toLowerCase()
+                                  .contains('facebook.com')) {
                                 if (!facebookUrl.startsWith('http')) {
                                   facebookUrl = 'https://' + facebookUrl;
                                 }
-                                nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
+                                nativeUrl =
+                                    'fb://facewebmodal/f?href=$facebookUrl';
                               } else {
                                 nativeUrl = 'fb://$facebookUrl';
                               }
@@ -182,7 +190,8 @@ class AllOfferDetailsView extends GetView {
                               ],
                             ),
                             child: Center(
-                              child: SvgPicture.asset('assets/svgIcons/whatsapp_icon.svg'),
+                              child: SvgPicture.asset(
+                                  'assets/svgIcons/whatsapp_icon.svg'),
                             ),
                           ),
                         ),
@@ -191,12 +200,15 @@ class AllOfferDetailsView extends GetView {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            String? instaUrl = data['shop']?['seller']?['insta_page'];
+                            String? instaUrl =
+                                data['shop']?['seller']?['insta_page'];
                             print(instaUrl);
                             if (instaUrl == null) return;
                             try {
                               final String nativeUrl;
-                              if (instaUrl.toLowerCase().contains('instagram.com')) {
+                              if (instaUrl
+                                  .toLowerCase()
+                                  .contains('instagram.com')) {
                                 if (!instaUrl.startsWith('http')) {
                                   instaUrl = 'https://' + instaUrl;
                                 }
@@ -204,7 +216,8 @@ class AllOfferDetailsView extends GetView {
                                 // Invalid URL
                                 if (uri.pathSegments.isEmpty) return;
                                 print(uri.pathSegments);
-                                nativeUrl = 'instagram://user?username=${uri.pathSegments.first}';
+                                nativeUrl =
+                                    'instagram://user?username=${uri.pathSegments.first}';
                               } else {
                                 nativeUrl = 'instagram://$instaUrl';
                               }
@@ -231,7 +244,8 @@ class AllOfferDetailsView extends GetView {
                               ],
                             ),
                             child: Center(
-                              child: SvgPicture.asset('assets/svgIcons/insta.svg'),
+                              child:
+                                  SvgPicture.asset('assets/svgIcons/insta.svg'),
                             ),
                           ),
                         ),
@@ -273,7 +287,8 @@ class AllOfferDetailsView extends GetView {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   decoration: BoxDecoration(
                     color: containerGray,
                     borderRadius: BorderRadius.circular(8.0),
@@ -294,16 +309,21 @@ class AllOfferDetailsView extends GetView {
                           aspectRatio: 1.2,
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(8.0),
+                                  topRight: Radius.circular(8.0)),
                               image: DecorationImage(
-                                image: NetworkImage(ApiService.imageBaseUrl + data['banner']),
-                                fit: BoxFit.contain, // or any other value for fit
+                                image: NetworkImage(
+                                    ApiService.imageBaseUrl + data['banner']),
+                                fit: BoxFit
+                                    .contain, // or any other value for fit
                               ),
                             ),
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 20.0),
                           // alignment: Alignment.centerLeft,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -325,7 +345,10 @@ class AllOfferDetailsView extends GetView {
                               // ),
                               Text(
                                 'Description',
-                                style: CustomTextView.getStyle(context, colorLight: Colors.black, fontSize: 16.sp, fontFamily: Utils.poppinsSemiBold),
+                                style: CustomTextView.getStyle(context,
+                                    colorLight: Colors.black,
+                                    fontSize: 16.sp,
+                                    fontFamily: Utils.poppinsSemiBold),
                               ),
                               const SizedBox(height: 8),
                               Text(
@@ -348,14 +371,19 @@ class AllOfferDetailsView extends GetView {
                 height: 15.h,
               ),
               GlobalButton(
-                title: 'Go To Seller Website',
+                title: 'Go To Seller Profile',
                 onPressed: () async {
                   await launchUrl(Uri.parse(data['shop']['seller']['web_url']));
-                  Map data1 = {'offer_id': data['id'].toString(), 'reach': 1.toString()};
+                  Map data1 = {
+                    'offer_id': data['id'].toString(),
+                    'reach': 1.toString()
+                  };
                   await apiService.postData('insights/update', data1);
                 },
                 textColor: Colors.white,
-                buttonColor: data['shop']['seller']['web_url'] == null ? Colors.grey : secondary,
+                buttonColor: data['shop']['seller']['web_url'] == null
+                    ? Colors.grey
+                    : secondary,
               ),
               SizedBox(
                 height: 20.h,

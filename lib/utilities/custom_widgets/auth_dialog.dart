@@ -24,7 +24,7 @@ class AuthDialog extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             boxShadow: kElevationToShadow[1],
           ),
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -36,10 +36,15 @@ class AuthDialog extends StatelessWidget {
               // ),
               Text(
                 'Use App',
-                style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 20.sp, fontFamily: Utils.poppinsBold),
+                style: CustomTextView.getStyle(
+                  Get.context!,
+                  colorLight: secondary,
+                  fontSize: 20.sp,
+                  fontFamily: Utils.poppinsBold,
+                ),
               ),
               SizedBox(
-                height: 15.h,
+                height: 10.h,
               ),
               // Padding(
               //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -49,11 +54,11 @@ class AuthDialog extends StatelessWidget {
               //     style: CustomTextView.getStyle(Get.context!, colorLight: textColor, fontSize: 14.sp),
               //   ),
               // ),
-              SizedBox(
-                height: 20.h,
-              ),
+              // SizedBox(
+              //   height: 20.h,
+              // ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                padding: EdgeInsets.all(5.0),
                 child: Row(
                   children: [
                     Expanded(
@@ -75,7 +80,7 @@ class AuthDialog extends StatelessWidget {
                                 Get.context!,
                                 colorLight: Colors.white,
                                 fontSize: 16.sp,
-                                fontFamily: Utils.poppinsMedium,
+                                fontFamily: Utils.poppinsSemiBold,
                               ),
                             ),
                           ),
@@ -101,7 +106,7 @@ class AuthDialog extends StatelessWidget {
                                 Get.context!,
                                 colorLight: Colors.white,
                                 fontSize: 16.sp,
-                                fontFamily: Utils.poppinsMedium,
+                                fontFamily: Utils.poppinsSemiBold,
                               ),
                             ),
                           ),

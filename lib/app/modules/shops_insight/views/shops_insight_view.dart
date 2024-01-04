@@ -25,6 +25,7 @@ class ShopsInsightView extends GetView {
     final premierFeaturesController = Get.find<ShopsInsightController>();
     final allOffersController = AllOffersController();
     return CustomBgDashboard(
+      isShopsInsightView: true,
       child: SafeArea(
         child: Column(
           children: [
@@ -42,7 +43,7 @@ class ShopsInsightView extends GetView {
             ),
             Container(
               margin: EdgeInsets.only(
-                top: 52.w,
+                top: 40.w,
                 left: 12.w,
                 right: 12.w,
               ),
@@ -58,11 +59,16 @@ class ShopsInsightView extends GetView {
                             premierFeaturesController.selectButton(0);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: premierFeaturesController.selectedButton.value == 0 ? secondary : Colors.white,
+                            backgroundColor: premierFeaturesController
+                                        .selectedButton.value ==
+                                    0
+                                ? secondary
+                                : Colors.white,
                             shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                topRight: Radius.circular(8.0),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                                // topLeft: Radius.circular(8),
+                                // topRight: Radius.circular(8.0),
                               ),
                             ),
                             padding: EdgeInsets.all(16.0),
@@ -72,14 +78,22 @@ class ShopsInsightView extends GetView {
                             children: [
                               SvgPicture.asset(
                                 'assets/svgIcons/package.svg',
-                                color: premierFeaturesController.selectedButton.value == 0 ? Colors.white : Colors.black,
+                                color: premierFeaturesController
+                                            .selectedButton.value ==
+                                        0
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                               SizedBox(width: 10.w),
                               Text(
                                 'Active Offers',
                                 style: CustomTextView.getStyle(
                                   context,
-                                  colorLight: premierFeaturesController.selectedButton.value == 0 ? Colors.white : Colors.black,
+                                  colorLight: premierFeaturesController
+                                              .selectedButton.value ==
+                                          0
+                                      ? Colors.white
+                                      : Colors.black,
                                   fontFamily: Utils.poppinsSemiBold,
                                   fontSize: 14.sp,
                                 ),
@@ -99,11 +113,16 @@ class ShopsInsightView extends GetView {
                             premierFeaturesController.selectButton(1);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: premierFeaturesController.selectedButton.value == 1 ? secondary : Colors.white,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                topRight: Radius.circular(8.0),
+                            backgroundColor: premierFeaturesController
+                                        .selectedButton.value ==
+                                    1
+                                ? secondary
+                                : Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                                // topLeft: Radius.circular(8),
+                                // topRight: Radius.circular(8.0),
                               ),
                             ),
                             padding: EdgeInsets.all(16.0),
@@ -113,14 +132,22 @@ class ShopsInsightView extends GetView {
                             children: [
                               SvgPicture.asset(
                                 'assets/svgIcons/package.svg',
-                                color: premierFeaturesController.selectedButton.value == 0 ? Colors.black : Colors.white,
+                                color: premierFeaturesController
+                                            .selectedButton.value ==
+                                        0
+                                    ? Colors.black
+                                    : Colors.white,
                               ),
                               SizedBox(width: 10.w),
                               Text(
                                 'Inactive Offers',
                                 style: CustomTextView.getStyle(
                                   context,
-                                  colorLight: premierFeaturesController.selectedButton.value == 0 ? Colors.black : Colors.white,
+                                  colorLight: premierFeaturesController
+                                              .selectedButton.value ==
+                                          0
+                                      ? Colors.black
+                                      : Colors.white,
                                   fontFamily: Utils.poppinsSemiBold,
                                   fontSize: 13.45.sp,
                                 ),
@@ -210,7 +237,7 @@ class ShopsInsightView extends GetView {
                       // borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                   // height: Get.height * .25,
-                  margin: EdgeInsets.only(top: 35.h),
+                  margin: EdgeInsets.only(top: 20.h),
                   // margin: EdgeInsets.symmetric(
                   //     horizontal: 20.0.w, vertical: 20.w),
                   child: Column(
@@ -218,384 +245,491 @@ class ShopsInsightView extends GetView {
                       Container(
                         margin: EdgeInsets.only(top: 20.h),
                         child: Obx(
-                          () => premierFeaturesController.selectedButton.value == 0
-                              ? SizedBox(
-                                  height: Get.height * 0.52,
-                                  child: premierFeaturesController.isLoading.value
-                                      ? const Center(
-                                          child: CircularProgressIndicator(
-                                            color: primary,
-                                          ),
-                                        )
-                                      : premierFeaturesController.active.isEmpty
-                                          ? const Center(
-                                              child: Text('No Active Offers'),
-                                            )
-                                          : ListView.builder(
-                                              // scrollDirection: Axis.horizontal,
-                                              itemCount: premierFeaturesController.active.length,
-                                              shrinkWrap: true,
-                                              itemBuilder: (
-                                                BuildContext context,
-                                                int index,
-                                              ) {
-                                                return InkWell(
-                                                  onTap: () => allOffersController.getOfferDetail(
-                                                    premierFeaturesController.active[index]['id'],
+                          () =>
+                              premierFeaturesController.selectedButton.value ==
+                                      0
+                                  ? SizedBox(
+                                      height: Get.height * 0.52,
+                                      child:
+                                          premierFeaturesController
+                                                  .isLoading.value
+                                              ? const Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: primary,
                                                   ),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                      left: 20.w,
-                                                      right: 20.w,
-                                                      bottom: 10,
-                                                    ),
-                                                    child: Container(
-                                                      width: 217.w,
-                                                      height: 325.h,
-                                                      decoration: BoxDecoration(
-                                                        color: lightGray,
-                                                        borderRadius: BorderRadius.circular(
-                                                          8.0,
-                                                        ),
+                                                )
+                                              : premierFeaturesController
+                                                      .active.isEmpty
+                                                  ? const Center(
+                                                      child: Text(
+                                                        'No Active Offers',
                                                       ),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Container(
-                                                            // width: 220.w,
-                                                            height: 210.h,
-                                                            decoration: BoxDecoration(
-                                                              color: lightGray,
-                                                              borderRadius: const BorderRadius.only(
-                                                                topRight: Radius.circular(
-                                                                  10.0,
-                                                                ),
-                                                                topLeft: Radius.circular(
-                                                                  10.0,
-                                                                ),
-                                                              ),
-                                                              image: DecorationImage(
-                                                                image: NetworkImage(
-                                                                  ApiService.imageBaseUrl + premierFeaturesController.active[index]['banner'],
-                                                                ),
-                                                                fit: BoxFit.cover,
-                                                              ),
-                                                            ),
+                                                    )
+                                                  : ListView.builder(
+                                                      // scrollDirection: Axis.horizontal,
+                                                      itemCount:
+                                                          premierFeaturesController
+                                                              .active.length,
+                                                      shrinkWrap: true,
+                                                      itemBuilder: (
+                                                        BuildContext context,
+                                                        int index,
+                                                      ) {
+                                                        return InkWell(
+                                                          onTap: () =>
+                                                              allOffersController
+                                                                  .getOfferDetail(
+                                                            premierFeaturesController
+                                                                    .active[
+                                                                index]['id'],
                                                           ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(
-                                                              top: 5.0,
-                                                              left: 10.h,
-                                                              right: 10,
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                              left: 20.w,
+                                                              right: 20.w,
+                                                              bottom: 10,
                                                             ),
-                                                            child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                Text(
-                                                                  premierFeaturesController.active[index]['title'],
-                                                                  style: CustomTextView.getStyle(
-                                                                    context,
-                                                                    colorLight: Colors.black,
-                                                                    fontSize: 16.sp,
-                                                                    fontFamily: Utils.poppinsBold,
-                                                                  ),
+                                                            child: Container(
+                                                              width: 217.w,
+                                                              height: 325.h,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color:
+                                                                    lightGray,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                  8.0,
                                                                 ),
-                                                                Row(
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                  children: [
-                                                                    Text(
-                                                                      premierFeaturesController.active[index]['shop']['name'],
-                                                                      style: CustomTextView.getStyle(
-                                                                        context,
-                                                                        colorLight: secondary,
-                                                                        fontSize: 16.sp,
-                                                                        fontFamily: Utils.poppinsMedium,
+                                                              ),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    // width: 220.w,
+                                                                    height:
+                                                                        210.h,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color:
+                                                                          lightGray,
+                                                                      borderRadius:
+                                                                          const BorderRadius
+                                                                              .only(
+                                                                        topRight:
+                                                                            Radius.circular(
+                                                                          10.0,
+                                                                        ),
+                                                                        topLeft:
+                                                                            Radius.circular(
+                                                                          10.0,
+                                                                        ),
+                                                                      ),
+                                                                      image:
+                                                                          DecorationImage(
+                                                                        image:
+                                                                            NetworkImage(
+                                                                          ApiService.imageBaseUrl +
+                                                                              premierFeaturesController.active[index]['banner'],
+                                                                        ),
+                                                                        fit: BoxFit
+                                                                            .cover,
                                                                       ),
                                                                     ),
-                                                                    Row(
+                                                                  ),
+                                                                  Container(
+                                                                    margin:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                      top: 5.0,
+                                                                      left:
+                                                                          10.h,
+                                                                      right: 10,
+                                                                    ),
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
-                                                                        GestureDetector(
-                                                                          onTap: () async {
-                                                                            premierFeaturesController.showCustomDialog(
-                                                                              view: premierFeaturesController.active[index]['views'],
-                                                                              conversion: premierFeaturesController.active[index]['conversion'],
-                                                                              impression: premierFeaturesController.active[index]['impression'],
-                                                                              reach: premierFeaturesController.active[index]['reach'],
-                                                                            );
-                                                                          },
-                                                                          child: Container(
-                                                                            height: 25.h,
-                                                                            width: 30.w,
-                                                                            decoration: BoxDecoration(
-                                                                              color: secondary,
-                                                                              borderRadius: BorderRadius.circular(5.0),
-                                                                            ),
-                                                                            child: const Icon(
-                                                                              Icons.remove_red_eye_outlined,
-                                                                              color: Colors.white,
-                                                                              size: 20,
-                                                                            ),
+                                                                        Text(
+                                                                          premierFeaturesController.active[index]
+                                                                              [
+                                                                              'title'],
+                                                                          style:
+                                                                              CustomTextView.getStyle(
+                                                                            context,
+                                                                            colorLight:
+                                                                                Colors.black,
+                                                                            fontSize:
+                                                                                16.sp,
+                                                                            fontFamily:
+                                                                                Utils.poppinsBold,
                                                                           ),
                                                                         ),
-                                                                        SizedBox(
-                                                                          width: 10.w,
+                                                                        Row(
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.center,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Text(
+                                                                              premierFeaturesController.active[index]['shop']['name'],
+                                                                              style: CustomTextView.getStyle(
+                                                                                context,
+                                                                                colorLight: secondary,
+                                                                                fontSize: 16.sp,
+                                                                                fontFamily: Utils.poppinsMedium,
+                                                                              ),
+                                                                            ),
+                                                                            Row(
+                                                                              children: [
+                                                                                GestureDetector(
+                                                                                  onTap: () async {
+                                                                                    premierFeaturesController.showCustomDialog(
+                                                                                      view: premierFeaturesController.active[index]['views'],
+                                                                                      conversion: premierFeaturesController.active[index]['conversion'],
+                                                                                      impression: premierFeaturesController.active[index]['impression'],
+                                                                                      reach: premierFeaturesController.active[index]['reach'],
+                                                                                    );
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    height: 25.h,
+                                                                                    width: 30.w,
+                                                                                    decoration: BoxDecoration(
+                                                                                      color: secondary,
+                                                                                      borderRadius: BorderRadius.circular(5.0),
+                                                                                    ),
+                                                                                    child: const Icon(
+                                                                                      Icons.remove_red_eye_outlined,
+                                                                                      color: Colors.white,
+                                                                                      size: 20,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  width: 10.w,
+                                                                                ),
+                                                                                GestureDetector(
+                                                                                  onTap: () async {
+                                                                                    premierFeaturesController.showAwesomeDialog(
+                                                                                      offerId: premierFeaturesController.active[index]['id'],
+                                                                                    );
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    height: 25.h,
+                                                                                    width: 30.w,
+                                                                                    decoration: BoxDecoration(
+                                                                                      color: Colors.red,
+                                                                                      borderRadius: BorderRadius.circular(5.0),
+                                                                                    ),
+                                                                                    child: const Icon(
+                                                                                      Icons.delete,
+                                                                                      color: Colors.white,
+                                                                                      size: 20,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  width: 10.w,
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ],
                                                                         ),
-                                                                        GestureDetector(
-                                                                          onTap: () async {
-                                                                            premierFeaturesController.showAwesomeDialog(
-                                                                              offerId: premierFeaturesController.active[index]['id'],
-                                                                            );
-                                                                          },
-                                                                          child: Container(
-                                                                            height: 25.h,
-                                                                            width: 30.w,
-                                                                            decoration: BoxDecoration(
-                                                                              color: Colors.red,
-                                                                              borderRadius: BorderRadius.circular(5.0),
-                                                                            ),
-                                                                            child: const Icon(
-                                                                              Icons.delete,
-                                                                              color: Colors.white,
-                                                                              size: 20,
-                                                                            ),
+                                                                        SizedBox(
+                                                                          height:
+                                                                              5.h,
+                                                                        ),
+                                                                        Text(
+                                                                          premierFeaturesController.active[index]
+                                                                              [
+                                                                              'description'],
+                                                                          // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
+                                                                          maxLines:
+                                                                              2,
+                                                                          overflow:
+                                                                              TextOverflow.ellipsis,
+                                                                          style:
+                                                                              CustomTextView.getStyle(
+                                                                            context,
+                                                                            colorLight:
+                                                                                textColor,
+                                                                            fontSize:
+                                                                                13.sp,
                                                                           ),
-                                                                        ),
-                                                                        SizedBox(
-                                                                          width: 10.w,
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                  ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                    )
+                                  : SizedBox(
+                                      height: Get.height * 0.52,
+                                      child:
+                                          premierFeaturesController
+                                                  .isLoading.value
+                                              ? const Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: primary,
+                                                  ),
+                                                )
+                                              : premierFeaturesController
+                                                      .deActive.isEmpty
+                                                  ? const Center(
+                                                      child: Text(
+                                                        'No Inactive Offers',
+                                                      ),
+                                                    )
+                                                  : ListView.builder(
+                                                      // scrollDirection: Axis.horizontal,
+                                                      itemCount:
+                                                          premierFeaturesController
+                                                              .deActive.length,
+                                                      // shrinkWrap: true,
+                                                      itemBuilder: (
+                                                        BuildContext context,
+                                                        int index,
+                                                      ) {
+                                                        return Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                            left: 20.w,
+                                                            right: 20.w,
+                                                            bottom: 10,
+                                                          ),
+                                                          child: Container(
+                                                            width: 217.w,
+                                                            height: 325.h,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: lightGray,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                8.0,
+                                                              ),
+                                                            ),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Container(
+                                                                  // width: 220.w,
+                                                                  height: 210.h,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color:
+                                                                        lightGray,
+                                                                    borderRadius:
+                                                                        const BorderRadius
+                                                                            .only(
+                                                                      topRight:
+                                                                          Radius
+                                                                              .circular(
+                                                                        10.0,
+                                                                      ),
+                                                                      topLeft:
+                                                                          Radius
+                                                                              .circular(
+                                                                        10.0,
+                                                                      ),
+                                                                    ),
+                                                                    image:
+                                                                        DecorationImage(
+                                                                      image:
+                                                                          NetworkImage(
+                                                                        ApiService.imageBaseUrl +
+                                                                            premierFeaturesController.deActive[index]['banner'],
+                                                                      ),
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
                                                                 ),
-                                                                SizedBox(
-                                                                  height: 5.h,
-                                                                ),
-                                                                Text(
-                                                                  premierFeaturesController.active[index]['description'],
-                                                                  // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
-                                                                  maxLines: 2,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: CustomTextView.getStyle(
-                                                                    context,
-                                                                    colorLight: textColor,
-                                                                    fontSize: 13.sp,
+                                                                Container(
+                                                                  margin:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                    top: 5.0,
+                                                                    left: 10.h,
+                                                                    right: 10,
+                                                                  ),
+                                                                  child: Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        premierFeaturesController.deActive[index]
+                                                                            [
+                                                                            'title'],
+                                                                        style: CustomTextView
+                                                                            .getStyle(
+                                                                          context,
+                                                                          colorLight:
+                                                                              Colors.black,
+                                                                          fontSize:
+                                                                              16.sp,
+                                                                          fontFamily:
+                                                                              Utils.poppinsBold,
+                                                                        ),
+                                                                      ),
+                                                                      Row(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Text(
+                                                                            premierFeaturesController.deActive[index]['shop']['name'],
+                                                                            style:
+                                                                                CustomTextView.getStyle(
+                                                                              context,
+                                                                              colorLight: secondary,
+                                                                              fontSize: 16.sp,
+                                                                              fontFamily: Utils.poppinsMedium,
+                                                                            ),
+                                                                          ),
+                                                                          premierFeaturesController.deActive[index]['status'] == '0'
+                                                                              ? Row(
+                                                                                  children: [
+                                                                                    GestureDetector(
+                                                                                      onTap: () async {
+                                                                                        premierFeaturesController.showCustomDialog(
+                                                                                          view: premierFeaturesController.deActive[index]['views'],
+                                                                                          conversion: premierFeaturesController.deActive[index]['conversion'],
+                                                                                          impression: premierFeaturesController.deActive[index]['impression'],
+                                                                                          reach: premierFeaturesController.deActive[index]['reach'],
+                                                                                        );
+                                                                                      },
+                                                                                      child: Container(
+                                                                                        height: 25.h,
+                                                                                        width: 30.w,
+                                                                                        decoration: BoxDecoration(
+                                                                                          color: secondary,
+                                                                                          borderRadius: BorderRadius.circular(5.0),
+                                                                                        ),
+                                                                                        child: const Icon(
+                                                                                          Icons.remove_red_eye_outlined,
+                                                                                          color: Colors.white,
+                                                                                          size: 20,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      width: 10.w,
+                                                                                    ),
+                                                                                    GestureDetector(
+                                                                                      onTap: () async {
+                                                                                        premierFeaturesController.showRevisionDialog(
+                                                                                          offerId: premierFeaturesController.deActive[index]['id'],
+                                                                                        );
+                                                                                      },
+                                                                                      child: Container(
+                                                                                        height: 25.h,
+                                                                                        width: 30.w,
+                                                                                        decoration: BoxDecoration(
+                                                                                          color: secondary,
+                                                                                          borderRadius: BorderRadius.circular(5.0),
+                                                                                        ),
+                                                                                        child: const Icon(
+                                                                                          Icons.sync,
+                                                                                          color: Colors.white,
+                                                                                          size: 20,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      width: 10.w,
+                                                                                    ),
+                                                                                    GestureDetector(
+                                                                                      onTap: () async {
+                                                                                        premierFeaturesController.showAwesomeDialog(
+                                                                                          offerId: premierFeaturesController.deActive[index]['id'],
+                                                                                        );
+                                                                                      },
+                                                                                      child: Container(
+                                                                                        height: 25.h,
+                                                                                        width: 30.w,
+                                                                                        decoration: BoxDecoration(
+                                                                                          color: Colors.red,
+                                                                                          borderRadius: BorderRadius.circular(5.0),
+                                                                                        ),
+                                                                                        child: const Icon(
+                                                                                          Icons.delete,
+                                                                                          color: Colors.white,
+                                                                                          size: 20,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      width: 10.w,
+                                                                                    ),
+                                                                                  ],
+                                                                                )
+                                                                              : const Row(
+                                                                                  children: [
+                                                                                    Text('Pending'),
+                                                                                    SizedBox(width: 10),
+                                                                                    Icon(
+                                                                                      Icons.timelapse_outlined,
+                                                                                      color: Colors.grey,
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                        ],
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height:
+                                                                            5.h,
+                                                                      ),
+                                                                      Text(
+                                                                        premierFeaturesController.deActive[index]
+                                                                            [
+                                                                            'description'],
+                                                                        // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
+                                                                        maxLines:
+                                                                            2,
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style: CustomTextView
+                                                                            .getStyle(
+                                                                          context,
+                                                                          colorLight:
+                                                                              textColor,
+                                                                          fontSize:
+                                                                              13.sp,
+                                                                        ),
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 ),
                                                               ],
                                                             ),
                                                           ),
-                                                        ],
-                                                      ),
+                                                        );
+                                                      },
                                                     ),
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                )
-                              : SizedBox(
-                                  height: Get.height * 0.52,
-                                  child: premierFeaturesController.isLoading.value
-                                      ? const Center(
-                                          child: CircularProgressIndicator(
-                                            color: primary,
-                                          ),
-                                        )
-                                      : premierFeaturesController.deActive.isEmpty
-                                          ? const Center(
-                                              child: Text('No Inactive Offers'),
-                                            )
-                                          : ListView.builder(
-                                              // scrollDirection: Axis.horizontal,
-                                              itemCount: premierFeaturesController.deActive.length,
-                                              // shrinkWrap: true,
-                                              itemBuilder: (
-                                                BuildContext context,
-                                                int index,
-                                              ) {
-                                                return Padding(
-                                                  padding: EdgeInsets.only(
-                                                    left: 20.w,
-                                                    right: 20.w,
-                                                    bottom: 10,
-                                                  ),
-                                                  child: Container(
-                                                    width: 217.w,
-                                                    height: 325.h,
-                                                    decoration: BoxDecoration(
-                                                      color: lightGray,
-                                                      borderRadius: BorderRadius.circular(8.0),
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          // width: 220.w,
-                                                          height: 210.h,
-                                                          decoration: BoxDecoration(
-                                                            color: lightGray,
-                                                            borderRadius: const BorderRadius.only(
-                                                              topRight: Radius.circular(
-                                                                10.0,
-                                                              ),
-                                                              topLeft: Radius.circular(
-                                                                10.0,
-                                                              ),
-                                                            ),
-                                                            image: DecorationImage(
-                                                              image: NetworkImage(
-                                                                ApiService.imageBaseUrl + premierFeaturesController.deActive[index]['banner'],
-                                                              ),
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin: EdgeInsets.only(
-                                                            top: 5.0,
-                                                            left: 10.h,
-                                                            right: 10,
-                                                          ),
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text(
-                                                                premierFeaturesController.deActive[index]['title'],
-                                                                style: CustomTextView.getStyle(
-                                                                  context,
-                                                                  colorLight: Colors.black,
-                                                                  fontSize: 16.sp,
-                                                                  fontFamily: Utils.poppinsBold,
-                                                                ),
-                                                              ),
-                                                              Row(
-                                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    premierFeaturesController.deActive[index]['shop']['name'],
-                                                                    style: CustomTextView.getStyle(
-                                                                      context,
-                                                                      colorLight: secondary,
-                                                                      fontSize: 16.sp,
-                                                                      fontFamily: Utils.poppinsMedium,
-                                                                    ),
-                                                                  ),
-                                                                  premierFeaturesController.deActive[index]['status'] == '0'
-                                                                      ? Row(
-                                                                          children: [
-                                                                            GestureDetector(
-                                                                              onTap: () async {
-                                                                                premierFeaturesController.showCustomDialog(
-                                                                                  view: premierFeaturesController.deActive[index]['views'],
-                                                                                  conversion: premierFeaturesController.deActive[index]['conversion'],
-                                                                                  impression: premierFeaturesController.deActive[index]['impression'],
-                                                                                  reach: premierFeaturesController.deActive[index]['reach'],
-                                                                                );
-                                                                              },
-                                                                              child: Container(
-                                                                                height: 25.h,
-                                                                                width: 30.w,
-                                                                                decoration: BoxDecoration(
-                                                                                  color: secondary,
-                                                                                  borderRadius: BorderRadius.circular(5.0),
-                                                                                ),
-                                                                                child: const Icon(
-                                                                                  Icons.remove_red_eye_outlined,
-                                                                                  color: Colors.white,
-                                                                                  size: 20,
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 10.w,
-                                                                            ),
-                                                                            GestureDetector(
-                                                                              onTap: () async {
-                                                                                premierFeaturesController.showRevisionDialog(
-                                                                                  offerId: premierFeaturesController.deActive[index]['id'],
-                                                                                );
-                                                                              },
-                                                                              child: Container(
-                                                                                height: 25.h,
-                                                                                width: 30.w,
-                                                                                decoration: BoxDecoration(
-                                                                                  color: secondary,
-                                                                                  borderRadius: BorderRadius.circular(5.0),
-                                                                                ),
-                                                                                child: const Icon(
-                                                                                  Icons.sync,
-                                                                                  color: Colors.white,
-                                                                                  size: 20,
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 10.w,
-                                                                            ),
-                                                                            GestureDetector(
-                                                                              onTap: () async {
-                                                                                premierFeaturesController.showAwesomeDialog(
-                                                                                  offerId: premierFeaturesController.deActive[index]['id'],
-                                                                                );
-                                                                              },
-                                                                              child: Container(
-                                                                                height: 25.h,
-                                                                                width: 30.w,
-                                                                                decoration: BoxDecoration(
-                                                                                  color: Colors.red,
-                                                                                  borderRadius: BorderRadius.circular(5.0),
-                                                                                ),
-                                                                                child: const Icon(
-                                                                                  Icons.delete,
-                                                                                  color: Colors.white,
-                                                                                  size: 20,
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 10.w,
-                                                                            ),
-                                                                          ],
-                                                                        )
-                                                                      : const Row(
-                                                                          children: [
-                                                                            Text('Pending'),
-                                                                            SizedBox(width: 10),
-                                                                            Icon(
-                                                                              Icons.timelapse_outlined,
-                                                                              color: Colors.grey,
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                ],
-                                                              ),
-                                                              SizedBox(
-                                                                height: 5.h,
-                                                              ),
-                                                              Text(
-                                                                premierFeaturesController.deActive[index]['description'],
-                                                                // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
-                                                                maxLines: 2,
-                                                                overflow: TextOverflow.ellipsis,
-                                                                style: CustomTextView.getStyle(
-                                                                  context,
-                                                                  colorLight: textColor,
-                                                                  fontSize: 13.sp,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                ),
+                                    ),
                           // SizedBox(
                           //   height: 280.h,
                           //   child: DashboardPageSlider()),
