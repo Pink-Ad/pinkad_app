@@ -47,18 +47,21 @@ class AllShopsView extends GetView<AllShopsController> {
                         Get.to(ProfileView());
                       },
                     )
-                  : UserAppBar(
-                      showBanner: true,
-                      backButton: false,
-                      title: 'All Shops',
-                      onMenuTap: () {
-                        print('object');
-                      },
-                      onProfileTap: () {
-                        print('object');
-                        Get.to(ProfileView());
-                      },
-                      profileIconVisibility: true,
+                  : SizedBox(
+                      height: 45.h,
+                      child: UserAppBar(
+                        showBanner: true,
+                        backButton: false,
+                        title: 'All Shops',
+                        onMenuTap: () {
+                          print('object');
+                        },
+                        onProfileTap: () {
+                          print('object');
+                          Get.to(ProfileView());
+                        },
+                        profileIconVisibility: true,
+                      ),
                     ),
               Container(
                 height: 50.h,
@@ -105,14 +108,17 @@ class AllShopsView extends GetView<AllShopsController> {
                       List matches = [];
                       matches.addAll(controller.shops);
                       matches.retainWhere((s) {
-                        return s['user']['name'].toLowerCase().contains(pattern.toLowerCase());
+                        return s['user']['name']
+                            .toLowerCase()
+                            .contains(pattern.toLowerCase());
                       });
                       return matches;
                     },
                     itemBuilder: (context, offer) {
                       return GestureDetector(
                         onTap: () {
-                          Get.find<AllShopsController>().getShopDetail(offer['shop'][0]['id']);
+                          Get.find<AllShopsController>()
+                              .getShopDetail(offer['shop'][0]['id']);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -133,7 +139,8 @@ class AllShopsView extends GetView<AllShopsController> {
                               offer['user']['name'],
                               style: CustomTextView.getStyle(
                                 context,
-                                colorLight: const Color.fromARGB(255, 41, 39, 39),
+                                colorLight:
+                                    const Color.fromARGB(255, 41, 39, 39),
                                 fontSize: 13.sp,
                                 fontFamily: Utils.poppinsSemiBold,
                               ),
@@ -144,7 +151,8 @@ class AllShopsView extends GetView<AllShopsController> {
                               offer['description'] ?? '',
                               style: CustomTextView.getStyle(
                                 context,
-                                colorLight: const Color.fromARGB(255, 66, 66, 66),
+                                colorLight:
+                                    const Color.fromARGB(255, 66, 66, 66),
                                 fontSize: 11.sp,
                                 fontFamily: Utils.poppinsLight,
                               ),
@@ -293,17 +301,20 @@ class AllShopsView extends GetView<AllShopsController> {
                         }
                       },
                       child: ListView.builder(
-                        padding: EdgeInsets.only(bottom: 20.h),
+                        padding: EdgeInsets.only(bottom: 20.h, top: 10.h),
                         // itemCount: 10, // Arbitrary number of "Hello" to display
                         // itemBuilder: (BuildContext context, int index) {
                         //   return const Center(
                         //       child: Text("Hello", style: TextStyle(fontSize: 24)));
 
-                        itemCount: controller.shops.length, // number of items in the list
+                        itemCount: controller
+                            .shops.length, // number of items in the list
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
-                              controller.getShopDetail(controller.shops[index]['shop'][0]['id']);
+                              controller.getShopDetail(
+                                controller.shops[index]['shop'][0]['id'],
+                              );
                               //   Get.toNamed(Routes.SHOP_DETAILS);
                             },
                             child: allSellerList(
@@ -479,7 +490,8 @@ class AllShopsView extends GetView<AllShopsController> {
                   // borderRadius: BorderRadius.circular(20.0),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color.fromARGB(255, 147, 147, 147).withOpacity(0.5),
+                      color: const Color.fromARGB(255, 147, 147, 147)
+                          .withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 3,
                       offset: const Offset(3, 0),

@@ -47,7 +47,10 @@ class ShopsInsightController extends GetxController {
     selectedButton.value = buttonIndex;
   }
 
-  Future<void> activeDeActiveOffer({required int offerId, required String status}) async {
+  Future<void> activeDeActiveOffer({
+    required int offerId,
+    required String status,
+  }) async {
     // void login() async {
     isLoading.value = true;
     try {
@@ -59,13 +62,18 @@ class ShopsInsightController extends GetxController {
       //   Endpoints.offerStatus,
       //   data,
       // );
-      final request = http.MultipartRequest('POST', Uri.parse(url)); // Create the multipart request
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse(url),
+      ); // Create the multipart request
       request.fields.addAll({
         'offer_id': offerId.toString(),
         'status': status.toString(),
       }); // Add the other fields to the request
 
-      final response = await http.Response.fromStream(await request.send()); // Send the request
+      final response = await http.Response.fromStream(
+        await request.send(),
+      ); // Send the request
       print('controller status${response.body}');
       final result = json.decode(response.body);
       await getShopOffer();
@@ -168,7 +176,12 @@ class ShopsInsightController extends GetxController {
           // ),
           Text(
             'Are you sure?',
-            style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 20.sp, fontFamily: Utils.poppinsBold),
+            style: CustomTextView.getStyle(
+              Get.context!,
+              colorLight: secondary,
+              fontSize: 20.sp,
+              fontFamily: Utils.poppinsBold,
+            ),
           ),
           SizedBox(
             height: 15.h,
@@ -178,7 +191,11 @@ class ShopsInsightController extends GetxController {
             child: Text(
               'You want to delete this offer?',
               textAlign: TextAlign.center,
-              style: CustomTextView.getStyle(Get.context!, colorLight: textColor, fontSize: 14.sp),
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: textColor,
+                fontSize: 14.sp,
+              ),
             ),
           ),
           SizedBox(
@@ -201,7 +218,12 @@ class ShopsInsightController extends GetxController {
           child: Center(
             child: Text(
               'Delete',
-              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: Utils.poppinsMedium,
+              ),
             ),
           ),
         ),
@@ -220,7 +242,12 @@ class ShopsInsightController extends GetxController {
           child: Center(
             child: Text(
               'Cancel',
-              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: Utils.poppinsMedium,
+              ),
             ),
           ),
         ),
@@ -234,7 +261,8 @@ class ShopsInsightController extends GetxController {
 
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
-        offerList.addAll(result.map((json) => OfferList.fromJson(json)).toList());
+        offerList
+            .addAll(result.map((json) => OfferList.fromJson(json)).toList());
         await box.write('offers', offerList);
       }
     } catch (e) {
@@ -306,7 +334,12 @@ class ShopsInsightController extends GetxController {
           // ),
           Text(
             'Are you sure?',
-            style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 20.sp, fontFamily: Utils.poppinsBold),
+            style: CustomTextView.getStyle(
+              Get.context!,
+              colorLight: secondary,
+              fontSize: 20.sp,
+              fontFamily: Utils.poppinsBold,
+            ),
           ),
           SizedBox(
             height: 15.h,
@@ -316,7 +349,11 @@ class ShopsInsightController extends GetxController {
             child: Text(
               'You want to re-active this offer?',
               textAlign: TextAlign.center,
-              style: CustomTextView.getStyle(Get.context!, colorLight: textColor, fontSize: 14.sp),
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: textColor,
+                fontSize: 14.sp,
+              ),
             ),
           ),
           SizedBox(
@@ -339,7 +376,12 @@ class ShopsInsightController extends GetxController {
           child: Center(
             child: Text(
               'Re-active',
-              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: Utils.poppinsMedium,
+              ),
             ),
           ),
         ),
@@ -358,7 +400,12 @@ class ShopsInsightController extends GetxController {
           child: Center(
             child: Text(
               'Cancel',
-              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: Utils.poppinsMedium,
+              ),
             ),
           ),
         ),
@@ -366,7 +413,12 @@ class ShopsInsightController extends GetxController {
     ).show();
   }
 
-  void showCustomDialog({required int reach, required int view, required int impression, required int conversion}) {
+  void showCustomDialog({
+    required int reach,
+    required int view,
+    required int impression,
+    required int conversion,
+  }) {
     AwesomeDialog(
       dialogType: DialogType.noHeader,
       context: Get.overlayContext!,
@@ -374,7 +426,7 @@ class ShopsInsightController extends GetxController {
       btnOkColor: secondary,
       btnCancelColor: bodyTextColor,
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+        margin: EdgeInsets.symmetric(horizontal: 13.w, vertical: 5.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -384,19 +436,32 @@ class ShopsInsightController extends GetxController {
               children: [
                 Text(
                   'Insight',
-                  style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 22.sp, fontFamily: Utils.poppinsSemiBold),
+                  style: CustomTextView.getStyle(
+                    Get.context!,
+                    colorLight: secondary,
+                    fontSize: 22.sp,
+                    fontFamily: Utils.poppinsSemiBold,
+                  ),
                 ),
                 InkWell(
                   onTap: () {
                     Get.back();
                   },
-                  child: const Icon(Icons.close),
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.black,
+                  ),
                 ),
               ],
             ),
             SizedBox(height: 15.h),
-            StatsTiles(conversion: conversion, view: view, impression: impression, reach: reach),
-            SizedBox(height: 20.h),
+            StatsTiles(
+              conversion: conversion,
+              view: view,
+              impression: impression,
+              reach: reach,
+            ),
+            SizedBox(height: 15.h),
           ],
         ),
       ),

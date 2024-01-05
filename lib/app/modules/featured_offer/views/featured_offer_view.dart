@@ -48,18 +48,21 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                       Get.to(ProfileView());
                     },
                   )
-                : UserAppBar(
-                    showBanner: true,
-                    backButton: true,
-                    title: 'All Offers',
-                    onMenuTap: () {
-                      print('object');
-                    },
-                    onProfileTap: () {
-                      print('object');
-                      Get.to(ProfileView());
-                    },
-                    profileIconVisibility: true,
+                : SizedBox(
+                    height: 50.h,
+                    child: UserAppBar(
+                      showBanner: true,
+                      backButton: true,
+                      title: 'All Offers',
+                      onMenuTap: () {
+                        print('object');
+                      },
+                      onProfileTap: () {
+                        print('object');
+                        Get.to(ProfileView());
+                      },
+                      profileIconVisibility: true,
+                    ),
                   ),
             Container(
               height: 50.h,
@@ -108,7 +111,9 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                     List matches = [];
                     matches.addAll(data);
                     matches.retainWhere((s) {
-                      return s['title'].toLowerCase().contains(pattern.toLowerCase());
+                      return s['title']
+                          .toLowerCase()
+                          .contains(pattern.toLowerCase());
                     });
                     return matches;
                   },
@@ -165,8 +170,8 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 50.h),
-              height: 450.h,
+              margin: EdgeInsets.only(top: 10.h),
+              height: 500.h,
               child: ListviewInfinitePagination(
                 initialLoader: const CircularProgressIndicator(
                   backgroundColor: primary,
@@ -227,7 +232,8 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                   // borderRadius: BorderRadius.circular(20.0),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color.fromARGB(255, 147, 147, 147).withOpacity(0.5),
+                      color: const Color.fromARGB(255, 147, 147, 147)
+                          .withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 3,
                       offset: const Offset(3, 0),

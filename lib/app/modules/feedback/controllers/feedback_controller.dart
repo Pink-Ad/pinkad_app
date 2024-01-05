@@ -35,7 +35,8 @@ class FeedbackController extends GetxController {
   void onSubmit() {
     if (!isUserLoggedIn && nameController.value.text.isEmpty) {
       showSnackBarError('Error', 'Name field cannot be empty');
-    } else if (!isUserLoggedIn && !isValidPhoneNumber(phoneNoController.value.text)) {
+    } else if (!isUserLoggedIn &&
+        !isValidPhoneNumber(phoneNoController.value.text)) {
       showSnackBarError('Error', 'Invalid phone number format');
     } else if (descriptionController.value.text.isEmpty) {
       showSnackBarError('Error', 'Description field cannot be empty');

@@ -41,18 +41,21 @@ class AllOffersView extends GetView<AllOffersController> {
                       Get.to(ProfileView());
                     },
                   )
-                : UserAppBar(
-                    showBanner: true,
-                    backButton: false,
-                    title: 'All Offers',
-                    onMenuTap: () {
-                      print('object');
-                    },
-                    onProfileTap: () {
-                      print('object');
-                      Get.to(ProfileView());
-                    },
-                    profileIconVisibility: true,
+                : SizedBox(
+                    height: 45.h,
+                    child: UserAppBar(
+                      showBanner: true,
+                      backButton: false,
+                      title: 'All Offers',
+                      onMenuTap: () {
+                        print('object');
+                      },
+                      onProfileTap: () {
+                        print('object');
+                        Get.to(ProfileView());
+                      },
+                      profileIconVisibility: true,
+                    ),
                   ),
             Container(
               height: 50.h,
@@ -73,7 +76,12 @@ class AllOffersView extends GetView<AllOffersController> {
                 ],
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 10.0, bottom: 0.0, right: 5.0),
+                padding: const EdgeInsets.only(
+                  left: 20.0,
+                  top: 10.0,
+                  bottom: 0.0,
+                  right: 5.0,
+                ),
                 child: TypeAheadField<dynamic>(
                   animationStart: 0,
                   animationDuration: Duration.zero,
@@ -100,14 +108,17 @@ class AllOffersView extends GetView<AllOffersController> {
                     matches.addAll(controller.offers);
 
                     matches.retainWhere((s) {
-                      return s.title!.toLowerCase().contains(pattern.toLowerCase());
+                      return s.title!
+                          .toLowerCase()
+                          .contains(pattern.toLowerCase());
                     });
                     return matches;
                   },
                   itemBuilder: (context, offer) {
                     return GestureDetector(
                       onTap: () {
-                        Get.find<AllOffersController>().getOfferDetail(offer.id!);
+                        Get.find<AllOffersController>()
+                            .getOfferDetail(offer.id!);
                       },
                       child: Container(
                         // margin: EdgeInsets.only(
@@ -130,10 +141,16 @@ class AllOffersView extends GetView<AllOffersController> {
                           //     offset: const Offset(0, 3),
                           //   ),
                           // ],
-                          border: Border(bottom: BorderSide(width: 2.w, color: Colors.grey.shade600)),
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 2.w,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
                         ),
                         child: ListTile(
-                          leading: const Icon(Icons.travel_explore, color: primary),
+                          leading:
+                              const Icon(Icons.travel_explore, color: primary),
                           title: Text(
                             offer.title!,
                             style: CustomTextView.getStyle(
@@ -279,15 +296,18 @@ class AllOffersView extends GetView<AllOffersController> {
                       }
                     },
                     child: ListView.builder(
-                      padding: EdgeInsets.only(bottom: 20.0.h),
-                      itemCount: controller.offers.length, // number of items in the list
+                      padding: EdgeInsets.only(bottom: 20.0.h, top: 10.h),
+                      itemCount: controller
+                          .offers.length, // number of items in the list
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
                             // print(inspect(offers[index].shop.logo));
-                            controller.getOfferDetail(controller.offers[index].id);
+                            controller
+                                .getOfferDetail(controller.offers[index].id);
                           },
-                          child: offerListItem(controller.offers, index, context),
+                          child:
+                              offerListItem(controller.offers, index, context),
                         );
                       },
                     ),
@@ -301,7 +321,11 @@ class AllOffersView extends GetView<AllOffersController> {
     );
   }
 
-  Container offerListItem(List<dynamic> offers, int index, BuildContext context) {
+  Container offerListItem(
+    List<dynamic> offers,
+    int index,
+    BuildContext context,
+  ) {
     return Container(
       margin: EdgeInsets.only(left: 20.0.w, top: 10.h, right: 20.0.w),
       padding: const EdgeInsets.all(10.0),
@@ -328,7 +352,8 @@ class AllOffersView extends GetView<AllOffersController> {
                   // borderRadius: BorderRadius.circular(20.0),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color.fromARGB(255, 147, 147, 147).withOpacity(0.5),
+                      color: const Color.fromARGB(255, 147, 147, 147)
+                          .withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 3,
                       offset: const Offset(3, 0),
@@ -354,7 +379,12 @@ class AllOffersView extends GetView<AllOffersController> {
                   children: [
                     Text(
                       '${offers[index]!.title!.toString()} By ${offers[index]!.shop!.name!.toString()}',
-                      style: CustomTextView.getStyle(context, colorLight: subHeadingColor, fontSize: 12.sp, fontFamily: Utils.poppinsSemiBold),
+                      style: CustomTextView.getStyle(
+                        context,
+                        colorLight: subHeadingColor,
+                        fontSize: 12.sp,
+                        fontFamily: Utils.poppinsSemiBold,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.clip,
                     ),

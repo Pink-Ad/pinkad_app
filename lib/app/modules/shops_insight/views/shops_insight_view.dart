@@ -25,7 +25,6 @@ class ShopsInsightView extends GetView {
     final premierFeaturesController = Get.find<ShopsInsightController>();
     final allOffersController = AllOffersController();
     return CustomBgDashboard(
-      isShopsInsightView: true,
       child: SafeArea(
         child: Column(
           children: [
@@ -44,8 +43,8 @@ class ShopsInsightView extends GetView {
             Container(
               margin: EdgeInsets.only(
                 top: 40.w,
-                left: 12.w,
-                right: 12.w,
+                left: 8.w,
+                right: 8.w,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -104,6 +103,7 @@ class ShopsInsightView extends GetView {
                       ),
                     ),
                   ),
+                  SizedBox(width: 8.w),
                   Expanded(
                     child: Obx(
                       () => SizedBox(
@@ -161,6 +161,7 @@ class ShopsInsightView extends GetView {
                 ],
               ),
             ),
+
             // Container(
             //   height: 90.h,
             //   margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.w),

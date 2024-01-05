@@ -19,19 +19,34 @@ class StatsTiles extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Tile(title: 'Reach', stats: reach.toString()),
-            // SizedBox()
-            Tile(title: 'View', stats: view.toString())
+            Tile(
+              title: 'Reach',
+              stats: reach.toString(),
+              icon: Icons.group,
+            ),
+            Tile(
+              title: 'View',
+              stats: view.toString(),
+              icon: Icons.visibility,
+            ),
           ],
         ),
         SizedBox(height: 10.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Tile(title: 'Imression', stats: impression.toString()),
-            Tile(title: 'Conversion', stats: conversion.toString())
+            Tile(
+              title: 'Impression',
+              stats: impression.toString(),
+              icon: Icons.assessment,
+            ),
+            Tile(
+              title: 'Conversion',
+              stats: conversion.toString(),
+              icon: Icons.swap_horiz,
+            ),
           ],
-        )
+        ),
       ],
     );
   }

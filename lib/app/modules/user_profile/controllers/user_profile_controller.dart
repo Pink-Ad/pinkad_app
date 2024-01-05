@@ -48,14 +48,48 @@ class UserProfileController extends GetxController {
     getData();
   }
 
+  String? validatePakistaniPhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    value = value.replaceAll('-', ''); // Remove dashes before validation
+    if (value.length != 10) {
+      // Change this to 10 if you need 10 digits excluding the country code
+      return 'The phone number must be 10 digits long';
+    }
+    if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+      // Ensure this regex matches the number of digits you need
+      return 'Enter a valid phone number';
+    }
+    return null;
+  }
+
+  String? validateWhatsppNumber(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'WhatsApp number is required';
+    }
+    value = value.replaceAll('-', '');
+    if (value.length != 10) {
+      return 'The WhatsApp number must be 10 digits long';
+    }
+    if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+      return 'Enter a valid WhatsApp number';
+    }
+    return null;
+  }
+
   void onSubmit() {
-    if (!isValidPhoneNumber(whatsappNoController.value.text)) {
-      showSnackBarError(
-        'Error',
-        'Invalid whatsapp number format / field cannot be empty',
-      );
-    } else if (!isValidPhoneNumber(phoneNoController.value.text)) {
-      showSnackBarError('Error', 'Invalid phone number format');
+    String? whatsappError =
+        validateWhatsppNumber(whatsappNoController.value.text);
+    if (whatsappError != null) {
+      showSnackBarError('Error', whatsappError);
+      return; // Stop execution if there is an error
+    }
+    String? phoneError =
+        validatePakistaniPhoneNumber(phoneNoController.value.text);
+    if (phoneError != null) {
+      showSnackBarError('Error', phoneError);
+      return; // Stop execution if there is an error
     }
     // else if (businessNameController.value.text.isEmpty) {
     //   showSnackBarError("Error", "Business name field cannot be empty");

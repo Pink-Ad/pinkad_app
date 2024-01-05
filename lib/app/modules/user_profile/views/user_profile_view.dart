@@ -9,6 +9,7 @@ import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.d
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/app/modules/user_profile/controllers/user_profile_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
+import 'package:pink_ad/utilities/custom_widgets/phone_input_field.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
 
@@ -41,6 +42,7 @@ class UserProfileView extends GetView {
     FocusNode websiteUrlFocus = FocusNode();
     final userProfileController = Get.find<UserProfileController>();
     return CustomBgDashboard(
+      isUserProfileView: true,
       child: SafeArea(
         child: Column(
           children: [
@@ -249,8 +251,7 @@ class UserProfileView extends GetView {
                                 SizedBox(
                                   height: 10.h,
                                 ),
-                                ShadowedTextField(
-                                  //onChanged: controller.username,
+                                CustomPhoneInputField(
                                   focusNode: phoneFocus,
                                   onFieldSubmitted: (v) {
                                     FocusScope.of(context)
@@ -260,10 +261,36 @@ class UserProfileView extends GetView {
                                       .phoneNoController.value,
                                   hintText: '+923001234567',
                                   iconName: 'phone',
-                                  keyboardType: TextInputType.phone,
+                                  textInputAction: TextInputAction.next,
                                 ),
-                                ShadowedTextField(
-                                  //onChanged: controller.username,
+
+                                // ShadowedTextField(
+                                //   //onChanged: controller.username,
+                                //   focusNode: phoneFocus,
+                                //   onFieldSubmitted: (v) {
+                                //     FocusScope.of(context)
+                                //         .requestFocus(whatsappFocus);
+                                //   },
+                                //   controller: userProfileController
+                                //       .phoneNoController.value,
+                                //   hintText: '+923001234567',
+                                //   iconName: 'phone',
+                                //   keyboardType: TextInputType.phone,
+                                // ),
+                                // ShadowedTextField(
+                                //   //onChanged: controller.username,
+                                //   focusNode: whatsappFocus,
+                                //   onFieldSubmitted: (v) {
+                                //     FocusScope.of(context)
+                                //         .requestFocus(emailFocus);
+                                //   },
+                                //   controller: userProfileController
+                                //       .whatsappNoController.value,
+                                //   hintText: '+923001234567',
+                                //   iconName: 'whatsapp_icon',
+                                //   keyboardType: TextInputType.phone,
+                                // ),
+                                CustomPhoneInputField(
                                   focusNode: whatsappFocus,
                                   onFieldSubmitted: (v) {
                                     FocusScope.of(context)
@@ -273,7 +300,7 @@ class UserProfileView extends GetView {
                                       .whatsappNoController.value,
                                   hintText: '+923001234567',
                                   iconName: 'whatsapp_icon',
-                                  keyboardType: TextInputType.phone,
+                                  textInputAction: TextInputAction.next,
                                 ),
                                 // ShadowedTextField(
                                 //   focusNode: businessNameFocus,

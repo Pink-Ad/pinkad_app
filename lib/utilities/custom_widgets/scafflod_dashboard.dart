@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class CustomBgDashboard extends StatelessWidget {
   Widget child;
-  final bool? isShopsInsightView;
+  final bool? isUserProfileView;
 
-  CustomBgDashboard({super.key, required this.child, this.isShopsInsightView});
+  CustomBgDashboard({super.key, required this.child, this.isUserProfileView});
 
   @override
   Widget build(BuildContext context) {
-    String backgroundImage = isShopsInsightView == true
-        ? 'assets/images/bg_homecopy.png'
-        : 'assets/images/bg_home.png';
+    String backgroundImage = isUserProfileView == true
+        ? 'assets/images/bg_home.png'
+        : 'assets/images/bg_homecopy.png';
 
     return SafeArea(
       top: false,
