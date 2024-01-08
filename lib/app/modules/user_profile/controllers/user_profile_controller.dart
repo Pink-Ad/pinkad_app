@@ -140,10 +140,24 @@ class UserProfileController extends GetxController {
     return regex.hasMatch(input);
   }
 
+  String stripCountryCode(String phoneNumber) {
+    // Regular expression to match the '+92' country code and any non-numeric characters
+    RegExp regExp = RegExp(r'\+92|\D');
+
+    // Replace the matched part with an empty string, effectively removing it
+    return phoneNumber.replaceAll(regExp, '');
+  }
+
   Future<void> autoFill() async {
     LoginResponse data = await box.read('user_data');
-    phoneNoController.value.text = data.user!.seller!.phone!;
-    whatsappNoController.value.text = data.user!.seller!.whatsapp!;
+
+    // Use the stripCountryCode function to remove the country code
+    String formattedPhone = stripCountryCode(data.user!.seller!.phone!);
+    String formattedWhatsApp = stripCountryCode(data.user!.seller!.whatsapp!);
+
+    phoneNoController.value.text = formattedPhone;
+    whatsappNoController.value.text = formattedWhatsApp;
+
     // businessNameController.value.text = data.user!.seller!.businessName!;
     businessAddressController.value.text = data.user!.seller!.businessAddress!;
     //facebookController.value.text = data.user!.seller!.facebookPage!;

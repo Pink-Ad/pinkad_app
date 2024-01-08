@@ -261,7 +261,6 @@ class UserProfileView extends GetView {
                                       .phoneNoController.value,
                                   hintText: 'XXX-XXXXXXX',
                                   iconName: 'phone',
-                                  showPrefix: false,
                                   textInputAction: TextInputAction.next,
                                 ),
 
@@ -300,7 +299,6 @@ class UserProfileView extends GetView {
                                   controller: userProfileController
                                       .whatsappNoController.value,
                                   hintText: 'XXX-XXXXXXX',
-                                  showPrefix: false,
                                   iconName: 'whatsapp_icon',
                                   textInputAction: TextInputAction.next,
                                 ),

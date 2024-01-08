@@ -331,52 +331,52 @@ class UploadOfferView extends GetView {
                                 //   ),
                                 // ),
 
-                                Container(
-                                  margin: EdgeInsets.only(
-                                    left: 20.w,
-                                    right: 10.w,
-                                    top: 10.h,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Featured Now?',
-                                        style: CustomTextView.getStyle(
-                                          context,
-                                          colorLight: textColor,
-                                          fontSize: 16.sp,
-                                        ),
-                                      ),
-                                      Obx(
-                                        () => Switch(
-                                          thumbIcon: MaterialStatePropertyAll(
-                                            Icon(
-                                              Icons.circle,
-                                              color: secondary,
-                                            ),
-                                          ),
-                                          value: uploadOfferController
-                                              .switchValue.value,
-                                          onChanged: (bool newValue) {
-                                            uploadOfferController
-                                                .toggleSwitchValue();
-                                            uploadOfferController
-                                                    .activeColor.value =
-                                                newValue
-                                                    ? Colors.green
-                                                    : Colors.red;
-                                          },
+                                // Container(
+                                //   margin: EdgeInsets.only(
+                                //     left: 20.w,
+                                //     right: 10.w,
+                                //     top: 10.h,
+                                //   ),
+                                //   child: Row(
+                                //     mainAxisAlignment:
+                                //         MainAxisAlignment.spaceBetween,
+                                //     children: [
+                                //       Text(
+                                //         'Featured Now?',
+                                //         style: CustomTextView.getStyle(
+                                //           context,
+                                //           colorLight: textColor,
+                                //           fontSize: 16.sp,
+                                //         ),
+                                //       ),
+                                //       Obx(
+                                //         () => Switch(
+                                //           thumbIcon: MaterialStatePropertyAll(
+                                //             Icon(
+                                //               Icons.circle,
+                                //               color: secondary,
+                                //             ),
+                                //           ),
+                                //           value: uploadOfferController
+                                //               .switchValue.value,
+                                //           onChanged: (bool newValue) {
+                                //             uploadOfferController
+                                //                 .toggleSwitchValue();
+                                //             uploadOfferController
+                                //                     .activeColor.value =
+                                //                 newValue
+                                //                     ? Colors.green
+                                //                     : Colors.red;
+                                //           },
 
-                                          inactiveThumbColor: secondary,
-                                          activeColor: secondary,
-                                          // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                //           inactiveThumbColor: secondary,
+                                //           activeColor: secondary,
+                                //           // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
                                 // Container(
                                 //   margin: EdgeInsets.only(
                                 //     left: 20.w,

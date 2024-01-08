@@ -26,9 +26,20 @@ class FeedbackController extends GetxController {
 
   bool get isUserLoggedIn => box.read('user_type') != 'guest';
 
-  void autoFill() {
-    final data = LoginResponse.fromJson(box.read('user_data'));
-    phoneNoController.value.text = data.user!.seller!.phone!;
+  String stripCountryCode(String phoneNumber) {
+    // Regular expression to match the '+92' country code and any non-numeric characters
+    RegExp regExp = RegExp(r'\+92|\D');
+
+    // Replace the matched part with an empty string, effectively removing it
+    return phoneNumber.replaceAll(regExp, '');
+  }
+
+  Future<void> autoFill() async {
+    LoginResponse data = await box.read('user_data');
+
+    String formattedPhone = stripCountryCode(data.user!.seller!.phone!);
+
+    phoneNoController.value.text = formattedPhone;
     nameController.value.text = data.user!.seller!.businessName!;
   }
 

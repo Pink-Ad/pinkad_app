@@ -9,6 +9,7 @@ import 'package:pink_ad/utilities/custom_widgets/custom_appbar.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_button.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_text_field.dart';
+import 'package:pink_ad/utilities/custom_widgets/phone_input_field.dart';
 import 'package:pink_ad/utilities/custom_widgets/scafflod_dashboard.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 
@@ -16,6 +17,21 @@ import '../controllers/feedback_controller.dart';
 
 class FeedbackView extends GetView<FeedbackController> {
   const FeedbackView({Key? key}) : super(key: key);
+
+  String? validatePakistaniPhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    value = value.replaceAll('-', ''); // Remove dashes before validation
+    if (value.length != 11) {
+      return 'The phone number must be 10 digits long';
+    }
+    if (!RegExp(r'^[0-9]{11}$').hasMatch(value)) {
+      return 'Enter a valid phone number';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();
@@ -32,6 +48,7 @@ class FeedbackView extends GetView<FeedbackController> {
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       children: [
         CustomBgDashboard(
+          isfeedback: true,
           child: SafeArea(
             child: Column(
               children: [
@@ -60,9 +77,9 @@ class FeedbackView extends GetView<FeedbackController> {
                         },
                         profileIconVisibility: true,
                       ),
-                Container(
-                  margin: EdgeInsets.only(top: 125.h),
-                  height: 10,
+
+                SizedBox(
+                  height: 120.h,
                 ),
                 // ShadowedTextField(
                 //   hintText: 'Name',
@@ -82,15 +99,30 @@ class FeedbackView extends GetView<FeedbackController> {
                       ? feedbackController.nameController.value
                       : TextEditingController(text: sellerName),
                 ),
-                ShadowedTextField(
-                  hintText: 'Phone Number',
-                  iconName: 'phone',
-                  keyboardType: TextInputType.number,
+                // ShadowedTextField(
+                //   hintText: 'Phone Number',
+                //   iconName: 'phone',
+                //   keyboardType: TextInputType.number,
+                //   controller: userType == 'guest'
+                //       ? feedbackController.phoneNoController.value
+                //       : TextEditingController(text: sellerPhoneNumber),
+                // ),
+                CustomPhoneInputField(
                   controller: userType == 'guest'
                       ? feedbackController.phoneNoController.value
                       : TextEditingController(text: sellerPhoneNumber),
+                  focusNode:
+                      FocusNode(), // Create a new FocusNode or use an existing one
+                  hintText: 'XXX-XXXXXXX',
+                  iconName: 'phone',
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (value) {
+                    // Handle the field submission logic if required
+                  },
+                  // If you want the prefix '+92' to be displayed for guest users, add it conditionally
+                  prefixText: userType == 'guest' ? '+92' : '',
+                  validator: validatePakistaniPhoneNumber,
                 ),
-
                 Container(
                   height: 100.h,
                   margin:

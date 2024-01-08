@@ -83,7 +83,8 @@ class UploadOfferController extends GetxController {
     final savedToken = box.read('user_token');
 
     try {
-      final response = await _apiService.getDataWithHeader(Endpoints.shop, savedToken);
+      final response =
+          await _apiService.getDataWithHeader(Endpoints.shop, savedToken);
 
       print(inspect(response.body));
       if (response.statusCode == 200) {
@@ -135,7 +136,8 @@ class UploadOfferController extends GetxController {
       print(inspect(response.body));
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
-        List subCategory = result.map((json) => SubCategory.fromJson(json)).toList();
+        List subCategory =
+            result.map((json) => SubCategory.fromJson(json)).toList();
         for (var city in subCategory) {
           subCategoryName.add(City(id: city?.id, name: city?.name));
         }
@@ -203,7 +205,10 @@ class UploadOfferController extends GetxController {
           // ),
           Text(
             'Are you sure?',
-            style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 20.sp, fontFamily: Utils.poppinsBold),
+            style: CustomTextView.getStyle(Get.context!,
+                colorLight: secondary,
+                fontSize: 20.sp,
+                fontFamily: Utils.poppinsBold),
           ),
           SizedBox(
             height: 15.h,
@@ -213,7 +218,8 @@ class UploadOfferController extends GetxController {
             child: Text(
               'You want to upload this offer?',
               textAlign: TextAlign.center,
-              style: CustomTextView.getStyle(Get.context!, colorLight: textColor, fontSize: 14.sp),
+              style: CustomTextView.getStyle(Get.context!,
+                  colorLight: textColor, fontSize: 14.sp),
             ),
           ),
           SizedBox(
@@ -237,7 +243,10 @@ class UploadOfferController extends GetxController {
           child: Center(
             child: Text(
               'Upload',
-              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(Get.context!,
+                  colorLight: Colors.white,
+                  fontSize: 16.sp,
+                  fontFamily: Utils.poppinsMedium),
             ),
           ),
         ),
@@ -256,7 +265,10 @@ class UploadOfferController extends GetxController {
           child: Center(
             child: Text(
               'Cancel',
-              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(Get.context!,
+                  colorLight: Colors.white,
+                  fontSize: 16.sp,
+                  fontFamily: Utils.poppinsMedium),
             ),
           ),
         ),
@@ -295,7 +307,8 @@ class UploadOfferController extends GetxController {
             child: Text(
               'Please verify your email to upload the offer',
               textAlign: TextAlign.center,
-              style: CustomTextView.getStyle(Get.context!, colorLight: textColor, fontSize: 14.sp),
+              style: CustomTextView.getStyle(Get.context!,
+                  colorLight: textColor, fontSize: 14.sp),
             ),
           ),
           SizedBox(
@@ -317,7 +330,10 @@ class UploadOfferController extends GetxController {
           child: Center(
             child: Text(
               'Ok',
-              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(Get.context!,
+                  colorLight: Colors.white,
+                  fontSize: 16.sp,
+                  fontFamily: Utils.poppinsMedium),
             ),
           ),
         ),
@@ -336,7 +352,10 @@ class UploadOfferController extends GetxController {
           child: Center(
             child: Text(
               'Cancel',
-              style: CustomTextView.getStyle(Get.context!, colorLight: Colors.white, fontSize: 16.sp, fontFamily: Utils.poppinsMedium),
+              style: CustomTextView.getStyle(Get.context!,
+                  colorLight: Colors.white,
+                  fontSize: 16.sp,
+                  fontFamily: Utils.poppinsMedium),
             ),
           ),
         ),
@@ -404,8 +423,10 @@ class UploadOfferController extends GetxController {
   Future getModel() async {
     const url = ApiService.modelBaseUrl + Endpoints.aiModel;
     final request = http.MultipartRequest('POST', Uri.parse(url));
-    request.files.add(await http.MultipartFile.fromPath('file', pickedFile!.path)); // Add the file to the request
-    final response = await http.Response.fromStream(await request.send()); // Send the request
+    request.files.add(await http.MultipartFile.fromPath(
+        'file', pickedFile!.path)); // Add the file to the request
+    final response = await http.Response.fromStream(
+        await request.send()); // Send the request
     final res = json.decode(response.body);
     // if (res['prediction'] == "male") {
     uploadData(res['prediction']);
@@ -428,13 +449,16 @@ class UploadOfferController extends GetxController {
     final descriptionValue = descriptionController.value.text.trim();
 
     try {
-      final request = http.MultipartRequest('POST', Uri.parse(url)); // Create the multipart request
-      request.files.add(await http.MultipartFile.fromPath('banner', pickedFile!.path)); // Add the file to the request
+      final request = http.MultipartRequest(
+          'POST', Uri.parse(url)); // Create the multipart request
+      request.files.add(await http.MultipartFile.fromPath(
+          'banner', pickedFile!.path)); // Add the file to the request
 
       request.fields.addAll({
         'title': titleValue,
         // 'hash_tag': hashTagValue,
-        'IsFeature': switchValue.value ? '1' : '0',
+        // 'IsFeature': switchValue.value ? '1' : '0',
+        'IsFeature': '1',
         'description': descriptionValue,
         'category_id': selectedCategory.value!.id.toString(),
         // 'subcat_id[0]': selectedSubCategory.value[0].toString(),
@@ -442,16 +466,18 @@ class UploadOfferController extends GetxController {
         'area': selectedarea.value[0].id.toString(),
         'gender': predction.toString(),
       }); // Add the other fields to the request
-      selectedSubCategory.value
-          .asMap()
-          .forEach((index, value) => request.fields.addAll({'subcat_id[$index]': selectedSubCategory.value[index].toString()}));
+      selectedSubCategory.value.asMap().forEach((index, value) => request.fields
+              .addAll({
+            'subcat_id[$index]': selectedSubCategory.value[index].toString()
+          }));
 
 // Add the bearer token to the request headers
       request.headers['Authorization'] = 'Bearer $savedToken';
       print(selectedarea.value[0]);
       print(request.headers['Authorization'] = 'Bearer $savedToken');
       print(request.fields.toString());
-      final response = await http.Response.fromStream(await request.send()); // Send the request
+      final response = await http.Response.fromStream(
+          await request.send()); // Send the request
 
       if (response.statusCode == 200) {
         splashController.getOffers();
@@ -481,7 +507,8 @@ class UploadOfferController extends GetxController {
 
         isLoading.value = false;
         // Error occurred
-        print('Error occurred while upload offer: Status Code: ${response.statusCode}\nError: ${response.body}');
+        print(
+            'Error occurred while upload offer: Status Code: ${response.statusCode}\nError: ${response.body}');
       }
     } catch (e) {
       homeController.setLoading();
