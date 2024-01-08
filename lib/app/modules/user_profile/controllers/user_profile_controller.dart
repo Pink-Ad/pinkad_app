@@ -78,6 +78,11 @@ class UserProfileController extends GetxController {
     return null;
   }
 
+  String formatPhoneNumber(String number) {
+    String numericOnly = number.replaceAll(RegExp(r'[^0-9]'), '');
+    return '+92$numericOnly';
+  }
+
   void onSubmit() {
     String? whatsappError =
         validateWhatsppNumber(whatsappNoController.value.text);
@@ -104,6 +109,7 @@ class UserProfileController extends GetxController {
     // } else if (webSiteController.value.text.isEmpty) {
     //   showSnackBarError("Error", "Website field cannot be empty");
     // }
+
     else {
       registerUser();
     }
@@ -183,8 +189,9 @@ class UserProfileController extends GetxController {
 
     isLoading.value = true;
     const url = 'https://pinkad.pk/portal/api/seller/update';
-    final whatsappNo = whatsappNoController.value.text.trim();
-    final phoneNo = phoneNoController.value.text.trim();
+    final whatsappNoFormatted =
+        formatPhoneNumber(whatsappNoController.value.text);
+    final phoneNoFormatted = formatPhoneNumber(phoneNoController.value.text);
     final businessName = businessNameController.value.text.trim();
     final businessAddress = businessAddressController.value.text.trim();
     final facebook = facebookController.value.text.trim();
@@ -219,8 +226,8 @@ class UserProfileController extends GetxController {
       request.fields.addAll({
         'user_id': data.user!.id.toString(),
         'role': '2',
-        'phone': phoneNo,
-        'whatsapp': whatsappNo,
+        'phone': phoneNoFormatted,
+        'whatsapp': whatsappNoFormatted,
         'business_address': businessAddress,
         'faecbook_page': facebook,
         'insta_page': instagram,

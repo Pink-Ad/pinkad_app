@@ -63,8 +63,9 @@ class CustomPhoneInputField extends StatelessWidget {
   final String prefixText;
   final Function(String)? validator;
   final String? iconName;
+  final bool showPrefix;
 
-  const CustomPhoneInputField({
+  CustomPhoneInputField({
     Key? key,
     required this.controller,
     required this.focusNode,
@@ -72,6 +73,7 @@ class CustomPhoneInputField extends StatelessWidget {
     required this.textInputAction,
     required this.onFieldSubmitted,
     this.prefixText = '+92',
+    this.showPrefix = true,
     this.iconName,
     this.validator,
   }) : super(key: key);
@@ -104,8 +106,11 @@ class CustomPhoneInputField extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SvgPicture.asset(
-            'assets/svgIcons/${iconName}.svg',
+          Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: SvgPicture.asset(
+              'assets/svgIcons/${iconName}.svg',
+            ),
           ),
           Expanded(
             child: TextFormField(
@@ -130,22 +135,24 @@ class CustomPhoneInputField extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
-                prefixIcon: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                    20.w,
-                    8.h,
-                    4.w,
-                    10.h,
-                  ),
-                  child: Text(
-                    prefixText,
-                    style: CustomTextView.getStyle(
-                      context,
-                      colorLight: textColor,
-                      fontSize: 15.5.sp,
-                    ),
-                  ),
-                ),
+                prefixIcon: showPrefix
+                    ? Padding(
+                        padding: EdgeInsets.fromLTRB(
+                          20.w,
+                          8.h,
+                          4.w,
+                          10.h,
+                        ),
+                        child: Text(
+                          prefixText,
+                          style: CustomTextView.getStyle(
+                            context,
+                            colorLight: textColor,
+                            fontSize: 15.5.sp,
+                          ),
+                        ),
+                      )
+                    : null,
                 prefixIconConstraints: BoxConstraints(
                   minWidth: 0,
                   minHeight: 0,

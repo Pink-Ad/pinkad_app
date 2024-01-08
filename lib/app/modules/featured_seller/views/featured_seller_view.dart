@@ -66,6 +66,9 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
                         profileIconVisibility: true,
                       ),
                     ),
+              SizedBox(
+                height: 15.h,
+              ),
               Container(
                 height: 50.h,
                 margin: EdgeInsets.symmetric(

@@ -46,6 +46,7 @@ class UploadOfferView extends GetView {
                 Get.to(ProfileView());
               },
             ),
+            SizedBox(height: 20.h),
             Expanded(
               child: Stack(
                 children: [

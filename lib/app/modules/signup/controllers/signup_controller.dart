@@ -103,17 +103,20 @@ class SignupController extends GetxController {
     if (nameController.value.text.isEmpty) {
       showSnackBarError('Error', 'Name field cannot be empty');
     }
-    String? phoneError = validatePakistaniPhoneNumber(phoneNoController.value.text);
+    String? phoneError =
+        validatePakistaniPhoneNumber(phoneNoController.value.text);
     if (phoneError != null) {
       showSnackBarError('Error', phoneError);
       return; // Stop execution if there is an error
     }
     bool isValidEmail(String email) {
-      final emailRegExp = RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+      final emailRegExp =
+          RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
       return emailRegExp.hasMatch(email);
     }
 
-    String? whatsappError = validateWhatsppNumber(whatsappNoController.value.text);
+    String? whatsappError =
+        validateWhatsppNumber(whatsappNoController.value.text);
     if (whatsappError != null) {
       showSnackBarError('Error', whatsappError);
       return; // Stop execution if there is an error
@@ -234,7 +237,8 @@ class SignupController extends GetxController {
     if (permissionStatus.isGranted) {
       // User has granted permission, proceed with picking an image
       final picker = ImagePicker();
-      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile =
+          await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
         // final bool isValidSize = await validateImageSize(pickedFile.path);
@@ -386,8 +390,8 @@ class SignupController extends GetxController {
         'email': email,
         'password': password,
         'role': '2',
-        'phone': phoneNo,
-        'whatsapp': whatsappNo,
+        'phone': '+92${phoneNoController.value.text.replaceAll('-', '')}',
+        'whatsapp': '+92${whatsappNoController.value.text.replaceAll('-', '')}',
         'business_name': name,
         'business_address': businessAddress,
         'shop_contact_number': phoneNo,
@@ -412,7 +416,8 @@ class SignupController extends GetxController {
       final response = await http.Response.fromStream(
         await request.send(),
       ); // Send the request
-      final postResponse = RegisterPostResponse.fromJson(json.decode(response.body));
+      final postResponse =
+          RegisterPostResponse.fromJson(json.decode(response.body));
       print(response.body.toString());
       if (response.statusCode == 200) {
         // Successful request
