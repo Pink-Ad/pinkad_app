@@ -267,9 +267,9 @@ class UserDashboardView extends GetView {
                                                     Container(
                                                       width: 220.w,
                                                       height: 210.h,
-                                                      decoration: const BoxDecoration(
+                                                      decoration: BoxDecoration(
                                                         color: lightGray,
-                                                        borderRadius: BorderRadius.only(
+                                                        borderRadius: const BorderRadius.only(
                                                           topRight: Radius.circular(
                                                             10.0,
                                                           ),
@@ -277,12 +277,10 @@ class UserDashboardView extends GetView {
                                                             10.0,
                                                           ),
                                                         ),
-                                                        // image: DecorationImage(
-                                                        //   image: NetworkImage(
-                                                        //       ApiService.imageBaseUrl +
-                                                        //           fOffer[index]['banner']),
-                                                        //   fit: BoxFit.cover,
-                                                        // ),
+                                                        image: DecorationImage(
+                                                          image: NetworkImage(ApiService.imageBaseUrl + fOffer[index]['banner']),
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                       ),
                                                     ),
                                                     Container(

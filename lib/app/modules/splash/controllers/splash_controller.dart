@@ -31,6 +31,14 @@ class SplashController extends GetxController {
   late AppLinks _appLinks;
   StreamSubscription<Uri>? _linkSubscription;
 
+  void handleAppLink(Uri? uri) {
+    if (uri != null && uri.host == 'app.pinkad.pk' && uri.pathSegments.isNotEmpty) {
+      if (uri.pathSegments.first == 'email-verified') {
+        showToast(message: 'Your account has been verified!');
+      }
+    }
+  }
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -55,17 +63,10 @@ class SplashController extends GetxController {
 
     _appLinks = AppLinks();
     // Check initial link if app was in cold state (terminated)
-    final appLink = await _appLinks.getInitialAppLink();
-    if (appLink?.host == 'verified') {
-      showToast(message: 'Your account has been verified!');
-    }
+    handleAppLink(await _appLinks.getInitialAppLink());
 
     // Handle link when app is in warm state (front or background)
-    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
-      if (uri.host == 'verified') {
-        showToast(message: 'Your account has been verified!');
-      }
-    });
+    _linkSubscription = _appLinks.uriLinkStream.listen(handleAppLink);
 
     // Future.delayed(const Duration(milliseconds: 2));
     // Timer(const Duration(seconds: 8), () async {
@@ -87,8 +88,6 @@ class SplashController extends GetxController {
             await box.write('user_data', loginResponseData);
             await box.write('user_token', token);
             // await box.write('user_type', 'seller'); // seller or guest
-            final savedToken = box.read('user_token');
-            print(token);
             if (box.read('user_type') != 'guest') {
               return Get.offAll(UserBottomNavBar());
             }
