@@ -121,22 +121,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
-  community_charts_common:
-    dependency: transitive
-    description:
-      name: community_charts_common
-      sha256: bcda2831d8c3225036102dff007e2a901a2fdfcbba604e10c78db3fe5d9362a5
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
-  community_charts_flutter:
-    dependency: transitive
-    description:
-      name: community_charts_flutter
-      sha256: "2294cba46b67659109b665f2d9ffeffef93bb1540a5e7a7bcf2630b809a9363e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   cross_file:
     dependency: transitive
     description:
@@ -177,14 +161,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.4"
-  d_chart:
-    dependency: "direct main"
-    description:
-      name: d_chart
-      sha256: da1e1155dcd5082690890a276da38b36f74bdd834082a0aa7f3159532d691e0c
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.11"
   dbus:
     dependency: transitive
     description:
@@ -209,14 +185,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  dots_indicator:
-    dependency: "direct main"
-    description:
-      name: dots_indicator
-      sha256: "58b6a365744aa62aa1b70c4ea29e5106fbe064f5edaf7e9652e9b856edbfd9bb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   dropdown_search:
     dependency: "direct main"
     description:
@@ -262,46 +230,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
-  flutter_image_compress:
-    dependency: "direct main"
-    description:
-      name: flutter_image_compress
-      sha256: f159d2e8c4ed04b8e36994124fd4a5017a0f01e831ae3358c74095c340e9ae5e
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.0"
-  flutter_image_compress_common:
-    dependency: transitive
-    description:
-      name: flutter_image_compress_common
-      sha256: "7cad12802628706655920089cfe9ee1d1098300e7f39a079eb160458bbc47652"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3"
-  flutter_image_compress_macos:
-    dependency: transitive
-    description:
-      name: flutter_image_compress_macos
-      sha256: fea1e3d71150d03373916b832c49b5c2f56c3e7e13da82a929274a2c6f88251e
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
-  flutter_image_compress_platform_interface:
-    dependency: transitive
-    description:
-      name: flutter_image_compress_platform_interface
-      sha256: eb4f055138b29b04498ebcb6d569aaaee34b64d75fb74ea0d40f9790bf47ee9d
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3"
-  flutter_image_compress_web:
-    dependency: transitive
-    description:
-      name: flutter_image_compress_web
-      sha256: da41cc3859f19d11c7d10be615f6a9dcf0907e7daffde7442bf4cc2486663660
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.3+2"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -379,14 +307,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.9"
-  flutter_rating_bar:
-    dependency: "direct main"
-    description:
-      name: flutter_rating_bar
-      sha256: d2af03469eac832c591a1eba47c91ecc871fe5708e69967073c043b2d775ed93
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.1"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -403,14 +323,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.4"
-  flutter_tawk:
-    dependency: "direct main"
-    description:
-      name: flutter_tawk
-      sha256: "9a01356f9b754ceda9679ee0348779e465dff3ab02a55a7565fb8326ac365155"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -821,14 +733,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
-  searchable_listview:
-    dependency: "direct main"
-    description:
-      name: searchable_listview
-      sha256: "0a158665571e03890408e2d5569f0673a36f79fac5a671a54495b52f67b93b63"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.0"
   share_plus:
     dependency: "direct main"
     description:
@@ -901,14 +805,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
-  simple_animations:
-    dependency: "direct main"
-    description:
-      name: simple_animations
-      sha256: "6da9a59389d7f6695391f702b0893a0fc63aed2b4d41509cfc1f8781218db635"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.0+3"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1186,38 +1082,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
-  webview_flutter:
-    dependency: transitive
-    description:
-      name: webview_flutter
-      sha256: "392c1d83b70fe2495de3ea2c84531268d5b8de2de3f01086a53334d8b6030a88"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.4"
-  webview_flutter_android:
-    dependency: transitive
-    description:
-      name: webview_flutter_android
-      sha256: "8b3b2450e98876c70bfcead876d9390573b34b9418c19e28168b74f6cb252dbd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.10.4"
-  webview_flutter_platform_interface:
-    dependency: transitive
-    description:
-      name: webview_flutter_platform_interface
-      sha256: "812165e4e34ca677bdfbfa58c01e33b27fd03ab5fa75b70832d4b7d4ca1fa8cf"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.5"
-  webview_flutter_wkwebview:
-    dependency: transitive
-    description:
-      name: webview_flutter_wkwebview
-      sha256: a5364369c758892aa487cbf59ea41d9edd10f9d9baf06a94e80f1bd1b4c7bbc0
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.9.5"
   win32:
     dependency: transitive
     description:

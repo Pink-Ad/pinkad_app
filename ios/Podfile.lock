@@ -1,10 +1,7 @@
 PODS:
-  - Flutter (1.0.0)
-  - flutter_image_compress_common (1.0.0):
+  - app_links (0.0.1):
     - Flutter
-    - Mantle
-    - SDWebImage
-    - SDWebImageWebPCoder
+  - Flutter (1.0.0)
   - flutter_keyboard_visibility (0.0.1):
     - Flutter
   - FMDB (2.7.5):
@@ -12,21 +9,6 @@ PODS:
   - FMDB/standard (2.7.5)
   - image_picker_ios (0.0.1):
     - Flutter
-  - libwebp (1.3.2):
-    - libwebp/demux (= 1.3.2)
-    - libwebp/mux (= 1.3.2)
-    - libwebp/sharpyuv (= 1.3.2)
-    - libwebp/webp (= 1.3.2)
-  - libwebp/demux (1.3.2):
-    - libwebp/webp
-  - libwebp/mux (1.3.2):
-    - libwebp/demux
-  - libwebp/sharpyuv (1.3.2)
-  - libwebp/webp (1.3.2):
-    - libwebp/sharpyuv
-  - Mantle (2.2.0):
-    - Mantle/extobjc (= 2.2.0)
-  - Mantle/extobjc (2.2.0)
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -34,12 +16,8 @@ PODS:
     - FlutterMacOS
   - "permission_handler (5.1.0+2)":
     - Flutter
-  - SDWebImage (5.18.8):
-    - SDWebImage/Core (= 5.18.8)
-  - SDWebImage/Core (5.18.8)
-  - SDWebImageWebPCoder (0.14.2):
-    - libwebp (~> 1.0)
-    - SDWebImage/Core (~> 5.17)
+  - rive_common (0.0.1):
+    - Flutter
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -54,38 +32,32 @@ PODS:
     - Flutter
   - wakelock_plus (0.0.1):
     - Flutter
-  - webview_flutter_wkwebview (0.0.1):
-    - Flutter
 
 DEPENDENCIES:
+  - app_links (from `.symlinks/plugins/app_links/ios`)
   - Flutter (from `Flutter`)
-  - flutter_image_compress_common (from `.symlinks/plugins/flutter_image_compress_common/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - rive_common (from `.symlinks/plugins/rive_common/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
   - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
-  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
   trunk:
     - FMDB
-    - libwebp
-    - Mantle
-    - SDWebImage
-    - SDWebImageWebPCoder
 
 EXTERNAL SOURCES:
+  app_links:
+    :path: ".symlinks/plugins/app_links/ios"
   Flutter:
     :path: Flutter
-  flutter_image_compress_common:
-    :path: ".symlinks/plugins/flutter_image_compress_common/ios"
   flutter_keyboard_visibility:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   image_picker_ios:
@@ -96,6 +68,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
+  rive_common:
+    :path: ".symlinks/plugins/rive_common/ios"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
@@ -108,29 +82,23 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_player_avfoundation/ios"
   wakelock_plus:
     :path: ".symlinks/plugins/wakelock_plus/ios"
-  webview_flutter_wkwebview:
-    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_image_compress_common: ec1d45c362c9d30a3f6a0426c297f47c52007e3e
+  app_links: 5ef33d0d295a89d9d16bb81b0e3b0d5f70d6c875
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
-  libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
-  Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
   package_info_plus: fd030dabf36271f146f1f3beacd48f564b0f17f7
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
-  SDWebImage: a81bbb3ba4ea5f810f4069c68727cb118467a04a
-  SDWebImageWebPCoder: 633b813fca24f1de5e076bcd7f720c038b23892b
+  rive_common: 3a4c254c6e4db7e4b9e05daeb3d1f47ae4f7bf76
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
   video_player_avfoundation: 81e49bb3d9fb63dccf9fa0f6d877dc3ddbeac126
   wakelock_plus: 8b09852c8876491e4b6d179e17dfe2a0b5f60d47
-  webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
 PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
 
