@@ -114,9 +114,7 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                     List matches = [];
                     matches.addAll(data);
                     matches.retainWhere((s) {
-                      return s['title']
-                          .toLowerCase()
-                          .contains(pattern.toLowerCase());
+                      return s['title'].toLowerCase().contains(pattern.toLowerCase());
                     });
                     return matches;
                   },
@@ -209,6 +207,7 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
     BuildContext context,
     AllOffersController allOffersController,
   ) {
+    print(item);
     return Container(
       margin: EdgeInsets.only(left: 20.0.w, top: 10.h, right: 20.0.w),
       padding: const EdgeInsets.all(10.0),
@@ -235,8 +234,7 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                   // borderRadius: BorderRadius.circular(20.0),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color.fromARGB(255, 147, 147, 147)
-                          .withOpacity(0.5),
+                      color: const Color.fromARGB(255, 147, 147, 147).withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 3,
                       offset: const Offset(3, 0),
@@ -244,14 +242,14 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
                   ],
                 ),
                 child: ClipRRect(
-                  child: item['shop']['logo'] != null
+                  child: item['banner'] != null
                       ? Image.network(
-                          ApiService.imageBaseUrl + item['shop']['logo'],
-                          width: 60.w,
+                          ApiService.imageBaseUrl + item['banner'],
+                          width: 60.h,
                           height: 60.h,
                           fit: BoxFit.cover,
                         )
-                      : SizedBox(width: 60.w, height: 60.h),
+                      : SizedBox(width: 60.h, height: 60.h),
                 ),
               ),
               SizedBox(width: 10.w),
