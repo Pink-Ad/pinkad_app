@@ -35,6 +35,7 @@
 		064203BDA85A394EE0A129FF /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		360AC9A92B5050510090CF3E /* RunnerDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RunnerDebug.entitlements; sourceTree = "<group>"; };
 		36D4675B2B4299E70001468D /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		36D4675C2B42BA410001468D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -99,6 +100,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				360AC9A92B5050510090CF3E /* RunnerDebug.entitlements */,
 				36D4675B2B4299E70001468D /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -369,7 +371,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = FXU3FTXQPL;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = FXU3FTXQPL;
 				ENABLE_BITCODE = NO;
@@ -380,7 +382,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.10;
+				MARKETING_VERSION = 1.1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.pinkAd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = Yousuf;
@@ -508,11 +510,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Runner/RunnerDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Moin Ahmed Zakaria (846PP5Y79N)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Moin Ahmed Zakaria (846PP5Y79N)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = FXU3FTXQPL;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = FXU3FTXQPL;
 				ENABLE_BITCODE = NO;
@@ -523,7 +525,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.10;
+				MARKETING_VERSION = 1.1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.pinkAd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Huzaifa Imran";
@@ -549,7 +551,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = FXU3FTXQPL;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = FXU3FTXQPL;
 				ENABLE_BITCODE = NO;
@@ -560,7 +562,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.10;
+				MARKETING_VERSION = 1.1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.pinkAd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = Yousuf;
