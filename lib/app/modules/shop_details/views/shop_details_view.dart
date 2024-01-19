@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/app/modules/shop_details/controllers/shop_details_controller.dart';
+import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:pink_ad/utilities/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,7 +25,6 @@ class ShopDetailsView extends GetView {
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();
-    final token = box.read('user_token');
     final userType = box.read('user_type');
     final data = arguments['data'] ?? '';
     final seller = arguments['seller'] ?? '';
@@ -546,16 +546,24 @@ class ShopDetailsView extends GetView {
                       )
                     : GlobalButton(
                         title: 'Go To Seller Profile',
-                        onPressed: () async {
-                          await launchUrl(
-                            Uri.parse(data['seller']['web_url']),
-                            mode: LaunchMode.externalApplication,
+                        onPressed: () {
+                          // await launchUrl(
+                          //   Uri.parse(data['seller']['web_url']),
+                          //   mode: LaunchMode.externalApplication,
+                          // );
+                          var sellerId = data['seller']
+                              ['id']; // Get the seller ID from the data
+                          Get.toNamed(
+                            Routes.SPECIFIC_SELLER,
+                            arguments: {'seller_id': sellerId},
                           );
                         },
                         textColor: Colors.white,
-                        buttonColor: data['seller']['web_url'] == null
-                            ? Colors.grey
-                            : secondary,
+                        buttonColor: secondary,
+
+                        // buttonColor: data['seller']['web_url'] == null
+                        //     ? Colors.grey
+                        //     : secondary,
                       ),
                 SizedBox(
                   height: 20.h,

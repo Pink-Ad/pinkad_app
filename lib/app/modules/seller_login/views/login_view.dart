@@ -42,8 +42,10 @@ class LoginView extends GetView<LoginController> {
                 ),
                 Text(
                   'Area wise business directory and FREE classified solution for small businesses.',
-                  style: CustomTextView.getStyle(context,
-                      colorLight: Colors.white),
+                  style: CustomTextView.getStyle(
+                    context,
+                    colorLight: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -99,8 +101,10 @@ class LoginView extends GetView<LoginController> {
                         },
                         child: Text(
                           'Forgot password?',
-                          style: CustomTextView.getStyle(context,
-                              colorLight: bodyTextColor),
+                          style: CustomTextView.getStyle(
+                            context,
+                            colorLight: bodyTextColor,
+                          ),
                         ),
                       ),
                     ],
@@ -126,9 +130,14 @@ class LoginView extends GetView<LoginController> {
                 SizedBox(height: 20.h),
                 Column(
                   children: [
-                    Text('Don’t have an account?',
-                        style: CustomTextView.getStyle(context,
-                            colorLight: textColor, fontSize: 14.sp)),
+                    Text(
+                      'Don’t have an account?',
+                      style: CustomTextView.getStyle(
+                        context,
+                        colorLight: textColor,
+                        fontSize: 14.sp,
+                      ),
+                    ),
                     SizedBox(
                       height: 7.h,
                     ),

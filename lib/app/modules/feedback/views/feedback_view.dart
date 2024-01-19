@@ -34,7 +34,6 @@ class FeedbackView extends GetView<FeedbackController> {
 
   @override
   Widget build(BuildContext context) {
-    final box = GetStorage();
 
     final feedbackController = Get.find<FeedbackController>();
     final userType = GetStorage().read('user_type') ?? 'guest';

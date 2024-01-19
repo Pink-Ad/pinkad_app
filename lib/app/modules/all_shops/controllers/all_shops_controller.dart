@@ -8,7 +8,6 @@ import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/app/routes/app_pages.dart';
 
 class AllShopsController extends GetxController {
-  //TODO: Implement AllShopsController
   List shopList = [].obs;
   final ApiService _apiService = ApiService(http.Client());
   final box = GetStorage();

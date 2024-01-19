@@ -118,6 +118,9 @@ class UserProfileController extends GetxController {
   Future<void> gerCities() async {
     // isLoading.value = true;
     final response = await _apiService.getData(Endpoints.cities);
+
+    print('JSON Response in gerCities: ${response.body}');
+
     final result = json.decode(response.body);
     List cities = result.map((json) => Cities.fromJson(json)).toList();
     for (var city in cities) {
@@ -226,6 +229,8 @@ class UserProfileController extends GetxController {
         'POST',
         Uri.parse(url),
       ); // Create the multipart request
+      print('Request Fields: ${request.fields}');
+      print('Request Headers: ${request.headers}');
       {
         pickedFile != null
             ? request.files.add(
@@ -254,7 +259,8 @@ class UserProfileController extends GetxController {
         await request.send(),
       ); // Send the request
       // http.StreamedResponse response = await request.send();
-
+      print('JSON Response in registerUser: ${response.body}');
+      
       final result = json.decode(response.body);
       if (response.statusCode == 200) {
         // Successful request

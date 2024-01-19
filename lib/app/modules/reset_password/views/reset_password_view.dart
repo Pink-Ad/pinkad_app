@@ -14,7 +14,6 @@ import '../../../routes/app_pages.dart';
 class ResetPasswordView extends GetView<ResetPasswordController> {
   @override
   Widget build(BuildContext context) {
-    final isVerifiedByPhone = true.obs;
     return Stack(
       children: [
         CustomBackground(

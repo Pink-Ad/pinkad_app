@@ -22,7 +22,6 @@ class AllShopsView extends GetView<AllShopsController> {
   Widget build(BuildContext context) {
     // AllShopsController allShopsController = AllShopsController();
     final box = GetStorage();
-    final token = box.read('user_token');
     final refreshController = RefreshController();
     final userType = box.read('user_type');
     // List<dynamic> shops = [];

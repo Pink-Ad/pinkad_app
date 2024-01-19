@@ -22,22 +22,17 @@ import '../../../routes/app_pages.dart';
 class UserProfileView extends GetView {
   final box = GetStorage();
   final allShopsController = AllShopsController();
-  UserProfileController userProfileController = UserProfileController();
-
+  final userProfileController = Get.find<UserProfileController>();
   UserProfileView({super.key});
   @override
   Widget build(BuildContext context) {
     List<dynamic> sellerShop = box.read('sellerShop') ?? [];
     LoginResponse data = box.read('user_data');
-    FocusNode nameFocus = FocusNode();
     FocusNode phoneFocus = FocusNode();
     FocusNode whatsappFocus = FocusNode();
     FocusNode emailFocus = FocusNode();
-    FocusNode businessNameFocus = FocusNode();
     FocusNode businessAddressFocus = FocusNode();
     FocusNode facebookFocus = FocusNode();
-    FocusNode addressFocus = FocusNode();
-    FocusNode branchNameFocus = FocusNode();
     FocusNode instagramFocus = FocusNode();
     FocusNode websiteUrlFocus = FocusNode();
     final userProfileController = Get.find<UserProfileController>();
@@ -77,158 +72,15 @@ class UserProfileView extends GetView {
                         ),
                       ),
                       const SizedBox(height: 5.0),
-                      // RatingBar.builder(
-                      //   initialRating: 3,
-                      //   minRating: 1,
-                      //   itemSize: 20,
-                      //   direction: Axis.horizontal,
-                      //   allowHalfRating: true,
-                      //   itemCount: 5,
-                      //   itemPadding:
-                      //       const EdgeInsets.symmetric(horizontal: 1.0),
-                      //   itemBuilder: (context, _) => const Icon(
-                      //     Icons.star,
-                      //     color: Colors.amber,
-                      //   ),
-                      //   onRatingUpdate: (rating) {
-                      //     print(rating);
-                      //   },
-                      // ),
                       SizedBox(height: 5.0.h),
-                      // Text(
-                      //   'Followers: 150k',
-                      //   style: CustomTextView.getStyle(context,
-                      //       colorLight: Colors.white,
-                      //       fontSize: 14.sp,
-                      //       fontFamily: Utils.poppinsMedium),
-                      //   maxLines: 1,
-                      //   overflow: TextOverflow.ellipsis,
-                      // ),
-                      // const SizedBox(height: 5.0),
                     ],
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(
-                  //       horizontal: 8.0, vertical: 10.0),
-                  // child: Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: SvgPicture.asset(
-                  //     "assets/svgIcons/cert_icon.svg",
-                  //     color: Colors.white,
-                  //   ),
-                  // ),
-                  // )
                 ],
               ),
             ),
             SizedBox(
               height: 5.0.h,
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Obx(
-            //       () => SizedBox(
-            //         height: 50.h,
-            //         width: 330.w,
-            //         child: ElevatedButton(
-            //           onPressed: () {
-            //             userProfileController.selectButton(0);
-            //           },
-            //           style: ElevatedButton.styleFrom(
-            //               backgroundColor:
-            //                   userProfileController.selectedButton.value == 0
-            //                       ? secondary
-            //                       : Colors.white,
-            //               shape: const RoundedRectangleBorder(
-            //                 borderRadius: BorderRadius.only(
-            //                     topLeft: Radius.circular(8),
-            //                     topRight: Radius.circular(8.0)),
-            //               )),
-            //           child: Row(
-            //             mainAxisAlignment: MainAxisAlignment.center,
-            //             children: [
-            //               SizedBox(
-            //                 width: 5.w,
-            //               ),
-            //               Icon(
-            //                 Icons.build_outlined,
-            //                 color:
-            //                     userProfileController.selectedButton.value == 0
-            //                         ? Colors.white
-            //                         : Colors.black,
-            //               ),
-            //               SizedBox(
-            //                 width: 10.w,
-            //               ),
-            //               Text(
-            //                 "Setting",
-            //                 style: CustomTextView.getStyle(context,
-            //                     colorLight: userProfileController
-            //                                 .selectedButton.value ==
-            //                             0
-            //                         ? Colors.white
-            //                         : Colors.black,
-            //                     fontFamily: Utils.poppinsSemiBold,
-            //                     fontSize: 14.sp),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //     // Obx(
-            //     //   () => SizedBox(
-            //     //     height: 50.h,
-            //     //     width: 165.w,
-            //     //     child: ElevatedButton(
-            //     //       onPressed: () {
-            //     //         userProfileController.selectButton(1);
-            //     //       },
-            //     //       style: ElevatedButton.styleFrom(
-            //     //           backgroundColor:
-            //     //               userProfileController.selectedButton.value == 1
-            //     //                   ? secondary
-            //     //                   : Colors.white,
-            //     //           shape: const RoundedRectangleBorder(
-            //     //             borderRadius: BorderRadius.only(
-            //     //                 topLeft: Radius.circular(8),
-            //     //                 topRight: Radius.circular(8.0)),
-            //     //           )),
-            //     //       child: Row(
-            //     //         children: [
-            //     //           SizedBox(
-            //     //             width: 5.w,
-            //     //           ),
-            //     //           Icon(
-            //     //             Icons.account_tree_outlined,
-            //     //             color:
-            //     //                 userProfileController.selectedButton.value == 1
-            //     //                     ? Colors.white
-            //     //                     : Colors.black,
-            //     //           ),
-            //     //           SizedBox(
-            //     //             width: 10.w,
-            //     //           ),
-            //     //           Text(
-            //     //             "Branches",
-            //     //             style: CustomTextView.getStyle(context,
-            //     //                 colorLight: userProfileController
-            //     //                             .selectedButton.value ==
-            //     //                         0
-            //     //                     ? Colors.black
-            //     //                     : Colors.white,
-            //     //                 fontFamily: Utils.poppinsSemiBold,
-            //     //                 fontSize: 14.sp),
-            //     //           ),
-            //     //         ],
-            //     //       ),
-            //     //     ),
-            //     //   ),
-            //     // )
-            //   ],
-            // ),
-
             Obx(
               () => userProfileController.selectedButton.value == 0
                   ? Expanded(
@@ -263,33 +115,6 @@ class UserProfileView extends GetView {
                                   iconName: 'phone',
                                   textInputAction: TextInputAction.next,
                                 ),
-
-                                // ShadowedTextField(
-                                //   //onChanged: controller.username,
-                                //   focusNode: phoneFocus,
-                                //   onFieldSubmitted: (v) {
-                                //     FocusScope.of(context)
-                                //         .requestFocus(whatsappFocus);
-                                //   },
-                                //   controller: userProfileController
-                                //       .phoneNoController.value,
-                                //   hintText: '+923001234567',
-                                //   iconName: 'phone',
-                                //   keyboardType: TextInputType.phone,
-                                // ),
-                                // ShadowedTextField(
-                                //   //onChanged: controller.username,
-                                //   focusNode: whatsappFocus,
-                                //   onFieldSubmitted: (v) {
-                                //     FocusScope.of(context)
-                                //         .requestFocus(emailFocus);
-                                //   },
-                                //   controller: userProfileController
-                                //       .whatsappNoController.value,
-                                //   hintText: '+923001234567',
-                                //   iconName: 'whatsapp_icon',
-                                //   keyboardType: TextInputType.phone,
-                                // ),
                                 CustomPhoneInputField(
                                   focusNode: whatsappFocus,
                                   onFieldSubmitted: (v) {
@@ -302,19 +127,6 @@ class UserProfileView extends GetView {
                                   iconName: 'whatsapp_icon',
                                   textInputAction: TextInputAction.next,
                                 ),
-                                // ShadowedTextField(
-                                //   focusNode: businessNameFocus,
-                                //   onFieldSubmitted: (v) {
-                                //     FocusScope.of(context)
-                                //         .requestFocus(branchNameFocus);
-                                //   },
-                                //   //onChanged: controller.username,
-                                //   controller: userProfileController
-                                //       .businessNameController.value,
-                                //   hintText: 'Business Name (optional)',
-                                //   iconName: "business",
-                                //   keyboardType: TextInputType.text,
-                                // ),
                                 ShadowedTextField(
                                   focusNode: businessAddressFocus,
                                   onFieldSubmitted: (v) {
@@ -468,22 +280,22 @@ class UserProfileView extends GetView {
                                     ],
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                      left: 20.w,
-                                    ),
-                                    child: Text(
-                                      'This image will be used for your profile promotion (Recommended size 1080px by 1080px)',
-                                      style: TextStyle(
-                                        fontSize: 11.sp,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 25.h),
+                                // Align(
+                                //   alignment: Alignment.centerLeft,
+                                //   child: Container(
+                                //     margin: EdgeInsets.only(
+                                //       left: 20.w,
+                                //     ),
+                                //     child: Text(
+                                //       'This image will be used for your profile promotion (Recommended size 1080px by 1080px)',
+                                //       style: TextStyle(
+                                //         fontSize: 11.sp,
+                                //         color: Colors.red,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                                SizedBox(height: 10.h),
                                 Obx(
                                   () => userProfileController.isLoading.value
                                       ? const CircularProgressIndicator(

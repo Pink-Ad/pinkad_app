@@ -28,7 +28,6 @@ class FeaturedSellerView extends GetView<FeaturedSellerController> {
   Widget build(BuildContext context) {
     AllShopsController allShopsController = AllShopsController();
     final box = GetStorage();
-    final token = box.read('user_token');
     final userType = box.read('user_type');
     final data = arguments['sellerData'];
     final seller = arguments['seller'];

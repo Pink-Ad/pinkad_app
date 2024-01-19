@@ -58,7 +58,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final token = box.read('user_token');
       final userType = box.read('user_type');
       return PopScope(
         canPop: canPop.value,

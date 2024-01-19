@@ -12,10 +12,10 @@ import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../routes/app_pages.dart';
 
 class ForgotPasswordView extends GetView<ForgotPasswordController> {
-  ForgotPasswordController forgotPasswordController = ForgotPasswordController();
+  ForgotPasswordController forgotPasswordController =
+      ForgotPasswordController();
   @override
   Widget build(BuildContext context) {
-    bool isChecked = false;
     final isVerifiedByPhone = false.obs;
     return Stack(
       children: [
@@ -41,7 +41,10 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                 ),
                 Text(
                   'Area wise business directory and FREE classified solution for small businesses.',
-                  style: CustomTextView.getStyle(context, colorLight: Colors.white),
+                  style: CustomTextView.getStyle(
+                    context,
+                    colorLight: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -87,10 +90,15 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       ),
                       Obx(
                         () => ShadowedTextField(
-                          controller: forgotPasswordController.emailController.value,
-                          hintText: isVerifiedByPhone.value ? 'Enter your phone number' : 'Enter your email',
+                          controller:
+                              forgotPasswordController.emailController.value,
+                          hintText: isVerifiedByPhone.value
+                              ? 'Enter your phone number'
+                              : 'Enter your email',
                           iconName: isVerifiedByPhone.value ? 'phone' : 'email',
-                          keyboardType: isVerifiedByPhone.value ? TextInputType.phone : TextInputType.emailAddress,
+                          keyboardType: isVerifiedByPhone.value
+                              ? TextInputType.phone
+                              : TextInputType.emailAddress,
                         ),
                       ),
                       SizedBox(height: 25.h),

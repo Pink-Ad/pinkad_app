@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/modules/add_shop/controllers/add_shop_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
-import 'package:pink_ad/app/modules/user_profile/controllers/user_profile_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/area_dropdown_shop.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
@@ -19,7 +18,6 @@ class AddShopView extends GetView<AddShopController> {
 
   @override
   Widget build(BuildContext context) {
-    final userProfileController = Get.find<UserProfileController>();
     return CustomBgDashboard(
       child: Column(
         children: [
