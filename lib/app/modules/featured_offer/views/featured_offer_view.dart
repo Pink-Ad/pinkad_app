@@ -28,7 +28,6 @@ class FeaturedOfferView extends GetView<FeaturedOfferController> {
   Widget build(BuildContext context) {
     final AllOffersController allOffersController = AllOffersController();
     final box = GetStorage();
-    final token = box.read('user_token');
     final userType = box.read('user_type');
     final data = arguments['sellerData'];
     final seller = arguments['seller'];

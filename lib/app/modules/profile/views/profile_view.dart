@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/utils.dart';
 
 import '../../../../utilities/custom_widgets/custom_appbar.dart';
-import '../../../../utilities/custom_widgets/custom_button.dart';
 import '../../../../utilities/custom_widgets/custom_text_field.dart';
 import '../../../../utilities/custom_widgets/scafflod_dashboard.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
-import '../../../routes/app_pages.dart';
 
 class ProfileView extends GetView {
   @override
@@ -27,12 +24,12 @@ class ProfileView extends GetView {
           children: [
             MyAppBar(
               backButton: true,
-              title: "User Details",
+              title: 'User Details',
               onMenuTap: () {
-                print("object");
+                print('object');
               },
               onProfileTap: () {
-                print("object");
+                print('object');
                 Get.to(ProfileView());
               },
             ),
@@ -65,15 +62,19 @@ class ProfileView extends GetView {
                     width: 15.0.w,
                   ),
                   Expanded(
-                    child: Text(temp['user']['name'] ?? '',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: CustomTextView.getStyle(context,
-                            colorLight: Colors.black,
-                            fontSize: 20.sp,
-                            fontFamily: Utils.poppinsBold,
-                            fontWeight: FontWeight.w600)),
-                  )
+                    child: Text(
+                      temp['user']['name'] ?? '',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: CustomTextView.getStyle(
+                        context,
+                        colorLight: Colors.black,
+                        fontSize: 20.sp,
+                        fontFamily: Utils.poppinsBold,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -87,8 +88,9 @@ class ProfileView extends GetView {
                   decoration: const BoxDecoration(
                     color: containerColor,
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0)),
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
+                    ),
                   ),
                   child: Column(
                     children: [
@@ -96,7 +98,7 @@ class ProfileView extends GetView {
                         // onChanged: ForgotPasswordController.,
                         controller: emailController,
                         hintText: 'Email',
-                        iconName: "email",
+                        iconName: 'email',
                         keyboardType: TextInputType.emailAddress,
                       ),
                       // ShadowedTextField(
@@ -129,7 +131,7 @@ class ProfileView extends GetView {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

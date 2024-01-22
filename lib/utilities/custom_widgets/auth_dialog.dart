@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:pink_ad/app/modules/home/views/bottom_nav_bar.dart';
+import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
+import 'package:pink_ad/utilities/functions/loading_wrapper.dart';
 import 'package:pink_ad/utilities/utils.dart';
 
 class AuthDialog extends StatelessWidget {
@@ -67,9 +68,8 @@ class AuthDialog extends StatelessWidget {
                     children: [
                       Expanded(
                         child: GestureDetector(
-                          onTap: () async {
-                            box.write('user_type', 'guest');
-                            Get.offAll(() => BottomNavBar());
+                          onTap: () {
+                            loadingWrapper(() => Get.find<SplashController>().guestLogin());
                           },
                           child: Container(
                             height: 50.0.h,

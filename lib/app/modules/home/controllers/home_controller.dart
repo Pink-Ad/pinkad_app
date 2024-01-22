@@ -21,6 +21,14 @@ class HomeController extends GetxController {
 
   final count = 0.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    box.listen(() {
+      update();
+    });
+  }
+
   void setLoading() {
     isLoading.value = !isLoading.value;
   }
@@ -49,7 +57,12 @@ class HomeController extends GetxController {
               children: [
                 Text(
                   'Share',
-                  style: CustomTextView.getStyle(Get.context!, colorLight: secondary, fontSize: 24.sp, fontFamily: Utils.poppinsSemiBold),
+                  style: CustomTextView.getStyle(
+                    Get.context!,
+                    colorLight: secondary,
+                    fontSize: 24.sp,
+                    fontFamily: Utils.poppinsSemiBold,
+                  ),
                 ),
                 GestureDetector(
                   onTap: Get.back,
@@ -263,7 +276,11 @@ class HomeController extends GetxController {
                   ),
                   InkWell(
                     onTap: () {
-                      Clipboard.setData(ClipboardData(text: temp['shop']['seller']['web_url'] ?? '')).then(
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: temp['shop']['seller']['web_url'] ?? '',
+                        ),
+                      ).then(
                         (value) => showSnackBarSuccess(
                           'Message',
                           'Link Copied Successfully',

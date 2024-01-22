@@ -6,14 +6,17 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
+import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/banner_modal.dart';
 import 'package:pink_ad/app/models/featured_seller_model.dart';
 import 'package:pink_ad/app/models/login_response.dart';
 import 'package:pink_ad/app/models/offer_list_model.dart';
 import 'package:pink_ad/app/models/shop_list_model.dart';
+import 'package:pink_ad/app/models/subcategory_model.dart';
 import 'package:pink_ad/app/models/tutorial_model.dart';
 import 'package:pink_ad/app/modules/home/views/bottom_nav_bar.dart';
 import 'package:pink_ad/app/modules/user_dashboard/views/user_bottom_nav_bar.dart';
+import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/functions/show_toast.dart';
 
 class SplashController extends GetxController {
@@ -185,13 +188,44 @@ class SplashController extends GetxController {
     }
   }
 
+  Future<List<SubCategory>> getAllSubcategories() async {
+    final response = await _apiService.getData(Endpoints.subcategories);
+
+    if (response.statusCode == 200) {
+      final result = json.decode(response.body);
+      return result.map<SubCategory>((subcat) => SubCategory.fromJson(subcat)).toList();
+    } else {
+      throw response;
+    }
+  }
+
+  Future<List<Area>> getAllAreas() async {
+    final response = await _apiService.getData(Endpoints.areas);
+
+    if (response.statusCode == 200) {
+      final result = json.decode(response.body);
+      return result.map<Area>((subcat) => Area.fromJson(subcat)).toList();
+    } else {
+      throw response;
+    }
+  }
+
   Future<void> getFeaturedSeller() async {
     try {
-      final response = await _apiService.getData(Endpoints.featureSeller);
-
-      if (response.statusCode == 200) {
-        final result = json.decode(response.body);
-        await box.write('fseller', result['data']);
+      List<int> areaIds = box.read('user_areas')?.cast<int>() ?? [];
+      if (areaIds.length > 0) {
+        final url = '${Endpoints.sellerFilter}?${areaIds.map((id) => "area_id[]=${id}").join("&")}';
+        final response = await _apiService.getData(url);
+        if (response.statusCode == 200) {
+          final result = json.decode(response.body);
+          await box.write('fseller', result['sellers']);
+        }
+      } else {
+        final response = await _apiService.getData(Endpoints.featureSeller);
+        if (response.statusCode == 200) {
+          final result = json.decode(response.body);
+          await box.write('fseller', result['data']);
+        }
       }
     } catch (e) {
       print(e);
@@ -214,16 +248,24 @@ class SplashController extends GetxController {
 
   Future<void> getFeaturedOffer() async {
     try {
-      final response = await _apiService.getData(Endpoints.featuredOffers);
+      List<int> areaIds = box.read('user_areas')?.cast<int>() ?? [];
+      List<int> subcatIds = box.read('user_categories')?.cast<int>() ?? [];
+      if (areaIds.isNotEmpty || subcatIds.isNotEmpty) {
+        final areaFilter = areaIds.map((id) => 'area_id[]=${id}');
+        final subcatFilter = subcatIds.map((id) => 'category_id[]=${id}');
+        final url = '${Endpoints.offerFilter}?${[...areaFilter, ...subcatFilter].join("&")}';
+        final response = await _apiService.getData(url);
+        if (response.statusCode == 200) {
+          final result = json.decode(response.body);
+          await box.write('fOffer', result['filtered_banner_posts']);
+        }
+      } else {
+        final response = await _apiService.getData(Endpoints.featuredOffers);
 
-      if (response.statusCode == 200) {
-        final result = json.decode(response.body);
-        // print(result['data'].length);
-        // shopList = result.map((json) => ShopList.fromJson(json)).toList();
-        // fSellerList.addAll(result
-        //     .map((json) => FeaturedSeller.fromJson(json['data']))
-        //     .toList());
-        await box.write('fOffer', result['data']);
+        if (response.statusCode == 200) {
+          final result = json.decode(response.body);
+          await box.write('fOffer', result['data']);
+        }
       }
     } catch (e, stacktrace) {
       // Print both the exception and the stack trace for debugging
@@ -310,6 +352,26 @@ class SplashController extends GetxController {
       print(e);
 
       // showSnackBarError("Error", "Something went wrong please try again later");
+    }
+  }
+
+  Future<void> guestLogin() async {
+    final response = await _apiService.postData('${Endpoints.register}?role=3', null);
+    final result = json.decode(response.body);
+
+    var loginResponseData = LoginResponse.fromJson(result);
+    if (response.statusCode == 200 && loginResponseData.status == 'success') {
+      final token = loginResponseData.authorisation!.token!;
+      box.write('user_data', loginResponseData);
+      box.write('user_token', token);
+      box.write('user_type', 'guest'); // seller or guest
+      Get.offAllNamed(Routes.Bottom_Nav_Bar);
+      final sellerName = loginResponseData.user?.name;
+      if (sellerName != null) {
+        await box.write('seller_name', sellerName);
+      }
+    } else {
+      showToast(message: loginResponseData.status ?? 'Login Error');
     }
   }
 

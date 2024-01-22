@@ -84,14 +84,12 @@ class UserProfileController extends GetxController {
   }
 
   void onSubmit() {
-    String? whatsappError =
-        validateWhatsppNumber(whatsappNoController.value.text);
+    String? whatsappError = validateWhatsppNumber(whatsappNoController.value.text);
     if (whatsappError != null) {
       showSnackBarError('Error', whatsappError);
       return; // Stop execution if there is an error
     }
-    String? phoneError =
-        validatePakistaniPhoneNumber(phoneNoController.value.text);
+    String? phoneError = validatePakistaniPhoneNumber(phoneNoController.value.text);
     if (phoneError != null) {
       showSnackBarError('Error', phoneError);
       return; // Stop execution if there is an error
@@ -118,6 +116,9 @@ class UserProfileController extends GetxController {
   Future<void> gerCities() async {
     // isLoading.value = true;
     final response = await _apiService.getData(Endpoints.cities);
+
+    print('JSON Response in gerCities: ${response.body}');
+
     final result = json.decode(response.body);
     List cities = result.map((json) => Cities.fromJson(json)).toList();
     for (var city in cities) {
@@ -203,8 +204,7 @@ class UserProfileController extends GetxController {
 
     isLoading.value = true;
     const url = 'https://pinkad.pk/portal/api/seller/update';
-    final whatsappNoFormatted =
-        formatPhoneNumber(whatsappNoController.value.text);
+    final whatsappNoFormatted = formatPhoneNumber(whatsappNoController.value.text);
     final phoneNoFormatted = formatPhoneNumber(phoneNoController.value.text);
     final businessName = businessNameController.value.text.trim();
     final businessAddress = businessAddressController.value.text.trim();
@@ -226,6 +226,8 @@ class UserProfileController extends GetxController {
         'POST',
         Uri.parse(url),
       ); // Create the multipart request
+      print('Request Fields: ${request.fields}');
+      print('Request Headers: ${request.headers}');
       {
         pickedFile != null
             ? request.files.add(
@@ -247,6 +249,7 @@ class UserProfileController extends GetxController {
         'insta_page': instagram,
         'web_url': ensureHttps(website),
         'isFeatured': '1',
+        'email': data.user?.email ?? '',
       }); // Add the other fields to the request
       // Add the bearer token to the request headers
       request.headers['Authorization'] = 'Bearer $savedToken';
@@ -254,7 +257,8 @@ class UserProfileController extends GetxController {
         await request.send(),
       ); // Send the request
       // http.StreamedResponse response = await request.send();
-
+      print('JSON Response in registerUser: ${response.body}');
+      
       final result = json.decode(response.body);
       if (response.statusCode == 200) {
         // Successful request

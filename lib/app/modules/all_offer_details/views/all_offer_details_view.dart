@@ -3,9 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
-import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:share_plus/share_plus.dart';
@@ -14,7 +12,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../utilities/colors/colors.dart';
 import '../../../../utilities/custom_widgets/custom_appbar.dart';
 import '../../../../utilities/custom_widgets/custom_button.dart';
-import '../../../../utilities/custom_widgets/main_controlller.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
 
@@ -24,14 +21,9 @@ class AllOfferDetailsView extends GetView {
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();
-    final token = box.read('user_token');
     final userType = box.read('user_type');
     final data = arguments['data'];
-    final seller = arguments['seller'];
     // print(data);
-    HomeController homeController = HomeController();
-    final MainControllers mainControllers = MainControllers();
-    final ApiService apiService = ApiService(http.Client());
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -83,10 +75,12 @@ class AllOfferDetailsView extends GetView {
                   children: [
                     Text(
                       data['title'],
-                      style: CustomTextView.getStyle(context,
-                          fontSize: 20.sp,
-                          colorLight: Colors.black,
-                          fontFamily: Utils.poppinsBold),
+                      style: CustomTextView.getStyle(
+                        context,
+                        fontSize: 20.sp,
+                        colorLight: Colors.black,
+                        fontFamily: Utils.poppinsBold,
+                      ),
                     ),
                     const SizedBox(height: 10.0),
                     Text(
@@ -191,7 +185,8 @@ class AllOfferDetailsView extends GetView {
                             ),
                             child: Center(
                               child: SvgPicture.asset(
-                                  'assets/svgIcons/whatsapp_icon.svg'),
+                                'assets/svgIcons/whatsapp_icon.svg',
+                              ),
                             ),
                           ),
                         ),
@@ -254,11 +249,14 @@ class AllOfferDetailsView extends GetView {
                         ),
                         GestureDetector(
                           onTap: () async {
+                            final sellerUrl =
+                                data['shop']['seller']['seller_link'];
                             Share.share(
-                              "${data['title']}, ${data['description']},${data['shop']?['name'] ?? ''},contact ${data['shop']?['seller']?['faecbook_page']}. $appUrl",
+                              "${data['title']}"
+                              "\n\n${data['description']} by ${data['shop']?['name'] ?? ''}"
+                              '\n\n$sellerUrl'
+                              '\n\n$appUrl',
                             );
-
-                            // homeController.showCustomDialog(data);
                           },
                           child: Container(
                             height: 40.h,
@@ -305,25 +303,59 @@ class AllOfferDetailsView extends GetView {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AspectRatio(
-                          aspectRatio: 1.2,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 10.w,
+                          height: MediaQuery.of(context).size.width - 40.w,
                           child: Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 10.h,
+                            ),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(8.0),
-                                  topRight: Radius.circular(8.0)),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    ApiService.imageBaseUrl + data['banner']),
-                                fit: BoxFit
-                                    .contain, // or any other value for fit
+                              color: containerGray,
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.9),
+                                  spreadRadius: 1,
+                                  blurRadius: 9,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                              child: Image.network(
+                                ApiService.imageBaseUrl + data['banner'],
+                                fit: BoxFit.fill,
                               ),
                             ),
                           ),
                         ),
+                        // AspectRatio(
+                        //   aspectRatio: 1,
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: const BorderRadius.only(
+                        //         topLeft: Radius.circular(8.0),
+                        //         topRight: Radius.circular(8.0),
+                        //       ),
+                        //       image: DecorationImage(
+                        //         image: NetworkImage(
+                        //           ApiService.imageBaseUrl + data['banner'],
+                        //         ),
+                        //         fit: BoxFit
+                        //             .contain, // or any other value for fit
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         Container(
                           margin: const EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 20.0),
+                            horizontal: 12.0,
+                            vertical: 8.0,
+                          ),
                           // alignment: Alignment.centerLeft,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -345,10 +377,12 @@ class AllOfferDetailsView extends GetView {
                               // ),
                               Text(
                                 'Description',
-                                style: CustomTextView.getStyle(context,
-                                    colorLight: Colors.black,
-                                    fontSize: 16.sp,
-                                    fontFamily: Utils.poppinsSemiBold),
+                                style: CustomTextView.getStyle(
+                                  context,
+                                  colorLight: Colors.black,
+                                  fontSize: 16.sp,
+                                  fontFamily: Utils.poppinsSemiBold,
+                                ),
                               ),
                               const SizedBox(height: 8),
                               Text(
@@ -372,19 +406,44 @@ class AllOfferDetailsView extends GetView {
               ),
               GlobalButton(
                 title: 'Go To Seller Profile',
-                onPressed: () async {
-                  await launchUrl(Uri.parse(data['shop']['seller']['web_url']));
-                  Map data1 = {
-                    'offer_id': data['id'].toString(),
-                    'reach': 1.toString()
-                  };
-                  await apiService.postData('insights/update', data1);
+                onPressed: () {
+                  // await launchUrl(
+                  //   Uri.parse(data['seller']['web_url']),
+                  //   mode: LaunchMode.externalApplication,
+                  // );
+
+                  if (data != null &&
+                      data.containsKey('seller') &&
+                      data['seller'] != null) {
+                  } else {
+                    // Handle the case where data is null or does not contain 'seller' or 'seller' is null
+                  }
                 },
                 textColor: Colors.white,
-                buttonColor: data['shop']['seller']['web_url'] == null
-                    ? Colors.grey
-                    : secondary,
+                buttonColor: (data != null &&
+                        data['seller'] != null &&
+                        data['seller']['id'] != null)
+                    ? secondary
+                    : const Color.fromARGB(255, 191, 189, 189),
+                // buttonColor: data['seller']['web_url'] == null
+                //     ? Colors.grey
+                //     : secondary,
               ),
+              // GlobalButton(
+              //   title: 'Go To Seller Profile',
+              //   onPressed: () async {
+              //     await launchUrl(Uri.parse(data['shop']['seller']['web_url']));
+              //     Map data1 = {
+              //       'offer_id': data['id'].toString(),
+              //       'reach': 1.toString(),
+              //     };
+              //     await apiService.postData('insights/update', data1);
+              //   },
+              //   textColor: Colors.white,
+              //   buttonColor: data['shop']['seller']['web_url'] == null
+              //       ? Colors.grey
+              //       : secondary,
+              // ),
               SizedBox(
                 height: 20.h,
               ),

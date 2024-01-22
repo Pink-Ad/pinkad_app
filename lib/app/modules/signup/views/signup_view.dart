@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/modules/signup/controllers/signup_controller.dart';
-import 'package:pink_ad/utilities/custom_widgets/image_recommended_size.dart';
 import 'package:pink_ad/utilities/custom_widgets/phone_input_field.dart';
 
 import '../../../../utilities/colors/colors.dart';
@@ -393,10 +392,10 @@ class SignupView extends GetView<SignupController> {
                                   ),
                                 ),
 
-                                const Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: ImageRecommendedSizeText(),
-                                ),
+                                // const Align(
+                                //   alignment: Alignment.centerLeft,
+                                //   child: ImageRecommendedSizeText(),
+                                // ),
                                 Container(
                                   height: 55.0.h,
                                   margin: EdgeInsets.symmetric(
@@ -498,21 +497,21 @@ class SignupView extends GetView<SignupController> {
                                     ],
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                      left: 20.w,
-                                    ),
-                                    child: Text(
-                                      'This image will be used for your profile promotion (Recommended size 1080px by 1080px)',
-                                      style: TextStyle(
-                                        fontSize: 11.sp,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                // Align(
+                                //   alignment: Alignment.centerLeft,
+                                //   child: Container(
+                                //     margin: EdgeInsets.only(
+                                //       left: 20.w,
+                                //     ),
+                                //     child: Text(
+                                //       'This image will be used for your profile promotion (Recommended size 1080px by 1080px)',
+                                //       style: TextStyle(
+                                //         fontSize: 11.sp,
+                                //         color: Colors.red,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                                 // ShadowedTextField(
                                 //   hintText: 'Description',
                                 //   iconName: 'description',

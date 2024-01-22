@@ -22,7 +22,6 @@ class AllOffersView extends GetView<AllOffersController> {
 
   @override
   Widget build(BuildContext context) {
-    final token = box.read('user_token');
     final userType = box.read('user_type');
     //List<dynamic> offers = box.read('offers');
     return CustomBgDashboard(

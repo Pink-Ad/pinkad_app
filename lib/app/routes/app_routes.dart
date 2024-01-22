@@ -18,6 +18,7 @@ abstract class Routes {
   static const SHOP_DETAILS = _Paths.SHOP_DETAILS;
   static const ALL_OFFER_DETAILS = _Paths.ALL_OFFER_DETAILS;
   static const USER_DASHBOARD = _Paths.USER_DASHBOARD;
+  static const SPECIFIC_SELLER = _Paths.SPECIFIC_SELLER;
 
   // user routes
   static const User_Bottom_Nav_Bar = _Paths.UserBottomNavBar;
@@ -55,6 +56,7 @@ abstract class _Paths {
   static const SHOP_DETAILS = '/shop-details';
   static const ALL_OFFER_DETAILS = '/all-offer-details';
   static const USER_DASHBOARD = '/user-dashboard';
+  static const SPECIFIC_SELLER = '/specific-seller';
 
   // user paths
   static const UserBottomNavBar = '/user-bottom-nav-bar';

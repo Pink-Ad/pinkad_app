@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/data/api_service.dart';
-import 'package:pink_ad/app/models/login_response.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
 import 'package:pink_ad/app/modules/shops_insight/controllers/shops_insight_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
@@ -21,7 +20,6 @@ class ShopsInsightView extends GetView {
   ShopsInsightView({super.key});
   @override
   Widget build(BuildContext context) {
-    LoginResponse data = box.read('user_data');
     final premierFeaturesController = Get.find<ShopsInsightController>();
     final allOffersController = AllOffersController();
     return CustomBgDashboard(

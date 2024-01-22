@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:pink_ad/app/modules/specific_seller/bindings/specific_seller_bindings.dart';
+import 'package:pink_ad/app/modules/specific_seller/views/specific_seller_views.dart';
 
 import '../modules/OTP/bindings/otp_binding.dart';
 import '../modules/OTP/views/otp_view.dart';
@@ -127,6 +129,11 @@ class AppPages {
       name: _Paths.ALL_SHOPS,
       page: () => const AllShopsView(),
       binding: AllShopsBinding(),
+    ),
+     GetPage(
+      name: _Paths.SPECIFIC_SELLER,
+      page: () => SpecificSellerView(),
+      binding: SpecificSellerBinding(),
     ),
     GetPage(
       name: _Paths.SHOP_DETAILS,

@@ -21,6 +21,7 @@ class UserAppBar extends StatefulWidget implements PreferredSizeWidget {
   final int size;
   final bool backButton;
   final bool profileIconVisibility;
+  final bool showFilter;
   final bool showBanner;
   UserAppBar({
     Key? key,
@@ -30,6 +31,7 @@ class UserAppBar extends StatefulWidget implements PreferredSizeWidget {
     required this.onProfileTap,
     required this.backButton,
     required this.profileIconVisibility,
+    this.showFilter = false,
     this.showBanner = true,
   }) : super(key: key);
 
@@ -55,14 +57,23 @@ class _UserAppBarState extends State<UserAppBar> {
       iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       backgroundColor: primary,
       scrolledUnderElevation: 0,
+      leading: (widget.profileIconVisibility)
+          ? IconButton(
+              icon: SvgPicture.asset('assets/svgIcons/profile_icon.svg'),
+              onPressed: () {
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (_) => UserProfileView()));
+                Get.toNamed(Routes.USER_PROFILE);
+              },
+            )
+          : null,
       actions: [
-        if (widget.profileIconVisibility)
+        if (widget.showFilter)
           IconButton(
-            icon: SvgPicture.asset('assets/svgIcons/profile_icon.svg'),
+            icon: Icon(Icons.filter_alt_outlined),
             onPressed: () {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (_) => UserProfileView()));
-              Get.toNamed(Routes.USER_PROFILE);
+              box.write('user_categories', null);
+              box.write('user_areas', null);
             },
           ),
         // showBanner
@@ -486,6 +497,9 @@ class _UserAppBarState extends State<UserAppBar> {
                         box.remove('user_token');
                         box.remove('user_type');
                         box.remove('email');
+                        box.remove('password');
+                        box.remove('user_categories');
+                        box.remove('user_areas');
                         box.remove('password');
                         Get.offAllNamed('/bottom-nav-bar');
 

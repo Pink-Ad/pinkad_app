@@ -7,7 +7,6 @@ import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/area_dropdown_upload.dart';
 import 'package:pink_ad/utilities/custom_widgets/categories_dropdown.dart';
-import 'package:pink_ad/utilities/custom_widgets/image_recommended_size.dart';
 import 'package:pink_ad/utilities/custom_widgets/loader.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
@@ -278,7 +277,7 @@ class UploadOfferView extends GetView {
                                     ],
                                   ),
                                 ),
-                                const ImageRecommendedSizeText(),
+                                //const ImageRecommendedSizeText(),
                                 // ShadowedTextField(
                                 //   //onChanged: controller.username,
                                 //   hintText: 'Hashtag',
