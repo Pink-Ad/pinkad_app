@@ -10,7 +10,6 @@ class SpecificSellerController extends GetxController {
   final ApiService _apiService = ApiService(http.Client());
   var offers = <OfferList>[].obs;
   var isLoading = true.obs;
-  final count = 0.obs;
 
   @override
   void onInit() {
@@ -19,7 +18,33 @@ class SpecificSellerController extends GetxController {
     if (sellerId != null) {
       fetchOffers(sellerId);
     } else {
-      // Handle null case, e.g., show error or default value
+      // Handle null case, e.g., navigate back or show a message
+    }
+  }
+
+  Future<void> fetchOffers(int? sellerId) async {
+    isLoading.value = true;
+    if (sellerId == null) {
+      isLoading.value = false;
+      return;
+    }
+
+    try {
+      final response = await _apiService.getData('${Endpoints.getOfferByShop}?seller_id=$sellerId');
+      final result = json.decode(response.body);
+      if (result['seller_posts'] is List) {
+        var fetchedOffers = (result['seller_posts'] as List)
+            .map((data) => OfferList.fromJson(data))
+            .toList();
+
+        offers.assignAll(fetchedOffers);
+      } else {
+        print('Unexpected format: $result');
+      }
+    } catch (e) {
+      print('Error fetching offers: $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -51,40 +76,6 @@ class SpecificSellerController extends GetxController {
     } catch (e) {
       // Handle any exceptions that occur during the API request
       print('Error fetching offer details: $e');
-    }
-  }
-
-  Future<void> fetchOffers(int? sellerId) async {
-    isLoading.value = true;
-    if (sellerId == null) {
-      // Handle null case
-      isLoading.value = false;
-      return;
-    }
-
-    try {
-      final response =
-          await _apiService.getData('${Endpoints.getOfferByShop}/$sellerId');
-
-      final result = json.decode(response.body);
-      if (result is List) {
-        var fetchedOffers =
-            result.map((data) => OfferList.fromJson(data)).toList();
-
-        // Example of accessing the shop in each offer
-        for (var offer in fetchedOffers) {
-          print('Shop ID: ${offer.shop?.id}'); // Assuming the shop has an ID
-          // If shop contains sellerId, access it here
-        }
-
-        offers.assignAll(fetchedOffers);
-      } else {
-        print('Unexpected format: $result');
-      }
-    } catch (e) {
-      print('Error fetching offers: $e');
-    } finally {
-      isLoading.value = false;
     }
   }
 }

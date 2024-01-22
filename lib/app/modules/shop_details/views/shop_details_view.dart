@@ -547,12 +547,7 @@ class ShopDetailsView extends GetView {
                     : GlobalButton(
                         title: 'Go To Seller Profile',
                         onPressed: () {
-                          // await launchUrl(
-                          //   Uri.parse(data['seller']['web_url']),
-                          //   mode: LaunchMode.externalApplication,
-                          // );
-                          var sellerId = data['seller']
-                              ['id']; // Get the seller ID from the data
+                          var sellerId = data['seller']['id'];
                           Get.toNamed(
                             Routes.SPECIFIC_SELLER,
                             arguments: {'seller_id': sellerId},
@@ -560,10 +555,6 @@ class ShopDetailsView extends GetView {
                         },
                         textColor: Colors.white,
                         buttonColor: secondary,
-
-                        // buttonColor: data['seller']['web_url'] == null
-                        //     ? Colors.grey
-                        //     : secondary,
                       ),
                 SizedBox(
                   height: 20.h,
