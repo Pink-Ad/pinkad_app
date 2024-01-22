@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:pink_ad/app/modules/user_dashboard/views/user_bottom_nav_bar.dart';
+import 'package:pink_ad/app/routes/app_pages.dart';
 
 import '../../../../utilities/custom_widgets/snackbars.dart';
 import '../../../data/api_service.dart';
@@ -53,15 +53,13 @@ class LoginController extends GetxController {
   }
 
   bool isValidEmail(String email) {
-    final emailRegExp =
-        RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    final emailRegExp = RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
     return emailRegExp.hasMatch(email);
   }
 
   Future<void> getSellerShop(String token) async {
     try {
-      final response =
-          await _apiService.getDataWithHeader(Endpoints.sellerShop, token);
+      final response = await _apiService.getDataWithHeader(Endpoints.sellerShop, token);
 
       print(inspect(response.body));
       if (response.statusCode == 200) {
@@ -113,7 +111,7 @@ class LoginController extends GetxController {
           print(savedToken);
           emailController.value.clear();
           passwordController.value.clear();
-          Get.offAll(UserBottomNavBar());
+          Get.offAllNamed(Routes.User_Bottom_Nav_Bar);
           final sellerName = loginResponseData.user?.name;
           final sellerPhoneNumber = loginResponseData.user?.seller?.phone;
           //Get.toNamed(Routes.User_Bottom_Nav_Bar);

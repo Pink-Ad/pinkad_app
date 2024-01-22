@@ -174,4 +174,8 @@ class Endpoints {
   static const String forgetPassword = 'password/email';
   static const String getAllSeller = 'all-selller-list';
   static const String getOfferByShop = 'get_posts_by_seller';
+  static const String subcategories = 'subcategory';
+  static const String sellerFilter = 'getSellersByArea';
+  static const String offerFilter = 'filterpostsbanner';
+  static const String register = 'register';
 }
