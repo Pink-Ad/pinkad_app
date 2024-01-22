@@ -21,6 +21,14 @@ class HomeController extends GetxController {
 
   final count = 0.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    box.listen(() {
+      update();
+    });
+  }
+
   void setLoading() {
     isLoading.value = !isLoading.value;
   }

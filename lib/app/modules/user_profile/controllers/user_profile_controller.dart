@@ -84,14 +84,12 @@ class UserProfileController extends GetxController {
   }
 
   void onSubmit() {
-    String? whatsappError =
-        validateWhatsppNumber(whatsappNoController.value.text);
+    String? whatsappError = validateWhatsppNumber(whatsappNoController.value.text);
     if (whatsappError != null) {
       showSnackBarError('Error', whatsappError);
       return; // Stop execution if there is an error
     }
-    String? phoneError =
-        validatePakistaniPhoneNumber(phoneNoController.value.text);
+    String? phoneError = validatePakistaniPhoneNumber(phoneNoController.value.text);
     if (phoneError != null) {
       showSnackBarError('Error', phoneError);
       return; // Stop execution if there is an error
@@ -203,8 +201,7 @@ class UserProfileController extends GetxController {
 
     isLoading.value = true;
     const url = 'https://pinkad.pk/portal/api/seller/update';
-    final whatsappNoFormatted =
-        formatPhoneNumber(whatsappNoController.value.text);
+    final whatsappNoFormatted = formatPhoneNumber(whatsappNoController.value.text);
     final phoneNoFormatted = formatPhoneNumber(phoneNoController.value.text);
     final businessName = businessNameController.value.text.trim();
     final businessAddress = businessAddressController.value.text.trim();
@@ -247,6 +244,7 @@ class UserProfileController extends GetxController {
         'insta_page': instagram,
         'web_url': ensureHttps(website),
         'isFeatured': '1',
+        'email': data.user?.email ?? '',
       }); // Add the other fields to the request
       // Add the bearer token to the request headers
       request.headers['Authorization'] = 'Bearer $savedToken';

@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 
-SnackbarController showToast({
+SnackbarController? snackBar;
+
+Future showToast({
   required String message,
   Function(SnackbarStatus?)? snackbarStatus,
   String? title,
@@ -12,7 +14,10 @@ SnackbarController showToast({
   String? imagePath,
   SnackPosition snackPosition = SnackPosition.BOTTOM,
 }) {
-  return Get.showSnackbar(
+  if (SnackbarController.isSnackbarBeingShown) {
+    snackBar?.close(withAnimations: false);
+  }
+  snackBar = Get.showSnackbar(
     GetSnackBar(
       snackbarStatus: (status) => snackbarStatus,
       snackPosition: snackPosition,
@@ -57,4 +62,5 @@ SnackbarController showToast({
           : null,
     ),
   );
+  return snackBar!.future;
 }

@@ -20,20 +20,15 @@ class UserDashboardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print('called12');
+    box.listen(() {
+      update();
+    });
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  Future<void> refreshDashboard() async {
+    await Get.find<SplashController>().getHomeData();
+    update();
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  Future<void> refreshDashboard() => Get.find<SplashController>().getHomeData();
 
   void showCustomDialog() {
     AwesomeDialog(

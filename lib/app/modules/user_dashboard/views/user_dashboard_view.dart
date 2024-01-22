@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
@@ -25,7 +24,6 @@ import '../controllers/user_dashboard_controller.dart';
 class UserDashboardView extends GetView {
   // final userDashboardController = Get.put(UserDashboardController());
   final MainControllers mainControllers = MainControllers();
-  final box = GetStorage();
   final allShopsController = AllShopsController();
   final allOffersController = AllOffersController();
   final homeController = HomeController();
@@ -56,6 +54,7 @@ class UserDashboardView extends GetView {
                 print('object');
                 Get.to(ProfileView());
               },
+              showFilter: true,
               profileIconVisibility: true,
             ),
             Expanded(
@@ -64,10 +63,10 @@ class UserDashboardView extends GetView {
                   GetBuilder(
                     init: UserDashboardController(),
                     builder: (controller) {
-                      List<dynamic> fSeller = box.read('fseller') ?? [];
-                      List<dynamic> tSeller = box.read('topSeller') ?? [];
-                      List<dynamic> fOffer = box.read('fOffer') ?? [];
-                      List<dynamic> tOffer = box.read('topOffer') ?? [];
+                      List<dynamic> fSeller = controller.box.read('fseller') ?? [];
+                      List<dynamic> tSeller = controller.box.read('topSeller') ?? [];
+                      List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
+                      List<dynamic> tOffer = controller.box.read('topOffer') ?? [];
                       return SmartRefresher(
                         controller: refreshController,
                         onRefresh: () async {
@@ -138,7 +137,7 @@ class UserDashboardView extends GetView {
                                               homeController.setLoading();
                                               allShopsController
                                                   .getShopDetail(
-                                                    fSeller[index]['shop'][0]['id'],
+                                                    fSeller[index]['shop']?[0]['id'],
                                                   )
                                                   .then(
                                                     (value) => homeController.setLoading(),
@@ -310,7 +309,7 @@ class UserDashboardView extends GetView {
                                                               Expanded(
                                                                 flex: 1,
                                                                 child: Text(
-                                                                  fOffer[index]['shop']['name'] ?? '',
+                                                                  fOffer[index]['shop']?['name'] ?? '',
                                                                   overflow: TextOverflow.ellipsis,
                                                                   style: CustomTextView.getStyle(
                                                                     context,
@@ -325,7 +324,7 @@ class UserDashboardView extends GetView {
                                                                   GestureDetector(
                                                                     onTap: () async {
                                                                       Share.share(
-                                                                        "${fOffer[index]['title']}, ${fOffer[index]['description']},${fOffer[index]['shop']['name'] ?? ''},contact ${fOffer[index]['shop']['seller']['faecbook_page']}. $appUrl",
+                                                                        "${fOffer[index]['title']}, ${fOffer[index]['description']},${fOffer[index]['shop']?['name'] ?? ''},contact ${fOffer[index]['shop']?['seller']?['faecbook_page']}. $appUrl",
                                                                       );
                                                                       // homeController
                                                                       //     .showCustomDialog(
@@ -359,7 +358,7 @@ class UserDashboardView extends GetView {
                                                                       // if (appInstalled) {
                                                                       await launchUrl(
                                                                         Uri.parse(
-                                                                          'whatsapp://send?phone=${fOffer[index]['shop']['seller']['whatsapp']}',
+                                                                          'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
                                                                         ),
                                                                       );
                                                                       // 'whatsapp://send?text=${fOffer[index]['title']}, ${fOffer[index]['description']},${fOffer[index]['shop']['name']},contact ${fOffer[index]['shop']['seller']['phone']}. $appUrl'));
@@ -483,7 +482,7 @@ class UserDashboardView extends GetView {
                                               homeController.setLoading();
                                               allShopsController
                                                   .getShopDetail(
-                                                    tSeller[index]['shop'][0]['id'],
+                                                    tSeller[index]['shop']?[0]['id'],
                                                   )
                                                   .then(
                                                     (value) => homeController.setLoading(),
@@ -659,7 +658,7 @@ class UserDashboardView extends GetView {
                                                               Expanded(
                                                                 flex: 1,
                                                                 child: Text(
-                                                                  tOffer[index]['shop']['name'] ?? '',
+                                                                  tOffer[index]['shop']?['name'] ?? '',
                                                                   overflow: TextOverflow.ellipsis,
                                                                   style: CustomTextView.getStyle(
                                                                     context,
@@ -674,7 +673,7 @@ class UserDashboardView extends GetView {
                                                                   GestureDetector(
                                                                     onTap: () async {
                                                                       Share.share(
-                                                                        "${tOffer[index]['title']}, ${tOffer[index]['description']},${tOffer[index]['shop']['name'] ?? ''},contact ${tOffer[index]['shop']['seller']['faecbook_page']}. $appUrl",
+                                                                        "${tOffer[index]['title']}, ${tOffer[index]['description']},${tOffer[index]['shop']?['name'] ?? ''},contact ${tOffer[index]['shop']?['seller']?['faecbook_page']}. $appUrl",
                                                                       );
                                                                       // homeController
                                                                       //     .showCustomDialog(
@@ -708,7 +707,7 @@ class UserDashboardView extends GetView {
                                                                       // if (appInstalled) {
                                                                       await launchUrl(
                                                                         Uri.parse(
-                                                                          'whatsapp://send?phone=${tOffer[index]['shop']['seller']['whatsapp']}',
+                                                                          'whatsapp://send?phone=${tOffer[index]['shop']?['seller']?['whatsapp']}',
                                                                         ),
                                                                       );
                                                                       // 'whatsapp://send?text=${tOffer[index]['title']}, ${tOffer[index]['description']},${tOffer[index]['shop']['name']},contact ${tOffer[index]['shop']['seller']['phone']}. $appUrl'));

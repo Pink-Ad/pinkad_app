@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
-import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
@@ -19,6 +18,7 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
   final VoidCallback onMenuTap;
   final VoidCallback onProfileTap;
   final bool backButton;
+  final bool showFilter;
 
   MyAppBar({
     Key? key,
@@ -26,6 +26,7 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
     required this.onMenuTap,
     required this.onProfileTap,
     required this.backButton,
+    this.showFilter = false,
   }) : super(key: key);
 
   @override
@@ -51,40 +52,48 @@ class _MyAppBarState extends State<MyAppBar> {
       backgroundColor: primary,
       scrolledUnderElevation: 0,
       actions: [
-        data != null
-            ? data['status'] == 'success'
-                ? IconButton(
-                    icon: ConstrainedBox(
-                      constraints: BoxConstraints.tight(
-                        const Size(double.infinity, 256),
-                      ),
-                      child: Stack(
-                        alignment: AlignmentDirectional.center,
-                        children: <Widget>[
-                          Positioned(
-                            top: 7.0,
-                            child: SvgPicture.asset(
-                              'assets/svgIcons/profile_icon.svg',
-                            ),
-                          ),
-                          const Positioned(
-                            top: 21,
-                            right: 20,
-                            child: CircleAvatar(
-                              radius: 5,
-                              backgroundColor: activeColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    onPressed: () {
-                      // Add your code here
-                      Get.to(() => ProfileView());
-                    },
-                  )
-                : const SizedBox()
-            : SizedBox(),
+        if (widget.showFilter)
+          IconButton(
+            icon: Icon(Icons.filter_alt_outlined),
+            onPressed: () {
+              box.write('user_categories', null);
+              box.write('user_areas', null);
+            },
+          ),
+        // data != null
+        //     ? data['status'] == 'success'
+        //         ? IconButton(
+        //             icon: ConstrainedBox(
+        //               constraints: BoxConstraints.tight(
+        //                 const Size(double.infinity, 256),
+        //               ),
+        //               child: Stack(
+        //                 alignment: AlignmentDirectional.center,
+        //                 children: <Widget>[
+        //                   Positioned(
+        //                     top: 7.0,
+        //                     child: SvgPicture.asset(
+        //                       'assets/svgIcons/profile_icon.svg',
+        //                     ),
+        //                   ),
+        //                   const Positioned(
+        //                     top: 21,
+        //                     right: 20,
+        //                     child: CircleAvatar(
+        //                       radius: 5,
+        //                       backgroundColor: activeColor,
+        //                     ),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ),
+        //             onPressed: () {
+        //               // Add your code here
+        //               Get.to(() => ProfileView());
+        //             },
+        //           )
+        //         : const SizedBox()
+        //     : SizedBox(),
         CustomPopupMenu(
           arrowColor: Colors.white,
           horizontalMargin: 15.w,
