@@ -18,7 +18,7 @@ class OfferList {
   final int? status;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  final Shop? shop;
+  //final Shop? shop;
 
   OfferList({
     this.id,
@@ -38,7 +38,7 @@ class OfferList {
     this.status,
     this.createdAt,
     this.updatedAt,
-    this.shop,
+    //this.shop,
   });
 
   OfferList.fromJson(Map<String, dynamic> json)
@@ -61,13 +61,12 @@ class OfferList {
             json['created_at'] == null // Convert from String to DateTime
                 ? null
                 : DateTime.parse(json['created_at'] as String),
-        updatedAt =
-            json['updated_at'] == null // Convert from String to DateTime
-                ? null
-                : DateTime.parse(json['updated_at'] as String),
-        shop = (json['shop'] as Map<String, dynamic>?) != null
-            ? Shop.fromJson(json['shop'] as Map<String, dynamic>)
-            : null;
+        updatedAt = json['updated_at'] == null
+            ? null
+            : DateTime.parse(json['updated_at'] as String);
+  // shop = (json['shop'] as Map<String, dynamic>?) != null
+  //     ? Shop.fromJson(json['shop'] as Map<String, dynamic>)
+  //     : null;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -87,7 +86,6 @@ class OfferList {
         'status': status,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
-        'shop': shop?.toJson()
+        //'shop': shop?.toJson()
       };
 }
-

@@ -380,7 +380,8 @@ class AllOffersView extends GetView<AllOffersController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${offers[index]!.title!.toString()} By ${offers[index]!.shop!.name!.toString()}',
+                      '${offers[index]!.title!.toString()} ',
+                      //'By ${offers[index]!.shop!.name!.toString()}',
                       style: CustomTextView.getStyle(
                         context,
                         colorLight: subHeadingColor,

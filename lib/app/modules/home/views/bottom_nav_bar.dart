@@ -9,7 +9,6 @@ import 'package:pink_ad/app/modules/home/views/home_view.dart';
 import 'package:pink_ad/app/modules/tutorial/views/tutorial_view.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/auth_dialog.dart';
-import 'package:pink_ad/utilities/custom_widgets/filter_dialog.dart';
 import 'package:pink_ad/utilities/functions/show_toast.dart';
 
 import '../../../../utilities/custom_widgets/text_utils.dart';
@@ -39,16 +38,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     pageController = PageController(initialPage: _tabIndex);
-    box.listenKey('user_categories', (val) {
-      if (mounted) {
-        setState(() {});
-      }
-    });
-    box.listenKey('user_areas', (val) {
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    // box.listenKey('user_categories', (val) {
+    //   if (mounted) {
+    //     setState(() {});
+    //   }
+    // });
+    // box.listenKey('user_areas', (val) {
+    //   if (mounted) {
+    //     setState(() {});
+    //   }
+    // });
     super.initState();
   }
 
@@ -70,8 +69,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Obx(() {
       final userType = box.read('user_type');
-      final userCategory = box.read('user_categories');
-      final userArea = box.read('user_areas');
       return PopScope(
         canPop: canPop.value,
         onPopInvoked: onPopInvoked,
@@ -293,10 +290,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 ],
               ),
             ),
-            if (userType != null && (userCategory == null || userArea == null))
-              Center(
-                child: FilterDialog(),
-              ),
             if (userType == null)
               Center(
                 child: AuthDialog(),

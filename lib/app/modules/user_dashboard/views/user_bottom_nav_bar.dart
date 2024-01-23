@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/modules/all_shops/views/all_shops_view.dart';
 import 'package:pink_ad/app/modules/tutorial/views/tutorial_view.dart';
 import 'package:pink_ad/app/modules/user_dashboard/views/user_dashboard_view.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
-import 'package:pink_ad/utilities/custom_widgets/filter_dialog.dart';
 import 'package:pink_ad/utilities/functions/show_toast.dart';
 
 import '../../../../utilities/custom_widgets/text_utils.dart';
@@ -25,7 +23,6 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
   static const popDuration = Duration(seconds: 2);
   DateTime? currentBackPressTime;
   final canPop = false.obs;
-  final box = GetStorage();
 
   int _tabIndex = 2;
   int get tabIndex => _tabIndex;
@@ -39,16 +36,16 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
   @override
   void initState() {
     super.initState();
-    box.listenKey('user_categories', (val) {
-      if (mounted) {
-        setState(() {});
-      }
-    });
-    box.listenKey('user_areas', (val) {
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    // box.listenKey('user_categories', (val) {
+    //   if (mounted) {
+    //     setState(() {});
+    //   }
+    // });
+    // box.listenKey('user_areas', (val) {
+    //   if (mounted) {
+    //     setState(() {});
+    //   }
+    // });
     pageController = PageController(initialPage: _tabIndex);
   }
 
@@ -69,8 +66,6 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final userCategory = box.read('user_categories');
-      final userArea = box.read('user_areas');
       return PopScope(
         canPop: canPop.value,
         onPopInvoked: onPopInvoked,
@@ -294,10 +289,6 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
                 ],
               ),
             ),
-            if (userCategory == null || userArea == null)
-              Center(
-                child: FilterDialog(),
-              ),
           ],
         ),
       );
