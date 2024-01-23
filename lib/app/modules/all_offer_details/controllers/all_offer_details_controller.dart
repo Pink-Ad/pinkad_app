@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 
 class AllOfferDetailsController extends GetxController {
-  //TODO: Implement AllOfferDetailsController
-
   final count = 0.obs;
   @override
   void onInit() {
@@ -20,4 +18,5 @@ class AllOfferDetailsController extends GetxController {
   }
 
   void increment() => count.value++;
+  
 }
