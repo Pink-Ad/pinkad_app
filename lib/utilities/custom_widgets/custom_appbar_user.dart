@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/terms/views/terms_view.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
+import 'package:pink_ad/utilities/custom_widgets/filter_dialog.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
 
@@ -70,10 +71,9 @@ class _UserAppBarState extends State<UserAppBar> {
       actions: [
         if (widget.showFilter)
           IconButton(
-            icon: Icon(Icons.filter_alt_outlined),
+            icon: Icon(Icons.filter_list_sharp),
             onPressed: () {
-              box.write('user_categories', null);
-              box.write('user_areas', null);
+              Get.dialog(FilterDialog());
             },
           ),
         // showBanner
