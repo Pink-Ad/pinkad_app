@@ -10,6 +10,7 @@ class CustomMultiDropdown<T> extends StatelessWidget {
   final Future<List<T>> Function(String)? asyncItems;
   final Function(List<T>)? onChanged;
   final String Function(T)? itemAsString;
+  final List<T>? selectedItems;
   const CustomMultiDropdown({
     super.key,
     this.enabled = true,
@@ -17,6 +18,7 @@ class CustomMultiDropdown<T> extends StatelessWidget {
     this.asyncItems,
     this.onChanged,
     this.itemAsString,
+    this.selectedItems,
   });
 
   @override
@@ -72,6 +74,7 @@ class CustomMultiDropdown<T> extends StatelessWidget {
         ),
         onChanged: onChanged,
         asyncItems: asyncItems,
+        selectedItems: selectedItems ?? [],
       ),
     );
   }

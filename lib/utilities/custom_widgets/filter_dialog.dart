@@ -27,8 +27,22 @@ class _FilterDialogState extends State<FilterDialog> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    final box = GetStorage();
+    final existingAreas = box.read<List<int>>('user_areas');
+    final existingSubcats = box.read<List<int>>('user_categories');
+    if (existingAreas?.isNotEmpty == true) {
+      areaFuture.then((value) {
+        selectedAreas = value.where((element) => existingAreas!.contains(element.id)).toList();
+        setState(() {});
+      });
+    }
+    if (existingSubcats?.isNotEmpty == true) {
+      subcatFuture.then((value) {
+        selectedSubcats = value.where((element) => existingSubcats!.contains(element.id)).toList();
+        setState(() {});
+      });
+    }
   }
 
   @override
@@ -45,7 +59,7 @@ class _FilterDialogState extends State<FilterDialog> {
             boxShadow: kElevationToShadow[1],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -56,91 +70,130 @@ class _FilterDialogState extends State<FilterDialog> {
                 //   height: 20.h,
                 // ),
                 Text(
-                  'Filter Offers and Sellers',
+                  'Choose interest, city OR area to see better results.',
                   style: CustomTextView.getStyle(
                     Get.context!,
                     colorLight: secondary,
-                    fontSize: 20.sp,
+                    fontSize: 18.sp,
                     fontFamily: Utils.poppinsBold,
                   ),
                 ),
                 SizedBox(
                   height: 10.h,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: Column(
-                    children: [
-                      ConstrainedBox(
+                Column(
+                  children: [
+                    ClipRect(
+                      clipBehavior: Clip.antiAlias,
+                      child: ConstrainedBox(
                         constraints: BoxConstraints(maxHeight: 0.3.sh),
                         child: CustomMultiDropdown<SubCategory>(
-                          hintText: 'Sub Categories',
+                          hintText: 'Interests',
                           asyncItems: (p0) {
                             return subcatFuture;
                           },
                           onChanged: (subcats) {
-                            print('on change');
                             selectedSubcats = subcats;
                           },
                           itemAsString: (val) => val.name ?? '',
+                          selectedItems: selectedSubcats,
                         ),
                       ),
-                      10.horizontalSpace,
-                      ConstrainedBox(
+                    ),
+                    10.horizontalSpace,
+                    ClipRect(
+                      clipBehavior: Clip.antiAlias,
+                      child: ConstrainedBox(
                         constraints: BoxConstraints(maxHeight: 0.3.sh),
                         child: CustomMultiDropdown<Area>(
-                          hintText: 'Areas',
+                          hintText: 'City or Area',
                           onChanged: (areas) {
-                            print('on change');
                             selectedAreas = areas;
                           },
                           asyncItems: (p0) {
                             return areaFuture;
                           },
                           itemAsString: (val) => val.name ?? '',
+                          selectedItems: selectedAreas,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-                  child: GestureDetector(
-                    onTap: () async {
-                      final box = GetStorage();
-                      if (selectedSubcats.isEmpty || selectedAreas.isEmpty) {
-                        showToast(message: 'Please select the filters');
-                        return;
-                      }
-                      box.write('user_categories', selectedSubcats.map((e) => e.id ?? 0).toList());
-                      box.write('user_areas', selectedAreas.map((e) => e.id ?? 0).toList());
-                      final splashController = Get.find<SplashController>();
-                      loadingWrapper(() async {
-                        return Future.wait([
-                          splashController.getFeaturedOffer(),
-                          splashController.getFeaturedSeller(),
-                        ]);
-                      });
-                    },
-                    child: Container(
-                      height: 50.0.h,
-                      decoration: BoxDecoration(
-                        color: primary,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Filter',
-                          style: CustomTextView.getStyle(
-                            Get.context!,
-                            colorLight: Colors.white,
-                            fontSize: 16.sp,
-                            fontFamily: Utils.poppinsSemiBold,
+                15.verticalSpace,
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          Get.back();
+                        },
+                        child: Container(
+                          height: 50.h,
+                          decoration: BoxDecoration(
+                            color: tertiary,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Skip',
+                              style: CustomTextView.getStyle(
+                                Get.context!,
+                                colorLight: Colors.white,
+                                fontSize: 16.sp,
+                                fontFamily: Utils.poppinsSemiBold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          final box = GetStorage();
+                          if (selectedSubcats.isEmpty || selectedAreas.isEmpty) {
+                            showToast(message: 'Please select the filters');
+                            return;
+                          }
+                          box.write('user_categories', selectedSubcats.map((e) => e.id ?? 0).toList());
+                          box.write('user_areas', selectedAreas.map((e) => e.id ?? 0).toList());
+                          final splashController = Get.find<SplashController>();
+                          await loadingWrapper(() async {
+                            return Future.wait([
+                              splashController.getFeaturedOffer(),
+                              splashController.getFeaturedSeller(),
+                            ]);
+                          });
+                          Get.back();
+                        },
+                        child: Container(
+                          height: 50.h,
+                          decoration: BoxDecoration(
+                            color: primary,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Filter',
+                              style: CustomTextView.getStyle(
+                                Get.context!,
+                                colorLight: Colors.white,
+                                fontSize: 16.sp,
+                                fontFamily: Utils.poppinsSemiBold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
