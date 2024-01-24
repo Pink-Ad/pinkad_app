@@ -534,6 +534,8 @@ class AllShopsView extends GetView<AllShopsController> {
                         context,
                         colorLight: textColor,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
