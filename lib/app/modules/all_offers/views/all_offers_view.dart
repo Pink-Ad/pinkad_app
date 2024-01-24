@@ -399,6 +399,8 @@ class AllOffersView extends GetView<AllOffersController> {
                         context,
                         colorLight: textColor,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
