@@ -17,9 +17,7 @@ class SpecificSellerController extends GetxController {
     int? sellerId = Get.arguments['seller_id'];
     if (sellerId != null) {
       fetchOffers(sellerId);
-    } else {
-      // Handle null case, e.g., navigate back or show a message
-    }
+    } else {}
   }
 
   Future<void> fetchOffers(int? sellerId) async {
@@ -30,7 +28,8 @@ class SpecificSellerController extends GetxController {
     }
 
     try {
-      final response = await _apiService.getData('${Endpoints.getOfferByShop}?seller_id=$sellerId');
+      final response = await _apiService
+          .getData('${Endpoints.getOfferByShop}?seller_id=$sellerId');
       final result = json.decode(response.body);
       if (result['seller_posts'] is List) {
         var fetchedOffers = (result['seller_posts'] as List)

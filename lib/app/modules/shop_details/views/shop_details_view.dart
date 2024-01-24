@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/data/api_service.dart';
@@ -171,312 +172,283 @@ class ShopDetailsView extends GetView {
                               //                   fontFamily:
                               //                       Utils.poppinsMedium)))),
                               // ),
-                              GestureDetector(
-                                onTap: facebookUrl != null &&
-                                        facebookUrl.isNotEmpty
-                                    ? () async {
-                                        // Share.share(facebookUrl);
-                                        print(facebookUrl);
-                                        final Uri nativeUrl;
-                                        if (facebookUrl!
-                                            .toLowerCase()
-                                            .contains('facebook.com')) {
-                                          if (!facebookUrl!
-                                              .startsWith('http')) {
-                                            facebookUrl =
-                                                'https://' + facebookUrl!;
-                                          }
-                                          nativeUrl = Uri.parse(
-                                            'fb://facewebmodal/f?href=$facebookUrl',
-                                          );
-                                        } else {
-                                          nativeUrl =
-                                              Uri.parse('fb://$facebookUrl');
-                                        }
-                                        try {
-                                          final success =
-                                              await launchUrl(nativeUrl);
-                                          if (!success) throw '';
-                                        } catch (e) {
-                                          // If the Facebook app is not installed, open the Facebook website
-                                          if (!facebookUrl!
-                                              .startsWith('http')) {
-                                            facebookUrl =
-                                                'https://facebook.com/${nativeUrl.pathSegments.last}';
-                                          }
-                                          await launchUrl(
-                                            Uri.parse(facebookUrl!),
-                                            mode:
-                                                LaunchMode.externalApplication,
-                                          );
-                                        }
-                                      }
-                                    : null,
-                                child: Opacity(
-                                  opacity: facebookUrl != null &&
-                                          facebookUrl!.isNotEmpty
-                                      ? 1
-                                      : 0.7,
-                                  child: Container(
-                                    height: 40.h,
-                                    width: 40.w,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 4,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
+                              Container(
+                                height: 45.h,
+                                width: 45.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Center(
-                                        child: SvgPicture.asset(
-                                          'assets/svgIcons/facebook.svg',
-                                          color: facebookUrl != null &&
-                                                  facebookUrl!.isNotEmpty
-                                              ? null
-                                              : Colors.grey,
-                                        ),
-                                      ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed: facebookUrl != null &&
+                                          facebookUrl.isNotEmpty
+                                      ? () async {
+                                          // Share.share(facebookUrl);
+                                          print(facebookUrl);
+                                          final Uri nativeUrl;
+                                          if (facebookUrl!
+                                              .toLowerCase()
+                                              .contains('facebook.com')) {
+                                            if (!facebookUrl!
+                                                .startsWith('http')) {
+                                              facebookUrl =
+                                                  'https://' + facebookUrl!;
+                                            }
+                                            nativeUrl = Uri.parse(
+                                              'fb://facewebmodal/f?href=$facebookUrl',
+                                            );
+                                          } else {
+                                            nativeUrl =
+                                                Uri.parse('fb://$facebookUrl');
+                                          }
+                                          try {
+                                            final success =
+                                                await launchUrl(nativeUrl);
+                                            if (!success) throw '';
+                                          } catch (e) {
+                                            // If the Facebook app is not installed, open the Facebook website
+                                            if (!facebookUrl!
+                                                .startsWith('http')) {
+                                              facebookUrl =
+                                                  'https://facebook.com/${nativeUrl.pathSegments.last}';
+                                            }
+                                            await launchUrl(
+                                              Uri.parse(facebookUrl!),
+                                              mode: LaunchMode
+                                                  .externalApplication,
+                                            );
+                                          }
+                                        }
+                                      : null,
+                                  icon: Center(
+                                    child: FaIcon(
+                                      FontAwesomeIcons.facebook,
+                                      size: 30.h,
+                                      color: facebookUrl != null &&
+                                              facebookUrl!.isNotEmpty
+                                          ? Colors.blue
+                                          : Colors.grey,
                                     ),
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 15.w),
-                              GestureDetector(
-                                onTap: data['seller']['whatsapp'] != null &&
-                                        data['seller']['whatsapp'].isNotEmpty
-                                    ? () async {
-                                        // Replace 'whatsapp://send?phone=${data['seller']['whatsapp']}' with your actual logic to launch WhatsApp.
-                                        await launchUrl(
-                                          Uri.parse(
-                                            'whatsapp://send?phone=${data['seller']['whatsapp']}',
-                                          ),
-                                        );
-                                      }
-                                    : null, // Disable the onTap when WhatsApp number is not available
-                                child: Opacity(
-                                  opacity: data['seller']['whatsapp'] != null &&
+                              const SizedBox(
+                                width: 12.0,
+                              ),
+                              Container(
+                                height: 45.h,
+                                width: 45.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed: data['seller']['whatsapp'] !=
+                                              null &&
                                           data['seller']['whatsapp'].isNotEmpty
-                                      ? 1
-                                      : 0.5, // Make icon translucent if disabled
-                                  child: Container(
-                                    height: 40.h,
-                                    width: 40.w,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 4,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        'assets/svgIcons/whatsapp_icon.svg',
-                                        color: data['seller']['whatsapp'] !=
-                                                    null &&
-                                                data['seller']['whatsapp']
-                                                    .isNotEmpty
-                                            ? null
-                                            : Colors
-                                                .grey, // Change color if disabled
-                                      ),
+                                      ? () async {
+                                          // Replace 'whatsapp://send?phone=${data['seller']['whatsapp']}' with your actual logic to launch WhatsApp.
+                                          await launchUrl(
+                                            Uri.parse(
+                                              'whatsapp://send?phone=${data['seller']['whatsapp']}',
+                                            ),
+                                          );
+                                        }
+                                      : null,
+                                  icon: Center(
+                                    child: FaIcon(
+                                      FontAwesomeIcons.whatsapp,
+                                      size: 30.h,
+                                      color:
+                                          data['seller']['whatsapp'] != null &&
+                                                  data['seller']['whatsapp']
+                                                      .isNotEmpty
+                                              ? Colors.green
+                                              : Colors.grey,
                                     ),
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 15.w),
-                              GestureDetector(
-                                onTap: data['seller']['insta_page'] != null &&
-                                        data['seller']['insta_page'].isNotEmpty
-                                    ? () async {
-                                        String? instaUrl =
-                                            data['seller']['insta_page'];
-                                        if (instaUrl == null) return;
-                                        final Uri nativeUrl;
-                                        if (instaUrl
-                                            .toLowerCase()
-                                            .contains('instagram.com')) {
-                                          if (!instaUrl.startsWith('http')) {
-                                            instaUrl = 'https://' + instaUrl;
+                              SizedBox(width: 12.w),
+                              Container(
+                                height: 45.h,
+                                width: 45.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed: data['seller']['insta_page'] !=
+                                              null &&
+                                          data['seller']['insta_page']
+                                              .isNotEmpty
+                                      ? () async {
+                                          String? instaUrl =
+                                              data['seller']['insta_page'];
+                                          if (instaUrl == null) return;
+                                          final Uri nativeUrl;
+                                          if (instaUrl
+                                              .toLowerCase()
+                                              .contains('instagram.com')) {
+                                            if (!instaUrl.startsWith('http')) {
+                                              instaUrl = 'https://' + instaUrl;
+                                            }
+                                            final uri = Uri.parse(instaUrl);
+                                            // Invalid URL
+                                            if (uri.pathSegments.isEmpty)
+                                              return;
+                                            nativeUrl = Uri.parse(
+                                              'instagram://user?username=${uri.pathSegments.first}',
+                                            );
+                                          } else {
+                                            nativeUrl = Uri.parse(
+                                              'instagram://$instaUrl',
+                                            );
                                           }
-                                          final uri = Uri.parse(instaUrl);
-                                          // Invalid URL
-                                          if (uri.pathSegments.isEmpty) return;
-                                          nativeUrl = Uri.parse(
-                                            'instagram://user?username=${uri.pathSegments.first}',
-                                          );
-                                        } else {
-                                          nativeUrl = Uri.parse(
-                                            'instagram://$instaUrl',
-                                          );
-                                        }
-                                        try {
-                                          final success =
-                                              await launchUrl(nativeUrl);
-                                          if (!success) throw '';
-                                        } catch (e) {
-                                          if (!instaUrl.startsWith('http')) {
-                                            instaUrl =
-                                                'https://instagram.com/${nativeUrl.queryParameters['username']}';
+                                          try {
+                                            final success =
+                                                await launchUrl(nativeUrl);
+                                            if (!success) throw '';
+                                          } catch (e) {
+                                            if (!instaUrl.startsWith('http')) {
+                                              instaUrl =
+                                                  'https://instagram.com/${nativeUrl.queryParameters['username']}';
+                                            }
+                                            await launchUrl(
+                                              Uri.parse(instaUrl),
+                                              mode: LaunchMode
+                                                  .externalApplication,
+                                            );
                                           }
-                                          await launchUrl(
-                                            Uri.parse(instaUrl),
-                                            mode:
-                                                LaunchMode.externalApplication,
-                                          );
                                         }
-                                      }
-                                    : null, // Disable onTap when Instagram page is not available
-                                child: Opacity(
-                                  opacity:
-                                      data['seller']['insta_page'] != null &&
+                                      : null,
+                                  icon: Center(
+                                    child: FaIcon(
+                                      FontAwesomeIcons.instagram,
+                                      size: 30.h,
+                                      color: data['seller']['insta_page'] !=
+                                                  null &&
                                               data['seller']['insta_page']
                                                   .isNotEmpty
-                                          ? 1
-                                          : 0.7, // Adjust opacity if disabled
-                                  child: Container(
-                                    height: 40.h,
-                                    width: 40.w,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 4,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        'assets/svgIcons/insta.svg',
-                                        color: data['seller']['insta_page'] !=
-                                                    null &&
-                                                data['seller']['insta_page']
-                                                    .isNotEmpty
-                                            ? null
-                                            : Colors
-                                                .grey, // Change color if disabled
-                                      ),
+                                          ? Color(0xFFE4405D)
+                                          : Colors.grey,
                                     ),
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 15.w),
-                              GestureDetector(
-                                onTap: data['seller']['web_url'] != null &&
-                                        Uri.tryParse(
-                                              data['seller']['web_url'],
-                                            ) !=
-                                            null
-                                    ? () async {
-                                        final url = Uri.parse(
-                                          data['seller']['web_url'],
-                                        );
-                                        await launchUrl(
-                                          url,
-                                          mode: LaunchMode.externalApplication,
-                                        );
-                                      }
-                                    : null,
-                                child: Opacity(
-                                  opacity: data['seller']['web_url'] != null &&
-                                          Uri.tryParse(
+                              SizedBox(width: 12.w),
+                              Container(
+                                height: 45.h,
+                                width: 45.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed:
+                                      data['seller']['web_url'] != null &&
+                                              Uri.tryParse(
+                                                    data['seller']['web_url'],
+                                                  ) !=
+                                                  null
+                                          ? () async {
+                                              final url = Uri.parse(
                                                 data['seller']['web_url'],
-                                              ) !=
-                                              null
-                                      ? 0.6
-                                      : 0.5, // Adjust opacity if disabled
-                                  child: Container(
-                                    height: 40.h,
-                                    width: 40.w,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 4,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Center(
-                                      child: Icon(
-                                        Icons.language,
-                                        color:
-                                            data['seller']['web_url'] != null &&
-                                                    Uri.tryParse(
-                                                          data['seller']
-                                                              ['web_url'],
-                                                        ) !=
-                                                        null
-                                                ? null
-                                                : Colors.grey,
-                                      ),
+                                              );
+                                              await launchUrl(
+                                                url,
+                                                mode: LaunchMode
+                                                    .externalApplication,
+                                              );
+                                            }
+                                          : null,
+                                  icon: Center(
+                                    child: Icon(
+                                      Icons.language,
+                                      size: 30.h,
+                                      color:
+                                          data['seller']['web_url'] != null &&
+                                                  Uri.tryParse(
+                                                        data['seller']
+                                                            ['web_url'],
+                                                      ) !=
+                                                      null
+                                              ? null
+                                              : Colors.grey,
                                     ),
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 15.w),
-                              GestureDetector(
-                                onTap: data['address'] != null
-                                    ? () async {
-                                        shopDetailsController.showAwesomeDialog(
-                                          title: 'Address',
-                                          content: data['address'] ??
-                                              'No address available',
-                                          confirmButtonText: 'Close',
-                                          confirmButtonColor: bodyTextColor,
-                                          onConfirm: () => Get.back(),
-                                          showCancelButton: false,
-                                        );
-                                      }
-                                    : null, // Disable onTap when address is not available
-                                child: Opacity(
-                                  opacity: data['address'] != null
-                                      ? 1
-                                      : 0.5, // Adjust opacity if disabled
-                                  child: Container(
-                                    height: 40.h,
-                                    width: 40.w,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 4,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
+                              SizedBox(width: 12.w),
+                              Container(
+                                height: 45.h,
+                                width: 45.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 2.0),
-                                      child: Center(
-                                        child: SvgPicture.asset(
-                                          'assets/svgIcons/location.svg',
-                                          color: data['address'] != null
-                                              ? null
-                                              : Colors
-                                                  .grey, // Change color if disabled
-                                        ),
-                                      ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed: data['address'] != null
+                                      ? () async {
+                                          shopDetailsController
+                                              .showAwesomeDialog(
+                                            title: 'Address',
+                                            content: data['address'] ??
+                                                'No address available',
+                                            confirmButtonText: 'Close',
+                                            confirmButtonColor: bodyTextColor,
+                                            onConfirm: () => Get.back(),
+                                            showCancelButton: false,
+                                          );
+                                        }
+                                      : null,
+                                  icon: Center(
+                                    child: SvgPicture.asset(
+                                      'assets/svgIcons/location.svg',
+                                      height: 25.h,
+                                      color: data['address'] != null
+                                          ? null
+                                          : Colors.grey,
                                     ),
                                   ),
                                 ),
