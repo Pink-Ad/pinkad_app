@@ -232,7 +232,7 @@ class UserProfileView extends GetView {
                                                         CustomTextView.getStyle(
                                                       context,
                                                       colorLight: textColor,
-                                                      fontSize: 16.sp,
+                                                      fontSize: 15.sp,
                                                     ),
                                                     maxLines: 1,
                                                     overflow:
