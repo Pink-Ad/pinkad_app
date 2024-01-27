@@ -227,7 +227,7 @@ class UserProfileView extends GetView {
                                                             .isNotEmpty
                                                         ? userProfileController
                                                             .logoName.value
-                                                        : 'Promotional Cover',
+                                                        : 'Promotional Image',
                                                     style:
                                                         CustomTextView.getStyle(
                                                       context,

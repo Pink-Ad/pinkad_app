@@ -444,7 +444,7 @@ class SignupView extends GetView<SignupController> {
                                                             .value.isNotEmpty
                                                         ? controller
                                                             .coverLogoName.value
-                                                        : 'Promotional Cover (optional)',
+                                                        : 'Promotional Image (optional)',
                                                     style:
                                                         CustomTextView.getStyle(
                                                       context,
