@@ -250,6 +250,7 @@ class UserProfileController extends GetxController {
         'web_url': ensureHttps(website),
         'isFeatured': '1',
         'email': data.user?.email ?? '',
+        'area_id': data.shop?.area?.toString() ?? '0',
       }); // Add the other fields to the request
       // Add the bearer token to the request headers
       request.headers['Authorization'] = 'Bearer $savedToken';
@@ -258,7 +259,7 @@ class UserProfileController extends GetxController {
       ); // Send the request
       // http.StreamedResponse response = await request.send();
       print('JSON Response in registerUser: ${response.body}');
-      
+
       final result = json.decode(response.body);
       if (response.statusCode == 200) {
         // Successful request

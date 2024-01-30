@@ -1,4 +1,5 @@
 import 'package:pink_ad/app/models/seller_model.dart';
+import 'package:pink_ad/app/models/shop_model.dart';
 
 class User {
   final int? id;
@@ -26,21 +27,16 @@ class User {
         name = json['name'] as String?,
         email = json['email'] as String?,
         role = json['role'] as int?,
-        emailVerifiedAt =
-            json['email_verified_at'] == null // Convert from String to DateTime
-                ? null
-                : DateTime.parse(json['email_verified_at'] as String),
-        seller = (json['seller'] as Map<String, dynamic>?) != null
-            ? Seller.fromJson(json['seller'] as Map<String, dynamic>)
-            : null,
-        createdAt =
-            json['created_at'] == null // Convert from String to DateTime
-                ? null
-                : DateTime.parse(json['created_at'] as String),
-        updatedAt =
-            json['updated_at'] == null // Convert from String to DateTime
-                ? null
-                : DateTime.parse(json['updated_at'] as String);
+        emailVerifiedAt = json['email_verified_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['email_verified_at'] as String),
+        seller = (json['seller'] as Map<String, dynamic>?) != null ? Seller.fromJson(json['seller'] as Map<String, dynamic>) : null,
+        createdAt = json['created_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['created_at'] as String),
+        updatedAt = json['updated_at'] == null // Convert from String to DateTime
+            ? null
+            : DateTime.parse(json['updated_at'] as String);
 
   Map<String, dynamic> toJson() => {
         'id': id,
