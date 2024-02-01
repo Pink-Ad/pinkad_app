@@ -160,11 +160,13 @@ class _HomePageSliderState extends State<HomePageSlider> {
               children: <Widget>[
                 CarouselSlider.builder(
                   itemCount: banner.length,
-                  itemBuilder:
-                      (BuildContext context, int itemIndex, int pageViewIndex) {
+                  itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
                     return InkWell(
                       onTap: () {
-                        launchUrl(Uri.parse(banner[itemIndex].redirectUrl));
+                        launchUrl(
+                          Uri.parse(banner[itemIndex].redirectUrl),
+                          mode: LaunchMode.externalApplication,
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(top: 15.0),
@@ -173,8 +175,7 @@ class _HomePageSliderState extends State<HomePageSlider> {
                             borderRadius: BorderRadius.circular(8),
                             color: Colors.grey.shade300,
                             image: DecorationImage(
-                              image: NetworkImage(ApiService.imageBaseUrl +
-                                  banner[itemIndex].image!),
+                              image: NetworkImage(ApiService.imageBaseUrl + banner[itemIndex].image!),
                               fit: BoxFit.fill,
                             ),
                           ),
