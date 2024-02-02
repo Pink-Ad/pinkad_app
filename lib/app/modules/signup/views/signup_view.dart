@@ -338,7 +338,7 @@ class SignupView extends GetView<SignupController> {
                                                             .isNotEmpty
                                                         ? controller
                                                             .logoName.value
-                                                        : 'Business Logo',
+                                                        : 'Profile Picture',
                                                     style:
                                                         CustomTextView.getStyle(
                                                       context,
