@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/models/areas_model.dart';
-import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_drop_down.dart';
@@ -41,7 +40,7 @@ class _ShopFilterOverlayState extends State<ShopFilterOverlay> {
   @override
   void initState() {
     super.initState();
-    areas = Get.find<AllOffersController>().selectedAreas;
+    areas = Get.find<AllShopsController>().selectedAreas;
   }
 
   @override
