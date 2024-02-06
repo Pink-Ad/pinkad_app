@@ -1,5 +1,4 @@
 import 'package:pink_ad/app/models/seller_model.dart';
-import 'package:pink_ad/app/models/shop_model.dart';
 
 class User {
   final int? id;

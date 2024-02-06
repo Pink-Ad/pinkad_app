@@ -10,7 +10,7 @@ import '../../../../utilities/custom_widgets/custom_text_field.dart';
 import '../../../../utilities/custom_widgets/scafflod_dashboard.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 
-class ProfileView extends GetView {
+class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();

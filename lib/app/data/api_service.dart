@@ -40,13 +40,8 @@ class ApiService {
         Get.snackbar('Error', 'Invalid request');
         throw Exception('Invalid request');
       } else if (response.statusCode == 401) {
-        // If the user is unauthorized, show a snackbar with a message
-        showSnackBarError(
-          'Error',
-          'Unauthorized',
-        );
         // Get.snackbar('Error', 'Unauthorized');
-        throw Exception('Unauthorized');
+        throw 'Unauthorized';
       } else if (response.statusCode == 404) {
         // If the resource is not found, show a snackbar with a message
         showSnackBarError('Error', 'Resource not found');

@@ -12,7 +12,7 @@ abstract class Routes {
   static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
   static const USER_LOGIN = _Paths.USER_LOGIN;
   static const Bottom_Nav_Bar = _Paths.BottomNavBar;
-  static const PROFILE = _Paths.PROFILE;
+  // static const PROFILE = _Paths.PROFILE;
   static const ALL_OFFERS = _Paths.ALL_OFFERS;
   static const ALL_SHOPS = _Paths.ALL_SHOPS;
   static const SHOP_DETAILS = _Paths.SHOP_DETAILS;
@@ -50,7 +50,7 @@ abstract class _Paths {
   static const RESET_PASSWORD = '/reset-password';
   static const USER_LOGIN = '/user-login';
   static const BottomNavBar = '/bottom-nav-bar';
-  static const PROFILE = '/profile';
+  // static const PROFILE = '/profile';
   static const ALL_OFFERS = '/all-offers';
   static const ALL_SHOPS = '/all-shops';
   static const SHOP_DETAILS = '/shop-details';

@@ -1,5 +1,3 @@
-import 'package:pink_ad/app/models/shop_model.dart';
-
 class OfferList {
   final int? id;
   final int? shopId;
@@ -57,13 +55,10 @@ class OfferList {
         conversion = json['conversion'] as int?,
         isFeature = json['IsFeature'] as int?,
         status = json['status'] as int?,
-        createdAt =
-            json['created_at'] == null // Convert from String to DateTime
-                ? null
-                : DateTime.parse(json['created_at'] as String),
-        updatedAt = json['updated_at'] == null
+        createdAt = json['created_at'] == null // Convert from String to DateTime
             ? null
-            : DateTime.parse(json['updated_at'] as String);
+            : DateTime.parse(json['created_at'] as String),
+        updatedAt = json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String);
   // shop = (json['shop'] as Map<String, dynamic>?) != null
   //     ? Shop.fromJson(json['shop'] as Map<String, dynamic>)
   //     : null;

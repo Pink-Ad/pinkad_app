@@ -33,8 +33,6 @@ import '../modules/package_details/bindings/package_details_binding.dart';
 import '../modules/package_details/views/package_details_view.dart';
 import '../modules/premier_features/bindings/premier_features_binding.dart';
 import '../modules/premier_features/views/premier_features_view.dart';
-import '../modules/profile/bindings/profile_binding.dart';
-import '../modules/profile/views/profile_view.dart';
 import '../modules/reset_password/bindings/reset_password_binding.dart';
 import '../modules/reset_password/views/reset_password_view.dart';
 import '../modules/seller_login/bindings/login_binding.dart';
@@ -115,11 +113,11 @@ class AppPages {
       page: () => BottomNavBar(),
       binding: HomeBinding(),
     ),
-    GetPage(
-      name: _Paths.PROFILE,
-      page: () => ProfileView(),
-      binding: ProfileBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.PROFILE,
+    //   page: () => ProfileView(),
+    //   binding: ProfileBinding(),
+    // ),
     GetPage(
       name: _Paths.ALL_OFFERS,
       page: () => AllOffersView(),
@@ -130,7 +128,7 @@ class AppPages {
       page: () => const AllShopsView(),
       binding: AllShopsBinding(),
     ),
-     GetPage(
+    GetPage(
       name: _Paths.SPECIFIC_SELLER,
       page: () => SpecificSellerView(),
       binding: SpecificSellerBinding(),
