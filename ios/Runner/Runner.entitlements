@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:app.pinkad.pk</string>
+		<string>applinks:m.pinkad.pk</string>
 	</array>
 </dict>
 </plist>
