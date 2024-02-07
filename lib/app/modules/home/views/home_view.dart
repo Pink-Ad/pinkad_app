@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
@@ -247,129 +246,141 @@ class HomeView extends GetView<HomeController> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 330.h,
+                                    height: 990
+                                        .h, // Height for 3 rows of 330.h each
                                     child: tOffer.isNotEmpty
-                                        ? ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: tOffer.length,
-                                            padding: EdgeInsets.only(
-                                              left: 20.0,
-                                              bottom: 10,
-                                            ),
-                                            itemBuilder: (
-                                              BuildContext context,
-                                              int index,
-                                            ) {
-                                              return InkWell(
-                                                onTap: () {
-                                                  controller.setLoading();
-                                                  allOffersController
-                                                      .getOfferDetail(
-                                                        tOffer[index]['id'],
-                                                      )
-                                                      .then(
-                                                        (value) => controller
-                                                            .setLoading(),
-                                                      );
-                                                },
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                    right: 20.0,
+                                        ? Column(
+                                            children: List.generate(
+                                              3, // Display 3 rows
+                                              (rowIndex) => SizedBox(
+                                                height:
+                                                    330.h, // Height of each row
+                                                child: ListView.builder(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount: 10,
+                                                  padding: EdgeInsets.only(
+                                                    left: 20.0,
+                                                    bottom: 10,
                                                   ),
-                                                  child: Container(
-                                                    width: 217.w,
-                                                    height: 325.h,
-                                                    decoration: BoxDecoration(
-                                                      color: lightGray,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                        8.0,
-                                                      ),
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          width: 220.w,
-                                                          height: 210.h,
+                                                  itemBuilder: (
+                                                    BuildContext context,
+                                                    int index,
+                                                  ) {
+                                                    final currentIndex =
+                                                        rowIndex * 10 + index;
+                                                    if (currentIndex >=
+                                                        tOffer.length) {
+                                                      return SizedBox
+                                                          .shrink(); // Return an empty widget for extra items
+                                                    }
+
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        controller.setLoading();
+                                                        allOffersController
+                                                            .getOfferDetail(
+                                                              tOffer[currentIndex]
+                                                                  ['id'],
+                                                            )
+                                                            .then(
+                                                              (value) => controller
+                                                                  .setLoading(),
+                                                            );
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          right: 20.0,
+                                                        ),
+                                                        child: Container(
+                                                          width: 217.w,
+                                                          height: 325.h,
                                                           decoration:
                                                               BoxDecoration(
                                                             color: lightGray,
                                                             borderRadius:
-                                                                const BorderRadius
-                                                                    .only(
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                10.0,
-                                                              ),
-                                                              topLeft: Radius
-                                                                  .circular(
-                                                                10.0,
-                                                              ),
+                                                                BorderRadius
+                                                                    .circular(
+                                                              8.0,
                                                             ),
-                                                            image:
-                                                                DecorationImage(
-                                                              image:
-                                                                  NetworkImage(
-                                                                ApiService
-                                                                        .imageBaseUrl +
-                                                                    tOffer[index]
-                                                                        [
-                                                                        'banner'],
-                                                              ),
-                                                              fit: BoxFit.fill,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                            top: 5.0,
-                                                            left: 10.h,
-                                                            right: 10,
                                                           ),
                                                           child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
                                                                     .start,
                                                             children: [
-                                                              Text(
-                                                                tOffer[index]
-                                                                    ['title'],
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style:
-                                                                    CustomTextView
-                                                                        .getStyle(
-                                                                  context,
-                                                                  colorLight:
-                                                                      Colors
-                                                                          .black,
-                                                                  fontSize:
-                                                                      16.sp,
-                                                                  fontFamily: Utils
-                                                                      .poppinsBold,
+                                                              Container(
+                                                                width: 220.w,
+                                                                height: 210.h,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color:
+                                                                      lightGray,
+                                                                  borderRadius:
+                                                                      const BorderRadius
+                                                                          .only(
+                                                                    topRight: Radius
+                                                                        .circular(
+                                                                      10.0,
+                                                                    ),
+                                                                    topLeft: Radius
+                                                                        .circular(
+                                                                      10.0,
+                                                                    ),
+                                                                  ),
+                                                                  image:
+                                                                      DecorationImage(
+                                                                    image:
+                                                                        NetworkImage(
+                                                                      ApiService
+                                                                              .imageBaseUrl +
+                                                                          tOffer[currentIndex]
+                                                                              [
+                                                                              'banner'],
+                                                                    ),
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  ),
                                                                 ),
                                                               ),
-                                                              Row(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .center,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Expanded(
-                                                                    flex: 1,
-                                                                    child: Text(
-                                                                      tOffer[index]['shop']
+                                                              Container(
+                                                                margin:
+                                                                    EdgeInsets
+                                                                        .only(
+                                                                  top: 5.0,
+                                                                  left: 10.h,
+                                                                  right: 10,
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      tOffer[currentIndex]
+                                                                          [
+                                                                          'title'],
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: CustomTextView
+                                                                          .getStyle(
+                                                                        context,
+                                                                        colorLight:
+                                                                            Colors.black,
+                                                                        fontSize:
+                                                                            16.sp,
+                                                                        fontFamily:
+                                                                            Utils.poppinsBold,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      tOffer[currentIndex]['shop']
                                                                               ?[
                                                                               'name'] ??
                                                                           '',
@@ -387,119 +398,116 @@ class HomeView extends GetView<HomeController> {
                                                                             Utils.poppinsMedium,
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                  Row(
-                                                                    children: [
-                                                                      IconButton(
-                                                                        onPressed:
-                                                                            () async {
-                                                                          String?
-                                                                              facebookUrl =
-                                                                              tOffer[index]['shop']?['seller']?['faecbook_page'];
-                                                                          if (facebookUrl !=
-                                                                              null) {
-                                                                            try {
-                                                                              final String nativeUrl;
-
-                                                                              if (facebookUrl.toLowerCase().contains('facebook.com')) {
-                                                                                if (!facebookUrl.startsWith('http')) {
-                                                                                  facebookUrl = 'https://' + facebookUrl;
-                                                                                }
-                                                                                nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
-                                                                              } else {
-                                                                                nativeUrl = 'fb://$facebookUrl';
-                                                                              }
-                                                                              await launchUrl(Uri.parse(nativeUrl));
-                                                                            } catch (e) {
-                                                                              if (facebookUrl!.startsWith('http')) {
-                                                                                await launchUrl(Uri.parse(facebookUrl));
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        },
-                                                                        icon:
-                                                                            Center(
+                                                                    Row(
+                                                                      children: [
+                                                                        Expanded(
+                                                                          flex:
+                                                                              1,
                                                                           child:
-                                                                              FaIcon(
-                                                                            FontAwesomeIcons.facebook,
-                                                                            size:
-                                                                                30.h,
-                                                                            color:
-                                                                                Colors.blue,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      GestureDetector(
-                                                                        onTap:
-                                                                            () async {
-                                                                          await launchUrl(
-                                                                            Uri.parse(
-                                                                              'whatsapp://send?phone=${tOffer[index]['shop']?['seller']?['whatsapp']}',
-                                                                            ),
-                                                                          );
-                                                                        },
-                                                                        child:
-                                                                            Container(
-                                                                          height:
-                                                                              25.h,
-                                                                          width:
-                                                                              30.w,
-                                                                          decoration:
-                                                                              BoxDecoration(
-                                                                            color:
-                                                                                greenColor,
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(
-                                                                              5.0,
-                                                                            ),
-                                                                          ),
-                                                                          child:
-                                                                              Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.all(
-                                                                              5.0,
-                                                                            ),
-                                                                            child:
-                                                                                SvgPicture.asset(
-                                                                              'assets/svgIcons/whatsapp.svg',
+                                                                              Text(
+                                                                            tOffer[currentIndex]['shop']?['name'] ??
+                                                                                '',
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
+                                                                            style:
+                                                                                CustomTextView.getStyle(
+                                                                              context,
+                                                                              colorLight: secondary,
+                                                                              fontSize: 14.sp,
+                                                                              fontFamily: Utils.poppinsMedium,
                                                                             ),
                                                                           ),
                                                                         ),
+                                                                        Row(
+                                                                          children: [
+                                                                            GestureDetector(
+                                                                              onTap: () async {
+                                                                                final sellerUrl = tOffer[currentIndex]['shop']['seller']['seller_link'];
+                                                                                Share.share(
+                                                                                  "${tOffer[currentIndex]['title']}"
+                                                                                  "\n\n${tOffer[currentIndex]['description']} by ${tOffer[currentIndex]['shop']['name'] ?? ''}"
+                                                                                  '\n\n$sellerUrl'
+                                                                                  '\n\n$appUrl',
+                                                                                );
+                                                                              },
+                                                                              child: Container(
+                                                                                height: 25.h,
+                                                                                width: 30.w,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: secondary,
+                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                ),
+                                                                                child: const Icon(
+                                                                                  Icons.share,
+                                                                                  color: Colors.white,
+                                                                                  size: 20,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: 10.w,
+                                                                            ),
+                                                                            GestureDetector(
+                                                                              onTap: () async {
+                                                                                await launchUrl(
+                                                                                  Uri.parse(
+                                                                                    'whatsapp://send?phone=${tOffer[currentIndex]['shop']?['seller']?['whatsapp']}',
+                                                                                  ),
+                                                                                );
+                                                                              },
+                                                                              child: Container(
+                                                                                height: 25.h,
+                                                                                width: 30.w,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: greenColor,
+                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                ),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.all(5.0),
+                                                                                  child: SvgPicture.asset(
+                                                                                    'assets/svgIcons/whatsapp.svg',
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          5.h,
+                                                                    ),
+                                                                    Text(
+                                                                      tOffer[currentIndex]
+                                                                          [
+                                                                          'description'],
+                                                                      maxLines:
+                                                                          1,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: CustomTextView
+                                                                          .getStyle(
+                                                                        context,
+                                                                        colorLight:
+                                                                            textColor,
+                                                                        fontSize:
+                                                                            13.sp,
                                                                       ),
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              SizedBox(
-                                                                height: 5.h,
-                                                              ),
-                                                              Text(
-                                                                tOffer[index][
-                                                                    'description'],
-                                                                // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
-                                                                maxLines: 1,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style:
-                                                                    CustomTextView
-                                                                        .getStyle(
-                                                                  context,
-                                                                  colorLight:
-                                                                      textColor,
-                                                                  fontSize:
-                                                                      13.sp,
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
-                                              );
-                                            },
+                                              ),
+                                            ),
                                           )
                                         : const Center(
                                             child: Text(
@@ -507,6 +515,267 @@ class HomeView extends GetView<HomeController> {
                                             ),
                                           ),
                                   ),
+                                  // SizedBox(
+                                  //   height: 330.h,
+                                  //   child: tOffer.isNotEmpty
+                                  //       ? ListView.builder(
+                                  //           scrollDirection: Axis.horizontal,
+                                  //           itemCount: tOffer.length,
+                                  //           padding: EdgeInsets.only(
+                                  //             left: 20.0,
+                                  //             bottom: 10,
+                                  //           ),
+                                  //           itemBuilder: (
+                                  //             BuildContext context,
+                                  //             int index,
+                                  //           ) {
+                                  //             return InkWell(
+                                  //               onTap: () {
+                                  //                 controller.setLoading();
+                                  //                 allOffersController
+                                  //                     .getOfferDetail(
+                                  //                       tOffer[index]['id'],
+                                  //                     )
+                                  //                     .then(
+                                  //                       (value) => controller
+                                  //                           .setLoading(),
+                                  //                     );
+                                  //               },
+                                  //               child: Padding(
+                                  //                 padding:
+                                  //                     const EdgeInsets.only(
+                                  //                   right: 20.0,
+                                  //                 ),
+                                  //                 child: Container(
+                                  //                   width: 217.w,
+                                  //                   height: 325.h,
+                                  //                   decoration: BoxDecoration(
+                                  //                     color: lightGray,
+                                  //                     borderRadius:
+                                  //                         BorderRadius.circular(
+                                  //                       8.0,
+                                  //                     ),
+                                  //                   ),
+                                  //                   child: Column(
+                                  //                     crossAxisAlignment:
+                                  //                         CrossAxisAlignment
+                                  //                             .start,
+                                  //                     children: [
+                                  //                       Container(
+                                  //                         width: 220.w,
+                                  //                         height: 210.h,
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: lightGray,
+                                  //                           borderRadius:
+                                  //                               const BorderRadius
+                                  //                                   .only(
+                                  //                             topRight: Radius
+                                  //                                 .circular(
+                                  //                               10.0,
+                                  //                             ),
+                                  //                             topLeft: Radius
+                                  //                                 .circular(
+                                  //                               10.0,
+                                  //                             ),
+                                  //                           ),
+                                  //                           image:
+                                  //                               DecorationImage(
+                                  //                             image:
+                                  //                                 NetworkImage(
+                                  //                               ApiService
+                                  //                                       .imageBaseUrl +
+                                  //                                   tOffer[index]
+                                  //                                       [
+                                  //                                       'banner'],
+                                  //                             ),
+                                  //                             fit: BoxFit.fill,
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         margin:
+                                  //                             EdgeInsets.only(
+                                  //                           top: 5.0,
+                                  //                           left: 10.h,
+                                  //                           right: 10,
+                                  //                         ),
+                                  //                         child: Column(
+                                  //                           mainAxisAlignment:
+                                  //                               MainAxisAlignment
+                                  //                                   .start,
+                                  //                           crossAxisAlignment:
+                                  //                               CrossAxisAlignment
+                                  //                                   .start,
+                                  //                           children: [
+                                  //                             Text(
+                                  //                               tOffer[index]
+                                  //                                   ['title'],
+                                  //                               overflow:
+                                  //                                   TextOverflow
+                                  //                                       .ellipsis,
+                                  //                               style:
+                                  //                                   CustomTextView
+                                  //                                       .getStyle(
+                                  //                                 context,
+                                  //                                 colorLight:
+                                  //                                     Colors
+                                  //                                         .black,
+                                  //                                 fontSize:
+                                  //                                     16.sp,
+                                  //                                 fontFamily: Utils
+                                  //                                     .poppinsBold,
+                                  //                               ),
+                                  //                             ),
+                                  //                             Row(
+                                  //                               crossAxisAlignment:
+                                  //                                   CrossAxisAlignment
+                                  //                                       .center,
+                                  //                               mainAxisAlignment:
+                                  //                                   MainAxisAlignment
+                                  //                                       .spaceBetween,
+                                  //                               children: [
+                                  //                                 Expanded(
+                                  //                                   flex: 1,
+                                  //                                   child: Text(
+                                  //                                     tOffer[index]['shop']
+                                  //                                             ?[
+                                  //                                             'name'] ??
+                                  //                                         '',
+                                  //                                     overflow:
+                                  //                                         TextOverflow
+                                  //                                             .ellipsis,
+                                  //                                     style: CustomTextView
+                                  //                                         .getStyle(
+                                  //                                       context,
+                                  //                                       colorLight:
+                                  //                                           secondary,
+                                  //                                       fontSize:
+                                  //                                           14.sp,
+                                  //                                       fontFamily:
+                                  //                                           Utils.poppinsMedium,
+                                  //                                     ),
+                                  //                                   ),
+                                  //                                 ),
+                                  //                                 Row(
+                                  //                                   children: [
+                                  //                                     IconButton(
+                                  //                                       onPressed:
+                                  //                                           () async {
+                                  //                                         String?
+                                  //                                             facebookUrl =
+                                  //                                             tOffer[index]['shop']?['seller']?['faecbook_page'];
+                                  //                                         if (facebookUrl !=
+                                  //                                             null) {
+                                  //                                           try {
+                                  //                                             final String nativeUrl;
+
+                                  //                                             if (facebookUrl.toLowerCase().contains('facebook.com')) {
+                                  //                                               if (!facebookUrl.startsWith('http')) {
+                                  //                                                 facebookUrl = 'https://' + facebookUrl;
+                                  //                                               }
+                                  //                                               nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
+                                  //                                             } else {
+                                  //                                               nativeUrl = 'fb://$facebookUrl';
+                                  //                                             }
+                                  //                                             await launchUrl(Uri.parse(nativeUrl));
+                                  //                                           } catch (e) {
+                                  //                                             if (facebookUrl!.startsWith('http')) {
+                                  //                                               await launchUrl(Uri.parse(facebookUrl));
+                                  //                                             }
+                                  //                                           }
+                                  //                                         }
+                                  //                                       },
+                                  //                                       icon:
+                                  //                                           Center(
+                                  //                                         child:
+                                  //                                             FaIcon(
+                                  //                                           FontAwesomeIcons.facebook,
+                                  //                                           size:
+                                  //                                               30.h,
+                                  //                                           color:
+                                  //                                               Colors.blue,
+                                  //                                         ),
+                                  //                                       ),
+                                  //                                     ),
+                                  //                                     GestureDetector(
+                                  //                                       onTap:
+                                  //                                           () async {
+                                  //                                         await launchUrl(
+                                  //                                           Uri.parse(
+                                  //                                             'whatsapp://send?phone=${tOffer[index]['shop']?['seller']?['whatsapp']}',
+                                  //                                           ),
+                                  //                                         );
+                                  //                                       },
+                                  //                                       child:
+                                  //                                           Container(
+                                  //                                         height:
+                                  //                                             25.h,
+                                  //                                         width:
+                                  //                                             30.w,
+                                  //                                         decoration:
+                                  //                                             BoxDecoration(
+                                  //                                           color:
+                                  //                                               greenColor,
+                                  //                                           borderRadius:
+                                  //                                               BorderRadius.circular(
+                                  //                                             5.0,
+                                  //                                           ),
+                                  //                                         ),
+                                  //                                         child:
+                                  //                                             Padding(
+                                  //                                           padding:
+                                  //                                               const EdgeInsets.all(
+                                  //                                             5.0,
+                                  //                                           ),
+                                  //                                           child:
+                                  //                                               SvgPicture.asset(
+                                  //                                             'assets/svgIcons/whatsapp.svg',
+                                  //                                           ),
+                                  //                                         ),
+                                  //                                       ),
+                                  //                                     ),
+                                  //                                   ],
+                                  //                                 ),
+                                  //                               ],
+                                  //                             ),
+                                  //                             SizedBox(
+                                  //                               height: 5.h,
+                                  //                             ),
+                                  //                             Text(
+                                  //                               tOffer[index][
+                                  //                                   'description'],
+                                  //                               // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
+                                  //                               maxLines: 1,
+                                  //                               overflow:
+                                  //                                   TextOverflow
+                                  //                                       .ellipsis,
+                                  //                               style:
+                                  //                                   CustomTextView
+                                  //                                       .getStyle(
+                                  //                                 context,
+                                  //                                 colorLight:
+                                  //                                     textColor,
+                                  //                                 fontSize:
+                                  //                                     13.sp,
+                                  //                               ),
+                                  //                             ),
+                                  //                           ],
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //             );
+                                  //           },
+                                  //         )
+                                  //       : const Center(
+                                  //           child: Text(
+                                  //             'No top offers available.',
+                                  //           ),
+                                  //         ),
+                                  // ),
                                   Container(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 20.0.w,
@@ -760,6 +1029,9 @@ class HomeView extends GetView<HomeController> {
                                                               Text(
                                                                 fOffer[index]
                                                                     ['title'],
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                 style:
                                                                     CustomTextView
                                                                         .getStyle(
@@ -791,6 +1063,8 @@ class HomeView extends GetView<HomeController> {
                                                                       overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
+                                                                      maxLines:
+                                                                          1,
                                                                       style: CustomTextView
                                                                           .getStyle(
                                                                         context,
@@ -907,11 +1181,10 @@ class HomeView extends GetView<HomeController> {
                                                               Text(
                                                                 fOffer[index][
                                                                     'description'],
-                                                                // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
-                                                                maxLines: 2,
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,
+                                                                maxLines: 2,
                                                                 style:
                                                                     CustomTextView
                                                                         .getStyle(
