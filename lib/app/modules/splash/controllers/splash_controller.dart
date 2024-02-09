@@ -99,6 +99,11 @@ class SplashController extends GetxController {
         }
         // handle success response
       } catch (e) {
+        if (e.toString() == 'Unauthorized') {
+          await box.remove('user_token');
+          await box.remove('email');
+          await box.remove('password');
+        }
         // return Get.offAll(BottomNavBar());
       }
     }
