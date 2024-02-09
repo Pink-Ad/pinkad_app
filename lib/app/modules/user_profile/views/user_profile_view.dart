@@ -219,7 +219,7 @@ class UserProfileView extends GetView {
                                               ),
                                               Obx(
                                                 () => SizedBox(
-                                                  width: 170.w,
+                                                  width: 200.w,
                                                   child: Text(
                                                     userProfileController
                                                             .logoName
@@ -227,12 +227,12 @@ class UserProfileView extends GetView {
                                                             .isNotEmpty
                                                         ? userProfileController
                                                             .logoName.value
-                                                        : 'Promotional Image',
+                                                        : 'Cover/Promotional Image',
                                                     style:
                                                         CustomTextView.getStyle(
                                                       context,
                                                       colorLight: textColor,
-                                                      fontSize: 15.sp,
+                                                      fontSize: 13.sp,
                                                     ),
                                                     maxLines: 1,
                                                     overflow:

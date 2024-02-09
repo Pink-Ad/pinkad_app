@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
@@ -251,7 +252,7 @@ class HomeView extends GetView<HomeController> {
                                     child: tOffer.isNotEmpty
                                         ? Column(
                                             children: List.generate(
-                                              3, // Display 3 rows
+                                              3,
                                               (rowIndex) => SizedBox(
                                                 height:
                                                     330.h, // Height of each row
@@ -379,25 +380,25 @@ class HomeView extends GetView<HomeController> {
                                                                             Utils.poppinsBold,
                                                                       ),
                                                                     ),
-                                                                    Text(
-                                                                      tOffer[currentIndex]['shop']
-                                                                              ?[
-                                                                              'name'] ??
-                                                                          '',
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: CustomTextView
-                                                                          .getStyle(
-                                                                        context,
-                                                                        colorLight:
-                                                                            secondary,
-                                                                        fontSize:
-                                                                            14.sp,
-                                                                        fontFamily:
-                                                                            Utils.poppinsMedium,
-                                                                      ),
-                                                                    ),
+                                                                    // Text(
+                                                                    //   tOffer[currentIndex]['shop']
+                                                                    //           ?[
+                                                                    //           'name'] ??
+                                                                    //       '',
+                                                                    //   overflow:
+                                                                    //       TextOverflow
+                                                                    //           .ellipsis,
+                                                                    //   style: CustomTextView
+                                                                    //       .getStyle(
+                                                                    //     context,
+                                                                    //     colorLight:
+                                                                    //         secondary,
+                                                                    //     fontSize:
+                                                                    //         14.sp,
+                                                                    //     fontFamily:
+                                                                    //         Utils.poppinsMedium,
+                                                                    //   ),
+                                                                    // ),
                                                                     Row(
                                                                       children: [
                                                                         Expanded(
@@ -420,32 +421,36 @@ class HomeView extends GetView<HomeController> {
                                                                         ),
                                                                         Row(
                                                                           children: [
-                                                                            GestureDetector(
-                                                                              onTap: () async {
-                                                                                final sellerUrl = tOffer[currentIndex]['shop']['seller']['seller_link'];
-                                                                                Share.share(
-                                                                                  "${tOffer[currentIndex]['title']}"
-                                                                                  "\n\n${tOffer[currentIndex]['description']} by ${tOffer[currentIndex]['shop']['name'] ?? ''}"
-                                                                                  '\n\n$sellerUrl'
-                                                                                  '\n\n$appUrl',
-                                                                                );
+                                                                            IconButton(
+                                                                              onPressed: () async {
+                                                                                String? facebookUrl = tOffer[currentIndex]['shop']?['seller']?['faecbook_page'];
+                                                                                if (facebookUrl != null) {
+                                                                                  try {
+                                                                                    final String nativeUrl;
+
+                                                                                    if (facebookUrl.toLowerCase().contains('facebook.com')) {
+                                                                                      if (!facebookUrl.startsWith('http')) {
+                                                                                        facebookUrl = 'https://' + facebookUrl;
+                                                                                      }
+                                                                                      nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
+                                                                                    } else {
+                                                                                      nativeUrl = 'fb://$facebookUrl';
+                                                                                    }
+                                                                                    await launchUrl(Uri.parse(nativeUrl));
+                                                                                  } catch (e) {
+                                                                                    if (facebookUrl!.startsWith('http')) {
+                                                                                      await launchUrl(Uri.parse(facebookUrl));
+                                                                                    }
+                                                                                  }
+                                                                                }
                                                                               },
-                                                                              child: Container(
-                                                                                height: 25.h,
-                                                                                width: 30.w,
-                                                                                decoration: BoxDecoration(
-                                                                                  color: secondary,
-                                                                                  borderRadius: BorderRadius.circular(5.0),
-                                                                                ),
-                                                                                child: const Icon(
-                                                                                  Icons.share,
-                                                                                  color: Colors.white,
-                                                                                  size: 20,
+                                                                              icon: Center(
+                                                                                child: FaIcon(
+                                                                                  FontAwesomeIcons.facebook,
+                                                                                  size: 30.h,
+                                                                                  color: Colors.blue,
                                                                                 ),
                                                                               ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 10.w,
                                                                             ),
                                                                             GestureDetector(
                                                                               onTap: () async {
@@ -460,10 +465,14 @@ class HomeView extends GetView<HomeController> {
                                                                                 width: 30.w,
                                                                                 decoration: BoxDecoration(
                                                                                   color: greenColor,
-                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                  borderRadius: BorderRadius.circular(
+                                                                                    5.0,
+                                                                                  ),
                                                                                 ),
                                                                                 child: Padding(
-                                                                                  padding: const EdgeInsets.all(5.0),
+                                                                                  padding: const EdgeInsets.all(
+                                                                                    5.0,
+                                                                                  ),
                                                                                   child: SvgPicture.asset(
                                                                                     'assets/svgIcons/whatsapp.svg',
                                                                                   ),

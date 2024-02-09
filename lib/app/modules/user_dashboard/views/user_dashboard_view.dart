@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
@@ -63,10 +64,14 @@ class UserDashboardView extends GetView {
                   GetBuilder(
                     init: UserDashboardController(),
                     builder: (controller) {
-                      List<dynamic> fSeller = controller.box.read('fseller') ?? [];
-                      List<dynamic> tSeller = controller.box.read('topSeller') ?? [];
-                      List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
-                      List<dynamic> tOffer = controller.box.read('topOffer') ?? [];
+                      List<dynamic> fSeller =
+                          controller.box.read('fseller') ?? [];
+                      List<dynamic> tSeller =
+                          controller.box.read('topSeller') ?? [];
+                      List<dynamic> fOffer =
+                          controller.box.read('fOffer') ?? [];
+                      List<dynamic> tOffer =
+                          controller.box.read('topOffer') ?? [];
                       return SmartRefresher(
                         controller: refreshController,
                         onRefresh: () async {
@@ -84,6 +89,432 @@ class UserDashboardView extends GetView {
                               SizedBox(
                                 height: 180.h,
                                 child: const HomePageSlider(),
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20.0.w,
+                                  vertical: 10.w,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Top Seller',
+                                      style: CustomTextView.getStyle(
+                                        context,
+                                        colorLight: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: Utils.poppinsSemiBold,
+                                        fontSize: 18.sp,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(
+                                          Routes.FEATURED_SELLER,
+                                          arguments: {
+                                            'seller': Endpoints.topSeller,
+                                            'sellerData': tSeller,
+                                          },
+                                        );
+                                        // Get.toNamed(Routes.ALL_SHOPS);
+                                      },
+                                      child: Text(
+                                        'See All',
+                                        style: CustomTextView.getStyle(
+                                          context,
+                                          colorLight: Colors.black,
+                                          fontFamily: Utils.gilroyLight,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 110.h,
+                                child: tSeller.isNotEmpty
+                                    ? ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: tSeller.length,
+                                        itemBuilder: (
+                                          BuildContext context,
+                                          int index,
+                                        ) {
+                                          return InkWell(
+                                            onTap: () {
+                                              homeController.setLoading();
+                                              allShopsController
+                                                  .getShopDetail(
+                                                    tSeller[index]['shop']?[0]
+                                                        ['id'],
+                                                  )
+                                                  .then(
+                                                    (value) => homeController
+                                                        .setLoading(),
+                                                  );
+                                              // Get.toNamed(Routes.SHOP_DETAILS);
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 20.0,
+                                                bottom: 10,
+                                              ),
+                                              child: Container(
+                                                width: 118.w,
+                                                height: 100.h,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    8.0,
+                                                  ),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.9),
+                                                      spreadRadius: 1,
+                                                      blurRadius: 1,
+                                                      offset:
+                                                          const Offset(0, 2),
+                                                    ),
+                                                  ],
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      tSeller[index]['logo'] !=
+                                                              null
+                                                          ? ApiService
+                                                                  .imageBaseUrl +
+                                                              tSeller[index]
+                                                                  ['logo']
+                                                          : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
+                                                    ),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      )
+                                    : const Center(
+                                        child:
+                                            Text('No top sellers available.'),
+                                      ),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20.0.w,
+                                  vertical: 10.w,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Top Offer',
+                                      style: CustomTextView.getStyle(
+                                        context,
+                                        colorLight: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: Utils.gilroyLight,
+                                        fontSize: 18.sp,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(
+                                          Routes.FEATURED_OFFER,
+                                          arguments: {
+                                            'seller': Endpoints.topOffers,
+                                            'sellerData': tOffer,
+                                          },
+                                        );
+                                      },
+                                      child: Text(
+                                        'See All',
+                                        style: CustomTextView.getStyle(
+                                          context,
+                                          colorLight: Colors.black,
+                                          fontFamily: Utils.gilroyLight,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 990.h,
+                                child: tOffer.isNotEmpty
+                                    ? Column(
+                                        children: List.generate(
+                                          3,
+                                          (rowIndex) => SizedBox(
+                                            height: 330.h,
+                                            child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: tOffer.length,
+                                              padding: EdgeInsets.only(
+                                                left: 20.0,
+                                                bottom: 10,
+                                              ),
+                                              itemBuilder: (
+                                                BuildContext context,
+                                                int index,
+                                              ) {
+                                                final currentIndex =
+                                                    rowIndex * 10 + index;
+                                                if (currentIndex >=
+                                                    tOffer.length) {
+                                                  return SizedBox.shrink();
+                                                }
+                                                return InkWell(
+                                                  onTap: () {
+                                                    homeController.setLoading();
+                                                    allOffersController
+                                                        .getOfferDetail(
+                                                          tOffer[currentIndex]
+                                                              ['id'],
+                                                        )
+                                                        .then(
+                                                          (value) =>
+                                                              homeController
+                                                                  .setLoading(),
+                                                        );
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      right: 20,
+                                                    ),
+                                                    child: Container(
+                                                      width: 217.w,
+                                                      height: 325.h,
+                                                      decoration: BoxDecoration(
+                                                        color: lightGray,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                          8.0,
+                                                        ),
+                                                      ),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            width: 220.w,
+                                                            height: 220.w,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: lightGray,
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .only(
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                  10.0,
+                                                                ),
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                  10.0,
+                                                                ),
+                                                              ),
+                                                              image:
+                                                                  DecorationImage(
+                                                                image:
+                                                                    NetworkImage(
+                                                                  ApiService
+                                                                          .imageBaseUrl +
+                                                                      tOffer[currentIndex]
+                                                                          [
+                                                                          'banner'],
+                                                                ),
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                              top: 5.0,
+                                                              left: 10.h,
+                                                              right: 10,
+                                                            ),
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  tOffer[currentIndex]
+                                                                      ['title'],
+                                                                  maxLines: 1,
+                                                                  style: CustomTextView
+                                                                      .getStyle(
+                                                                    context,
+                                                                    colorLight:
+                                                                        Colors
+                                                                            .black,
+                                                                    fontSize:
+                                                                        15.sp,
+                                                                    fontFamily:
+                                                                        Utils
+                                                                            .poppinsBold,
+                                                                  ),
+                                                                ),
+                                                                Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      flex: 1,
+                                                                      child:
+                                                                          Text(
+                                                                        tOffer[currentIndex]['shop']?['name'] ??
+                                                                            '',
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style: CustomTextView
+                                                                            .getStyle(
+                                                                          context,
+                                                                          colorLight:
+                                                                              secondary,
+                                                                          fontSize:
+                                                                              13.sp,
+                                                                          fontFamily:
+                                                                              Utils.poppinsMedium,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        IconButton(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            String?
+                                                                                facebookUrl =
+                                                                                tOffer[currentIndex]['shop']?['seller']?['faecbook_page'];
+                                                                            if (facebookUrl !=
+                                                                                null) {
+                                                                              try {
+                                                                                final String nativeUrl;
+
+                                                                                if (facebookUrl.toLowerCase().contains('facebook.com')) {
+                                                                                  if (!facebookUrl.startsWith('http')) {
+                                                                                    facebookUrl = 'https://' + facebookUrl;
+                                                                                  }
+                                                                                  nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
+                                                                                } else {
+                                                                                  nativeUrl = 'fb://$facebookUrl';
+                                                                                }
+                                                                                await launchUrl(Uri.parse(nativeUrl));
+                                                                              } catch (e) {
+                                                                                if (facebookUrl!.startsWith('http')) {
+                                                                                  await launchUrl(Uri.parse(facebookUrl));
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          },
+                                                                          icon:
+                                                                              Center(
+                                                                            child:
+                                                                                FaIcon(
+                                                                              FontAwesomeIcons.facebook,
+                                                                              size: 30.h,
+                                                                              color: Colors.blue,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        GestureDetector(
+                                                                          onTap:
+                                                                              () async {
+                                                                            await launchUrl(
+                                                                              Uri.parse(
+                                                                                'whatsapp://send?phone=${tOffer[currentIndex]['shop']?['seller']?['whatsapp']}',
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                25.h,
+                                                                            width:
+                                                                                30.w,
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              color: greenColor,
+                                                                              borderRadius: BorderRadius.circular(
+                                                                                5.0,
+                                                                              ),
+                                                                            ),
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.all(
+                                                                                5.0,
+                                                                              ),
+                                                                              child: SvgPicture.asset(
+                                                                                'assets/svgIcons/whatsapp.svg',
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 4.h,
+                                                                ),
+                                                                Text(
+                                                                  tOffer[currentIndex]
+                                                                      [
+                                                                      'description'],
+                                                                  maxLines: 1,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: CustomTextView
+                                                                      .getStyle(
+                                                                    context,
+                                                                    colorLight:
+                                                                        textColor,
+                                                                    fontSize:
+                                                                        13.sp,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : const Center(
+                                        child: Text('No Top offers available.'),
+                                      ),
+                              ),
+                              SizedBox(
+                                height: 10.h,
                               ),
                               Container(
                                 padding: EdgeInsets.symmetric(
@@ -141,7 +572,8 @@ class UserDashboardView extends GetView {
                                               homeController.setLoading();
                                               allShopsController
                                                   .getShopDetail(
-                                                    fSeller[index]['shop']?[0]['id'],
+                                                    fSeller[index]['shop']?[0]
+                                                        ['id'],
                                                   )
                                                   .then(
                                                     (value) => homeController
@@ -348,9 +780,16 @@ class UserDashboardView extends GetView {
                                                               Expanded(
                                                                 flex: 1,
                                                                 child: Text(
-                                                                  fOffer[index]['shop']?['name'] ?? '',
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: CustomTextView.getStyle(
+                                                                  fOffer[index][
+                                                                              'shop']
+                                                                          ?[
+                                                                          'name'] ??
+                                                                      '',
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: CustomTextView
+                                                                      .getStyle(
                                                                     context,
                                                                     colorLight:
                                                                         secondary,
@@ -499,427 +938,6 @@ class UserDashboardView extends GetView {
                                         child: Text(
                                           'No featured offers available.',
                                         ),
-                                      ),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              // SizedBox(height: 130.h, child: HomePageSlider()),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0.w,
-                                  vertical: 10.w,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Top Seller',
-                                      style: CustomTextView.getStyle(
-                                        context,
-                                        colorLight: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: Utils.poppinsSemiBold,
-                                        fontSize: 18.sp,
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.toNamed(
-                                          Routes.FEATURED_SELLER,
-                                          arguments: {
-                                            'seller': Endpoints.topSeller,
-                                            'sellerData': tSeller,
-                                          },
-                                        );
-                                        // Get.toNamed(Routes.ALL_SHOPS);
-                                      },
-                                      child: Text(
-                                        'See All',
-                                        style: CustomTextView.getStyle(
-                                          context,
-                                          colorLight: Colors.black,
-                                          fontFamily: Utils.gilroyLight,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 110.h,
-                                child: tSeller.isNotEmpty
-                                    ? ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: tSeller.length,
-                                        itemBuilder: (
-                                          BuildContext context,
-                                          int index,
-                                        ) {
-                                          return InkWell(
-                                            onTap: () {
-                                              homeController.setLoading();
-                                              allShopsController
-                                                  .getShopDetail(
-                                                    tSeller[index]['shop']?[0]['id'],
-                                                  )
-                                                  .then(
-                                                    (value) => homeController
-                                                        .setLoading(),
-                                                  );
-                                              // Get.toNamed(Routes.SHOP_DETAILS);
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 20.0,
-                                                bottom: 10,
-                                              ),
-                                              child: Container(
-                                                width: 118.w,
-                                                height: 100.h,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                    8.0,
-                                                  ),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.9),
-                                                      spreadRadius: 1,
-                                                      blurRadius: 1,
-                                                      offset:
-                                                          const Offset(0, 2),
-                                                    ),
-                                                  ],
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      tSeller[index]['logo'] !=
-                                                              null
-                                                          ? ApiService
-                                                                  .imageBaseUrl +
-                                                              tSeller[index]
-                                                                  ['logo']
-                                                          : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
-                                                    ),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      )
-                                    : const Center(
-                                        child:
-                                            Text('No top sellers available.'),
-                                      ),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0.w,
-                                  vertical: 10.w,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Top Offer',
-                                      style: CustomTextView.getStyle(
-                                        context,
-                                        colorLight: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: Utils.gilroyLight,
-                                        fontSize: 18.sp,
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.toNamed(
-                                          Routes.FEATURED_OFFER,
-                                          arguments: {
-                                            'seller': Endpoints.topOffers,
-                                            'sellerData': tOffer,
-                                          },
-                                        );
-                                      },
-                                      child: Text(
-                                        'See All',
-                                        style: CustomTextView.getStyle(
-                                          context,
-                                          colorLight: Colors.black,
-                                          fontFamily: Utils.gilroyLight,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 330.h,
-                                child: tOffer.isNotEmpty
-                                    ? ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: tOffer.length,
-                                        padding: EdgeInsets.only(
-                                          left: 20.0,
-                                          bottom: 10,
-                                        ),
-                                        itemBuilder: (
-                                          BuildContext context,
-                                          int index,
-                                        ) {
-                                          return InkWell(
-                                            onTap: () {
-                                              homeController.setLoading();
-                                              allOffersController
-                                                  .getOfferDetail(
-                                                    tOffer[index]['id'],
-                                                  )
-                                                  .then(
-                                                    (value) => homeController
-                                                        .setLoading(),
-                                                  );
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                right: 20,
-                                              ),
-                                              child: Container(
-                                                width: 217.w,
-                                                height: 325.h,
-                                                decoration: BoxDecoration(
-                                                  color: lightGray,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                    8.0,
-                                                  ),
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      width: 220.w,
-                                                      height: 220.w,
-                                                      decoration: BoxDecoration(
-                                                        color: lightGray,
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                .only(
-                                                          topRight:
-                                                              Radius.circular(
-                                                            10.0,
-                                                          ),
-                                                          topLeft:
-                                                              Radius.circular(
-                                                            10.0,
-                                                          ),
-                                                        ),
-                                                        image: DecorationImage(
-                                                          image: NetworkImage(
-                                                            ApiService
-                                                                    .imageBaseUrl +
-                                                                tOffer[index]
-                                                                    ['banner'],
-                                                          ),
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                        top: 5.0,
-                                                        left: 10.h,
-                                                        right: 10,
-                                                      ),
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            tOffer[index]
-                                                                ['title'],
-                                                            maxLines: 1,
-                                                            style:
-                                                                CustomTextView
-                                                                    .getStyle(
-                                                              context,
-                                                              colorLight:
-                                                                  Colors.black,
-                                                              fontSize: 15.sp,
-                                                              fontFamily: Utils
-                                                                  .poppinsBold,
-                                                            ),
-                                                          ),
-                                                          Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Expanded(
-                                                                flex: 1,
-                                                                child: Text(
-                                                                  tOffer[index]['shop']?['name'] ?? '',
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: CustomTextView.getStyle(
-                                                                    context,
-                                                                    colorLight:
-                                                                        secondary,
-                                                                    fontSize:
-                                                                        13.sp,
-                                                                    fontFamily:
-                                                                        Utils
-                                                                            .poppinsMedium,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  GestureDetector(
-                                                                    onTap:
-                                                                        () async {
-                                                                      final sellerUrl =
-                                                                          tOffer[index]['shop']['seller']
-                                                                              [
-                                                                              'seller_link'];
-                                                                      Share
-                                                                          .share(
-                                                                        "${tOffer[index]['title']}"
-                                                                        "\n\n${tOffer[index]['description']} by ${tOffer[index]['shop']['name'] ?? ''}"
-                                                                        '\n\n$sellerUrl'
-                                                                        '\n\n$appUrl',
-                                                                      );
-
-                                                                      // homeController
-                                                                      //     .showCustomDialog(
-                                                                      //         tOffer[index]);
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          25.h,
-                                                                      width:
-                                                                          25.w,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color:
-                                                                            secondary,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                          5.0,
-                                                                        ),
-                                                                      ),
-                                                                      child:
-                                                                          const Icon(
-                                                                        Icons
-                                                                            .share,
-                                                                        color: Colors
-                                                                            .white,
-                                                                        size:
-                                                                            20,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 10.w,
-                                                                  ),
-                                                                  GestureDetector(
-                                                                    onTap:
-                                                                        () async {
-                                                                      // final appInstalled =
-                                                                      //     await canLaunchUrl(
-                                                                      //         Uri.parse(
-                                                                      //             'whatsapp://'));
-                                                                      // if (appInstalled) {
-                                                                      await launchUrl(
-                                                                        Uri.parse(
-                                                                          'whatsapp://send?phone=${tOffer[index]['shop']?['seller']?['whatsapp']}',
-                                                                        ),
-                                                                      );
-                                                                      // 'whatsapp://send?text=${tOffer[index]['title']}, ${tOffer[index]['description']},${tOffer[index]['shop']['name']},contact ${tOffer[index]['shop']['seller']['phone']}. $appUrl'));
-                                                                      // } else {
-                                                                      //   await launchUrl(Uri.parse(
-                                                                      //       'https://api.whatsapp.com/send?phone=03001234567'));
-                                                                      // }
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          25.h,
-                                                                      width:
-                                                                          25.w,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color:
-                                                                            greenColor,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                          5.0,
-                                                                        ),
-                                                                      ),
-                                                                      child:
-                                                                          Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.all(
-                                                                          5.0,
-                                                                        ),
-                                                                        child: SvgPicture
-                                                                            .asset(
-                                                                          'assets/svgIcons/whatsapp.svg',
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          SizedBox(
-                                                            height: 4.h,
-                                                          ),
-                                                          Text(
-                                                            tOffer[index]
-                                                                ['description'],
-                                                            // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style:
-                                                                CustomTextView
-                                                                    .getStyle(
-                                                              context,
-                                                              colorLight:
-                                                                  textColor,
-                                                              fontSize: 13.sp,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      )
-                                    : const Center(
-                                        child: Text('No Top offers available.'),
                                       ),
                               ),
                               SizedBox(
