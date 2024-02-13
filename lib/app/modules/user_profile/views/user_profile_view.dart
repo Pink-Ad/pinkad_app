@@ -59,9 +59,7 @@ class UserProfileView extends GetView<UserProfileController> {
                       () => ElevatedButton(
                         onPressed: () => controller.selectButton(0),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: controller.selectedButton.value == 0
-                              ? secondary
-                              : Colors.white,
+                          backgroundColor: controller.selectedButton.value == 0 ? secondary : Colors.white,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(8),
@@ -75,9 +73,7 @@ class UserProfileView extends GetView<UserProfileController> {
                           'Profile',
                           style: CustomTextView.getStyle(
                             context,
-                            colorLight: controller.selectedButton.value == 0
-                                ? Colors.white
-                                : Colors.black,
+                            colorLight: controller.selectedButton.value == 0 ? Colors.white : Colors.black,
                             fontFamily: Utils.poppinsSemiBold,
                             fontSize: 13.sp,
                           ),
@@ -91,9 +87,7 @@ class UserProfileView extends GetView<UserProfileController> {
                       () => ElevatedButton(
                         onPressed: () => controller.selectButton(1),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: controller.selectedButton.value == 1
-                              ? secondary
-                              : Colors.white,
+                          backgroundColor: controller.selectedButton.value == 1 ? secondary : Colors.white,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(8),
@@ -107,9 +101,7 @@ class UserProfileView extends GetView<UserProfileController> {
                           'Change Password',
                           style: CustomTextView.getStyle(
                             context,
-                            colorLight: controller.selectedButton.value == 1
-                                ? Colors.white
-                                : Colors.black,
+                            colorLight: controller.selectedButton.value == 1 ? Colors.white : Colors.black,
                             fontFamily: Utils.poppinsSemiBold,
                             fontSize: 12.sp,
                           ),
@@ -145,11 +137,9 @@ class ChangePasswordContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // You might want separate controller methods for changing password
-    final TextEditingController currentPasswordController =
-        TextEditingController();
+    final TextEditingController currentPasswordController = TextEditingController();
     final TextEditingController newPasswordController = TextEditingController();
-    final TextEditingController confirmPasswordController =
-        TextEditingController();
+    final TextEditingController confirmPasswordController = TextEditingController();
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(20),
@@ -284,11 +274,9 @@ class ProfileContent extends GetView<UserProfileController> {
                                   //onChanged: controller.username,
                                   focusNode: nameFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(phoneFocus);
+                                    FocusScope.of(context).requestFocus(phoneFocus);
                                   },
-                                  controller: userProfileController
-                                      .nameController.value,
+                                  controller: userProfileController.nameController.value,
                                   hintText: 'Seller / Shop Name',
                                   iconName: 'email_user',
                                   keyboardType: TextInputType.text,
@@ -296,11 +284,9 @@ class ProfileContent extends GetView<UserProfileController> {
                                 CustomPhoneInputField(
                                   focusNode: phoneFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(whatsappFocus);
+                                    FocusScope.of(context).requestFocus(whatsappFocus);
                                   },
-                                  controller: userProfileController
-                                      .phoneNoController.value,
+                                  controller: userProfileController.phoneNoController.value,
                                   hintText: 'XXX-XXXXXXX',
                                   iconName: 'phone',
                                   textInputAction: TextInputAction.next,
@@ -308,11 +294,9 @@ class ProfileContent extends GetView<UserProfileController> {
                                 CustomPhoneInputField(
                                   focusNode: whatsappFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(emailFocus);
+                                    FocusScope.of(context).requestFocus(emailFocus);
                                   },
-                                  controller: userProfileController
-                                      .whatsappNoController.value,
+                                  controller: userProfileController.whatsappNoController.value,
                                   hintText: 'XXX-XXXXXXX',
                                   iconName: 'whatsapp_icon',
                                   textInputAction: TextInputAction.next,
@@ -320,12 +304,10 @@ class ProfileContent extends GetView<UserProfileController> {
                                 ShadowedTextField(
                                   focusNode: businessAddressFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(facebookFocus);
+                                    FocusScope.of(context).requestFocus(facebookFocus);
                                   },
                                   //onChanged: controller.username,
-                                  controller: userProfileController
-                                      .businessAddressController.value,
+                                  controller: userProfileController.businessAddressController.value,
                                   hintText: 'Business Address',
                                   iconName: 'business_map',
                                   keyboardType: TextInputType.text,
@@ -333,12 +315,10 @@ class ProfileContent extends GetView<UserProfileController> {
                                 ShadowedTextField(
                                   focusNode: facebookFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(instagramFocus);
+                                    FocusScope.of(context).requestFocus(instagramFocus);
                                   },
                                   //onChanged: controller.username,
-                                  controller: userProfileController
-                                      .facebookController.value,
+                                  controller: userProfileController.facebookController.value,
                                   hintText: 'Facebook URL (Optional)',
                                   // hintText: 'e.g page/page_id',
                                   iconName: 'facebook',
@@ -347,12 +327,10 @@ class ProfileContent extends GetView<UserProfileController> {
                                 ShadowedTextField(
                                   focusNode: instagramFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(websiteUrlFocus);
+                                    FocusScope.of(context).requestFocus(websiteUrlFocus);
                                   },
                                   //onChanged: controller.username,
-                                  controller: userProfileController
-                                      .instagramController.value,
+                                  controller: userProfileController.instagramController.value,
                                   hintText: 'Instagram URL (Optional)',
                                   // hintText: 'e.g user?username=pinkad.pk',
                                   iconName: 'insta',
@@ -361,30 +339,23 @@ class ProfileContent extends GetView<UserProfileController> {
                                 ShadowedTextField(
                                   focusNode: websiteUrlFocus,
                                   //onChanged: controller.username,
-                                  controller: userProfileController
-                                      .webSiteController.value,
+                                  controller: userProfileController.webSiteController.value,
                                   hintText: 'Website URL  (optional)',
                                   iconName: 'website',
                                   keyboardType: TextInputType.text,
                                 ),
                                 AreaDropDown(
-                                  areas:
-                                      userProfileController.areaName.toList(),
-                                  cities:
-                                      userProfileController.citiesName.toList(),
+                                  areas: userProfileController.areaName.toList(),
+                                  cities: userProfileController.citiesName.toList(),
                                   onAreaChanged: (value) {
-                                    userProfileController.selectedarea.value =
-                                        value;
+                                    userProfileController.selectedarea.value = value;
                                   },
                                   onCityChanged: (value) {
-                                    userProfileController.selectedCity.value =
-                                        value;
-                                    userProfileController.selectedarea.value =
-                                        null;
+                                    userProfileController.selectedCity.value = value;
+                                    userProfileController.selectedarea.value = null;
                                     userProfileController.areaName.value = [];
                                     loadingWrapper(
-                                      () => userProfileController
-                                          .getAreas(value!.id),
+                                      () => userProfileController.getAreas(value!.id),
                                     );
                                   },
                                 ),
@@ -419,8 +390,7 @@ class ProfileContent extends GetView<UserProfileController> {
                                             right: 50.w,
                                           ),
                                           child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               SvgPicture.asset(
                                                 'assets/svgIcons/image_icon.svg',
@@ -432,22 +402,16 @@ class ProfileContent extends GetView<UserProfileController> {
                                                 () => SizedBox(
                                                   width: 170.w,
                                                   child: Text(
-                                                    userProfileController
-                                                            .logoName
-                                                            .value
-                                                            .isNotEmpty
-                                                        ? userProfileController
-                                                            .logoName.value
+                                                    userProfileController.logoName.value.isNotEmpty
+                                                        ? userProfileController.logoName.value
                                                         : 'Profile Picture',
-                                                    style:
-                                                        CustomTextView.getStyle(
+                                                    style: CustomTextView.getStyle(
                                                       context,
                                                       colorLight: textColor,
                                                       fontSize: 15.sp,
                                                     ),
                                                     maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ),
@@ -466,12 +430,10 @@ class ProfileContent extends GetView<UserProfileController> {
                                             width: 50.w,
                                             decoration: BoxDecoration(
                                               color: secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
+                                              borderRadius: BorderRadius.circular(10.0),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
+                                                  color: Colors.grey.withOpacity(0.5),
                                                   spreadRadius: 2,
                                                   blurRadius: 7,
                                                   offset: const Offset(0, 3),
@@ -479,8 +441,7 @@ class ProfileContent extends GetView<UserProfileController> {
                                               ],
                                             ),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(15.0),
+                                              padding: const EdgeInsets.all(15.0),
                                               child: SvgPicture.asset(
                                                 'assets/svgIcons/upload_file.svg',
                                               ),
@@ -522,8 +483,7 @@ class ProfileContent extends GetView<UserProfileController> {
                                             right: 50.w,
                                           ),
                                           child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               SvgPicture.asset(
                                                 'assets/svgIcons/image_icon.svg',
@@ -535,22 +495,16 @@ class ProfileContent extends GetView<UserProfileController> {
                                                 () => SizedBox(
                                                   width: 200.w,
                                                   child: Text(
-                                                    userProfileController
-                                                            .coverLogoName
-                                                            .value
-                                                            .isNotEmpty
-                                                        ? userProfileController
-                                                            .coverLogoName.value
+                                                    userProfileController.coverLogoName.value.isNotEmpty
+                                                        ? userProfileController.coverLogoName.value
                                                         : 'Cover/Promotional Image',
-                                                    style:
-                                                        CustomTextView.getStyle(
+                                                    style: CustomTextView.getStyle(
                                                       context,
                                                       colorLight: textColor,
                                                       fontSize: 13.sp,
                                                     ),
                                                     maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ),
@@ -562,20 +516,17 @@ class ProfileContent extends GetView<UserProfileController> {
                                         alignment: Alignment.centerRight,
                                         child: GestureDetector(
                                           onTap: () {
-                                            userProfileController
-                                                .pickCoverImage();
+                                            userProfileController.pickCoverImage();
                                           },
                                           child: Container(
                                             height: Get.height,
                                             width: 50.w,
                                             decoration: BoxDecoration(
                                               color: secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
+                                              borderRadius: BorderRadius.circular(10.0),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
+                                                  color: Colors.grey.withOpacity(0.5),
                                                   spreadRadius: 2,
                                                   blurRadius: 7,
                                                   offset: const Offset(0, 3),
@@ -583,8 +534,7 @@ class ProfileContent extends GetView<UserProfileController> {
                                               ],
                                             ),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(15.0),
+                                              padding: const EdgeInsets.all(15.0),
                                               child: SvgPicture.asset(
                                                 'assets/svgIcons/upload_file.svg',
                                               ),
@@ -620,8 +570,7 @@ class ProfileContent extends GetView<UserProfileController> {
                                     ],
                                   ),
                                   child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Align(
                                         alignment: Alignment.center,
@@ -632,8 +581,7 @@ class ProfileContent extends GetView<UserProfileController> {
                                       SizedBox(width: 15.w),
                                       Expanded(
                                         child: TextField(
-                                          controller: userProfileController
-                                              .descriptionController.value,
+                                          controller: userProfileController.descriptionController.value,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintText: 'Description',
@@ -642,8 +590,7 @@ class ProfileContent extends GetView<UserProfileController> {
                                               fontSize: 15.sp,
                                             ),
                                             isDense: true,
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
+                                            contentPadding: EdgeInsets.symmetric(
                                               vertical: 10.h,
                                             ),
                                           ),
@@ -709,8 +656,7 @@ class ProfileContent extends GetView<UserProfileController> {
                           child: Stack(
                             children: [
                               ListView.builder(
-                                itemCount: sellerShop
-                                    .length, // number of items in the list
+                                itemCount: sellerShop.length, // number of items in the list
                                 itemBuilder: (BuildContext context, int index) {
                                   print(sellerShop[index]);
                                   return Padding(
@@ -723,8 +669,7 @@ class ProfileContent extends GetView<UserProfileController> {
                                       padding: const EdgeInsets.all(16.0),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        borderRadius: BorderRadius.circular(10.0),
                                         boxShadow: [
                                           BoxShadow(
                                             color: Colors.grey.withOpacity(0.5),
@@ -737,36 +682,24 @@ class ProfileContent extends GetView<UserProfileController> {
                                       child: Stack(
                                         children: [
                                           Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     width: 50.0.w,
                                                     height: 50.0.h,
-                                                    decoration:
-                                                        const BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                       shape: BoxShape.circle,
                                                     ),
                                                     child: CircleAvatar(
                                                       radius: 38.0,
-                                                      backgroundColor:
-                                                          Colors.grey,
-                                                      backgroundImage: sellerShop[
-                                                                      index]
-                                                                  ['logo'] !=
-                                                              null
+                                                      backgroundColor: Colors.grey,
+                                                      backgroundImage: sellerShop[index]['logo'] != null
                                                           ? NetworkImage(
-                                                              ApiService
-                                                                      .imageBaseUrl +
-                                                                  sellerShop[
-                                                                          index]
-                                                                      ['logo'],
+                                                              ApiService.imageBaseUrl + sellerShop[index]['logo'],
                                                             )
                                                           : const NetworkImage(
                                                               'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
@@ -780,29 +713,19 @@ class ProfileContent extends GetView<UserProfileController> {
                                                     ),
                                                     width: 140.w,
                                                     child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
                                                         Text(
-                                                          sellerShop[index][
-                                                                  'branch_name'] ??
-                                                              '',
-                                                          style: CustomTextView
-                                                              .getStyle(
+                                                          sellerShop[index]['branch_name'] ?? '',
+                                                          style: CustomTextView.getStyle(
                                                             context,
                                                             fontSize: 18.sp,
-                                                            fontFamily: Utils
-                                                                .poppinsSemiBold,
-                                                            colorLight:
-                                                                Colors.black,
+                                                            fontFamily: Utils.poppinsSemiBold,
+                                                            colorLight: Colors.black,
                                                           ),
                                                           maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
+                                                          overflow: TextOverflow.ellipsis,
                                                         ),
                                                         const SizedBox(
                                                           height: 8.0,
@@ -835,8 +758,7 @@ class ProfileContent extends GetView<UserProfileController> {
                                                   GestureDetector(
                                                     onTap: () {
                                                       print(sellerShop[index]);
-                                                      allShopsController
-                                                          .getShopDetail(
+                                                      allShopsController.getShopDetail(
                                                         sellerShop[index]['id'],
                                                       );
 
@@ -848,9 +770,7 @@ class ProfileContent extends GetView<UserProfileController> {
                                                       width: 88.w,
                                                       decoration: BoxDecoration(
                                                         color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30.0),
+                                                        borderRadius: BorderRadius.circular(30.0),
                                                         border: Border.all(
                                                           color: secondary,
                                                           width: 1.5,
@@ -859,14 +779,11 @@ class ProfileContent extends GetView<UserProfileController> {
                                                       child: Center(
                                                         child: Text(
                                                           'Open',
-                                                          style: CustomTextView
-                                                              .getStyle(
+                                                          style: CustomTextView.getStyle(
                                                             context,
-                                                            colorLight:
-                                                                secondary,
+                                                            colorLight: secondary,
                                                             fontSize: 16.sp,
-                                                            fontFamily: Utils
-                                                                .poppinsSemiBold,
+                                                            fontFamily: Utils.poppinsSemiBold,
                                                           ),
                                                         ),
                                                       ),
