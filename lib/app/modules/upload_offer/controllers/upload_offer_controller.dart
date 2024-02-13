@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/category_model.dart';
@@ -83,8 +82,7 @@ class UploadOfferController extends GetxController {
     final savedToken = box.read('user_token');
 
     try {
-      final response =
-          await _apiService.getDataWithHeader(Endpoints.shop, savedToken);
+      final response = await _apiService.getDataWithHeader(Endpoints.shop, savedToken);
 
       print(inspect(response.body));
       if (response.statusCode == 200) {
@@ -136,8 +134,7 @@ class UploadOfferController extends GetxController {
       print(inspect(response.body));
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
-        List subCategory =
-            result.map((json) => SubCategory.fromJson(json)).toList();
+        List subCategory = result.map((json) => SubCategory.fromJson(json)).toList();
         for (var city in subCategory) {
           subCategoryName.add(City(id: city?.id, name: city?.name));
         }
@@ -157,21 +154,11 @@ class UploadOfferController extends GetxController {
   }
 
   Future<XFile?> pickImage() async {
-    if (await showImageDialog() != true) return null;
-    // Request permission from the user
-    final permissionStatus = await Permission.photos.request();
-    if (permissionStatus.isGranted) {
-      // User has granted permission, proceed with picking an image
-      final picker = ImagePicker();
-      pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        imageName.value = pickedFile!.name;
-      }
-    } else {
-      // User has denied permission, show an error message
-      print('Permission denied');
-    }
-    return pickedFile;
+    final newImage = await showImageDialog();
+    if (newImage == null) return null;
+    pickedFile = newImage;
+    imageName.value = newImage.name;
+    return newImage;
   }
 
   Future<void> uploadOffers() async {

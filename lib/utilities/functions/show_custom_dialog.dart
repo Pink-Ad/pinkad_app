@@ -8,11 +8,12 @@ import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
 
-Future<bool?> showCustomDialog({
+Future<T?> showCustomDialog<T>({
   required String message,
   String? title,
   String? confirmText,
   String? cancelText,
+  FutureOr<T?>? Function()? confirmCallback,
 }) async {
   final result = await AwesomeDialog(
     dialogType: DialogType.noHeader,
@@ -62,7 +63,11 @@ Future<bool?> showCustomDialog({
     btnOk: confirmText != null
         ? GestureDetector(
             onTap: () async {
-              Get.back(result: true);
+              if (confirmCallback == null) {
+                Get.back(result: true);
+              } else {
+                Get.back(result: await confirmCallback());
+              }
             },
             child: Container(
               width: 138.0.w,
@@ -88,7 +93,7 @@ Future<bool?> showCustomDialog({
     btnCancel: cancelText != null
         ? GestureDetector(
             onTap: () {
-              Get.back(result: false);
+              Get.back(result: null);
             },
             child: Container(
               width: 138.0.w,
@@ -112,5 +117,5 @@ Future<bool?> showCustomDialog({
           )
         : null,
   ).show();
-  return result == true;
+  return result;
 }

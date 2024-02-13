@@ -191,71 +191,19 @@ class SignupController extends GetxController {
   // }
 
   Future<XFile?> pickImage() async {
-    if (await showImageDialog() != true) return null;
-    // Request permission from the user
-    final permissionStatus = await Permission.photos.request();
-    print(permissionStatus);
-    if (permissionStatus.isGranted) {
-      // User has granted permission, proceed with picking an image
-      final picker = ImagePicker();
-      pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        logoName.value = pickedFile!.name;
-      }
-    } else {
-      // User has denied permission, show an error message
-      print('Permission denied');
-    }
-    return pickedFile;
+    final newImage = await showImageDialog();
+    if (newImage == null) return null;
+    pickedFile = newImage;
+    logoName.value = newImage.name;
+    return newImage;
   }
 
-  // Future<XFile?> pickCoverImage() async {
-  //   if (await showImageDialog() != true) return null;
-  //   // Request permission from the user
-  //   final permissionStatus = await Permission.photos.request();
-  //   if (permissionStatus.isGranted) {
-  //     // User has granted permission, proceed with picking an image
-  //     final picker = ImagePicker();
-  //     coverFile = await picker.pickImage(source: ImageSource.gallery);
-  //     if (coverFile != null) {
-  //       coverLogoName.value = coverFile!.name;
-  //     }
-  //   } else {
-  //     // User has denied permission, show an error message
-  //     print('Permission denied');
-  //   }
-  //   return coverFile;
-  // }
-
   Future<XFile?> pickCoverImage() async {
-    if (await showImageDialog() != true) return null;
-    // Request permission from the user
-    final permissionStatus = await Permission.photos.request();
-    if (permissionStatus.isGranted) {
-      // User has granted permission, proceed with picking an image
-      final picker = ImagePicker();
-      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-      if (pickedFile != null) {
-        // final bool isValidSize = await validateImageSize(pickedFile.path);
-
-        // if (!isValidSize) {
-        //   showSnackBarError(
-        //     'Error',
-        //     'Promotional cover size should be 1080px by 1080px',
-        //   );
-        //   return null;
-        // }
-
-        coverFile = pickedFile;
-        coverLogoName.value = coverFile!.name;
-      }
-    } else {
-      // User has denied permission, show an error message
-      print('Permission denied');
-    }
-
-    return coverFile;
+    final newImage = await showImageDialog();
+    if (newImage == null) return null;
+    coverFile = newImage;
+    coverLogoName.value = newImage.name;
+    return newImage;
   }
 
   Future<void> getCategory() async {

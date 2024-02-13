@@ -9,8 +9,10 @@ import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.d
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/app/modules/user_profile/controllers/user_profile_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
+import 'package:pink_ad/utilities/custom_widgets/area_dropdown.dart';
 import 'package:pink_ad/utilities/custom_widgets/phone_input_field.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
+import 'package:pink_ad/utilities/functions/loading_wrapper.dart';
 import 'package:pink_ad/utilities/utils.dart';
 
 import '../../../../utilities/custom_widgets/custom_appbar_user.dart';
@@ -19,7 +21,7 @@ import '../../../../utilities/custom_widgets/custom_text_field.dart';
 import '../../../../utilities/custom_widgets/scafflod_dashboard.dart';
 import '../../../routes/app_pages.dart';
 
-class UserProfileView extends GetView {
+class UserProfileView extends GetView<UserProfileController> {
   final box = GetStorage();
   final allShopsController = AllShopsController();
   final userProfileController = Get.find<UserProfileController>();
@@ -28,6 +30,7 @@ class UserProfileView extends GetView {
   Widget build(BuildContext context) {
     List<dynamic> sellerShop = box.read('sellerShop') ?? [];
     LoginResponse data = box.read('user_data');
+    FocusNode nameFocus = FocusNode();
     FocusNode phoneFocus = FocusNode();
     FocusNode whatsappFocus = FocusNode();
     FocusNode emailFocus = FocusNode();
@@ -103,14 +106,23 @@ class UserProfileView extends GetView {
                                 SizedBox(
                                   height: 10.h,
                                 ),
+                                ShadowedTextField(
+                                  //onChanged: controller.username,
+                                  focusNode: nameFocus,
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(phoneFocus);
+                                  },
+                                  controller: userProfileController.nameController.value,
+                                  hintText: 'Seller / Shop Name',
+                                  iconName: 'email_user',
+                                  keyboardType: TextInputType.text,
+                                ),
                                 CustomPhoneInputField(
                                   focusNode: phoneFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(whatsappFocus);
+                                    FocusScope.of(context).requestFocus(whatsappFocus);
                                   },
-                                  controller: userProfileController
-                                      .phoneNoController.value,
+                                  controller: userProfileController.phoneNoController.value,
                                   hintText: 'XXX-XXXXXXX',
                                   iconName: 'phone',
                                   textInputAction: TextInputAction.next,
@@ -118,11 +130,9 @@ class UserProfileView extends GetView {
                                 CustomPhoneInputField(
                                   focusNode: whatsappFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(emailFocus);
+                                    FocusScope.of(context).requestFocus(emailFocus);
                                   },
-                                  controller: userProfileController
-                                      .whatsappNoController.value,
+                                  controller: userProfileController.whatsappNoController.value,
                                   hintText: 'XXX-XXXXXXX',
                                   iconName: 'whatsapp_icon',
                                   textInputAction: TextInputAction.next,
@@ -130,12 +140,10 @@ class UserProfileView extends GetView {
                                 ShadowedTextField(
                                   focusNode: businessAddressFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(facebookFocus);
+                                    FocusScope.of(context).requestFocus(facebookFocus);
                                   },
                                   //onChanged: controller.username,
-                                  controller: userProfileController
-                                      .businessAddressController.value,
+                                  controller: userProfileController.businessAddressController.value,
                                   hintText: 'Business Address',
                                   iconName: 'business_map',
                                   keyboardType: TextInputType.text,
@@ -143,12 +151,10 @@ class UserProfileView extends GetView {
                                 ShadowedTextField(
                                   focusNode: facebookFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(instagramFocus);
+                                    FocusScope.of(context).requestFocus(instagramFocus);
                                   },
                                   //onChanged: controller.username,
-                                  controller: userProfileController
-                                      .facebookController.value,
+                                  controller: userProfileController.facebookController.value,
                                   hintText: 'Facebook URL (Optional)',
                                   // hintText: 'e.g page/page_id',
                                   iconName: 'facebook',
@@ -157,12 +163,10 @@ class UserProfileView extends GetView {
                                 ShadowedTextField(
                                   focusNode: instagramFocus,
                                   onFieldSubmitted: (v) {
-                                    FocusScope.of(context)
-                                        .requestFocus(websiteUrlFocus);
+                                    FocusScope.of(context).requestFocus(websiteUrlFocus);
                                   },
                                   //onChanged: controller.username,
-                                  controller: userProfileController
-                                      .instagramController.value,
+                                  controller: userProfileController.instagramController.value,
                                   hintText: 'Instagram URL (Optional)',
                                   // hintText: 'e.g user?username=pinkad.pk',
                                   iconName: 'insta',
@@ -171,11 +175,23 @@ class UserProfileView extends GetView {
                                 ShadowedTextField(
                                   focusNode: websiteUrlFocus,
                                   //onChanged: controller.username,
-                                  controller: userProfileController
-                                      .webSiteController.value,
+                                  controller: userProfileController.webSiteController.value,
                                   hintText: 'Website URL  (optional)',
                                   iconName: 'website',
                                   keyboardType: TextInputType.text,
+                                ),
+                                AreaDropDown(
+                                  areas: userProfileController.areaName.toList(),
+                                  cities: userProfileController.citiesName.toList(),
+                                  onAreaChanged: (value) {
+                                    userProfileController.selectedarea.value = value;
+                                  },
+                                  onCityChanged: (value) {
+                                    userProfileController.selectedCity.value = value;
+                                    userProfileController.selectedarea.value = null;
+                                    userProfileController.areaName.value = [];
+                                    loadingWrapper(() => userProfileController.getAreas(value!.id));
+                                  },
                                 ),
                                 Container(
                                   height: 55.0.h,
@@ -208,8 +224,7 @@ class UserProfileView extends GetView {
                                             right: 50.w,
                                           ),
                                           child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               SvgPicture.asset(
                                                 'assets/svgIcons/image_icon.svg',
@@ -219,24 +234,18 @@ class UserProfileView extends GetView {
                                               ),
                                               Obx(
                                                 () => SizedBox(
-                                                  width: 200.w,
+                                                  width: 170.w,
                                                   child: Text(
-                                                    userProfileController
-                                                            .logoName
-                                                            .value
-                                                            .isNotEmpty
-                                                        ? userProfileController
-                                                            .logoName.value
-                                                        : 'Cover/Promotional Image',
-                                                    style:
-                                                        CustomTextView.getStyle(
+                                                    userProfileController.logoName.value.isNotEmpty
+                                                        ? userProfileController.logoName.value
+                                                        : 'Profile Picture',
+                                                    style: CustomTextView.getStyle(
                                                       context,
                                                       colorLight: textColor,
-                                                      fontSize: 13.sp,
+                                                      fontSize: 15.sp,
                                                     ),
                                                     maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ),
@@ -255,12 +264,10 @@ class UserProfileView extends GetView {
                                             width: 50.w,
                                             decoration: BoxDecoration(
                                               color: secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
+                                              borderRadius: BorderRadius.circular(10.0),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
+                                                  color: Colors.grey.withOpacity(0.5),
                                                   spreadRadius: 2,
                                                   blurRadius: 7,
                                                   offset: const Offset(0, 3),
@@ -268,13 +275,162 @@ class UserProfileView extends GetView {
                                               ],
                                             ),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(15.0),
+                                              padding: const EdgeInsets.all(15.0),
                                               child: SvgPicture.asset(
                                                 'assets/svgIcons/upload_file.svg',
                                               ),
                                             ),
                                           ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 55.0.h,
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 20.w,
+                                    vertical: 10.h,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 5.0,
+                                    vertical: 5.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 7,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      Center(
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            left: 15.0.w,
+                                            right: 50.w,
+                                          ),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/svgIcons/image_icon.svg',
+                                              ),
+                                              SizedBox(
+                                                width: 10.h,
+                                              ),
+                                              Obx(
+                                                () => SizedBox(
+                                                  width: 200.w,
+                                                  child: Text(
+                                                    userProfileController.coverLogoName.value.isNotEmpty
+                                                        ? userProfileController.coverLogoName.value
+                                                        : 'Cover/Promotional Image',
+                                                    style: CustomTextView.getStyle(
+                                                      context,
+                                                      colorLight: textColor,
+                                                      fontSize: 13.sp,
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            userProfileController.pickCoverImage();
+                                          },
+                                          child: Container(
+                                            height: Get.height,
+                                            width: 50.w,
+                                            decoration: BoxDecoration(
+                                              color: secondary,
+                                              borderRadius: BorderRadius.circular(10.0),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.5),
+                                                  spreadRadius: 2,
+                                                  blurRadius: 7,
+                                                  offset: const Offset(0, 3),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(15.0),
+                                              child: SvgPicture.asset(
+                                                'assets/svgIcons/upload_file.svg',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 100.h,
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 20.w,
+                                    vertical: 10.h,
+                                  ),
+                                  padding: EdgeInsets.only(
+                                    left: 20.0.w,
+                                    right: 5.w,
+                                    top: 5.h,
+                                    bottom: 5.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 0,
+                                        blurRadius: 5,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: SvgPicture.asset(
+                                          'assets/svgIcons/description.svg',
+                                        ),
+                                      ),
+                                      SizedBox(width: 15.w),
+                                      Expanded(
+                                        child: TextField(
+                                          controller: userProfileController.descriptionController.value,
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: 'Description',
+                                            hintStyle: CustomTextView.getStyle(
+                                              context,
+                                              fontSize: 15.sp,
+                                            ),
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.symmetric(
+                                              vertical: 10.h,
+                                            ),
+                                          ),
+                                          style: TextStyle(fontSize: 14.sp),
+                                          maxLines: null,
+                                          keyboardType: TextInputType.multiline,
                                         ),
                                       ),
                                     ],
@@ -334,8 +490,7 @@ class UserProfileView extends GetView {
                           child: Stack(
                             children: [
                               ListView.builder(
-                                itemCount: sellerShop
-                                    .length, // number of items in the list
+                                itemCount: sellerShop.length, // number of items in the list
                                 itemBuilder: (BuildContext context, int index) {
                                   print(sellerShop[index]);
                                   return Padding(
@@ -348,8 +503,7 @@ class UserProfileView extends GetView {
                                       padding: const EdgeInsets.all(16.0),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        borderRadius: BorderRadius.circular(10.0),
                                         boxShadow: [
                                           BoxShadow(
                                             color: Colors.grey.withOpacity(0.5),
@@ -362,36 +516,24 @@ class UserProfileView extends GetView {
                                       child: Stack(
                                         children: [
                                           Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     width: 50.0.w,
                                                     height: 50.0.h,
-                                                    decoration:
-                                                        const BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                       shape: BoxShape.circle,
                                                     ),
                                                     child: CircleAvatar(
                                                       radius: 38.0,
-                                                      backgroundColor:
-                                                          Colors.grey,
-                                                      backgroundImage: sellerShop[
-                                                                      index]
-                                                                  ['logo'] !=
-                                                              null
+                                                      backgroundColor: Colors.grey,
+                                                      backgroundImage: sellerShop[index]['logo'] != null
                                                           ? NetworkImage(
-                                                              ApiService
-                                                                      .imageBaseUrl +
-                                                                  sellerShop[
-                                                                          index]
-                                                                      ['logo'],
+                                                              ApiService.imageBaseUrl + sellerShop[index]['logo'],
                                                             )
                                                           : const NetworkImage(
                                                               'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
@@ -405,29 +547,19 @@ class UserProfileView extends GetView {
                                                     ),
                                                     width: 140.w,
                                                     child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
                                                         Text(
-                                                          sellerShop[index][
-                                                                  'branch_name'] ??
-                                                              '',
-                                                          style: CustomTextView
-                                                              .getStyle(
+                                                          sellerShop[index]['branch_name'] ?? '',
+                                                          style: CustomTextView.getStyle(
                                                             context,
                                                             fontSize: 18.sp,
-                                                            fontFamily: Utils
-                                                                .poppinsSemiBold,
-                                                            colorLight:
-                                                                Colors.black,
+                                                            fontFamily: Utils.poppinsSemiBold,
+                                                            colorLight: Colors.black,
                                                           ),
                                                           maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
+                                                          overflow: TextOverflow.ellipsis,
                                                         ),
                                                         const SizedBox(
                                                           height: 8.0,
@@ -460,8 +592,7 @@ class UserProfileView extends GetView {
                                                   GestureDetector(
                                                     onTap: () {
                                                       print(sellerShop[index]);
-                                                      allShopsController
-                                                          .getShopDetail(
+                                                      allShopsController.getShopDetail(
                                                         sellerShop[index]['id'],
                                                       );
 
@@ -473,9 +604,7 @@ class UserProfileView extends GetView {
                                                       width: 88.w,
                                                       decoration: BoxDecoration(
                                                         color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30.0),
+                                                        borderRadius: BorderRadius.circular(30.0),
                                                         border: Border.all(
                                                           color: secondary,
                                                           width: 1.5,
@@ -484,14 +613,11 @@ class UserProfileView extends GetView {
                                                       child: Center(
                                                         child: Text(
                                                           'Open',
-                                                          style: CustomTextView
-                                                              .getStyle(
+                                                          style: CustomTextView.getStyle(
                                                             context,
-                                                            colorLight:
-                                                                secondary,
+                                                            colorLight: secondary,
                                                             fontSize: 16.sp,
-                                                            fontFamily: Utils
-                                                                .poppinsSemiBold,
+                                                            fontFamily: Utils.poppinsSemiBold,
                                                           ),
                                                         ),
                                                       ),

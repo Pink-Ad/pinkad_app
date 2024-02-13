@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
@@ -19,6 +18,7 @@ class UserProfileController extends GetxController {
   //TODO: Implement UserProfileController
   RxBool isLoading = false.obs;
   Color secondButtonColor = Colors.white;
+  final nameController = TextEditingController().obs;
   final whatsappNoController = TextEditingController().obs;
   final phoneNoController = TextEditingController().obs;
   final businessNameController = TextEditingController().obs;
@@ -26,9 +26,11 @@ class UserProfileController extends GetxController {
   final facebookController = TextEditingController().obs;
   final instagramController = TextEditingController().obs;
   final webSiteController = TextEditingController().obs;
+  final descriptionController = TextEditingController().obs;
   final box = GetStorage();
   final ApiService _apiService = ApiService(http.Client());
   XFile? pickedFile;
+  XFile? coverFile;
   final RxString logoName = RxString('');
   final RxString coverLogoName = RxString('');
   final RxString city = RxString('');
@@ -46,6 +48,7 @@ class UserProfileController extends GetxController {
     autoFill();
     // gerCities();
     getData();
+    gerCities();
   }
 
   String? validatePakistaniPhoneNumber(String? value) {
@@ -151,39 +154,38 @@ class UserProfileController extends GetxController {
 
   Future<void> autoFill() async {
     LoginResponse data = await box.read('user_data');
-
+    print(data.shop?.toJson());
+    print(data.user?.seller?.toJson());
     // Use the stripCountryCode function to remove the country code
     String formattedPhone = stripCountryCode(data.user!.seller!.phone!);
     String formattedWhatsApp = stripCountryCode(data.user!.seller!.whatsapp!);
 
+    nameController.value.text = data.user?.name ?? '';
     phoneNoController.value.text = formattedPhone;
     whatsappNoController.value.text = formattedWhatsApp;
-
     // businessNameController.value.text = data.user!.seller!.businessName!;
     businessAddressController.value.text = data.user!.seller!.businessAddress!;
     //facebookController.value.text = data.user!.seller!.facebookPage!;
     facebookController.value.text = data.user?.seller?.facebookPage ?? '';
     instagramController.value.text = data.user?.seller?.instaPage ?? '';
     webSiteController.value.text = data.user!.seller!.webUrl!;
+    descriptionController.value.text = data.shop?.description ?? '';
   }
 
   Future<XFile?> pickImage() async {
-    if (await showImageDialog() != true) return null;
-    // Request permission from the user
-    final permissionStatus = await Permission.photos.request();
-    print(permissionStatus);
-    if (permissionStatus.isGranted) {
-      // User has granted permission, proceed with picking an image
-      final picker = ImagePicker();
-      pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        logoName.value = pickedFile!.name;
-      }
-    } else {
-      // User has denied permission, show an error message
-      print('Permission denied');
-    }
-    return pickedFile;
+    final newImage = await showImageDialog();
+    if (newImage == null) return null;
+    pickedFile = newImage;
+    logoName.value = newImage.name;
+    return newImage;
+  }
+
+  Future<XFile?> pickCoverImage() async {
+    final newImage = await showImageDialog();
+    if (newImage == null) return null;
+    coverFile = newImage;
+    coverLogoName.value = newImage.name;
+    return newImage;
   }
 
   Future<void> getAreas(int id) async {
@@ -204,6 +206,7 @@ class UserProfileController extends GetxController {
 
     isLoading.value = true;
     const url = 'https://pinkad.pk/portal/api/seller/update';
+    final name = nameController.value.text.trim();
     final whatsappNoFormatted = formatPhoneNumber(whatsappNoController.value.text);
     final phoneNoFormatted = formatPhoneNumber(phoneNoController.value.text);
     final businessName = businessNameController.value.text.trim();
@@ -211,6 +214,7 @@ class UserProfileController extends GetxController {
     final facebook = facebookController.value.text.trim();
     final instagram = instagramController.value.text.trim();
     final website = webSiteController.value.text.trim();
+    final description = descriptionController.value.text.trim();
     String ensureHttps(String url) {
       // Check if the URL already contains "http://" or "https://"
       if (url.startsWith('http://') || url.startsWith('https://')) {
@@ -228,20 +232,27 @@ class UserProfileController extends GetxController {
       ); // Create the multipart request
       print('Request Fields: ${request.fields}');
       print('Request Headers: ${request.headers}');
-      {
-        pickedFile != null
-            ? request.files.add(
-                await http.MultipartFile.fromPath(
-                  'coverimage',
-                  pickedFile!.path,
-                ),
-              )
-            : null;
+      if (pickedFile != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'logo',
+            pickedFile!.path,
+          ),
+        );
+      }
+      if (coverFile != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'coverimage',
+            coverFile!.path,
+          ),
+        );
       }
 
       request.fields.addAll({
         'user_id': data.user!.id.toString(),
         'role': '2',
+        'name': name,
         'phone': phoneNoFormatted,
         'whatsapp': whatsappNoFormatted,
         'business_address': businessAddress,
@@ -251,6 +262,7 @@ class UserProfileController extends GetxController {
         'isFeatured': '1',
         'email': data.user?.email ?? '',
         'area_id': data.shop?.area?.toString() ?? '0',
+        'description': description.toString(),
       }); // Add the other fields to the request
       // Add the bearer token to the request headers
       request.headers['Authorization'] = 'Bearer $savedToken';
