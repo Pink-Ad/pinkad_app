@@ -22,12 +22,16 @@ class AreaDropDown extends StatelessWidget {
   final void Function(City?)? onAreaChanged;
   final List<City> cities;
   final List<City> areas;
+  final City? selectedCity;
+  final City? selectedArea;
 
   AreaDropDown({
     this.onAreaChanged,
     this.onCityChanged,
     required this.cities,
     required this.areas,
+    this.selectedCity,
+    this.selectedArea,
     super.key,
   });
 
@@ -76,6 +80,7 @@ class AreaDropDown extends StatelessWidget {
               ),
               items: cities,
               itemAsString: (City u) => u.name,
+              compareFn: (city1, city2) => city1.id == city2.id,
               enabled: cities.isNotEmpty ? true : false,
               dropdownDecoratorProps: DropDownDecoratorProps(
                 baseStyle: CustomTextView.getStyle(
@@ -96,7 +101,7 @@ class AreaDropDown extends StatelessWidget {
               onChanged: (value) {
                 onCityChanged?.call(value);
               },
-              // selectedItem: "Brazil",
+              selectedItem: selectedCity,
             ),
           ),
           if (showAnotherDropdown.value)
@@ -164,7 +169,7 @@ class AreaDropDown extends StatelessWidget {
                   onChanged: (value) {
                     onAreaChanged?.call(value);
                   },
-                  // selectedItem: "Brazil",
+                  selectedItem: selectedArea,
                 ),
                 // child: DropdownButton(
                 //   isExpanded: true,

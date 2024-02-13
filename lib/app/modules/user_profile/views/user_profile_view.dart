@@ -340,25 +340,27 @@ class ProfileContent extends GetView<UserProfileController> {
                                   focusNode: websiteUrlFocus,
                                   //onChanged: controller.username,
                                   controller: userProfileController.webSiteController.value,
-                                  hintText: 'Website URL  (optional)',
+                                  hintText: 'Website URL (optional)',
                                   iconName: 'website',
                                   keyboardType: TextInputType.text,
                                 ),
-                                AreaDropDown(
-                                  areas: userProfileController.areaName.toList(),
-                                  cities: userProfileController.citiesName.toList(),
-                                  onAreaChanged: (value) {
-                                    userProfileController.selectedarea.value = value;
-                                  },
-                                  onCityChanged: (value) {
-                                    userProfileController.selectedCity.value = value;
-                                    userProfileController.selectedarea.value = null;
-                                    userProfileController.areaName.value = [];
-                                    loadingWrapper(
-                                      () => userProfileController.getAreas(value!.id),
-                                    );
-                                  },
-                                ),
+                                Obx(() {
+                                  return AreaDropDown(
+                                    areas: userProfileController.areaName.toList(),
+                                    cities: userProfileController.citiesName.toList(),
+                                    onAreaChanged: (value) {
+                                      userProfileController.selectedarea.value = value;
+                                    },
+                                    onCityChanged: (value) {
+                                      userProfileController.selectedCity.value = value;
+                                      userProfileController.selectedarea.value = null;
+                                      userProfileController.areaName.value = [];
+                                      loadingWrapper(() => userProfileController.getAreas(value!.id));
+                                    },
+                                    selectedArea: userProfileController.selectedarea.value,
+                                    selectedCity: userProfileController.selectedCity.value,
+                                  );
+                                }),
                                 Container(
                                   height: 55.0.h,
                                   margin: EdgeInsets.symmetric(

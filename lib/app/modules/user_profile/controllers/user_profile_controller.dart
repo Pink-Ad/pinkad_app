@@ -154,8 +154,7 @@ class UserProfileController extends GetxController {
 
   Future<void> autoFill() async {
     LoginResponse data = await box.read('user_data');
-    print(data.shop?.toJson());
-    print(data.user?.seller?.toJson());
+    print(data.toJson());
     // Use the stripCountryCode function to remove the country code
     String formattedPhone = stripCountryCode(data.user!.seller!.phone!);
     String formattedWhatsApp = stripCountryCode(data.user!.seller!.whatsapp!);
@@ -170,6 +169,13 @@ class UserProfileController extends GetxController {
     instagramController.value.text = data.user?.seller?.instaPage ?? '';
     webSiteController.value.text = data.user!.seller!.webUrl!;
     descriptionController.value.text = data.shop?.description ?? '';
+    if (data.cityId != null) {
+      selectedCity.value = City(id: data.cityId!, name: data.cityName ?? '');
+      getAreas(data.cityId!);
+      if (data.shop?.area != null) {
+        selectedarea.value = City(id: data.shop!.area!, name: data.areaName ?? '');
+      }
+    }
   }
 
   Future<XFile?> pickImage() async {
