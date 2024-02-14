@@ -267,7 +267,7 @@ class UserProfileController extends GetxController {
         'web_url': ensureHttps(website),
         'isFeatured': '1',
         'email': data.user?.email ?? '',
-        'area_id': data.shop?.area?.toString() ?? '0',
+        'area_id': selectedarea.value?.id.toString() ?? data.shop?.area?.toString() ?? '0',
         'description': description.toString(),
       }); // Add the other fields to the request
       // Add the bearer token to the request headers
