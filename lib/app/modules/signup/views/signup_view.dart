@@ -433,11 +433,11 @@ class SignupView extends GetView<SignupController> {
                                                   child: Text(
                                                     controller.coverLogoName.value.isNotEmpty
                                                         ? controller.coverLogoName.value
-                                                        : 'Cover/Promotional Image(optional)',
+                                                        : 'Cover/Promotional Image',
                                                     style: CustomTextView.getStyle(
                                                       context,
                                                       colorLight: textColor,
-                                                      fontSize: 12.sp,
+                                                      fontSize: 13.5.sp,
                                                     ),
                                                     maxLines: 1,
                                                     overflow: TextOverflow.ellipsis,

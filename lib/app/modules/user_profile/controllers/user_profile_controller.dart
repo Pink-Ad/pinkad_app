@@ -27,6 +27,15 @@ class UserProfileController extends GetxController {
   final instagramController = TextEditingController().obs;
   final webSiteController = TextEditingController().obs;
   final descriptionController = TextEditingController().obs;
+  late final isPasswordVisible = false.obs;
+  var isCurrentPasswordVisible = false.obs;
+  var isNewPasswordVisible = false.obs;
+  var isConfirmPasswordVisible = false.obs;
+  final currentpasswordController = TextEditingController().obs;
+  final user_id = TextEditingController().obs;
+
+  final newpasswordController = TextEditingController().obs;
+  final confirmpasswordController = TextEditingController().obs;
   final box = GetStorage();
   final ApiService _apiService = ApiService(http.Client());
   XFile? pickedFile;
@@ -49,6 +58,26 @@ class UserProfileController extends GetxController {
     // gerCities();
     getData();
     gerCities();
+  }
+
+  Future<void> onChange() async {
+    final currentpassword = currentpasswordController.value.text.trim();
+    final newpassword = newpasswordController.value.text.trim();
+    final confirmpassword = confirmpasswordController.value.text.trim();
+
+    if (currentpassword.isEmpty || newpassword.isEmpty || confirmpassword.isEmpty) {
+      if (currentpassword.isEmpty) {
+        showSnackBarError('Error', 'Current Password cannot be empty');
+      } else if (newpassword.isEmpty) {
+        showSnackBarError('Error', 'New Password cannot be empty');
+      } else if (confirmpassword.isEmpty) {
+        showSnackBarError('Error', 'Confirm Password cannot be empty');
+      }
+      return;
+    } else {
+      // Call the changePassword method if all fields are filled
+      await changePassword();
+    }
   }
 
   String? validatePakistaniPhoneNumber(String? value) {
@@ -303,6 +332,102 @@ class UserProfileController extends GetxController {
       isLoading.value = false;
       // Exception occurred
       print('Exception occurred while registering user: $e');
+    }
+  }
+
+  Future<void> changePassword() async {
+    LoginResponse data = await box.read('user_data');
+    final savedToken = box.read('user_token');
+
+    isLoading.value = true;
+    const url = 'https://pinkad.pk/portal/api/seller/change_password';
+    final current_password = currentpasswordController.value.text.trim();
+    final new_password = newpasswordController.value.text.trim();
+    final confirm_password = confirmpasswordController.value.text.trim();
+
+    String ensureHttps(String url) {
+      // Check if the URL already contains "http://" or "https://"
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        return url; // Already has http:// or https://, return as is
+      } else {
+        // Add "https://" to the beginning of the URL
+        return 'https://$url';
+      }
+    }
+
+    if (new_password != confirm_password) {
+      // If new password and confirm password do not match, show a Snackbar
+      showSnackBarError(
+        'Error',
+        'New password and confirm password do not match',
+      );
+      isLoading.value = false;
+      return; // Exit the function early
+    }
+
+    if (current_password == new_password) {
+      // If current password and new password are the same, show a Snackbar
+      showSnackBarError(
+        'Error',
+        'New password cannot be same as old password',
+      );
+      isLoading.value = false;
+      return; // Exit the function early
+    }
+
+    try {
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse(url),
+      ); // Create the multipart request
+      print('Request Fields: ${request.fields}');
+      print('Request Headers: ${request.headers}');
+
+      request.fields.addAll({
+        'user_id': data.user!.id.toString(),
+        'current_password': current_password,
+        'new_password': new_password,
+        'confirm_password': confirm_password,
+      }); // Add the other fields to the request
+      // Add the bearer token to the request headers
+      request.headers['Authorization'] = 'Bearer $savedToken';
+      final response = await http.Response.fromStream(
+        await request.send(),
+      ); // Send the request
+      // http.StreamedResponse response = await request.send();
+      print('JSON Response in changing password: ${response.body}');
+
+      final result = json.decode(response.body);
+      if (response.statusCode == 200) {
+        // Successful request
+        isLoading.value = false;
+        if (result['status'] == 'success') {
+          showSnackBarSuccess(
+            'Message',
+            result['message'],
+          );
+          Get.toNamed(Routes.User_Bottom_Nav_Bar);
+        } else {
+          showSnackBarError(
+            'Message',
+            result['message'],
+          );
+        }
+      } else if (response.statusCode == 401) {
+        // Incorrect current password
+        showSnackBarError(
+          'Error',
+          'Current password is incorrect',
+        );
+      } else {
+        isLoading.value = false;
+        // Error occurred
+        print('Error occurred while changing password: ${response.statusCode}');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      // Exception occurred
+      print('Exception occurred while changing password: $e');
     }
   }
 
