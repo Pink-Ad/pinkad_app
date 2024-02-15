@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
-import 'package:pink_ad/app/modules/signup/controllers/signup_controller.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
-import 'package:pink_ad/utilities/functions/loading_wrapper.dart';
 
 import '../colors/colors.dart';
 
-class AreaDropDown extends GetView<SignupController> {
+class AreaDropDown extends StatelessWidget {
   // final List<String> options = controller.temp;
   final RxString selectedOption = 'Select your city'.obs;
   final List<String> salesmanList = [
@@ -20,7 +18,22 @@ class AreaDropDown extends GetView<SignupController> {
   final RxString selectedSalesman = 'Select Area'.obs;
   final RxBool showAnotherDropdown = true.obs;
 
-  AreaDropDown({super.key});
+  final void Function(City?)? onCityChanged;
+  final void Function(City?)? onAreaChanged;
+  final List<City> cities;
+  final List<City> areas;
+  final City? selectedCity;
+  final City? selectedArea;
+
+  AreaDropDown({
+    this.onAreaChanged,
+    this.onCityChanged,
+    required this.cities,
+    required this.areas,
+    this.selectedCity,
+    this.selectedArea,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,89 +41,6 @@ class AreaDropDown extends GetView<SignupController> {
       () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Container(
-          //   height: 50.h,
-          //   width: Get.width,
-          //   margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-          //   padding: EdgeInsets.only(
-          //       left: 20.0.w, right: 20.w, top: 5.h, bottom: 5.h),
-          //   decoration: BoxDecoration(
-          //     color: Colors.white,
-          //     borderRadius: BorderRadius.circular(8.0),
-          //     boxShadow: [
-          //       BoxShadow(
-          //         color: Colors.grey.withOpacity(0.5),
-          //         spreadRadius: 0,
-          //         blurRadius: 5,
-          //         offset: Offset(0, 3),
-          //       ),
-          //     ],
-          //   ),
-          //   child: DropdownSearch<City>(
-          //     // popupProps:   PopupProps.menu(
-          //     //     showSelectedItems: true, showSearchBox: true),
-          //     popupProps: PopupPropsMultiSelection.menu(
-          //       showSearchBox: true,
-          //       showSelectedItems: false,
-          //       searchFieldProps: TextFieldProps(
-          //           decoration: InputDecoration(
-          //         hintText: "Search",
-          //         hintStyle: CustomTextView.getStyle(context,
-          //             colorLight: textColor, fontSize: 15.sp),
-          //       )),
-          //     ),
-          //     items: controller.provinceName.value,
-          //     itemAsString: (City u) => u.name,
-          //     // enabled: controller.citiesName.value.length > 0 ? true : false,
-          //     dropdownDecoratorProps: DropDownDecoratorProps(
-          //       baseStyle: CustomTextView.getStyle(context,
-          //           colorLight: textColor, fontSize: 15.sp),
-          //       dropdownSearchDecoration: InputDecoration(
-          //         border: InputBorder.none,
-          //         hintText: "Select you Province",
-          //         hintStyle: CustomTextView.getStyle(context,
-          //             colorLight: textColor, fontSize: 15.sp),
-          //       ),
-          //     ),
-          //     onChanged: (value) {
-          //       controller.selectedProvince.value = value;
-          //       controller.selectedCity.value = null;
-          //       controller.citiesName.value = [];
-          //       controller.gerCities();
-          //     },
-          //     // selectedItem: "Brazil",
-          //   ),
-          //   // child: DropdownButton(
-          //   //   isExpanded: true,
-          //   //   value: controller.selectedCity.value,
-          //   //   underline:   SizedBox(),
-          //   //   hint: Text(
-          //   //     'Select you City',
-          //   //     style: CustomTextView.getStyle(context,
-          //   //         colorLight: textColor, fontSize: 15.sp),
-          //   //   ),
-          //   //   icon:   Icon(Icons.arrow_drop_down),
-          //   //   items: [
-          //   //     ...controller.citiesName.map((city) {
-          //   //       return DropdownMenuItem<City?>(
-          //   //         value: city,
-          //   //         child: Text(
-          //   //           city.name,
-          //   //           style: CustomTextView.getStyle(context,
-          //   //               colorLight: textColor, fontSize: 15.sp),
-          //   //         ),
-          //   //       );
-          //   //     }).toList(),
-          //   //   ],
-          //   //   onChanged: (value) {
-          //   //     controller.selectedCity.value = value;
-          //   //     controller.selectedarea.value = null;
-          //   //     controller.areaName.value = [];
-          //   //     controller.getAreas(value!.id);
-          //   //   },
-          //   // ),
-          // ),
-
           Container(
             height: 50.h,
             width: Get.width,
@@ -134,8 +64,6 @@ class AreaDropDown extends GetView<SignupController> {
               ],
             ),
             child: DropdownSearch<City>(
-              // popupProps:   PopupProps.menu(
-              //     showSelectedItems: true, showSearchBox: true),
               popupProps: PopupPropsMultiSelection.menu(
                 showSearchBox: true,
                 showSelectedItems: false,
@@ -150,9 +78,10 @@ class AreaDropDown extends GetView<SignupController> {
                   ),
                 ),
               ),
-              items: controller.citiesName.value,
+              items: cities,
               itemAsString: (City u) => u.name,
-              enabled: controller.citiesName.value.isNotEmpty ? true : false,
+              compareFn: (city1, city2) => city1.id == city2.id,
+              enabled: cities.isNotEmpty ? true : false,
               dropdownDecoratorProps: DropDownDecoratorProps(
                 baseStyle: CustomTextView.getStyle(
                   context,
@@ -169,49 +98,17 @@ class AreaDropDown extends GetView<SignupController> {
                   ),
                 ),
               ),
-              onChanged: (value) async {
-                controller.selectedCity.value = value;
-                controller.selectedarea.value = null;
-                controller.areaName.value = [];
-                await loadingWrapper(() => controller.getAreas(value!.id));
+              onChanged: (value) {
+                onCityChanged?.call(value);
               },
-              // selectedItem: "Brazil",
+              selectedItem: selectedCity,
             ),
-            // child: DropdownButton(
-            //   isExpanded: true,
-            //   value: controller.selectedCity.value,
-            //   underline:   SizedBox(),
-            //   hint: Text(
-            //     'Select you City',
-            //     style: CustomTextView.getStyle(context,
-            //         colorLight: textColor, fontSize: 15.sp),
-            //   ),
-            //   icon:   Icon(Icons.arrow_drop_down),
-            //   items: [
-            //     ...controller.citiesName.map((city) {
-            //       return DropdownMenuItem<City?>(
-            //         value: city,
-            //         child: Text(
-            //           city.name,
-            //           style: CustomTextView.getStyle(context,
-            //               colorLight: textColor, fontSize: 15.sp),
-            //         ),
-            //       );
-            //     }).toList(),
-            //   ],
-            //   onChanged: (value) {
-            //     controller.selectedCity.value = value;
-            //     controller.selectedarea.value = null;
-            //     controller.areaName.value = [];
-            //     controller.getAreas(value!.id);
-            //   },
-            // ),
           ),
           if (showAnotherDropdown.value)
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 200),
               child: Container(
-                key: ValueKey(controller.selectedCity.value),
+                // key: ValueKey(controller.selectedCity.value),
                 height: 50.h,
                 width: Get.width,
                 margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
@@ -250,9 +147,9 @@ class AreaDropDown extends GetView<SignupController> {
                       ),
                     ),
                   ),
-                  items: controller.areaName.value,
+                  items: areas,
                   itemAsString: (City u) => u.name,
-                  enabled: controller.areaName.value.isNotEmpty ? true : false,
+                  enabled: areas.isNotEmpty ? true : false,
                   dropdownDecoratorProps: DropDownDecoratorProps(
                     baseStyle: CustomTextView.getStyle(
                       context,
@@ -270,9 +167,9 @@ class AreaDropDown extends GetView<SignupController> {
                     ),
                   ),
                   onChanged: (value) {
-                    controller.selectedarea.value = value;
+                    onAreaChanged?.call(value);
                   },
-                  // selectedItem: "Brazil",
+                  selectedItem: selectedArea,
                 ),
                 // child: DropdownButton(
                 //   isExpanded: true,

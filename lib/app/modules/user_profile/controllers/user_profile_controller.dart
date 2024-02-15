@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
@@ -19,6 +18,7 @@ class UserProfileController extends GetxController {
   //TODO: Implement UserProfileController
   RxBool isLoading = false.obs;
   Color secondButtonColor = Colors.white;
+  final nameController = TextEditingController().obs;
   final whatsappNoController = TextEditingController().obs;
   final phoneNoController = TextEditingController().obs;
   final businessNameController = TextEditingController().obs;
@@ -26,9 +26,20 @@ class UserProfileController extends GetxController {
   final facebookController = TextEditingController().obs;
   final instagramController = TextEditingController().obs;
   final webSiteController = TextEditingController().obs;
+  final descriptionController = TextEditingController().obs;
+  late final isPasswordVisible = false.obs;
+  var isCurrentPasswordVisible = false.obs;
+  var isNewPasswordVisible = false.obs;
+  var isConfirmPasswordVisible = false.obs;
+  final currentpasswordController = TextEditingController().obs;
+  final user_id = TextEditingController().obs;
+
+  final newpasswordController = TextEditingController().obs;
+  final confirmpasswordController = TextEditingController().obs;
   final box = GetStorage();
   final ApiService _apiService = ApiService(http.Client());
   XFile? pickedFile;
+  XFile? coverFile;
   final RxString logoName = RxString('');
   final RxString coverLogoName = RxString('');
   final RxString city = RxString('');
@@ -46,6 +57,27 @@ class UserProfileController extends GetxController {
     autoFill();
     // gerCities();
     getData();
+    gerCities();
+  }
+
+  Future<void> onChange() async {
+    final currentpassword = currentpasswordController.value.text.trim();
+    final newpassword = newpasswordController.value.text.trim();
+    final confirmpassword = confirmpasswordController.value.text.trim();
+
+    if (currentpassword.isEmpty || newpassword.isEmpty || confirmpassword.isEmpty) {
+      if (currentpassword.isEmpty) {
+        showSnackBarError('Error', 'Current Password cannot be empty');
+      } else if (newpassword.isEmpty) {
+        showSnackBarError('Error', 'New Password cannot be empty');
+      } else if (confirmpassword.isEmpty) {
+        showSnackBarError('Error', 'Confirm Password cannot be empty');
+      }
+      return;
+    } else {
+      // Call the changePassword method if all fields are filled
+      await changePassword();
+    }
   }
 
   String? validatePakistaniPhoneNumber(String? value) {
@@ -151,39 +183,44 @@ class UserProfileController extends GetxController {
 
   Future<void> autoFill() async {
     LoginResponse data = await box.read('user_data');
-
+    print(data.toJson());
     // Use the stripCountryCode function to remove the country code
     String formattedPhone = stripCountryCode(data.user!.seller!.phone!);
     String formattedWhatsApp = stripCountryCode(data.user!.seller!.whatsapp!);
 
+    nameController.value.text = data.user?.name ?? '';
     phoneNoController.value.text = formattedPhone;
     whatsappNoController.value.text = formattedWhatsApp;
-
     // businessNameController.value.text = data.user!.seller!.businessName!;
     businessAddressController.value.text = data.user!.seller!.businessAddress!;
     //facebookController.value.text = data.user!.seller!.facebookPage!;
     facebookController.value.text = data.user?.seller?.facebookPage ?? '';
     instagramController.value.text = data.user?.seller?.instaPage ?? '';
     webSiteController.value.text = data.user!.seller!.webUrl!;
+    descriptionController.value.text = data.shop?.description ?? '';
+    if (data.cityId != null) {
+      selectedCity.value = City(id: data.cityId!, name: data.cityName ?? '');
+      getAreas(data.cityId!);
+      if (data.shop?.area != null) {
+        selectedarea.value = City(id: data.shop!.area!, name: data.areaName ?? '');
+      }
+    }
   }
 
   Future<XFile?> pickImage() async {
-    if (await showImageDialog() != true) return null;
-    // Request permission from the user
-    final permissionStatus = await Permission.photos.request();
-    print(permissionStatus);
-    if (permissionStatus.isGranted) {
-      // User has granted permission, proceed with picking an image
-      final picker = ImagePicker();
-      pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        logoName.value = pickedFile!.name;
-      }
-    } else {
-      // User has denied permission, show an error message
-      print('Permission denied');
-    }
-    return pickedFile;
+    final newImage = await showImageDialog();
+    if (newImage == null) return null;
+    pickedFile = newImage;
+    logoName.value = newImage.name;
+    return newImage;
+  }
+
+  Future<XFile?> pickCoverImage() async {
+    final newImage = await showImageDialog();
+    if (newImage == null) return null;
+    coverFile = newImage;
+    coverLogoName.value = newImage.name;
+    return newImage;
   }
 
   Future<void> getAreas(int id) async {
@@ -204,6 +241,7 @@ class UserProfileController extends GetxController {
 
     isLoading.value = true;
     const url = 'https://pinkad.pk/portal/api/seller/update';
+    final name = nameController.value.text.trim();
     final whatsappNoFormatted = formatPhoneNumber(whatsappNoController.value.text);
     final phoneNoFormatted = formatPhoneNumber(phoneNoController.value.text);
     final businessName = businessNameController.value.text.trim();
@@ -211,6 +249,7 @@ class UserProfileController extends GetxController {
     final facebook = facebookController.value.text.trim();
     final instagram = instagramController.value.text.trim();
     final website = webSiteController.value.text.trim();
+    final description = descriptionController.value.text.trim();
     String ensureHttps(String url) {
       // Check if the URL already contains "http://" or "https://"
       if (url.startsWith('http://') || url.startsWith('https://')) {
@@ -228,20 +267,27 @@ class UserProfileController extends GetxController {
       ); // Create the multipart request
       print('Request Fields: ${request.fields}');
       print('Request Headers: ${request.headers}');
-      {
-        pickedFile != null
-            ? request.files.add(
-                await http.MultipartFile.fromPath(
-                  'coverimage',
-                  pickedFile!.path,
-                ),
-              )
-            : null;
+      if (pickedFile != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'logo',
+            pickedFile!.path,
+          ),
+        );
+      }
+      if (coverFile != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'coverimage',
+            coverFile!.path,
+          ),
+        );
       }
 
       request.fields.addAll({
         'user_id': data.user!.id.toString(),
         'role': '2',
+        'name': name,
         'phone': phoneNoFormatted,
         'whatsapp': whatsappNoFormatted,
         'business_address': businessAddress,
@@ -250,7 +296,8 @@ class UserProfileController extends GetxController {
         'web_url': ensureHttps(website),
         'isFeatured': '1',
         'email': data.user?.email ?? '',
-        'area_id': data.shop?.area?.toString() ?? '0',
+        'area_id': selectedarea.value?.id.toString() ?? data.shop?.area?.toString() ?? '0',
+        'description': description.toString(),
       }); // Add the other fields to the request
       // Add the bearer token to the request headers
       request.headers['Authorization'] = 'Bearer $savedToken';
@@ -285,6 +332,102 @@ class UserProfileController extends GetxController {
       isLoading.value = false;
       // Exception occurred
       print('Exception occurred while registering user: $e');
+    }
+  }
+
+  Future<void> changePassword() async {
+    LoginResponse data = await box.read('user_data');
+    final savedToken = box.read('user_token');
+
+    isLoading.value = true;
+    const url = 'https://pinkad.pk/portal/api/seller/change_password';
+    final current_password = currentpasswordController.value.text.trim();
+    final new_password = newpasswordController.value.text.trim();
+    final confirm_password = confirmpasswordController.value.text.trim();
+
+    String ensureHttps(String url) {
+      // Check if the URL already contains "http://" or "https://"
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        return url; // Already has http:// or https://, return as is
+      } else {
+        // Add "https://" to the beginning of the URL
+        return 'https://$url';
+      }
+    }
+
+    if (new_password != confirm_password) {
+      // If new password and confirm password do not match, show a Snackbar
+      showSnackBarError(
+        'Error',
+        'New password and confirm password do not match',
+      );
+      isLoading.value = false;
+      return; // Exit the function early
+    }
+
+    if (current_password == new_password) {
+      // If current password and new password are the same, show a Snackbar
+      showSnackBarError(
+        'Error',
+        'New password cannot be same as old password',
+      );
+      isLoading.value = false;
+      return; // Exit the function early
+    }
+
+    try {
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse(url),
+      ); // Create the multipart request
+      print('Request Fields: ${request.fields}');
+      print('Request Headers: ${request.headers}');
+
+      request.fields.addAll({
+        'user_id': data.user!.id.toString(),
+        'current_password': current_password,
+        'new_password': new_password,
+        'confirm_password': confirm_password,
+      }); // Add the other fields to the request
+      // Add the bearer token to the request headers
+      request.headers['Authorization'] = 'Bearer $savedToken';
+      final response = await http.Response.fromStream(
+        await request.send(),
+      ); // Send the request
+      // http.StreamedResponse response = await request.send();
+      print('JSON Response in changing password: ${response.body}');
+
+      final result = json.decode(response.body);
+      if (response.statusCode == 200) {
+        // Successful request
+        isLoading.value = false;
+        if (result['status'] == 'success') {
+          showSnackBarSuccess(
+            'Message',
+            result['message'],
+          );
+          Get.toNamed(Routes.User_Bottom_Nav_Bar);
+        } else {
+          showSnackBarError(
+            'Message',
+            result['message'],
+          );
+        }
+      } else if (response.statusCode == 401) {
+        // Incorrect current password
+        showSnackBarError(
+          'Error',
+          'Current password is incorrect',
+        );
+      } else {
+        isLoading.value = false;
+        // Error occurred
+        print('Error occurred while changing password: ${response.statusCode}');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      // Exception occurred
+      print('Exception occurred while changing password: $e');
     }
   }
 
