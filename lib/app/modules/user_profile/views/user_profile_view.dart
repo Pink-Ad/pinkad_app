@@ -212,13 +212,20 @@ class ChangePasswordContent extends GetView<UserProfileController> {
                 ),
               ),
               SizedBox(height: 15.h),
-              GlobalButton(
-                title: 'Change Password',
-                onPressed: () {
-                  userProfileController.onChange();
-                },
-                textColor: Colors.white,
-                buttonColor: secondary,
+              Obx(
+                () => userProfileController.isLoading.value
+                    ? Center(
+                        child: const CircularProgressIndicator(
+                        color: primary,
+                      ))
+                    : GlobalButton(
+                        title: 'Change Password',
+                        onPressed: () {
+                          userProfileController.onChange();
+                        },
+                        textColor: Colors.white,
+                        buttonColor: secondary,
+                      ),
               ),
             ],
           ),
