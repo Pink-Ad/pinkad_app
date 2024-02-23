@@ -65,7 +65,12 @@ class UserProfileController extends GetxController {
     final newpassword = newpasswordController.value.text.trim();
     final confirmpassword = confirmpasswordController.value.text.trim();
 
+    isLoading.value = true; // Start loading
+
     if (currentpassword.isEmpty || newpassword.isEmpty || confirmpassword.isEmpty) {
+      await Future.delayed(const Duration(seconds: 1)); // Simulate loading for a brief moment
+      isLoading.value = false; // Stop loading
+
       if (currentpassword.isEmpty) {
         showSnackBarError('Error', 'Current Password cannot be empty');
       } else if (newpassword.isEmpty) {
@@ -74,10 +79,10 @@ class UserProfileController extends GetxController {
         showSnackBarError('Error', 'Confirm Password cannot be empty');
       }
       return;
-    } else {
-      // Call the changePassword method if all fields are filled
-      await changePassword();
     }
+
+    await changePassword();
+    isLoading.value = false; // Stop loading after password change process is complete
   }
 
   String? validatePakistaniPhoneNumber(String? value) {
@@ -408,7 +413,7 @@ class UserProfileController extends GetxController {
           );
           Get.toNamed(Routes.User_Bottom_Nav_Bar);
         } else {
-          showSnackBarError(
+          showSnackBarSuccess(
             'Message',
             result['message'],
           );
