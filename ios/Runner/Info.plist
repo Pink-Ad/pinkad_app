@@ -40,9 +40,7 @@
 		<key>LSRequiresIPhoneOS</key>
 		<true />
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>We need to request your permission to read your photos to load them into the app.</string>
-		<key>NSCameraUsageDescription</key>
-		<string>We need to request your permission for camera to load the image into the app.</string>
+		<string>This app requires access to the photo library to upload your shop's image and logo.</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true />
 		<key>UILaunchStoryboardName</key>
