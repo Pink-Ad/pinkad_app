@@ -371,7 +371,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = FXU3FTXQPL;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = FXU3FTXQPL;
 				ENABLE_BITCODE = NO;
@@ -382,7 +382,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.19;
+				MARKETING_VERSION = 1.1.20;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.pinkAd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = Yousuf;
@@ -514,7 +514,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Moin Ahmed Zakaria (846PP5Y79N)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Moin Ahmed Zakaria (846PP5Y79N)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = FXU3FTXQPL;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = FXU3FTXQPL;
 				ENABLE_BITCODE = NO;
@@ -525,7 +525,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.19;
+				MARKETING_VERSION = 1.1.20;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.pinkAd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Huzaifa Imran";
@@ -551,7 +551,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = FXU3FTXQPL;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = FXU3FTXQPL;
 				ENABLE_BITCODE = NO;
@@ -562,7 +562,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.19;
+				MARKETING_VERSION = 1.1.20;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.pinkAd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = Yousuf;
