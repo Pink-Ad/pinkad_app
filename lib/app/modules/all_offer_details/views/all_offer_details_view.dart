@@ -6,14 +6,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offer_details/controllers/all_offer_details_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
-import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utilities/colors/colors.dart';
 import '../../../../utilities/custom_widgets/custom_appbar.dart';
-import '../../../../utilities/custom_widgets/custom_button.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
 
@@ -67,8 +65,7 @@ class AllOfferDetailsView extends GetView {
                     ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
-                padding:
-                    EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
+                padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
                 decoration: BoxDecoration(
                   color: containerColor,
                   borderRadius: BorderRadius.circular(10.0),
@@ -127,19 +124,15 @@ class AllOfferDetailsView extends GetView {
                           ),
                           child: IconButton(
                             onPressed: () async {
-                              String? facebookUrl =
-                                  data['shop']?['seller']?['faecbook_page'];
+                              String? facebookUrl = data['shop']?['seller']?['faecbook_page'];
                               if (facebookUrl == null) return;
                               try {
                                 final String nativeUrl;
-                                if (facebookUrl
-                                    .toLowerCase()
-                                    .contains('facebook.com')) {
+                                if (facebookUrl.toLowerCase().contains('facebook.com')) {
                                   if (!facebookUrl.startsWith('http')) {
                                     facebookUrl = 'https://' + facebookUrl;
                                   }
-                                  nativeUrl =
-                                      'fb://facewebmodal/f?href=$facebookUrl';
+                                  nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
                                 } else {
                                   nativeUrl = 'fb://$facebookUrl';
                                 }
@@ -224,15 +217,12 @@ class AllOfferDetailsView extends GetView {
                           ),
                           child: IconButton(
                             onPressed: () async {
-                              String? instaUrl =
-                                  data['shop']?['seller']?['insta_page'];
+                              String? instaUrl = data['shop']?['seller']?['insta_page'];
                               print(instaUrl);
                               if (instaUrl == null) return;
                               try {
                                 final String nativeUrl;
-                                if (instaUrl
-                                    .toLowerCase()
-                                    .contains('instagram.com')) {
+                                if (instaUrl.toLowerCase().contains('instagram.com')) {
                                   if (!instaUrl.startsWith('http')) {
                                     instaUrl = 'https://' + instaUrl;
                                   }
@@ -240,8 +230,7 @@ class AllOfferDetailsView extends GetView {
                                   // Invalid URL
                                   if (uri.pathSegments.isEmpty) return;
                                   print(uri.pathSegments);
-                                  nativeUrl =
-                                      'instagram://user?username=${uri.pathSegments.first}';
+                                  nativeUrl = 'instagram://user?username=${uri.pathSegments.first}';
                                 } else {
                                   nativeUrl = 'instagram://$instaUrl';
                                 }
@@ -281,8 +270,7 @@ class AllOfferDetailsView extends GetView {
                           ),
                           child: IconButton(
                             onPressed: () async {
-                              final sellerUrl =
-                                  data['shop']['seller']['seller_link'];
+                              final sellerUrl = data['shop']['seller']['seller_link'];
                               Share.share(
                                 "${data['title']}"
                                 "\n\n${data['description']} by ${data['shop']?['name'] ?? ''}"
@@ -311,8 +299,7 @@ class AllOfferDetailsView extends GetView {
               ),
               Expanded(
                 child: Container(
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   decoration: BoxDecoration(
                     color: containerGray,
                     borderRadius: BorderRadius.circular(8.0),
@@ -350,8 +337,7 @@ class AllOfferDetailsView extends GetView {
                               ],
                             ),
                             child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
                               child: Image.network(
                                 ApiService.imageBaseUrl + data['banner'],
                                 fit: BoxFit.fill,
@@ -394,21 +380,21 @@ class AllOfferDetailsView extends GetView {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 15.h,
-              ),
-              GlobalButton(
-                title: 'Go To Seller Profile',
-                onPressed: () {
-                  var sellerId = data['shop']['id'];
-                  Get.toNamed(
-                    Routes.SPECIFIC_SELLER,
-                    arguments: {'seller_id': sellerId},
-                  );
-                },
-                textColor: Colors.white,
-                buttonColor: secondary,
-              ),
+              // SizedBox(
+              //   height: 15.h,
+              // ),
+              // GlobalButton(
+              //   title: 'Go To Seller Profile',
+              //   onPressed: () {
+              //     var sellerId = data['shop']['id'];
+              //     Get.toNamed(
+              //       Routes.SPECIFIC_SELLER,
+              //       arguments: {'seller_id': sellerId},
+              //     );
+              //   },
+              //   textColor: Colors.white,
+              //   buttonColor: secondary,
+              // ),
               SizedBox(
                 height: 20.h,
               ),

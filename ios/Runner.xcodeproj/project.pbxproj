@@ -107,7 +107,7 @@
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
 				97C147021CF9000F007C117D /* Info.plist */,
 				1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */,
-				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
+				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,q           
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 			);
@@ -371,7 +371,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = FXU3FTXQPL;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = FXU3FTXQPL;
 				ENABLE_BITCODE = NO;
@@ -382,7 +382,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.20;
+				MARKETING_VERSION = 1.1.21;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.pinkAd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = Yousuf;
@@ -514,7 +514,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Moin Ahmed Zakaria (846PP5Y79N)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Moin Ahmed Zakaria (846PP5Y79N)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = FXU3FTXQPL;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = FXU3FTXQPL;
 				ENABLE_BITCODE = NO;
@@ -525,7 +525,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.20;
+				MARKETING_VERSION = 1.1.21;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.pinkAd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Huzaifa Imran";
@@ -551,7 +551,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Moin Ahmed Zakaria (FXU3FTXQPL)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = FXU3FTXQPL;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = FXU3FTXQPL;
 				ENABLE_BITCODE = NO;
@@ -562,7 +562,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.20;
+				MARKETING_VERSION = 1.1.21;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.pinkAd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = Yousuf;
