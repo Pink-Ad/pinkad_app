@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/models/province_model.dart';

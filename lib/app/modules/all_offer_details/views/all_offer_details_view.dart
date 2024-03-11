@@ -6,7 +6,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offer_details/controllers/all_offer_details_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
+import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
+import 'package:pink_ad/utilities/custom_widgets/custom_button.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -380,21 +382,21 @@ class AllOfferDetailsView extends GetView {
                   ),
                 ),
               ),
-              // SizedBox(
-              //   height: 15.h,
-              // ),
-              // GlobalButton(
-              //   title: 'Go To Seller Profile',
-              //   onPressed: () {
-              //     var sellerId = data['shop']['id'];
-              //     Get.toNamed(
-              //       Routes.SPECIFIC_SELLER,
-              //       arguments: {'seller_id': sellerId},
-              //     );
-              //   },
-              //   textColor: Colors.white,
-              //   buttonColor: secondary,
-              // ),
+              SizedBox(
+                height: 15.h,
+              ),
+              GlobalButton(
+                title: 'Go To Seller Profile',
+                onPressed: () {
+                  var sellerId = data['shop']['seller']['id'];
+                  Get.toNamed(
+                    Routes.SPECIFIC_SELLER,
+                    arguments: {'seller_id': sellerId},
+                  );
+                },
+                textColor: Colors.white,
+                buttonColor: secondary,
+              ),
               SizedBox(
                 height: 20.h,
               ),
