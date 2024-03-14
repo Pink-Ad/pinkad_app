@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utilities/colors/colors.dart';
 import '../../../../utilities/custom_widgets/custom_bottom_button.dart';
@@ -96,9 +97,12 @@ class LoginView extends GetView<LoginController> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          Get.toNamed(Routes.FORGOT_PASSWORD);
+                        onTap: () async {
+                          await launch('https://pinkad.pk/portal/password/reset/');
                         },
+                        // onTap: () {
+                        //   Get.toNamed(Routes.FORGOT_PASSWORD);
+                        // },
                         child: Text(
                           'Forgot password?',
                           style: CustomTextView.getStyle(

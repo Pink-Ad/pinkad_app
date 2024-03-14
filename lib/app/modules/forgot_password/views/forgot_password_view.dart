@@ -4,19 +4,16 @@ import 'package:get/get.dart';
 import 'package:pink_ad/app/modules/forgot_password/controllers/forgot_password_controller.dart';
 
 import '../../../../utilities/colors/colors.dart';
-import '../../../../utilities/custom_widgets/custom_bottom_button.dart';
 import '../../../../utilities/custom_widgets/custom_button.dart';
 import '../../../../utilities/custom_widgets/custom_text_field.dart';
 import '../../../../utilities/custom_widgets/my_scafflod.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
-import '../../../routes/app_pages.dart';
 
 class ForgotPasswordView extends GetView<ForgotPasswordController> {
-  ForgotPasswordController forgotPasswordController =
-      ForgotPasswordController();
+  ForgotPasswordController forgotPasswordController = ForgotPasswordController();
+
   @override
   Widget build(BuildContext context) {
-    final isVerifiedByPhone = false.obs;
     return Stack(
       children: [
         CustomBackground(
@@ -90,15 +87,12 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       ),
                       Obx(
                         () => ShadowedTextField(
-                          controller:
-                              forgotPasswordController.emailController.value,
-                          hintText: isVerifiedByPhone.value
-                              ? 'Enter your phone number'
-                              : 'Enter your email',
-                          iconName: isVerifiedByPhone.value ? 'phone' : 'email',
-                          keyboardType: isVerifiedByPhone.value
-                              ? TextInputType.phone
-                              : TextInputType.emailAddress,
+                          // onChanged: controller.username,
+                          hintText: 'Email',
+                          iconName: 'email_user',
+
+                          controller: forgotPasswordController.emailController.value,
+                          keyboardType: TextInputType.emailAddress,
                         ),
                       ),
                       SizedBox(height: 25.h),
@@ -124,15 +118,6 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                 ),
               ],
             ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: BottomButtons(
-            buttonText: 'AS USER',
-            onTap: () {
-              Get.toNamed(Routes.USER_LOGIN);
-            },
           ),
         ),
       ],

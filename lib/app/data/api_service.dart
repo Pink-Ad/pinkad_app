@@ -167,6 +167,7 @@ class Endpoints {
   static const String deleteUser = 'delete/user';
   static const String aiModel = 'predict';
   static const String forgetPassword = 'password/email';
+  
   static const String getAllSeller = 'all-selller-list';
   static const String getOfferByShop = 'get_posts_by_seller';
   static const String subcategories = 'subcategory';
