@@ -55,7 +55,7 @@ class UserDashboardView extends GetView {
                 print('object');
                 Get.to(ProfileView());
               },
-              showFilter: true,
+              // showFilter: true,
               profileIconVisibility: true,
             ),
             Expanded(
@@ -64,14 +64,10 @@ class UserDashboardView extends GetView {
                   GetBuilder(
                     init: UserDashboardController(),
                     builder: (controller) {
-                      List<dynamic> fSeller =
-                          controller.box.read('fseller') ?? [];
-                      List<dynamic> tSeller =
-                          controller.box.read('topSeller') ?? [];
-                      List<dynamic> fOffer =
-                          controller.box.read('fOffer') ?? [];
-                      List<dynamic> tOffer =
-                          controller.box.read('topOffer') ?? [];
+                      List<dynamic> fSeller = controller.box.read('fseller') ?? [];
+                      List<dynamic> tSeller = controller.box.read('topSeller') ?? [];
+                      List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
+                      List<dynamic> tOffer = controller.box.read('topOffer') ?? [];
                       return SmartRefresher(
                         controller: refreshController,
                         onRefresh: () async {
@@ -96,8 +92,7 @@ class UserDashboardView extends GetView {
                                   vertical: 10.w,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Top Seller',
@@ -147,12 +142,10 @@ class UserDashboardView extends GetView {
                                               homeController.setLoading();
                                               allShopsController
                                                   .getShopDetail(
-                                                    tSeller[index]['shop']?[0]
-                                                        ['id'],
+                                                    tSeller[index]['shop']?[0]['id'],
                                                   )
                                                   .then(
-                                                    (value) => homeController
-                                                        .setLoading(),
+                                                    (value) => homeController.setLoading(),
                                                   );
                                               // Get.toNamed(Routes.SHOP_DETAILS);
                                             },
@@ -166,28 +159,21 @@ class UserDashboardView extends GetView {
                                                 height: 100.h,
                                                 decoration: BoxDecoration(
                                                   color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
+                                                  borderRadius: BorderRadius.circular(
                                                     8.0,
                                                   ),
                                                   boxShadow: [
                                                     BoxShadow(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.9),
+                                                      color: Colors.grey.withOpacity(0.9),
                                                       spreadRadius: 1,
                                                       blurRadius: 1,
-                                                      offset:
-                                                          const Offset(0, 2),
+                                                      offset: const Offset(0, 2),
                                                     ),
                                                   ],
                                                   image: DecorationImage(
                                                     image: NetworkImage(
-                                                      tSeller[index]['logo'] !=
-                                                              null
-                                                          ? ApiService
-                                                                  .imageBaseUrl +
-                                                              tSeller[index]
-                                                                  ['logo']
+                                                      tSeller[index]['logo'] != null
+                                                          ? ApiService.imageBaseUrl + tSeller[index]['logo']
                                                           : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
                                                     ),
                                                     fit: BoxFit.cover,
@@ -199,8 +185,7 @@ class UserDashboardView extends GetView {
                                         },
                                       )
                                     : const Center(
-                                        child:
-                                            Text('No top sellers available.'),
+                                        child: Text('No top sellers available.'),
                                       ),
                               ),
                               SizedBox(
@@ -212,8 +197,7 @@ class UserDashboardView extends GetView {
                                   vertical: 10.w,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Top Offer',
@@ -266,10 +250,8 @@ class UserDashboardView extends GetView {
                                                 BuildContext context,
                                                 int index,
                                               ) {
-                                                final currentIndex =
-                                                    rowIndex * 10 + index;
-                                                if (currentIndex >=
-                                                    tOffer.length) {
+                                                final currentIndex = rowIndex * 10 + index;
+                                                if (currentIndex >= tOffer.length) {
                                                   return SizedBox.shrink();
                                                 }
                                                 return InkWell(
@@ -277,18 +259,14 @@ class UserDashboardView extends GetView {
                                                     homeController.setLoading();
                                                     allOffersController
                                                         .getOfferDetail(
-                                                          tOffer[currentIndex]
-                                                              ['id'],
+                                                          tOffer[currentIndex]['id'],
                                                         )
                                                         .then(
-                                                          (value) =>
-                                                              homeController
-                                                                  .setLoading(),
+                                                          (value) => homeController.setLoading(),
                                                         );
                                                   },
                                                   child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
+                                                    padding: const EdgeInsets.only(
                                                       right: 20,
                                                     ),
                                                     child: Container(
@@ -296,120 +274,78 @@ class UserDashboardView extends GetView {
                                                       height: 325.h,
                                                       decoration: BoxDecoration(
                                                         color: lightGray,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
+                                                        borderRadius: BorderRadius.circular(
                                                           8.0,
                                                         ),
                                                       ),
                                                       child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Container(
                                                             width: 220.w,
                                                             height: 220.w,
-                                                            decoration:
-                                                                BoxDecoration(
+                                                            decoration: BoxDecoration(
                                                               color: lightGray,
-                                                              borderRadius:
-                                                                  const BorderRadius
-                                                                      .only(
-                                                                topRight: Radius
-                                                                    .circular(
+                                                              borderRadius: const BorderRadius.only(
+                                                                topRight: Radius.circular(
                                                                   10.0,
                                                                 ),
-                                                                topLeft: Radius
-                                                                    .circular(
+                                                                topLeft: Radius.circular(
                                                                   10.0,
                                                                 ),
                                                               ),
-                                                              image:
-                                                                  DecorationImage(
-                                                                image:
-                                                                    NetworkImage(
-                                                                  ApiService
-                                                                          .imageBaseUrl +
-                                                                      tOffer[currentIndex]
-                                                                          [
-                                                                          'banner'],
+                                                              image: DecorationImage(
+                                                                image: NetworkImage(
+                                                                  ApiService.imageBaseUrl + tOffer[currentIndex]['banner'],
                                                                 ),
-                                                                fit: BoxFit
-                                                                    .cover,
+                                                                fit: BoxFit.cover,
                                                               ),
                                                             ),
                                                           ),
                                                           Container(
-                                                            margin:
-                                                                EdgeInsets.only(
+                                                            margin: EdgeInsets.only(
                                                               top: 5.0,
                                                               left: 10.h,
                                                               right: 10,
                                                             ),
                                                             child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
                                                                 Text(
-                                                                  tOffer[currentIndex]
-                                                                      ['title'],
+                                                                  tOffer[currentIndex]['title'],
                                                                   maxLines: 1,
-                                                                  style: CustomTextView
-                                                                      .getStyle(
+                                                                  style: CustomTextView.getStyle(
                                                                     context,
-                                                                    colorLight:
-                                                                        Colors
-                                                                            .black,
-                                                                    fontSize:
-                                                                        15.sp,
-                                                                    fontFamily:
-                                                                        Utils
-                                                                            .poppinsBold,
+                                                                    colorLight: Colors.black,
+                                                                    fontSize: 15.sp,
+                                                                    fontFamily: Utils.poppinsBold,
                                                                   ),
                                                                 ),
                                                                 Row(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .center,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                   children: [
                                                                     Expanded(
                                                                       flex: 1,
-                                                                      child:
-                                                                          Text(
-                                                                        tOffer[currentIndex]['shop']?['name'] ??
-                                                                            '',
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                        style: CustomTextView
-                                                                            .getStyle(
+                                                                      child: Text(
+                                                                        tOffer[currentIndex]['shop']?['name'] ?? '',
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        style: CustomTextView.getStyle(
                                                                           context,
-                                                                          colorLight:
-                                                                              secondary,
-                                                                          fontSize:
-                                                                              13.sp,
-                                                                          fontFamily:
-                                                                              Utils.poppinsMedium,
+                                                                          colorLight: secondary,
+                                                                          fontSize: 13.sp,
+                                                                          fontFamily: Utils.poppinsMedium,
                                                                         ),
                                                                       ),
                                                                     ),
                                                                     Row(
                                                                       children: [
                                                                         IconButton(
-                                                                          onPressed:
-                                                                              () async {
-                                                                            String?
-                                                                                facebookUrl =
+                                                                          onPressed: () async {
+                                                                            String? facebookUrl =
                                                                                 tOffer[currentIndex]['shop']?['seller']?['faecbook_page'];
-                                                                            if (facebookUrl !=
-                                                                                null) {
+                                                                            if (facebookUrl != null) {
                                                                               try {
                                                                                 final String nativeUrl;
 
@@ -429,10 +365,8 @@ class UserDashboardView extends GetView {
                                                                               }
                                                                             }
                                                                           },
-                                                                          icon:
-                                                                              Center(
-                                                                            child:
-                                                                                FaIcon(
+                                                                          icon: Center(
+                                                                            child: FaIcon(
                                                                               FontAwesomeIcons.facebook,
                                                                               size: 30.h,
                                                                               color: Colors.blue,
@@ -440,29 +374,23 @@ class UserDashboardView extends GetView {
                                                                           ),
                                                                         ),
                                                                         GestureDetector(
-                                                                          onTap:
-                                                                              () async {
+                                                                          onTap: () async {
                                                                             await launchUrl(
                                                                               Uri.parse(
                                                                                 'whatsapp://send?phone=${tOffer[currentIndex]['shop']?['seller']?['whatsapp']}',
                                                                               ),
                                                                             );
                                                                           },
-                                                                          child:
-                                                                              Container(
-                                                                            height:
-                                                                                25.h,
-                                                                            width:
-                                                                                30.w,
-                                                                            decoration:
-                                                                                BoxDecoration(
+                                                                          child: Container(
+                                                                            height: 25.h,
+                                                                            width: 30.w,
+                                                                            decoration: BoxDecoration(
                                                                               color: greenColor,
                                                                               borderRadius: BorderRadius.circular(
                                                                                 5.0,
                                                                               ),
                                                                             ),
-                                                                            child:
-                                                                                Padding(
+                                                                            child: Padding(
                                                                               padding: const EdgeInsets.all(
                                                                                 5.0,
                                                                               ),
@@ -480,20 +408,13 @@ class UserDashboardView extends GetView {
                                                                   height: 4.h,
                                                                 ),
                                                                 Text(
-                                                                  tOffer[currentIndex]
-                                                                      [
-                                                                      'description'],
+                                                                  tOffer[currentIndex]['description'],
                                                                   maxLines: 1,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style: CustomTextView
-                                                                      .getStyle(
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: CustomTextView.getStyle(
                                                                     context,
-                                                                    colorLight:
-                                                                        textColor,
-                                                                    fontSize:
-                                                                        13.sp,
+                                                                    colorLight: textColor,
+                                                                    fontSize: 13.sp,
                                                                   ),
                                                                 ),
                                                               ],
@@ -522,8 +443,7 @@ class UserDashboardView extends GetView {
                                   vertical: 10.w,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Featured Seller',
@@ -572,12 +492,10 @@ class UserDashboardView extends GetView {
                                               homeController.setLoading();
                                               allShopsController
                                                   .getShopDetail(
-                                                    fSeller[index]['shop']?[0]
-                                                        ['id'],
+                                                    fSeller[index]['shop']?[0]['id'],
                                                   )
                                                   .then(
-                                                    (value) => homeController
-                                                        .setLoading(),
+                                                    (value) => homeController.setLoading(),
                                                   );
                                             },
                                             child: Padding(
@@ -590,25 +508,20 @@ class UserDashboardView extends GetView {
                                                 height: 120.h,
                                                 decoration: BoxDecoration(
                                                   color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
+                                                  borderRadius: BorderRadius.circular(
                                                     8.0,
                                                   ),
                                                   boxShadow: [
                                                     BoxShadow(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.9),
+                                                      color: Colors.grey.withOpacity(0.9),
                                                       spreadRadius: 1,
                                                       blurRadius: 1,
-                                                      offset:
-                                                          const Offset(0, 2),
+                                                      offset: const Offset(0, 2),
                                                     ),
                                                   ],
                                                   image: DecorationImage(
                                                     image: NetworkImage(
-                                                      ApiService.imageBaseUrl +
-                                                          fSeller[index]
-                                                              ['logo'],
+                                                      ApiService.imageBaseUrl + fSeller[index]['logo'],
                                                     ),
                                                     fit: BoxFit.cover,
                                                   ),
@@ -633,8 +546,7 @@ class UserDashboardView extends GetView {
                                   vertical: 10.w,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Featured Offer',
@@ -686,8 +598,7 @@ class UserDashboardView extends GetView {
                                                     fOffer[index]['id'],
                                                   )
                                                   .then(
-                                                    (value) => homeController
-                                                        .setLoading(),
+                                                    (value) => homeController.setLoading(),
                                                   );
                                             },
                                             child: Padding(
@@ -700,38 +611,29 @@ class UserDashboardView extends GetView {
                                                 height: 325.h,
                                                 decoration: BoxDecoration(
                                                   color: lightGray,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
+                                                  borderRadius: BorderRadius.circular(
                                                     8.0,
                                                   ),
                                                 ),
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Container(
                                                       width: 220.w,
                                                       height: 210.h,
                                                       decoration: BoxDecoration(
                                                         color: lightGray,
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                .only(
-                                                          topRight:
-                                                              Radius.circular(
+                                                        borderRadius: const BorderRadius.only(
+                                                          topRight: Radius.circular(
                                                             10.0,
                                                           ),
-                                                          topLeft:
-                                                              Radius.circular(
+                                                          topLeft: Radius.circular(
                                                             10.0,
                                                           ),
                                                         ),
                                                         image: DecorationImage(
                                                           image: NetworkImage(
-                                                            ApiService
-                                                                    .imageBaseUrl +
-                                                                fOffer[index]
-                                                                    ['banner'],
+                                                            ApiService.imageBaseUrl + fOffer[index]['banner'],
                                                           ),
                                                           fit: BoxFit.cover,
                                                         ),
@@ -744,74 +646,42 @@ class UserDashboardView extends GetView {
                                                         right: 10,
                                                       ),
                                                       child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Text(
-                                                            fOffer[index]
-                                                                    ['title'] ??
-                                                                '',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style:
-                                                                CustomTextView
-                                                                    .getStyle(
+                                                            fOffer[index]['title'] ?? '',
+                                                            overflow: TextOverflow.ellipsis,
+                                                            style: CustomTextView.getStyle(
                                                               context,
-                                                              colorLight:
-                                                                  Colors.black,
+                                                              colorLight: Colors.black,
                                                               fontSize: 16.sp,
-                                                              fontFamily: Utils
-                                                                  .poppinsBold,
+                                                              fontFamily: Utils.poppinsBold,
                                                             ),
                                                           ),
                                                           Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             children: [
                                                               Expanded(
                                                                 flex: 1,
                                                                 child: Text(
-                                                                  fOffer[index][
-                                                                              'shop']
-                                                                          ?[
-                                                                          'name'] ??
-                                                                      '',
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style: CustomTextView
-                                                                      .getStyle(
+                                                                  fOffer[index]['shop']?['name'] ?? '',
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: CustomTextView.getStyle(
                                                                     context,
-                                                                    colorLight:
-                                                                        secondary,
-                                                                    fontSize:
-                                                                        14.sp,
-                                                                    fontFamily:
-                                                                        Utils
-                                                                            .poppinsMedium,
+                                                                    colorLight: secondary,
+                                                                    fontSize: 14.sp,
+                                                                    fontFamily: Utils.poppinsMedium,
                                                                   ),
                                                                 ),
                                                               ),
                                                               Row(
                                                                 children: [
                                                                   GestureDetector(
-                                                                    onTap:
-                                                                        () async {
-                                                                      final sellerUrl =
-                                                                          fOffer[index]['shop']['seller']
-                                                                              [
-                                                                              'seller_link'];
-                                                                      Share
-                                                                          .share(
+                                                                    onTap: () async {
+                                                                      final sellerUrl = fOffer[index]['shop']['seller']['seller_link'];
+                                                                      Share.share(
                                                                         "${fOffer[index]['title']}"
                                                                         "\n\n${fOffer[index]['description']} by ${fOffer[index]['shop']['name'] ?? ''}"
                                                                         '\n\n$sellerUrl'
@@ -822,29 +692,19 @@ class UserDashboardView extends GetView {
                                                                       //     .showCustomDialog(
                                                                       //         fOffer[index]);
                                                                     },
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          25.h,
-                                                                      width:
-                                                                          30.w,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color:
-                                                                            secondary,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
+                                                                    child: Container(
+                                                                      height: 25.h,
+                                                                      width: 30.w,
+                                                                      decoration: BoxDecoration(
+                                                                        color: secondary,
+                                                                        borderRadius: BorderRadius.circular(
                                                                           5.0,
                                                                         ),
                                                                       ),
-                                                                      child:
-                                                                          const Icon(
-                                                                        Icons
-                                                                            .share,
-                                                                        color: Colors
-                                                                            .white,
-                                                                        size:
-                                                                            20,
+                                                                      child: const Icon(
+                                                                        Icons.share,
+                                                                        color: Colors.white,
+                                                                        size: 20,
                                                                       ),
                                                                     ),
                                                                   ),
@@ -852,8 +712,7 @@ class UserDashboardView extends GetView {
                                                                     width: 10.w,
                                                                   ),
                                                                   GestureDetector(
-                                                                    onTap:
-                                                                        () async {
+                                                                    onTap: () async {
                                                                       // final appInstalled =
                                                                       //     await canLaunchUrl(
                                                                       //         Uri.parse(
@@ -872,29 +731,20 @@ class UserDashboardView extends GetView {
                                                                       //       'https://api.whatsapp.com/send?phone=03001234567'));
                                                                       // }
                                                                     },
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          25.h,
-                                                                      width:
-                                                                          30.w,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color:
-                                                                            greenColor,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
+                                                                    child: Container(
+                                                                      height: 25.h,
+                                                                      width: 30.w,
+                                                                      decoration: BoxDecoration(
+                                                                        color: greenColor,
+                                                                        borderRadius: BorderRadius.circular(
                                                                           5.0,
                                                                         ),
                                                                       ),
-                                                                      child:
-                                                                          Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.all(
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.all(
                                                                           5.0,
                                                                         ),
-                                                                        child: SvgPicture
-                                                                            .asset(
+                                                                        child: SvgPicture.asset(
                                                                           'assets/svgIcons/whatsapp.svg',
                                                                         ),
                                                                       ),
@@ -908,19 +758,13 @@ class UserDashboardView extends GetView {
                                                             height: 5.h,
                                                           ),
                                                           Text(
-                                                            fOffer[index]
-                                                                ['description'],
+                                                            fOffer[index]['description'],
                                                             // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
                                                             maxLines: 2,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style:
-                                                                CustomTextView
-                                                                    .getStyle(
+                                                            overflow: TextOverflow.ellipsis,
+                                                            style: CustomTextView.getStyle(
                                                               context,
-                                                              colorLight:
-                                                                  textColor,
+                                                              colorLight: textColor,
                                                               fontSize: 13.sp,
                                                             ),
                                                           ),
@@ -950,9 +794,7 @@ class UserDashboardView extends GetView {
                     },
                   ),
                   Obx(
-                    () => homeController.isLoading.isTrue
-                        ? const MyLoading()
-                        : Container(),
+                    () => homeController.isLoading.isTrue ? const MyLoading() : Container(),
                   ),
                 ],
               ),

@@ -167,8 +167,8 @@ class _FilterDialogState extends State<FilterDialog> {
                           child: GestureDetector(
                             onTap: () async {
                               final box = GetStorage();
-                              if (selectedSubcats.isEmpty || selectedAreas.isEmpty) {
-                                showToast(message: 'Please select the filters');
+                              if (selectedSubcats.isEmpty != selectedAreas.isEmpty) {
+                                showToast(message: 'Please select both filters');
                                 return;
                               }
                               box.write('user_categories', selectedSubcats.map((e) => e.id ?? 0).toList());
