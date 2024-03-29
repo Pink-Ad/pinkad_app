@@ -10,8 +10,6 @@ import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/functions/show_toast.dart';
 import 'package:upgrader/upgrader.dart';
 
-import '../../../../utilities/custom_widgets/text_utils.dart';
-
 class UserBottomNavBar extends StatefulWidget {
   const UserBottomNavBar({Key? key}) : super(key: key);
 
@@ -69,83 +67,31 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
               },
               children: [
                 UserDashboardView(),
-                // AllShopsView(),
-                // TutorialView(),
               ],
             ),
-            bottomNavigationBar: CircleNavBar(
-              color: primary,
-              activeIndex: 0,
-              activeIcons: [
-                Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Icon(
-                    Icons.home,
-                    color: Colors.white,
+            bottomNavigationBar: Container(
+              height: 40.h,
+              child: CircleNavBar(
+                color: primary,
+                activeIndex: 0,
+                activeIcons: [
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: SvgPicture.asset('assets/svgIcons/home.svg'),
                   ),
-                ),
-              ],
-              inactiveIcons: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset('assets/svgIcons/home.svg'),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Text(
-                      'Home',
-                      style: CustomTextView.getStyle(
-                        context,
-                        fontSize: 12.sp,
-                        colorLight: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     SvgPicture.asset("assets/svgIcons/shop.svg"),
-                //     SizedBox(
-                //       height: 5.h,
-                //     ),
-                //     Text(
-                //       'Shops',
-                //       style: CustomTextView.getStyle(
-                //         context,
-                //         fontSize: 12.sp,
-                //         colorLight: Colors.white,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     SvgPicture.asset("assets/svgIcons/tutorial.svg"),
-                //     SizedBox(
-                //       height: 5.h,
-                //     ),
-                //     Text(
-                //       'Tutorial',
-                //       style: CustomTextView.getStyle(
-                //         context,
-                //         fontSize: 12.sp,
-                //         colorLight: Colors.white,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-              ],
-              height: 60.h,
-              circleWidth: 60,
-              circleColor: bottomActiveColor,
-              onTap: (index) {
-                if (index == 0) return;
-                tabIndex = index;
-                pageController.jumpToPage(tabIndex);
-              },
+                ],
+                inactiveIcons: [
+                  SvgPicture.asset('assets/svgIcons/home.svg'),
+                ],
+                height: 40.h,
+                circleWidth: 40,
+                circleColor: bottomActiveColor,
+                onTap: (index) {
+                  if (index == 0) return;
+                  tabIndex = index;
+                  pageController.jumpToPage(tabIndex);
+                },
+              ),
             ),
           ),
         ),

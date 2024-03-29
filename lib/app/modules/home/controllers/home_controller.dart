@@ -15,7 +15,6 @@ import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
   final box = GetStorage();
   RxBool isLoading = false.obs;
 
@@ -94,14 +93,6 @@ class HomeController extends GetxController {
                     Share.share(
                       "${temp['title']}, ${temp['description']},${temp['shop']['name'] ?? ''},contact ${temp['shop']['seller']['faecbook_page']}. $appUrl",
                     );
-                    // if (await canLaunchUrl(
-                    //     Uri.parse(temp['shop']['seller']['faecbook_page']))) {
-                    //   await launchUrl(
-                    //       Uri.parse(temp['shop']['seller']['faecbook_page']));
-                    // } else {
-                    //   // If the Facebook app is not installed, open the Facebook website
-                    //   await launchUrl(Uri.parse('www.facebook.com'));
-                    // }
                   },
                   child: Container(
                     height: 40.h,
@@ -126,14 +117,6 @@ class HomeController extends GetxController {
                     Share.share(
                       "${temp['title']}, ${temp['description']},${temp['shop']['name'] ?? ''},contact ${temp['shop']['seller']['insta_page']}. $appUrl",
                     );
-                    // final appInstalled = await canLaunchUrl(Uri.parse(
-                    //     'instagram://${temp['shop']['seller']['insta_page']}'));
-                    // if (appInstalled) {
-                    //   await launchUrl(Uri.parse(
-                    //       'instagram://${temp['shop']['seller']['insta_page']}'));
-                    // } else {
-                    //   await launchUrl(Uri.parse('https://www.instagram.com/'));
-                    // }
                   },
                   child: Container(
                     height: 40.h,
@@ -152,43 +135,6 @@ class HomeController extends GetxController {
                   ),
                 ),
                 SizedBox(width: 10.w),
-
-                // GestureDetector(
-                //   onTap: () {
-                //     Get.snackbar(
-                //         snackPosition: SnackPosition.BOTTOM,
-                //         "Instagram",
-                //         "Click");
-                //   },
-                //   child: Container(
-                //       height: 40.h,
-                //       width: 45.w,
-                //       decoration: BoxDecoration(
-                //         color: socialMediabg,
-                //         borderRadius: BorderRadius.circular(10.0),
-                //       ),
-                //       child: Center(
-                //         child: SvgPicture.asset("assets/svgIcons/twitter.svg"),)),
-                // ),
-                // GestureDetector(
-                //   onTap: () {
-                //     Get.snackbar(
-                //         snackPosition: SnackPosition.BOTTOM,
-                //         "Instagram",
-                //         "Click");
-                //   },
-                //   child: Container(
-                //       height: 40.h,
-                //       width: 45.w,
-                //       decoration: BoxDecoration(
-                //         color: socialMediabg,
-                //         borderRadius: BorderRadius.circular(10.0),
-
-                //       ),
-                //       child: Center(
-                //         child: SvgPicture.asset("assets/svgIcons/snapchat.svg"),)),
-                // ),
-
                 GestureDetector(
                   onTap: () async {
                     await launchUrl(

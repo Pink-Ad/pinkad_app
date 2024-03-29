@@ -14,7 +14,6 @@ import 'package:pink_ad/utilities/custom_widgets/auth_dialog.dart';
 import 'package:pink_ad/utilities/functions/show_toast.dart';
 import 'package:upgrader/upgrader.dart';
 
-import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../all_offers/views/all_offers_view.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -72,8 +71,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
             children: [
               Scaffold(
                 resizeToAvoidBottomInset: false,
-                // extendBody: true,
                 bottomNavigationBar: Container(
+                  height: 40.h,
                   color: primary,
                   child: SafeArea(
                     top: false,
@@ -90,7 +89,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                               SizedBox.shrink(), // Dummy
                               SizedBox.shrink(), // Dummy
                               Padding(
-                                padding: const EdgeInsets.all(20.0),
+                                padding: const EdgeInsets.all(10.0),
                                 child: SvgPicture.asset('assets/svgIcons/home.svg'),
                               ),
                               SizedBox.shrink(), // Dummy
@@ -99,29 +98,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
                             inactiveIcons: [
                               SizedBox.shrink(), // Dummy
                               SizedBox.shrink(), // Dummy
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset('assets/svgIcons/home.svg'),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text(
-                                    'Home',
-                                    style: CustomTextView.getStyle(
-                                      context,
-                                      fontSize: 12.sp,
-                                      colorLight: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              SvgPicture.asset('assets/svgIcons/home.svg'),
                               SizedBox.shrink(), // Dummy
                               SizedBox.shrink(), // Dummy
                             ],
                             color: primary,
-                            height: 60.h,
-                            circleWidth: 60,
+                            height: 40.h,
+                            circleWidth: 40,
                             circleColor: bottomActiveColor,
                             activeIndex: tabIndex,
                             onTap: (index) {

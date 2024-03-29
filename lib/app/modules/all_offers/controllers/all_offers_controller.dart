@@ -16,7 +16,6 @@ import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/functions/show_toast.dart';
 
 class AllOffersController extends GetxController {
-  //TODO: Implement AllOffersController
   final ApiService _apiService = ApiService(http.Client());
   HomeController homeController = HomeController();
   final box = GetStorage();

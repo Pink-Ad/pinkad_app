@@ -51,6 +51,23 @@ class AllShopsController extends GetxController {
     // isLoading.value = false;
   }
 
+  void updateShops(List<dynamic> newShops) {
+    allShops.addAll(newShops);
+    shops = allShops;
+    update(); // This will trigger the UI to rebuild
+  }
+
+  int currentPage = 1;
+  Future<void> fetchShops() async {
+    final response = await _apiService.getData('shops?page=$currentPage');
+    final result = json.decode(response.body);
+    print('Fetched ${result.length} shops'); // Debug print
+    if (result.isNotEmpty) {
+      updateShops(result);
+      currentPage++;
+    }
+  }
+
   Future<void> filterShops(List<Area> areas) async {
     if (areas.isEmpty) {
       showToast(message: 'Please select the filters');

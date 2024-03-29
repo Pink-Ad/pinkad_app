@@ -4,10 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
-import 'package:pink_ad/app/modules/all_offers/views/all_offers_view.dart';
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
-import 'package:pink_ad/app/modules/all_shops/views/all_shops_view.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
+import 'package:pink_ad/app/modules/home/views/home_view.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/utilities/custom_widgets/loader.dart';
 import 'package:pink_ad/utilities/custom_widgets/main_controlller.dart';
@@ -71,115 +70,17 @@ class UserDashboardView extends GetView {
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
-                              10.verticalSpace,
+                              // 10.verticalSpace,
                               SizedBox(
                                 height: 180.h,
                                 child: const HomePageSlider(),
                               ),
+                              // SizedBox(
+                              //   height: 10.h,
+                              // ),
+                              centerButtons(),
                               SizedBox(
-                                height: 10.h,
-                              ),
-                              Positioned(
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: 65.h,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white, // Adjust color as needed
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(15.0),
-                                        topRight: Radius.circular(15.0),
-                                        bottomLeft: Radius.circular(15.0),
-                                        bottomRight: Radius.circular(15.0),
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 5,
-                                          offset: Offset(
-                                            0,
-                                            3,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                IconButton(
-                                                  onPressed: () {
-                                                    Get.to(AllShopsView());
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.store_mall_directory_outlined,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Seller',
-                                                  style: CustomTextView.getStyle(
-                                                    context,
-                                                    fontSize: 12.sp,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Offers button
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                IconButton(
-                                                  onPressed: () {
-                                                    Get.to(AllOffersView());
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.travel_explore,
-                                                    size: 22.h,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Offers',
-                                                  style: CustomTextView.getStyle(
-                                                    context,
-                                                    fontSize: 12.sp,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Column(
-                                              children: [
-                                                IconButton(
-                                                  onPressed: () {
-                                                    Get.to(AllShopsView());
-                                                  },
-                                                  icon: Icon(Icons.category),
-                                                ),
-                                                Text(
-                                                  'Categories',
-                                                  style: CustomTextView.getStyle(
-                                                    context,
-                                                    fontSize: 12.sp,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.h,
+                                height: 8.h,
                               ),
                               tOffer.isNotEmpty
                                   ? GridView.builder(
@@ -290,27 +191,22 @@ class UserDashboardView extends GetView {
                                                         ),
                                                         Text.rich(
                                                           TextSpan(
-                                                            text: tOffer[index]['description']
-                                                                    .split(
-                                                                      ' ',
-                                                                    )
-                                                                    .take(2)
-                                                                    .join(
-                                                                      ' ',
-                                                                    ) +
-                                                                ' ',
+                                                            text: _getTrimmedDescription(
+                                                              context: context,
+                                                              description: tOffer[index]['description'],
+                                                            ),
                                                             style: CustomTextView.getStyle(
                                                               context,
                                                               colorLight: textColor,
-                                                              fontSize: 12.sp,
+                                                              fontSize: 10.sp,
                                                             ),
                                                             children: [
                                                               TextSpan(
-                                                                text: 'See more...',
+                                                                text: ' See more...',
                                                                 style: CustomTextView.getStyle(
                                                                   context,
                                                                   colorLight: textColor,
-                                                                  fontSize: 12.sp,
+                                                                  fontSize: 10.sp,
                                                                   fontWeight: FontWeight.w700,
                                                                 ),
                                                               ),
@@ -416,4 +312,14 @@ class UserDashboardView extends GetView {
       ),
     );
   }
+}
+
+String _getTrimmedDescription({
+  required BuildContext context,
+  required String description,
+  int maxDescriptionLength = 10,
+}) {
+  String trimmedDescription = description.length > maxDescriptionLength ? description.substring(0, maxDescriptionLength) + '...' : description;
+
+  return trimmedDescription;
 }
