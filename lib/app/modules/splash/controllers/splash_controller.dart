@@ -305,7 +305,7 @@ class SplashController extends GetxController {
 
   Future<void> getTopOffer() async {
     try {
-      final response = await _apiService.getData(Endpoints.topOffers);
+    final response = await _apiService.getData(Endpoints.topOffers);
 
       if (response.statusCode == 200) {
         final result = json.decode(response.body);

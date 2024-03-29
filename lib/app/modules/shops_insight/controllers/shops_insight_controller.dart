@@ -261,8 +261,7 @@ class ShopsInsightController extends GetxController {
 
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
-        offerList
-            .addAll(result.map((json) => OfferList.fromJson(json)).toList());
+        offerList.addAll(result.map((json) => OfferList.fromJson(json)).toList());
         await box.write('offers', offerList);
       }
     } catch (e) {

@@ -41,16 +41,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     pageController = PageController(initialPage: _tabIndex);
-    // box.listenKey('user_categories', (val) {
-    //   if (mounted) {
-    //     setState(() {});
-    //   }
-    // });
-    // box.listenKey('user_areas', (val) {
-    //   if (mounted) {
-    //     setState(() {});
-    //   }
-    // });
+
     super.initState();
   }
 
@@ -96,94 +87,18 @@ class _BottomNavBarState extends State<BottomNavBar> {
                             elevation: 0,
                             circleShadowColor: Get.theme.colorScheme.background,
                             activeIcons: [
-                              const Padding(
-                                padding: EdgeInsets.all(20.0),
-                                child: Icon(
-                                  Icons.video_collection_outlined,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Icon(
-                                  Icons.travel_explore,
-                                  color: Colors.white,
-                                  size: 22.h,
-                                ),
-                                // child: SvgPicture.asset(
-                                //   "assets/svgIcons/activated.svg",
-                                //   height: 10,
-                                //   width: 10,
-                                // )
-                              ),
+                              SizedBox.shrink(), // Dummy
+                              SizedBox.shrink(), // Dummy
                               Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: SvgPicture.asset('assets/svgIcons/home.svg'),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Icon(
-                                  Icons.store_mall_directory_outlined,
-                                  color: Colors.white,
-                                  size: 22.h,
-                                ),
-                                // child: SvgPicture.asset(
-                                //   "assets/svgIcons/offers.svg",
-                                //   height: 10,
-                                //   width: 10,
-                                // )
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.all(20.0),
-                                child: Icon(
-                                  Icons.video_collection_outlined,
-                                  color: Colors.white,
-                                ),
-                                // child: SvgPicture.asset("assets/svgIcons/activated.svg")
-                              ),
+                              SizedBox.shrink(), // Dummy
+                              SizedBox.shrink(), // Dummy
                             ],
                             inactiveIcons: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.watch_later_outlined,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  FittedBox(
-                                    child: Text(
-                                      'Upcoming',
-                                      style: CustomTextView.getStyle(
-                                        context,
-                                        colorLight: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.travel_explore,
-                                    color: Colors.white,
-                                    size: 22.h,
-                                  ),
-                                  // SvgPicture.asset("assets/svgIcons/offers.svg"),
-                                  SizedBox(height: 5.h),
-                                  Text(
-                                    'Offers',
-                                    style: CustomTextView.getStyle(
-                                      context,
-                                      fontSize: 12.sp,
-                                      colorLight: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              SizedBox.shrink(), // Dummy
+                              SizedBox.shrink(), // Dummy
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -201,61 +116,21 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                   ),
                                 ],
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.store_mall_directory_outlined,
-                                    color: Colors.white,
-                                    size: 22.h,
-                                  ),
-                                  // SvgPicture.asset("assets/svgIcons/activated.svg"),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text(
-                                    'Sellers',
-                                    style: CustomTextView.getStyle(
-                                      context,
-                                      fontSize: 12.sp,
-                                      colorLight: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.library_books,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text(
-                                    'Tutorial',
-                                    style: CustomTextView.getStyle(
-                                      context,
-                                      fontSize: 12.sp,
-                                      colorLight: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              SizedBox.shrink(), // Dummy
+                              SizedBox.shrink(), // Dummy
                             ],
                             color: primary,
                             height: 60.h,
                             circleWidth: 60,
                             circleColor: bottomActiveColor,
                             activeIndex: tabIndex,
-                            // elevation: 10,
                             onTap: (index) {
-                              if (index == 0) return;
-                              tabIndex = index;
-                              pageController.jumpToPage(tabIndex);
+                              // Only react to the tap if it's the home icon
+                              if (index == 2) {
+                                tabIndex = index;
+                                pageController.jumpToPage(tabIndex);
+                              }
                             },
-                            // shadowColor: Colors.deepPurple,
                           ),
                           SizedBox(
                             height: 60.h,
