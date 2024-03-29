@@ -57,6 +57,7 @@ class UserDashboardView extends GetView {
                     init: UserDashboardController(),
                     builder: (controller) {
                       List<dynamic> tOffer = controller.box.read('topOffer') ?? [];
+                       List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
                       return SmartRefresher(
                         controller: refreshController,
                         onRefresh: () async {
@@ -82,7 +83,7 @@ class UserDashboardView extends GetView {
                               SizedBox(
                                 height: 8.h,
                               ),
-                              tOffer.isNotEmpty
+                              fOffer.isNotEmpty
                                   ? GridView.builder(
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
@@ -92,7 +93,7 @@ class UserDashboardView extends GetView {
                                         mainAxisSpacing: 12.0,
                                         childAspectRatio: 150.w / 230.h,
                                       ),
-                                      itemCount: tOffer.length,
+                                      itemCount: fOffer.length,
                                       padding: EdgeInsets.only(
                                         left: 10.0,
                                         //right: 20.0,
@@ -107,7 +108,7 @@ class UserDashboardView extends GetView {
                                             homeController.setLoading();
                                             allOffersController
                                                 .getOfferDetail(
-                                                  tOffer[index]['id'],
+                                                  fOffer[index]['id'],
                                                 )
                                                 .then(
                                                   (value) => homeController.setLoading(),
@@ -144,7 +145,7 @@ class UserDashboardView extends GetView {
                                                       ),
                                                       image: DecorationImage(
                                                         image: NetworkImage(
-                                                          ApiService.imageBaseUrl + tOffer[index]['banner'],
+                                                          ApiService.imageBaseUrl + fOffer[index]['banner'],
                                                         ),
                                                         fit: BoxFit.cover,
                                                       ),
@@ -161,7 +162,7 @@ class UserDashboardView extends GetView {
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Text(
-                                                          tOffer[index]['title'],
+                                                          fOffer[index]['title'],
                                                           maxLines: 1,
                                                           style: CustomTextView.getStyle(
                                                             context,
@@ -177,7 +178,7 @@ class UserDashboardView extends GetView {
                                                             Expanded(
                                                               flex: 1,
                                                               child: Text(
-                                                                tOffer[index]['shop']?['name'] ?? '',
+                                                                fOffer[index]['shop']?['name'] ?? '',
                                                                 overflow: TextOverflow.ellipsis,
                                                                 style: CustomTextView.getStyle(
                                                                   context,
@@ -193,7 +194,7 @@ class UserDashboardView extends GetView {
                                                           TextSpan(
                                                             text: _getTrimmedDescription(
                                                               context: context,
-                                                              description: tOffer[index]['description'],
+                                                              description: fOffer[index]['description'],
                                                             ),
                                                             style: CustomTextView.getStyle(
                                                               context,
@@ -232,7 +233,7 @@ class UserDashboardView extends GetView {
                                                                       onTap: () async {
                                                                         await launchUrl(
                                                                           Uri.parse(
-                                                                            'whatsapp://send?phone=${tOffer[index]['shop']?['seller']?['whatsapp']}',
+                                                                            'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
                                                                           ),
                                                                         );
                                                                       },
@@ -258,7 +259,7 @@ class UserDashboardView extends GetView {
                                                                 onTap: () async {
                                                                   await launchUrl(
                                                                     Uri.parse(
-                                                                      'whatsapp://send?phone=${tOffer[index]['shop']?['seller']?['whatsapp']}',
+                                                                      'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
                                                                     ),
                                                                   );
                                                                 },

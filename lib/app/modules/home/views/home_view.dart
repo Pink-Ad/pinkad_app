@@ -31,6 +31,7 @@ class HomeView extends GetView<HomeController> {
       init: HomeController(),
       builder: (controller) {
         List<dynamic> tOffer = controller.box.read('topOffer') ?? [];
+        List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
         return Scaffold(
           resizeToAvoidBottomInset: false,
           body: Container(
@@ -75,7 +76,7 @@ class HomeView extends GetView<HomeController> {
                               SizedBox(
                                 height: 8.h,
                               ),
-                              tOffer.isNotEmpty
+                              fOffer.isNotEmpty
                                   ? GridView.builder(
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
@@ -85,7 +86,7 @@ class HomeView extends GetView<HomeController> {
                                         mainAxisSpacing: 12.0,
                                         childAspectRatio: 150.w / 230.h,
                                       ),
-                                      itemCount: tOffer.length,
+                                      itemCount: fOffer.length,
                                       padding: EdgeInsets.only(
                                         left: 10.0,
                                         //right: 20.0,
@@ -100,7 +101,7 @@ class HomeView extends GetView<HomeController> {
                                             controller.setLoading();
                                             allOffersController
                                                 .getOfferDetail(
-                                                  tOffer[index]['id'],
+                                                  fOffer[index]['id'],
                                                 )
                                                 .then(
                                                   (value) => controller.setLoading(),
@@ -137,7 +138,7 @@ class HomeView extends GetView<HomeController> {
                                                       ),
                                                       image: DecorationImage(
                                                         image: NetworkImage(
-                                                          ApiService.imageBaseUrl + tOffer[index]['banner'],
+                                                          ApiService.imageBaseUrl + fOffer[index]['banner'],
                                                         ),
                                                         fit: BoxFit.cover,
                                                       ),
@@ -154,7 +155,7 @@ class HomeView extends GetView<HomeController> {
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Text(
-                                                          tOffer[index]['title'],
+                                                          fOffer[index]['title'],
                                                           maxLines: 1,
                                                           style: CustomTextView.getStyle(
                                                             context,
@@ -170,7 +171,7 @@ class HomeView extends GetView<HomeController> {
                                                             Expanded(
                                                               flex: 1,
                                                               child: Text(
-                                                                tOffer[index]['shop']?['name'] ?? '',
+                                                                fOffer[index]['shop']?['name'] ?? '',
                                                                 overflow: TextOverflow.ellipsis,
                                                                 style: CustomTextView.getStyle(
                                                                   context,
@@ -186,7 +187,7 @@ class HomeView extends GetView<HomeController> {
                                                           TextSpan(
                                                             text: _getTrimmedDescription(
                                                               context: context,
-                                                              description: tOffer[index]['description'],
+                                                              description: fOffer[index]['description'],
                                                             ),
                                                             style: CustomTextView.getStyle(
                                                               context,
@@ -225,7 +226,7 @@ class HomeView extends GetView<HomeController> {
                                                                       onTap: () async {
                                                                         await launchUrl(
                                                                           Uri.parse(
-                                                                            'whatsapp://send?phone=${tOffer[index]['shop']?['seller']?['whatsapp']}',
+                                                                            'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
                                                                           ),
                                                                         );
                                                                       },
@@ -251,7 +252,7 @@ class HomeView extends GetView<HomeController> {
                                                                 onTap: () async {
                                                                   await launchUrl(
                                                                     Uri.parse(
-                                                                      'whatsapp://send?phone=${tOffer[index]['shop']?['seller']?['whatsapp']}',
+                                                                      'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
                                                                     ),
                                                                   );
                                                                 },
@@ -314,112 +315,107 @@ class centerButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: 65.h,
-          decoration: BoxDecoration(
-            color: Colors.white, // Adjust color as needed
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15.0),
-              topRight: Radius.circular(15.0),
-              bottomLeft: Radius.circular(15.0),
-              bottomRight: Radius.circular(15.0),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 65.h,
+        decoration: BoxDecoration(
+          color: Colors.white, // Adjust color as needed
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15.0),
+            topRight: Radius.circular(15.0),
+            bottomLeft: Radius.circular(15.0),
+            bottomRight: Radius.circular(15.0),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(
+                0,
+                3,
+              ),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(
-                  0,
-                  3,
+          ],
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Get.to(AllShopsView());
+                        },
+                        icon: Icon(
+                          Icons.store_mall_directory_outlined,
+                          size: 22.h,
+                        ),
+                      ),
+                      Text(
+                        'Seller',
+                        style: CustomTextView.getStyle(
+                          context,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Get.to(AllShopsView());
-                          },
-                          icon: Icon(
-                            Icons.store_mall_directory_outlined,
-                            size: 22.h,
-                          ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Get.to(AllOffersView());
+                        },
+                        icon: Icon(
+                          Icons.travel_explore,
+                          size: 22.h,
                         ),
-                        Text(
-                          'Seller',
-                          style: CustomTextView.getStyle(
-                            context,
-                            fontSize: 12.sp,
-                          ),
+                      ),
+                      Text(
+                        'Offers',
+                        style: CustomTextView.getStyle(
+                          context,
+                          fontSize: 12.sp,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Get.to(AllOffersView());
-                          },
-                          icon: Icon(
-                            Icons.travel_explore,
-                            size: 22.h,
-                          ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Get.to(AllShopsView());
+                        },
+                        icon: Icon(
+                          Icons.category,
+                          size: 22.h,
                         ),
-                        Text(
-                          'Offers',
-                          style: CustomTextView.getStyle(
-                            context,
-                            fontSize: 12.sp,
-                          ),
+                      ),
+                      Text(
+                        'Categories',
+                        style: CustomTextView.getStyle(
+                          context,
+                          fontSize: 12.sp,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Get.to(AllShopsView());
-                          },
-                          icon: Icon(
-                            Icons.category,
-                            size: 22.h,
-                          ),
-                        ),
-                        Text(
-                          'Categories',
-                          style: CustomTextView.getStyle(
-                            context,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
