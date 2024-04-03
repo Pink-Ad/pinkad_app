@@ -169,7 +169,7 @@ class _HomePageSliderState extends State<HomePageSlider> {
                         );
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
+                        padding: const EdgeInsets.only(top: 12.0),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),

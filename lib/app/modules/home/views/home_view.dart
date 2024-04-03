@@ -35,20 +35,25 @@ class HomeView extends GetView<HomeController> {
         return Scaffold(
           resizeToAvoidBottomInset: false,
           body: Container(
-            child: Column(
-              children: [
-                MyAppBar(
-                  backButton: false,
-                  title: 'PinkAd',
-                  onMenuTap: () {
-                    print('object');
-                  },
-                  onProfileTap: () {
-                    print('object');
-                    Get.to(ProfileView());
-                  },
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: MyAppBar(
+                    backButton: false,
+                    title: 'PinkAd',
+                    onMenuTap: () {
+                      print('object');
+                    },
+                    onProfileTap: () {
+                      print('object');
+                      Get.to(ProfileView());
+                    },
+                  ),
                 ),
-                Expanded(
+                SliverToBoxAdapter(
+                  child: CenterButtons(),
+                ),
+                SliverFillRemaining(
                   child: Stack(
                     children: [
                       SmartRefresher(
@@ -64,15 +69,10 @@ class HomeView extends GetView<HomeController> {
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
-                              // 10.verticalSpace,
                               SizedBox(
                                 height: 180.h,
                                 child: const HomePageSlider(),
                               ),
-                              // SizedBox(
-                              //   height: 10.h,
-                              // ),
-                              centerButtons(),
                               SizedBox(
                                 height: 8.h,
                               ),
@@ -308,112 +308,71 @@ class HomeView extends GetView<HomeController> {
   }
 }
 
-class centerButtons extends StatelessWidget {
-  const centerButtons({
+class CenterButtons extends StatelessWidget {
+  const CenterButtons({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.only(top: 10, left: 8.0, right: 8.0),
       child: Container(
-        height: 65.h,
         decoration: BoxDecoration(
-          color: Colors.white, // Adjust color as needed
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15.0),
-            topRight: Radius.circular(15.0),
-            bottomLeft: Radius.circular(15.0),
-            bottomRight: Radius.circular(15.0),
-          ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15.0),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 5,
-              offset: Offset(
-                0,
-                3,
-              ),
+              offset: Offset(0, 3),
             ),
           ],
         ),
+        child: IntrinsicHeight(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildButton(context, Icons.store_mall_directory_outlined, 'Seller', () {
+                Get.to(AllShopsView());
+              }),
+              _buildButton(context, Icons.travel_explore, 'Offers', () {
+                Get.to(AllOffersView());
+              }),
+              _buildButton(context, Icons.category, 'Categories', () {}),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButton(BuildContext context, IconData iconData, String label, VoidCallback onPressed) {
+    return Expanded(
+      child: TextButton(
+        style: TextButton.styleFrom(
+          foregroundColor: Color.fromARGB(154, 0, 0, 0),
+          padding: EdgeInsets.all(2),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        onPressed: onPressed,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Get.to(AllShopsView());
-                        },
-                        icon: Icon(
-                          Icons.store_mall_directory_outlined,
-                          size: 22.h,
-                        ),
-                      ),
-                      Text(
-                        'Seller',
-                        style: CustomTextView.getStyle(
-                          context,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                    ],
-                  ),
+            Icon(
+              iconData,
+              size: 22.h,
+            ),
+            SizedBox(height: 5),
+            Flexible(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 14.sp,
                 ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Get.to(AllOffersView());
-                        },
-                        icon: Icon(
-                          Icons.travel_explore,
-                          size: 22.h,
-                        ),
-                      ),
-                      Text(
-                        'Offers',
-                        style: CustomTextView.getStyle(
-                          context,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Get.to(AllShopsView());
-                        },
-                        icon: Icon(
-                          Icons.category,
-                          size: 22.h,
-                        ),
-                      ),
-                      Text(
-                        'Categories',
-                        style: CustomTextView.getStyle(
-                          context,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),

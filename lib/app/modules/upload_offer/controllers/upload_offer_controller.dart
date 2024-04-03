@@ -9,7 +9,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:pink_ad/app/data/api_service.dart';
-import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/category_model.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/models/login_response.dart';
@@ -48,14 +47,14 @@ class UploadOfferController extends GetxController {
   RxList<City> subCategoryName = <City>[].obs;
   RxList selectedSubCategory = [].obs;
   RxList selectedShops = [].obs;
-  RxList<City> citiesName = <City>[].obs;
-  RxList<City> areaName = <City>[].obs;
+  //RxList<City> citiesName = <City>[].obs;
+  //RxList<City> areaName = <City>[].obs;
   RxList<City> provinceName = <City>[].obs;
   Rx<City?> selectedProvince = Rx<City?>(null);
   //RxList selectedarea = [].obs;
-  RxList<City> selectedarea = <City>[].obs;
+  //RxList<City> selectedarea = <City>[].obs;
   // Rx<City?> selectedarea = Rx<City?>(null);
-  Rx<City?> selectedCity = Rx<City?>(null);
+  //Rx<City?> selectedCity = Rx<City?>(null);
   var emailVerified;
   // Rx<dynamic> emailVerified = Rx<dynamic?>(null);
   XFile? pickedFile;
@@ -71,7 +70,7 @@ class UploadOfferController extends GetxController {
     getCategories();
     // getShop();
     // getProvince();
-    gerCities();
+    // gerCities();
   }
 
   void toggleSwitchValue() {
@@ -378,16 +377,16 @@ class UploadOfferController extends GetxController {
     print(provinceName[0].name);
   }
 
-  Future<void> gerCities() async {
-    // isLoading.value = true;
-    final response = await _apiService.getData('cities-list');
-    final result = json.decode(response.body);
-    List cities = result.map((json) => Cities.fromJson(json)).toList();
-    for (var city in cities) {
-      citiesName.add(City(id: city?.id, name: city?.name));
-    }
-    // isLoading.value = false;
-  }
+  // Future<void> gerCities() async {
+  //   // isLoading.value = true;
+  //   final response = await _apiService.getData('cities-list');
+  //   final result = json.decode(response.body);
+  //   List cities = result.map((json) => Cities.fromJson(json)).toList();
+  //   for (var city in cities) {
+  //     citiesName.add(City(id: city?.id, name: city?.name));
+  //   }
+  //   // isLoading.value = false;
+  // }
 
   Future<void> getData() async {
     LoginResponse data = await box.read('user_data');
@@ -395,16 +394,16 @@ class UploadOfferController extends GetxController {
     emailVerified = data.user!.emailVerifiedAt;
   }
 
-  Future<void> getAreas(int id) async {
-    // isLoading.value = true;
-    final response = await _apiService.getData('area?city_id=$id');
-    final List result = json.decode(response.body);
-    final cities = result.map((json) => Area.fromJson(json)).toList();
-    areaName.clear();
-    areaName.addAll(cities.map((e) => City(id: e.id ?? 0, name: e.name ?? '')));
-    update();
-    // isLoading.value = false;
-  }
+  // Future<void> getAreas(int id) async {
+  //   // isLoading.value = true;
+  //   final response = await _apiService.getData('area?city_id=$id');
+  //   final List result = json.decode(response.body);
+  //   final cities = result.map((json) => Area.fromJson(json)).toList();
+  //   areaName.clear();
+  //   areaName.addAll(cities.map((e) => City(id: e.id ?? 0, name: e.name ?? '')));
+  //   update();
+  //   // isLoading.value = false;
+  // }
 
   // Future<void> getOffers() async {
   //   try {
@@ -476,7 +475,7 @@ class UploadOfferController extends GetxController {
         'category_id': selectedCategory.value!.id.toString(),
         // 'subcat_id[0]': selectedSubCategory.value[0].toString(),
         'shop_id[0]': shopid.toString(),
-        'area': selectedarea.value[0].id.toString(),
+        //'area': selectedarea.value[0].id.toString(),
         'gender': predction.toString(),
       }); // Add the other fields to the request
       selectedSubCategory.value.asMap().forEach(
@@ -487,7 +486,7 @@ class UploadOfferController extends GetxController {
 
 // Add the bearer token to the request headers
       request.headers['Authorization'] = 'Bearer $savedToken';
-      print(selectedarea.value[0]);
+      //print(selectedarea.value[0]);
       print(request.headers['Authorization'] = 'Bearer $savedToken');
       print(request.fields.toString());
       final response = await http.Response.fromStream(
@@ -508,8 +507,8 @@ class UploadOfferController extends GetxController {
         selectedSubCategory.value = [];
         selectedShops.value = [];
         selectedProvince.value = null;
-        selectedCity.value = null;
-        selectedarea.value = [];
+        //selectedCity.value = null;
+        //selectedarea.value = [];
         selectedCategory.value = null;
         Get.offAllNamed(Routes.User_Bottom_Nav_Bar);
         showSnackBarSuccess(

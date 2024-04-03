@@ -35,29 +35,34 @@ class UserDashboardView extends GetView {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        child: Column(
-          children: [
-            UserAppBar(
-              backButton: false,
-              title: 'PinkAd',
-              onMenuTap: () {
-                print('object');
-              },
-              onProfileTap: () {
-                print('object');
-                Get.to(ProfileView());
-              },
-              // showFilter: true,
-              profileIconVisibility: true,
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: UserAppBar(
+                backButton: false,
+                title: 'PinkAd',
+                onMenuTap: () {
+                  print('object');
+                },
+                onProfileTap: () {
+                  print('object');
+                  Get.to(ProfileView());
+                },
+                // showFilter: true,
+                profileIconVisibility: true,
+              ),
             ),
-            Expanded(
+            SliverToBoxAdapter(
+              child: CenterButtons(),
+            ),
+            SliverFillRemaining(
               child: Stack(
                 children: [
                   GetBuilder(
                     init: UserDashboardController(),
                     builder: (controller) {
                       List<dynamic> tOffer = controller.box.read('topOffer') ?? [];
-                       List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
+                      List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
                       return SmartRefresher(
                         controller: refreshController,
                         onRefresh: () async {
@@ -76,10 +81,6 @@ class UserDashboardView extends GetView {
                                 height: 180.h,
                                 child: const HomePageSlider(),
                               ),
-                              // SizedBox(
-                              //   height: 10.h,
-                              // ),
-                              centerButtons(),
                               SizedBox(
                                 height: 8.h,
                               ),
