@@ -90,9 +90,9 @@ class UserDashboardView extends GetView {
                                       physics: NeverScrollableScrollPhysics(),
                                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 2,
-                                        crossAxisSpacing: 5.0,
-                                        mainAxisSpacing: 12.0,
-                                        childAspectRatio: 150.w / 230.h,
+                                        crossAxisSpacing: 2.0,
+                                        mainAxisSpacing: 8.0,
+                                        childAspectRatio: 150.w / 215.h,
                                       ),
                                       itemCount: fOffer.length,
                                       padding: EdgeInsets.only(
@@ -120,8 +120,6 @@ class UserDashboardView extends GetView {
                                               right: 10,
                                             ),
                                             child: Container(
-                                              width: 217.w,
-                                              height: 325.h,
                                               decoration: BoxDecoration(
                                                 color: lightGray,
                                                 borderRadius: BorderRadius.circular(
@@ -132,8 +130,8 @@ class UserDashboardView extends GetView {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
-                                                    width: 250.w,
-                                                    height: 170.w,
+                                                    width: 230.w,
+                                                    height: 150.w,
                                                     decoration: BoxDecoration(
                                                       color: lightGray,
                                                       borderRadius: const BorderRadius.only(
@@ -216,6 +214,9 @@ class UserDashboardView extends GetView {
                                                           ),
                                                           maxLines: 1,
                                                           overflow: TextOverflow.ellipsis,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5.h,
                                                         ),
                                                         Container(
                                                           padding: EdgeInsets.all(5.0),

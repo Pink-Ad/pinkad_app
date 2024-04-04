@@ -60,7 +60,7 @@ class AllOffersView extends GetView<AllOffersController> {
                         ),
                       ),
                 SizedBox(
-                  height: 15.h,
+                  height: 25.h,
                 ),
                 Container(
                   height: 50.h,
@@ -84,8 +84,8 @@ class AllOffersView extends GetView<AllOffersController> {
                     key: controller.filterKey,
                     padding: const EdgeInsets.only(
                       left: 20.0,
-                      top: 10.0,
-                      bottom: 0.0,
+                      top: 5.0,
+                      bottom: 5.0,
                       right: 5.0,
                     ),
                     child: TypeAheadField<dynamic>(
@@ -101,7 +101,7 @@ class AllOffersView extends GetView<AllOffersController> {
                             icon: Icon(
                               Icons.filter_list,
                               color: Colors.black,
-                              size: 30,
+                              size: 25,
                             ),
                             onPressed: () {
                               Get.find<AllOffersController>().showOfferFilterDialog(context);
@@ -301,7 +301,10 @@ class AllOffersView extends GetView<AllOffersController> {
                       }
                     },
                     child: ListView.builder(
-                      padding: EdgeInsets.only(bottom: 20.0.h, top: 10.h),
+                      padding: EdgeInsets.only(
+                        bottom: 20.0.h,
+                        top: 3.h,
+                      ),
                       itemCount: controller.offers.length, // number of items in the list
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(

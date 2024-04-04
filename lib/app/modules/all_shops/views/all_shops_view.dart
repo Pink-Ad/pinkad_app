@@ -66,7 +66,7 @@ class AllShopsView extends GetView<AllShopsController> {
                           ),
                         ),
                   SizedBox(
-                    height: 15.h,
+                    height: 25.h,
                   ),
                   Container(
                     height: 50.h,
@@ -88,7 +88,7 @@ class AllShopsView extends GetView<AllShopsController> {
                       key: controller.filterKey,
                       padding: const EdgeInsets.only(
                         left: 20.0,
-                        top: 10.0,
+                        top: 5.0,
                         bottom: 5.0,
                         right: 5.0,
                       ),
@@ -100,12 +100,12 @@ class AllShopsView extends GetView<AllShopsController> {
                           autofocus: false,
                           style: TextStyle(fontSize: 15),
                           decoration: InputDecoration(
-                            hintText: 'Search Seller',
+                            hintText: 'Search Sellers',
                             suffixIcon: IconButton(
                               icon: Icon(
                                 Icons.filter_list,
                                 color: Colors.black,
-                                size: 30,
+                                size: 25,
                               ),
                               onPressed: () {
                                 controller.showShopFilterDialog(context);
@@ -305,7 +305,10 @@ class AllShopsView extends GetView<AllShopsController> {
                         }
                       },
                       child: ListView.builder(
-                        padding: EdgeInsets.only(bottom: 20.h, top: 10.h),
+                        padding: EdgeInsets.only(
+                          bottom: 20.h,
+                          top: 3.h,
+                        ),
                         // itemCount: 10, // Arbitrary number of "Hello" to display
                         // itemBuilder: (BuildContext context, int index) {
                         //   return const Center(

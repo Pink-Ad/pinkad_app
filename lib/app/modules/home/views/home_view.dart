@@ -82,9 +82,9 @@ class HomeView extends GetView<HomeController> {
                                       physics: NeverScrollableScrollPhysics(),
                                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 2,
-                                        crossAxisSpacing: 5.0,
-                                        mainAxisSpacing: 12.0,
-                                        childAspectRatio: 150.w / 230.h,
+                                        crossAxisSpacing: 2.0,
+                                        mainAxisSpacing: 8.0,
+                                        childAspectRatio: 150.w / 215.h,
                                       ),
                                       itemCount: fOffer.length,
                                       padding: EdgeInsets.only(
@@ -112,8 +112,6 @@ class HomeView extends GetView<HomeController> {
                                               right: 10,
                                             ),
                                             child: Container(
-                                              width: 217.w,
-                                              height: 325.h,
                                               decoration: BoxDecoration(
                                                 color: lightGray,
                                                 borderRadius: BorderRadius.circular(
@@ -124,8 +122,8 @@ class HomeView extends GetView<HomeController> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
-                                                    width: 250.w,
-                                                    height: 170.w,
+                                                    width: 230.w,
+                                                    height: 150.w,
                                                     decoration: BoxDecoration(
                                                       color: lightGray,
                                                       borderRadius: const BorderRadius.only(
@@ -208,6 +206,9 @@ class HomeView extends GetView<HomeController> {
                                                           ),
                                                           maxLines: 1,
                                                           overflow: TextOverflow.ellipsis,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5.h,
                                                         ),
                                                         Container(
                                                           padding: EdgeInsets.all(5.0),
@@ -329,12 +330,13 @@ class CenterButtons extends StatelessWidget {
               offset: Offset(0, 3),
             ),
           ],
+          //border: Border.all(color: primary, width: 1.5),
         ),
         child: IntrinsicHeight(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildButton(context, Icons.store_mall_directory_outlined, 'Seller', () {
+              _buildButton(context, Icons.store_mall_directory_outlined, 'Sellers', () {
                 Get.to(AllShopsView());
               }),
               _buildButton(context, Icons.travel_explore, 'Offers', () {
@@ -363,13 +365,14 @@ class CenterButtons extends StatelessWidget {
             Icon(
               iconData,
               size: 22.h,
+              color: primary,
             ),
-            SizedBox(height: 5),
             Flexible(
               child: Text(
                 label,
                 style: TextStyle(
                   fontSize: 14.sp,
+                  color: primary,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
