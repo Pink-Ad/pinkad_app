@@ -69,17 +69,6 @@ class UploadOfferView extends GetView {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // uploadOfferController.emailVerified == null
-                                //     ? Container(
-                                //         margin:
-                                //             EdgeInsets.only(left: 20.w, top: 20.h),
-                                //         child: Text(
-                                //           'Note: Please verify your email',
-                                //           style: TextStyle(
-                                //               fontSize: 16.sp, color: Colors.red),
-                                //         ),
-                                //       )
-                                //     : SizedBox(),
                                 SizedBox(
                                   height: 20.h,
                                 ),
@@ -105,13 +94,7 @@ class UploadOfferView extends GetView {
                                   controller: uploadOfferController.titleController.value,
                                   keyboardType: TextInputType.text,
                                 ),
-                                // ShadowedTextField(
-                                //   hintText: 'Description',
-                                //   iconName: 'description',
-                                //   controller: uploadOfferController
-                                //       .descriptionController.value,
-                                //   keyboardType: TextInputType.multiline,
-                                // ),
+
                                 Container(
                                   height: 100.h,
                                   margin: EdgeInsets.symmetric(
@@ -269,117 +252,10 @@ class UploadOfferView extends GetView {
                                     ],
                                   ),
                                 ),
-                                //const ImageRecommendedSizeText(),
-                                // ShadowedTextField(
-                                //   //onChanged: controller.username,
-                                //   hintText: 'Hashtag',
-                                //   iconName: 'hashtag',
-                                //   controller:
-                                //       uploadOfferController.hashtagController.value,
-                                //   keyboardType: TextInputType.text,
-                                // ),
+
                                 CategoriesDropDown(),
                                 //AreaDropDownUpload(),
-                                // Container(
-                                //   height: 50.h,
-                                //   width: Get.width,
-                                //   margin: EdgeInsets.symmetric(
-                                //       horizontal: 20.w, vertical: 10.h),
-                                //   padding: EdgeInsets.only(
-                                //       left: 20.0.w,
-                                //       right: 20.w,
-                                //       top: 5.h,
-                                //       bottom: 5.h),
-                                //   decoration: BoxDecoration(
-                                //     color: Colors.white,
-                                //     borderRadius: BorderRadius.circular(8.0),
-                                //     boxShadow: [
-                                //       BoxShadow(
-                                //         color: Colors.grey.withOpacity(0.5),
-                                //         spreadRadius: 0,
-                                //         blurRadius: 5,
-                                //         offset: const Offset(0, 3),
-                                //       ),
-                                //     ],
-                                //   ),
-                                //   child: DropDownMultiSelect(
-                                //     selected_values_style: CustomTextView.getStyle(
-                                //         context,
-                                //         colorLight: textColor,
-                                //         fontSize: 15.sp),
-                                //     onChanged: (List<String> value) {
-                                //       selectedOption = value;
-                                //       // setState(() {
-                                //       // });
-                                //     },
-                                //     // options: list,
-                                //     selectedValues: selectedOption,
-                                //     decoration: const InputDecoration(
-                                //       border: InputBorder.none,
-                                //     ),
 
-                                //     whenEmpty: 'Select Shops', options: options,
-                                //   ),
-                                // ),
-
-                                // Container(
-                                //   margin: EdgeInsets.only(
-                                //     left: 20.w,
-                                //     right: 10.w,
-                                //     top: 10.h,
-                                //   ),
-                                //   child: Row(
-                                //     mainAxisAlignment:
-                                //         MainAxisAlignment.spaceBetween,
-                                //     children: [
-                                //       Text(
-                                //         'Featured Now?',
-                                //         style: CustomTextView.getStyle(
-                                //           context,
-                                //           colorLight: textColor,
-                                //           fontSize: 16.sp,
-                                //         ),
-                                //       ),
-                                //       Obx(
-                                //         () => Switch(
-                                //           thumbIcon: MaterialStatePropertyAll(
-                                //             Icon(
-                                //               Icons.circle,
-                                //               color: secondary,
-                                //             ),
-                                //           ),
-                                //           value: uploadOfferController
-                                //               .switchValue.value,
-                                //           onChanged: (bool newValue) {
-                                //             uploadOfferController
-                                //                 .toggleSwitchValue();
-                                //             uploadOfferController
-                                //                     .activeColor.value =
-                                //                 newValue
-                                //                     ? Colors.green
-                                //                     : Colors.red;
-                                //           },
-
-                                //           inactiveThumbColor: secondary,
-                                //           activeColor: secondary,
-                                //           // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                //         ),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-                                // Container(
-                                //   margin: EdgeInsets.only(
-                                //     left: 20.w,
-                                //   ),
-                                //   child: Text(
-                                //     'Note: Offer will be visible for 7 days only',
-                                //     style: TextStyle(
-                                //       fontSize: 11.sp,
-                                //       color: Colors.red,
-                                //     ),
-                                //   ),
-                                // ),
                                 SizedBox(height: 15.h),
                                 Obx(
                                   () => uploadOfferController.isLoading.value
@@ -391,14 +267,6 @@ class UploadOfferView extends GetView {
                                       : GlobalButton(
                                           title: 'Upload',
                                           onPressed: () {
-                                            // controller.isFormValid() ? controller.registerUser : showSnackBarError("Error", "Fill all fields");
-                                            // uploadOfferController.uploadOffers();
-                                            // Get.toNamed(Routes.Bottom_Nav_Bar);
-                                            // uploadOfferController.emailVerified ==
-                                            //         null
-                                            //     ? uploadOfferController
-                                            //         .showUnverifiedDialog()
-                                            //     :
                                             uploadOfferController.showAwesomeDialog();
                                           },
                                           textColor: Colors.white,

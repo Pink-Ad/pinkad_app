@@ -84,208 +84,90 @@ class AllOffersView extends GetView<AllOffersController> {
                     key: controller.filterKey,
                     padding: const EdgeInsets.only(
                       left: 20.0,
-                      top: 5.0,
-                      bottom: 5.0,
                       right: 5.0,
                     ),
-                    child: TypeAheadField<dynamic>(
-                      animationStart: 0,
-                      animationDuration: Duration.zero,
-                      textFieldConfiguration: TextFieldConfiguration(
-                        autofocus: false,
-                        controller: controller.searchController,
-                        style: TextStyle(fontSize: 15),
-                        decoration: InputDecoration(
-                          hintText: 'Search Offers',
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              Icons.filter_list,
-                              color: Colors.black,
-                              size: 25,
+                    child: Center(
+                      child: TypeAheadField<dynamic>(
+                        animationStart: 0,
+                        animationDuration: Duration.zero,
+                        textFieldConfiguration: TextFieldConfiguration(
+                          autofocus: false,
+                          controller: controller.searchController,
+                          style: TextStyle(fontSize: 15),
+                          decoration: InputDecoration(
+                            hintText: 'Search Offers',
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                Icons.filter_list,
+                                color: Colors.black,
+                                size: 25,
+                              ),
+                              onPressed: () {
+                                Get.find<AllOffersController>().showOfferFilterDialog(context);
+                              },
                             ),
-                            onPressed: () {
-                              Get.find<AllOffersController>().showOfferFilterDialog(context);
-                            },
+                            //    hintStyle: CustomTextView.getStyle(co
+                            border: InputBorder.none,
+                            focusColor: tertiary,
                           ),
-                          //    hintStyle: CustomTextView.getStyle(co
-                          border: InputBorder.none,
-                          focusColor: tertiary,
                         ),
+                        suggestionsCallback: (pattern) {
+                          List<dynamic> matches = <dynamic>[];
+                          matches.addAll(controller.allOffers);
+
+                          matches.retainWhere((s) {
+                            return s.title!.toLowerCase().contains(pattern.toLowerCase());
+                          });
+                          return matches.take(6);
+                        },
+                        itemBuilder: (context, offer) {
+                          return GestureDetector(
+                            onTap: () {
+                              Get.find<AllOffersController>().getOfferDetail(offer.id!);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                // color: containerColor,
+                                color: Colors.white,
+                                border: Border(
+                                  bottom: BorderSide(
+                                    width: 2.w,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              ),
+                              child: ListTile(
+                                leading: const Icon(Icons.travel_explore, color: primary),
+                                title: Text(
+                                  offer.title!,
+                                  style: CustomTextView.getStyle(
+                                    context,
+                                    colorLight: const Color.fromARGB(255, 41, 39, 39),
+                                    fontSize: 13.sp,
+                                    fontFamily: Utils.poppinsSemiBold,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                subtitle: Text(
+                                  offer!.description,
+                                  style: CustomTextView.getStyle(
+                                    context,
+                                    colorLight: const Color.fromARGB(255, 66, 66, 66),
+                                    fontSize: 11.sp,
+                                    fontFamily: Utils.poppinsLight,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        onSuggestionSelected: (suggestion) {
+                          // widget.callback(suggestion);
+                        },
                       ),
-
-                      // suggestionsBoxDecoration:
-                      //     SuggestionsBoxDecoration(color: Colors.lightBlue[50]),
-                      suggestionsCallback: (pattern) {
-                        List<dynamic> matches = <dynamic>[];
-                        matches.addAll(controller.allOffers);
-
-                        matches.retainWhere((s) {
-                          return s.title!.toLowerCase().contains(pattern.toLowerCase());
-                        });
-                        return matches.take(6);
-                      },
-                      itemBuilder: (context, offer) {
-                        return GestureDetector(
-                          onTap: () {
-                            Get.find<AllOffersController>().getOfferDetail(offer.id!);
-                          },
-                          child: Container(
-                            // margin: EdgeInsets.only(
-                            //     left: 20.0.w,
-                            //     top: 20.h,
-                            //     right: 20.0.w,
-                            // color: Colors.white,
-
-                            //     bottom: 10.h),
-                            // padding: const EdgeInsets.all(20.0),
-                            decoration: BoxDecoration(
-                              // color: containerColor,
-                              color: Colors.white,
-                              // borderRadius: BorderRadius.circular(10.0),
-                              // boxShadow: [
-                              //   BoxShadow(
-                              //     color: Colors.grey.withOpacity(0.5),
-                              //     spreadRadius: 2,
-                              //     blurRadius: 3,
-                              //     offset: const Offset(0, 3),
-                              //   ),
-                              // ],
-                              border: Border(
-                                bottom: BorderSide(
-                                  width: 2.w,
-                                  color: Colors.grey.shade600,
-                                ),
-                              ),
-                            ),
-                            child: ListTile(
-                              leading: const Icon(Icons.travel_explore, color: primary),
-                              title: Text(
-                                offer.title!,
-                                style: CustomTextView.getStyle(
-                                  context,
-                                  colorLight: const Color.fromARGB(255, 41, 39, 39),
-                                  fontSize: 13.sp,
-                                  fontFamily: Utils.poppinsSemiBold,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              subtitle: Text(
-                                offer!.description,
-                                style: CustomTextView.getStyle(
-                                  context,
-                                  colorLight: const Color.fromARGB(255, 66, 66, 66),
-                                  fontSize: 11.sp,
-                                  fontFamily: Utils.poppinsLight,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            // child: Container(
-                            //   margin: EdgeInsets.only(
-                            //       left: 20.0.w, top: 20.h, right: 20.0.w),
-                            //   padding: const EdgeInsets.all(20.0),
-                            //   decoration: BoxDecoration(
-                            //     color: containerColor,
-                            //     borderRadius: BorderRadius.circular(10.0),
-                            //     boxShadow: [
-                            //       BoxShadow(
-                            //         color: Colors.grey.withOpacity(0.5),
-                            //         spreadRadius: 2,
-                            //         blurRadius: 3,
-                            //         offset: const Offset(0, 3),
-                            //       ),
-                            //     ],
-                            //   ),
-                            //   child: Stack(children: [
-                            //     Column(
-                            //       crossAxisAlignment: CrossAxisAlignment.start,
-                            //       children: [
-                            //         Row(
-                            //           crossAxisAlignment: CrossAxisAlignment.start,
-                            //           mainAxisAlignment: MainAxisAlignment.start,
-                            //           children: [
-                            //             SizedBox(
-                            //               width: 200.w,
-                            //               child: Column(
-                            //                 crossAxisAlignment:
-                            //                     CrossAxisAlignment.start,
-                            //                 children: [
-                            //                   Text(
-                            //                     offer.title!,
-                            //                     // 'Offer ${index + 1}',
-                            //                     style: CustomTextView.getStyle(
-                            //                         context,
-                            //                         colorLight: subHeadingColor,
-                            //                         fontSize: 18.sp,
-                            //                         fontFamily:
-                            //                             Utils.poppinsSemiBold),
-                            //                     maxLines: 2,
-                            //                     overflow: TextOverflow.ellipsis,
-                            //                   ),
-                            //                   const SizedBox(height: 10.0),
-                            //                   Text(
-                            //                     offer.shop!.name!,
-                            //                     style: CustomTextView.getStyle(
-                            //                         context,
-                            //                         colorLight: subHeadingColor,
-                            //                         fontSize: 16.sp,
-                            //                         fontFamily: Utils.poppinsMedium),
-                            //                     maxLines: 2,
-                            //                     overflow: TextOverflow.ellipsis,
-                            //                   ),
-                            //                 ],
-                            //               ),
-                            //             )
-                            //           ],
-                            //         ),
-                            //         const SizedBox(height: 10.0),
-                            //         Text(
-                            //           offer.description!,
-                            //           // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit ${index + 1}',
-                            //           style: CustomTextView.getStyle(
-                            //             context,
-                            //             colorLight: textColor,
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //     Align(
-                            //       alignment: Alignment.centerRight,
-                            //       child: GestureDetector(
-                            //         onTap: () {
-                            //           Get.find<AllOffersController>().getOfferDetail(offer.id!);
-                            //         },
-                            //         child: Container(
-                            //             height: 40.h,
-                            //             width: 115.w,
-                            //             decoration: BoxDecoration(
-                            //               color: containerColor,
-                            //               borderRadius: BorderRadius.circular(50.0),
-                            //               border: Border.all(
-                            //                 color: secondary,
-                            //                 width: 2,
-                            //               ),
-                            //             ),
-                            //             child: Center(
-                            //                 child: Text(
-                            //               "View Offer",
-                            //               style: CustomTextView.getStyle(context,
-                            //                   colorLight: secondary,
-                            //                   fontSize: 16.sp,
-                            //                   fontFamily: Utils.poppinsSemiBold),
-                            //             ))),
-                            //       ),
-                            //     ),
-                            //   ]),
-                            // ),
-                          ),
-                        );
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        // widget.callback(suggestion);
-                      },
                     ),
                   ),
                 ),
@@ -305,11 +187,10 @@ class AllOffersView extends GetView<AllOffersController> {
                         bottom: 20.0.h,
                         top: 3.h,
                       ),
-                      itemCount: controller.offers.length, // number of items in the list
+                      itemCount: controller.offers.length,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
-                            // print(inspect(offers[index].shop.logo));
                             controller.getOfferDetail(controller.offers[index].id);
                           },
                           child: offerListItem(controller.offers, index, context),
@@ -411,57 +292,6 @@ class AllOffersView extends GetView<AllOffersController> {
           ),
         ],
       ),
-
-      // child: Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     Row(
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       mainAxisAlignment: MainAxisAlignment.start,
-      //       children: [
-      //         SizedBox(
-      //           width: 160.w,
-      //           child: Column(
-      //             crossAxisAlignment: CrossAxisAlignment.start,
-      //             children: [
-      //               Image.network(
-      //                   ApiService.imageBaseUrl + offers[index]!.shop!.logo),
-      //               Text(
-      //                 offers[index]!.title.toString() ?? "",
-      //                 // 'Offer ${index + 1}',
-      //                 style: CustomTextView.getStyle(context,
-      //                     colorLight: subHeadingColor,
-      //                     fontSize: 18.sp,
-      //                     fontFamily: Utils.poppinsSemiBold),
-      //                 maxLines: 2,
-      //                 overflow: TextOverflow.ellipsis,
-      //               ),
-      //               const SizedBox(height: 10.0),
-      //               Text(
-      //                 offers[index]!.shop!.name.toString() ?? '',
-      //                 style: CustomTextView.getStyle(context,
-      //                     colorLight: subHeadingColor,
-      //                     fontSize: 16.sp,
-      //                     fontFamily: Utils.poppinsMedium),
-      //                 maxLines: 2,
-      //                 overflow: TextOverflow.ellipsis,
-      //               ),
-      //             ],
-      //           ),
-      //         )
-      //       ],
-      //     ),
-      //     const SizedBox(height: 10.0),
-      //     Text(
-      //       offers[index]!.description.toString() ?? "",
-      //       // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit ${index + 1}',
-      //       style: CustomTextView.getStyle(
-      //         context,
-      //         colorLight: textColor,
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

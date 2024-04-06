@@ -19,6 +19,7 @@ abstract class Routes {
   static const ALL_OFFER_DETAILS = _Paths.ALL_OFFER_DETAILS;
   static const USER_DASHBOARD = _Paths.USER_DASHBOARD;
   static const SPECIFIC_SELLER = _Paths.SPECIFIC_SELLER;
+  static const CATEGORIES = _Paths.CATEGORIES;
 
   // user routes
   static const User_Bottom_Nav_Bar = _Paths.UserBottomNavBar;
@@ -37,6 +38,7 @@ abstract class Routes {
   static const FEEDBACK = _Paths.FEEDBACK;
   static const FEATURED_SELLER = _Paths.FEATURED_SELLER;
   static const FEATURED_OFFER = _Paths.FEATURED_OFFER;
+  
 }
 
 abstract class _Paths {
@@ -57,6 +59,7 @@ abstract class _Paths {
   static const ALL_OFFER_DETAILS = '/all-offer-details';
   static const USER_DASHBOARD = '/user-dashboard';
   static const SPECIFIC_SELLER = '/specific-seller';
+  static const CATEGORIES = '/categories';
 
   // user paths
   static const UserBottomNavBar = '/user-bottom-nav-bar';

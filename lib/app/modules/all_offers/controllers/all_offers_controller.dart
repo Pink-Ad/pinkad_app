@@ -98,6 +98,20 @@ class AllOffersController extends GetxController {
     }
   }
 
+  Future<void> filterOffersBySubCategory(int subCategoryId) async {
+    try {
+      final response = await _apiService.getData('offers?subcategory_id=$subCategoryId');
+
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        offers = result.map((json) => OfferList.fromJson(json)).toList();
+        update();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void showOfferFilterDialog(BuildContext context) {
     final renderBox = filterKey.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) return;

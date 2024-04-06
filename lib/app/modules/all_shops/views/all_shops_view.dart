@@ -88,209 +88,92 @@ class AllShopsView extends GetView<AllShopsController> {
                       key: controller.filterKey,
                       padding: const EdgeInsets.only(
                         left: 20.0,
-                        top: 5.0,
-                        bottom: 5.0,
                         right: 5.0,
                       ),
-                      child: TypeAheadField<dynamic>(
-                        animationStart: 0,
-                        animationDuration: Duration.zero,
-                        textFieldConfiguration: TextFieldConfiguration(
-                          controller: controller.searchController,
-                          autofocus: false,
-                          style: TextStyle(fontSize: 15),
-                          decoration: InputDecoration(
-                            hintText: 'Search Sellers',
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                Icons.filter_list,
-                                color: Colors.black,
-                                size: 25,
+                      child: Center(
+                        child: TypeAheadField<dynamic>(
+                          animationStart: 0,
+                          animationDuration: Duration.zero,
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: controller.searchController,
+                            autofocus: false,
+                            style: TextStyle(fontSize: 15),
+                            decoration: InputDecoration(
+                              hintText: 'Search Sellers',
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  Icons.filter_list,
+                                  color: Colors.black,
+                                  size: 25,
+                                ),
+                                onPressed: () {
+                                  controller.showShopFilterDialog(context);
+                                },
                               ),
-                              onPressed: () {
-                                controller.showShopFilterDialog(context);
-                              },
+                              border: InputBorder.none,
+                              focusColor: tertiary,
                             ),
-                            border: InputBorder.none,
-                            focusColor: tertiary,
                           ),
+                          hideOnError: true,
+                          suggestionsCallback: (pattern) {
+                            List matches = [];
+                            matches.addAll(controller.allShops);
+                            matches.retainWhere((s) {
+                              return s['user']['name'].toLowerCase().contains(pattern.toLowerCase());
+                            });
+                            return matches.take(6);
+                          },
+                          itemBuilder: (context, offer) {
+                            return GestureDetector(
+                              onTap: () {
+                                Get.find<AllShopsController>().getShopDetail(offer['shop'][0]['id']);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      width: 2.w,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  ),
+                                ),
+                                child: ListTile(
+                                  leading: const Icon(
+                                    Icons.travel_explore,
+                                    color: primary,
+                                  ),
+                                  title: Text(
+                                    offer['user']['name'],
+                                    style: CustomTextView.getStyle(
+                                      context,
+                                      colorLight: const Color.fromARGB(255, 41, 39, 39),
+                                      fontSize: 13.sp,
+                                      fontFamily: Utils.poppinsSemiBold,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  subtitle: Text(
+                                    offer['description'] ?? '',
+                                    style: CustomTextView.getStyle(
+                                      context,
+                                      colorLight: const Color.fromARGB(255, 66, 66, 66),
+                                      fontSize: 11.sp,
+                                      fontFamily: Utils.poppinsLight,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          onSuggestionSelected: (suggestion) {
+                            // widget.callback(suggestion);
+                          },
                         ),
-                        hideOnError: true,
-                        suggestionsCallback: (pattern) {
-                          List matches = [];
-                          matches.addAll(controller.allShops);
-                          matches.retainWhere((s) {
-                            return s['user']['name'].toLowerCase().contains(pattern.toLowerCase());
-                          });
-                          return matches.take(6);
-                        },
-                        itemBuilder: (context, offer) {
-                          return GestureDetector(
-                            onTap: () {
-                              Get.find<AllShopsController>().getShopDetail(offer['shop'][0]['id']);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border(
-                                  bottom: BorderSide(
-                                    width: 2.w,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                ),
-                              ),
-                              child: ListTile(
-                                leading: const Icon(
-                                  Icons.travel_explore,
-                                  color: primary,
-                                ),
-                                title: Text(
-                                  offer['user']['name'],
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: const Color.fromARGB(255, 41, 39, 39),
-                                    fontSize: 13.sp,
-                                    fontFamily: Utils.poppinsSemiBold,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
-                                  offer['description'] ?? '',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: const Color.fromARGB(255, 66, 66, 66),
-                                    fontSize: 11.sp,
-                                    fontFamily: Utils.poppinsLight,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              // child: Stack(children: [
-                              //   Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       Align(
-                              //         alignment: Alignment.topLeft,
-                              //         child: Text(
-                              //           // 'Shop Name ${index + 1}',
-
-                              //           offer['business_name'],
-                              //           style: CustomTextView.getStyle(context,
-                              //               colorLight: subHeadingColor,
-                              //               fontSize: 18.sp,
-                              //               fontFamily: Utils.poppinsSemiBold),
-                              //         ),
-                              //       ),
-                              //       const SizedBox(height: 10.0),
-                              //       SizedBox(
-                              //         width: 210.w,
-                              //         child: Text(
-                              //           // 'jsdhkasdhjasd asjhdjkashd jhsjsdsad djlkasjdlksja sajdkasjd kljsdkjaskldj jsdhkasdhjasd asjhdjkashd jhsjdhsakdh djlkasjdlksja sajdkasjd kljsdkjaskldjsa ${index + 1}',
-
-                              //           offer['description'] == null
-                              //               ? ''
-                              //               : offer['description'].toString(),
-                              //           style: CustomTextView.getStyle(
-                              //             context,
-                              //             colorLight: textColor,
-                              //           ),
-                              //           maxLines: 3,
-                              //           overflow: TextOverflow.ellipsis,
-                              //         ),
-                              //       ),
-                              //       const SizedBox(height: 15.0),
-                              //       Row(
-                              //         mainAxisAlignment: MainAxisAlignment.end,
-                              //         children: [
-                              //           // RatingBar.builder(
-                              //           //   initialRating: 3,
-                              //           //   minRating: 1,
-                              //           //   itemSize: 15.sp,
-                              //           //   direction: Axis.horizontal,
-                              //           //   allowHalfRating: true,
-                              //           //   itemCount: 5,
-                              //           //   tapOnlyMode: false,
-                              //           //   itemPadding: const EdgeInsets.symmetric(
-                              //           //       horizontal: 1.0),
-                              //           //   itemBuilder: (context, _) => const Icon(
-                              //           //     Icons.star,
-                              //           //     color: ratingColor,
-                              //           //   ),
-                              //           //   onRatingUpdate: (rating) {},
-                              //           // ),
-                              //           GestureDetector(
-                              //             onTap: () {
-                              //               allShopsController
-                              //                   .getShopDetail(offer['id']);
-                              //               // Get.toNamed(Routes.SHOP_DETAILS,
-                              //               //     arguments: {
-                              //               //       'id': 123,
-                              //               //       'name': 'John Doe',
-                              //               //     });
-                              //             },
-                              //             child: Container(
-                              //                 height: 40.h,
-                              //                 width: 137.w,
-                              //                 decoration: BoxDecoration(
-                              //                   color: containerColor,
-                              //                   borderRadius:
-                              //                       BorderRadius.circular(50.0),
-                              //                   border: Border.all(
-                              //                     color: secondary,
-                              //                     width: 2,
-                              //                   ),
-                              //                 ),
-                              //                 child: Center(
-                              //                     child: Text(
-                              //                   "View Shop",
-                              //                   style: CustomTextView.getStyle(
-                              //                       context,
-                              //                       colorLight: secondary,
-                              //                       fontSize: 16.sp,
-                              //                       fontFamily:
-                              //                           Utils.poppinsSemiBold),
-                              //                 ))),
-                              //           )
-                              //         ],
-                              //       ),
-                              //     ],
-                              //   ),
-                              //   Padding(
-                              //     padding:
-                              //         const EdgeInsets.symmetric(vertical: 16.0),
-                              //     child: Align(
-                              //       alignment: Alignment.centerRight,
-                              //       child: SvgPicture.asset(
-                              //           "assets/svgIcons/cert_icon.svg"),
-                              //     ),
-                              //   ),
-                              // ]),
-                            ),
-                          );
-                        },
-                        onSuggestionSelected: (suggestion) {
-                          // widget.callback(suggestion);
-                        },
                       ),
-                      // child: TextField(
-                      //   keyboardType: TextInputType.text,
-                      //   style: CustomTextView.getStyle(context,
-                      //       colorLight: textColor, fontSize: 15.sp),
-                      //   decoration: InputDecoration(
-                      //     hintText: 'Search Product',
-                      //     suffixIcon: const Icon(
-                      //       Icons.search_rounded,
-                      //       color: Colors.black,
-                      //       size: 30,
-                      //     ),
-                      //     hintStyle: CustomTextView.getStyle(context,
-                      //         colorLight: textColor, fontSize: 15.sp),
-                      //     border: InputBorder.none,
-                      //     focusColor: tertiary,
-                      //   ),
-                      // ),
                     ),
                   ),
                   Expanded(
@@ -309,19 +192,13 @@ class AllShopsView extends GetView<AllShopsController> {
                           bottom: 20.h,
                           top: 3.h,
                         ),
-                        // itemCount: 10, // Arbitrary number of "Hello" to display
-                        // itemBuilder: (BuildContext context, int index) {
-                        //   return const Center(
-                        //       child: Text("Hello", style: TextStyle(fontSize: 24)));
-
-                        itemCount: controller.shops.length, // number of items in the list
+                        itemCount: controller.shops.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
                               controller.getShopDetail(
                                 controller.shops[index]['shop'][0]['id'],
                               );
-                              //   Get.toNamed(Routes.SHOP_DETAILS);
                             },
                             child: allSellerList(
                               controller.shops,
@@ -330,127 +207,6 @@ class AllShopsView extends GetView<AllShopsController> {
                               controller,
                             ),
                           );
-
-                          // return GestureDetector(
-                          //   onTap: () {
-                          //     allShopsController.getShopDetail(shops[index].id);
-                          //     //   Get.toNamed(Routes.SHOP_DETAILS);
-                          //   },
-                          //   child: Container(
-                          //     margin: EdgeInsets.only(
-                          //         left: 20.0.w, top: 20.h, right: 20.0.w),
-                          //     padding: const EdgeInsets.all(20.0),
-                          //     decoration: BoxDecoration(
-                          //       color: containerColor,
-                          //       borderRadius: BorderRadius.circular(10.0),
-                          //       boxShadow: [
-                          //         BoxShadow(
-                          //           color: Colors.grey.withOpacity(0.5),
-                          //           spreadRadius: 1,
-                          //           blurRadius: 2,
-                          //           offset: const Offset(0, 1),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //     child: Stack(children: [
-                          //       Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           Align(
-                          //             alignment: Alignment.topLeft,
-                          //             child: Text(
-                          //               shops[index]!.name ?? '',
-                          //               style: CustomTextView.getStyle(context,
-                          //                   colorLight: subHeadingColor,
-                          //                   fontSize: 18.sp,
-                          //                   fontFamily: Utils.poppinsSemiBold),
-                          //             ),
-                          //           ),
-                          //           const SizedBox(height: 10.0),
-                          //           SizedBox(
-                          //             width: 210.w,
-                          //             child: Text(
-                          //               // 'jsdhkasdhjasd asjhdjkashd jhsjsdsad djlkasjdlksja sajdkasjd kljsdkjaskldj jsdhkasdhjasd asjhdjkashd jhsjdhsakdh djlkasjdlksja sajdkasjd kljsdkjaskldjsa ${index + 1}',
-
-                          //               shops[index]!.description == null
-                          //                   ? ''
-                          //                   : shops[index]!.description.toString(),
-                          //               style: CustomTextView.getStyle(
-                          //                 context,
-                          //                 colorLight: textColor,
-                          //               ),
-                          //               maxLines: 3,
-                          //               overflow: TextOverflow.ellipsis,
-                          //             ),
-                          //           ),
-                          //           const SizedBox(height: 15.0),
-                          //           Row(
-                          //             mainAxisAlignment: MainAxisAlignment.end,
-                          //             children: [
-                          //               // RatingBar.builder(
-                          //               //   initialRating: 3,
-                          //               //   minRating: 1,
-                          //               //   itemSize: 15.sp,
-                          //               //   direction: Axis.horizontal,
-                          //               //   allowHalfRating: true,
-                          //               //   itemCount: 5,
-                          //               //   tapOnlyMode: false,
-                          //               //   itemPadding: const EdgeInsets.symmetric(
-                          //               //       horizontal: 1.0),
-                          //               //   itemBuilder: (context, _) => const Icon(
-                          //               //     Icons.star,
-                          //               //     color: ratingColor,
-                          //               //   ),
-                          //               //   onRatingUpdate: (rating) {},
-                          //               // ),
-                          //               GestureDetector(
-                          //                 onTap: () {
-                          //                   allShopsController
-                          //                       .getShopDetail(shops[index].id);
-                          //                   // Get.toNamed(Routes.SHOP_DETAILS,
-                          //                   //     arguments: {
-                          //                   //       'id': 123,
-                          //                   //       'name': 'John Doe',
-                          //                   //     });
-                          //                 },
-                          //                 child: Container(
-                          //                     height: 40.h,
-                          //                     width: 137.w,
-                          //                     decoration: BoxDecoration(
-                          //                       color: containerColor,
-                          //                       borderRadius:
-                          //                           BorderRadius.circular(50.0),
-                          //                       border: Border.all(
-                          //                         color: secondary,
-                          //                         width: 2,
-                          //                       ),
-                          //                     ),
-                          //                     child: Center(
-                          //                         child: Text(
-                          //                       "View Shop",
-                          //                       style: CustomTextView.getStyle(
-                          //                           context,
-                          //                           colorLight: secondary,
-                          //                           fontSize: 16.sp,
-                          //                           fontFamily:
-                          //                               Utils.poppinsSemiBold),
-                          //                     ))),
-                          //               )
-                          //             ],
-                          //           ),
-                          //         ],
-                          //       ),
-                          //       Padding(
-                          //         padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          //         child: Align(
-                          //           alignment: Alignment.centerRight,
-                          //           child: SvgPicture.asset(
-                          //               "assets/svgIcons/cert_icon.svg"),
-                          //         ),
-                          //       ),
-                          //     ]),
-                          //   ),
-                          // );
                         },
                       ),
                     ),
@@ -547,94 +303,6 @@ class AllShopsView extends GetView<AllShopsController> {
           ),
         ],
       ),
-
-      // child: Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     Align(
-      //       alignment: Alignment.topLeft,
-      //       child: Text(
-      //         // 'Shop Name ${index + 1}',
-
-      //         shops[index]['business_name'] ?? "",
-      //         style: CustomTextView.getStyle(context,
-      //             colorLight: subHeadingColor,
-      //             fontSize: 18.sp,
-      //             fontFamily: Utils.poppinsSemiBold),
-      //       ),
-      //     ),
-      //     const SizedBox(height: 10.0),
-      //     SizedBox(
-      //       width: 210.w,
-      //       child: Text(
-      //         // 'jsdhkasdhjasd asjhdjkashd jhsjsdsad djlkasjdlksja sajdkasjd kljsdkjaskldj jsdhkasdhjasd asjhdjkashd jhsjdhsakdh djlkasjdlksja sajdkasjd kljsdkjaskldjsa ${index + 1}',
-
-      //         shops[index]['description'] == null
-      //             ? ''
-      //             : shops[index]['description'].toString(),
-      //         style: CustomTextView.getStyle(
-      //           context,
-      //           colorLight: textColor,
-      //         ),
-      //         maxLines: 3,
-      //         overflow: TextOverflow.ellipsis,
-      //       ),
-      //     ),
-      //     const SizedBox(height: 15.0),
-      //     Row(
-      //       mainAxisAlignment: MainAxisAlignment.end,
-      //       children: [
-      //         // RatingBar.builder(
-      //         //   initialRating: 3,
-      //         //   minRating: 1,
-      //         //   itemSize: 15.sp,
-      //         //   direction: Axis.horizontal,
-      //         //   allowHalfRating: true,
-      //         //   itemCount: 5,
-      //         //   tapOnlyMode: false,
-      //         //   itemPadding: const EdgeInsets.symmetric(
-      //         //       horizontal: 1.0),
-      //         //   itemBuilder: (context, _) => const Icon(
-      //         //     Icons.star,
-      //         //     color: ratingColor,
-      //         //   ),
-      //         //   onRatingUpdate: (rating) {},
-      //         // ),
-      //         GestureDetector(
-      //           onTap: () {
-      //             allShopsController.getShopDetail(
-      //                 shops[index]["shop"][0]["id"]);
-      //             // Get.toNamed(Routes.SHOP_DETAILS,
-      //             //     arguments: {
-      //             //       'id': 123,
-      //             //       'name': 'John Doe',
-      //             //     });
-      //           },
-      //           child: Container(
-      //               height: 40.h,
-      //               width: 137.w,
-      //               decoration: BoxDecoration(
-      //                 color: containerColor,
-      //                 borderRadius:
-      //                     BorderRadius.circular(50.0),
-      //                 border: Border.all(
-      //                   color: secondary,
-      //                   width: 2,
-      //                 ),
-      //               ),
-      //               child: Center(
-      //                   child: Text(
-      //                 "View Shop",
-      //                 style: CustomTextView.getStyle(context,
-      //                     colorLight: secondary,
-      //                     fontSize: 16.sp,
-      //                     fontFamily: Utils.poppinsSemiBold),
-      //               ))),
-      //         )
-      //       ],
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

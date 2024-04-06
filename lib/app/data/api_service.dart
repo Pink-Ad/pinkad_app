@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 import '../../utilities/custom_widgets/snackbars.dart';
 
 class ApiService {
-  static const String baseUrl = 'https://pinkad.pk/portal/api';
-  //static const String baseUrl = 'https://qa.pinkad.pk/api';
+  //static const String baseUrl = 'https://pinkad.pk/portal/api';
+  static const String baseUrl = 'https://qa.pinkad.pk/api';
   static const String imageBaseUrl = 'https://pinkad.pk/portal/public/storage/';
   final http.Client _client;
   static const String modelBaseUrl = 'https://model.pinkad.pk/aimodel/';
@@ -62,6 +62,26 @@ class ApiService {
       throw Exception(e);
     }
   }
+
+  // Future<dynamic> getData(String endpoint) async {
+  //   final response = await _client.get(
+  //     Uri.parse('$baseUrl/$endpoint'),
+  //   );
+  //   print("${Uri.parse('$baseUrl/$endpoint')}");
+  //   print('Response body: ${response.body}');
+  //   if (response.statusCode == 200) {
+  //     final jsonData = jsonDecode(response.body);
+  //     return jsonData;
+  //   } else if (response.statusCode == 500) {
+  //     showSnackBarRetry(
+  //       'Server Error',
+  //       'Something went wrong on server side',
+  //       () {},
+  //     );
+  //   } else {
+  //     throw Exception('Request failed with status: ${response.statusCode}.');
+  //   }
+  // }
 
   Future<dynamic> getData(String endpoint) async {
     final response = await _client.get(
@@ -145,7 +165,6 @@ class ApiService {
 class Endpoints {
   static const String login = 'seller/login';
   static const String offerUpload = 'create/offer?';
-  static const String category = 'category';
   static const String salesman = 'salesman/list';
   static const String cities = 'cities-list';
   static const String shop = 'all/shop/list';
@@ -168,10 +187,10 @@ class Endpoints {
   static const String deleteUser = 'delete/user';
   static const String aiModel = 'predict';
   static const String forgetPassword = 'password/email';
-
+  static const String category = 'categories';
   static const String getAllSeller = 'all-selller-list';
   static const String getOfferByShop = 'get_posts_by_seller';
-  static const String subcategories = 'subcategory';
+  static const String subcategories = 'categories/2/subcategories';
   static const String sellerFilter = 'getSellersByArea';
   static const String offerFilter = 'filterpostsbanner';
   static const String register = 'register';

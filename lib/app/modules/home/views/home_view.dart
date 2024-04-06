@@ -9,6 +9,7 @@ import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.d
 import 'package:pink_ad/app/modules/all_shops/views/all_shops_view.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
+import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/loader.dart';
 import 'package:pink_ad/utilities/custom_widgets/slider_page.dart';
@@ -342,7 +343,9 @@ class CenterButtons extends StatelessWidget {
               _buildButton(context, Icons.travel_explore, 'Offers', () {
                 Get.to(AllOffersView());
               }),
-              _buildButton(context, Icons.category, 'Categories', () {}),
+              _buildButton(context, Icons.category, 'Categories', () {
+                Get.toNamed(Routes.CATEGORIES);
+              }),
             ],
           ),
         ),
