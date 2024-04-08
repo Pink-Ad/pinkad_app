@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:pink_ad/app/modules/all_categories/views/categories_view.dart';
+import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
+import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
 import 'package:pink_ad/app/modules/specific_seller/bindings/specific_seller_bindings.dart';
 import 'package:pink_ad/app/modules/specific_seller/views/specific_seller_views.dart';
 
@@ -81,7 +83,11 @@ class AppPages {
     GetPage(
       name: _Paths.HOME,
       page: () => HomeView(),
-      binding: HomeBinding(),
+      // binding: HomeBinding(),
+      binding: BindingsBuilder(() {
+        Get.put(AllOffersController());
+        Get.put(AllShopsController());
+      }),
     ),
     GetPage(
       name: _Paths.SIGNUP,

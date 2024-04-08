@@ -98,24 +98,25 @@ class AllOffersController extends GetxController {
       update();
     }
   }
-Future<void> fetchOffersByCategoryId(int categoryId) async {
-  try {
-    final response = await _apiService.getData('${Endpoints.allOffers}?category_id=$categoryId');
-    if (response.statusCode == 200) {
-      final List<dynamic> resultList = json.decode(response.body);
-      offers.clear();
-      for (var json in resultList) {
-        offers.add(OfferList.fromJson(json));
+
+  Future<void> fetchOffersByCategoryId(int categoryId) async {
+    try {
+      final response = await _apiService.getData('${Endpoints.allOffers}?category_id=$categoryId');
+      if (response.statusCode == 200) {
+        final List<dynamic> resultList = json.decode(response.body);
+        offers.clear();
+        for (var json in resultList) {
+          offers.add(OfferList.fromJson(json));
+        }
+        update();
+        Get.to(() => AllOffersView()); // Navigate to AllOffersView after fetching
+      } else {
+        throw Exception('Failed to fetch offers for category ID $categoryId');
       }
-      update();
-      Get.to(() => AllOffersView()); // Navigate to AllOffersView after fetching
-    } else {
-      throw Exception('Failed to fetch offers for category ID $categoryId');
+    } catch (e) {
+      print('Error fetching offers by category ID: $e');
     }
-  } catch (e) {
-    print('Error fetching offers by category ID: $e');
   }
-}
 
   void showOfferFilterDialog(BuildContext context) {
     final renderBox = filterKey.currentContext?.findRenderObject() as RenderBox?;

@@ -53,7 +53,9 @@ class UserDashboardView extends GetView {
               ),
             ),
             SliverToBoxAdapter(
-              child: CenterButtons(),
+              child: CenterButtons(
+                allOffersController: allOffersController,
+              ),
             ),
             SliverFillRemaining(
               child: Stack(

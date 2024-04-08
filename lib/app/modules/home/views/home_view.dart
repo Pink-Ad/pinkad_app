@@ -23,6 +23,7 @@ import '../../../../utilities/custom_widgets/text_utils.dart';
 class HomeView extends GetView<HomeController> {
   final allShopsController = AllShopsController();
   final allOffersController = AllOffersController();
+
   final refreshController = RefreshController();
 
   HomeView({super.key});
@@ -52,7 +53,9 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: CenterButtons(),
+                  child: CenterButtons(
+                    allOffersController: allOffersController,
+                  ),
                 ),
                 SliverFillRemaining(
                   child: Stack(
@@ -311,9 +314,12 @@ class HomeView extends GetView<HomeController> {
 }
 
 class CenterButtons extends StatelessWidget {
+  final AllOffersController allOffersController;
+
   const CenterButtons({
-    super.key,
-  });
+    Key? key,
+    required this.allOffersController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -340,8 +346,9 @@ class CenterButtons extends StatelessWidget {
               _buildButton(context, Icons.store_mall_directory_outlined, 'Sellers', () {
                 Get.to(AllShopsView());
               }),
-              _buildButton(context, Icons.travel_explore, 'Offers', () {
-                Get.to(AllOffersView());
+              _buildButton(context, Icons.travel_explore, 'Offers', () async {
+                await allOffersController.refreshOffers();
+                Get.to(() => AllOffersView());
               }),
               _buildButton(context, Icons.category, 'Categories', () {
                 Get.toNamed(Routes.CATEGORIES);
