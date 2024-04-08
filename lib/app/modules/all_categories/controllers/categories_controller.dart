@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/category_model.dart';
+import 'package:pink_ad/app/models/offer_list_model.dart';
+import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
+import 'package:pink_ad/app/modules/all_offers/views/all_offers_view.dart';
 
 class CategoriesController extends GetxController {
   final ApiService _apiService = ApiService(http.Client());
@@ -34,6 +37,22 @@ class CategoriesController extends GetxController {
       }
     } catch (e) {
       print('Failed to fetch categories: $e');
+    }
+  }
+
+  Future<void> fetchOffersByCategory(int categoryId) async {
+    try {
+      final response = await _apiService.getData('offers?category_id=$categoryId');
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        List<OfferList> offersList = result.map<OfferList>((json) => OfferList.fromJson(json)).toList();
+        Get.find<AllOffersController>().offers.assignAll(offersList);
+        Get.to(() => AllOffersView());
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+      }
+    } catch (e) {
+      print('Failed to fetch offers: $e');
     }
   }
 

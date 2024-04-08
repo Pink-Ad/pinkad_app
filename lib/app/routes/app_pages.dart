@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:pink_ad/app/modules/all_categories/bindings/categories_binding.dart';
 import 'package:pink_ad/app/modules/all_categories/views/categories_view.dart';
 import 'package:pink_ad/app/modules/specific_seller/bindings/specific_seller_bindings.dart';
 import 'package:pink_ad/app/modules/specific_seller/views/specific_seller_views.dart';
@@ -130,11 +129,17 @@ class AppPages {
       page: () => const AllShopsView(),
       binding: AllShopsBinding(),
     ),
+    // GetPage(
+    //   name: Routes.CATEGORIES,
+    //   page: () => CategoriesView(),
+    //   binding: CategoriesBinding(),
+    // ),
     GetPage(
       name: Routes.CATEGORIES,
       page: () => CategoriesView(),
-      binding: CategoriesBinding(),
+      binding: AllOffersBinding(), // Associate your binding here
     ),
+
     GetPage(
       name: _Paths.SPECIFIC_SELLER,
       page: () => SpecificSellerView(),

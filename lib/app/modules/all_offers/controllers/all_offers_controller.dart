@@ -9,6 +9,7 @@ import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/offer_list_model.dart';
 import 'package:pink_ad/app/models/subcategory_model.dart';
+import 'package:pink_ad/app/modules/all_offers/views/all_offers_view.dart';
 import 'package:pink_ad/app/modules/all_offers/views/offer_filter_button.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
@@ -97,20 +98,24 @@ class AllOffersController extends GetxController {
       update();
     }
   }
-
-  Future<void> filterOffersBySubCategory(int subCategoryId) async {
-    try {
-      final response = await _apiService.getData('offers?subcategory_id=$subCategoryId');
-
-      if (response.statusCode == 200) {
-        final result = json.decode(response.body);
-        offers = result.map((json) => OfferList.fromJson(json)).toList();
-        update();
+Future<void> fetchOffersByCategoryId(int categoryId) async {
+  try {
+    final response = await _apiService.getData('${Endpoints.allOffers}?category_id=$categoryId');
+    if (response.statusCode == 200) {
+      final List<dynamic> resultList = json.decode(response.body);
+      offers.clear();
+      for (var json in resultList) {
+        offers.add(OfferList.fromJson(json));
       }
-    } catch (e) {
-      print(e);
+      update();
+      Get.to(() => AllOffersView()); // Navigate to AllOffersView after fetching
+    } else {
+      throw Exception('Failed to fetch offers for category ID $categoryId');
     }
+  } catch (e) {
+    print('Error fetching offers by category ID: $e');
   }
+}
 
   void showOfferFilterDialog(BuildContext context) {
     final renderBox = filterKey.currentContext?.findRenderObject() as RenderBox?;

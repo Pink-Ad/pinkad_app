@@ -3,9 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/modules/all_categories/controllers/categories_controller.dart';
+import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
-import 'package:pink_ad/app/modules/sub_categories/controllers/sub_categories_controller.dart';
-import 'package:pink_ad/app/modules/sub_categories/views/sub_categories_view.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
@@ -18,6 +17,7 @@ class CategoriesView extends GetView<CategoriesController> {
   CategoriesView({super.key});
   final box = GetStorage();
   final refreshController = RefreshController();
+  final allOffersController = Get.find<AllOffersController>();
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +81,15 @@ class CategoriesView extends GetView<CategoriesController> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              Get.put(SubCategoryController());
-                              Get.to(() => SubCategoryView());
-                              Get.find<SubCategoryController>().fetchSubCategories(controller.categories[index].id);
-                            },
+  allOffersController.fetchOffersByCategoryId(controller.categories[index].id);
+},
+
+
+                            // onTap: () {
+                            //   Get.put(SubCategoryController());
+                            //   Get.to(() => SubCategoryView());
+                            //   Get.find<SubCategoryController>().fetchSubCategories(controller.categories[index].id);
+                            // },
                             child: categoryListItem(controller.categories, index, context),
                           );
                         },

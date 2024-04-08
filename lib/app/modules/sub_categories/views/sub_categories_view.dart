@@ -100,13 +100,13 @@ class SubCategoryView extends GetView<SubCategoryController> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              if (controller.subCategories[index].id != null) {
-                                Get.put(AllOffersController()); // Register the controller
-                                Get.to(() => AllOffersView());
-                                Get.find<AllOffersController>().filterOffersBySubCategory(controller.subCategories[index].id!);
-                              } else {
-                                print('Subcategory ID is null');
-                              }
+                              // if (controller.subCategories[index].id != null) {
+                              //   Get.put(AllOffersController()); // Register the controller
+                              //   Get.to(() => AllOffersView());
+                              //   Get.find<AllOffersController>().filterOffersBySubCategory(controller.subCategories[index].id!);
+                              // } else {
+                              //   print('Subcategory ID is null');
+                              // }
                             },
                             child: subcategoryListItem(controller.subCategories, index, context),
                           );
