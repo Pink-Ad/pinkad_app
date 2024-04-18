@@ -26,7 +26,7 @@ class MyDropdown extends GetView<SignupController> {
               width: Get.width,
               margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               padding: EdgeInsets.only(
-                  left: 20.0.w, right: 20.w, top: 5.h, bottom: 5.h),
+                  left: 20.0.w, right: 20.w, top: 5.h, bottom: 5.h,),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8.0),
@@ -50,9 +50,9 @@ class MyDropdown extends GetView<SignupController> {
                           child: Text(
                             option,
                             style: CustomTextView.getStyle(context,
-                                colorLight: textColor, fontSize: 15.sp),
+                                colorLight: textColor, fontSize: 15.sp,),
                           ),
-                        ))
+                        ),)
                     .toList(),
                 onChanged: (value) {
                   print(value);
@@ -77,7 +77,7 @@ class MyDropdown extends GetView<SignupController> {
                   margin:
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   padding: EdgeInsets.only(
-                      left: 20.0.w, right: 20.w, top: 5.h, bottom: 5.h),
+                      left: 20.0.w, right: 20.w, top: 5.h, bottom: 5.h,),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
@@ -98,8 +98,8 @@ class MyDropdown extends GetView<SignupController> {
                       showSelectedItems: false,
                       searchFieldProps: TextFieldProps(
                           decoration: InputDecoration(
-                        hintText: "Search",
-                      )),
+                        hintText: 'Search',
+                      ),),
                     ),
                     items: controller.salesmanName.value,
                     itemAsString: (City u) => u.name,
@@ -107,12 +107,12 @@ class MyDropdown extends GetView<SignupController> {
                         controller.salesmanName.value.isNotEmpty ? true : false,
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       baseStyle: CustomTextView.getStyle(context,
-                          colorLight: textColor, fontSize: 15.sp),
+                          colorLight: textColor, fontSize: 15.sp,),
                       dropdownSearchDecoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Select Salesman",
+                        hintText: 'Select Salesman',
                         hintStyle: CustomTextView.getStyle(context,
-                            colorLight: textColor, fontSize: 15.sp),
+                            colorLight: textColor, fontSize: 15.sp,),
                       ),
                     ),
                     onChanged: (value) {
@@ -146,8 +146,8 @@ class MyDropdown extends GetView<SignupController> {
                   //   },
                   // ),
                 ),
-              )
+              ),
           ],
-        ));
+        ),);
   }
 }

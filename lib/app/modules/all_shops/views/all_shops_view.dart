@@ -92,41 +92,24 @@ class AllShopsView extends GetView<AllShopsController> {
                       ),
                       child: Center(
                         child: TypeAheadField<dynamic>(
-                          animationStart: 0,
-                          animationDuration: Duration.zero,
                           textFieldConfiguration: TextFieldConfiguration(
                             controller: controller.searchController,
-                            autofocus: false,
+                            //autofocus: false,
                             style: TextStyle(fontSize: 15),
                             decoration: InputDecoration(
                               hintText: 'Search Sellers',
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  Icons.filter_list,
-                                  color: Colors.black,
-                                  size: 25,
-                                ),
-                                onPressed: () {
-                                  controller.showShopFilterDialog(context);
-                                },
-                              ),
                               border: InputBorder.none,
                               focusColor: tertiary,
                             ),
                           ),
                           hideOnError: true,
                           suggestionsCallback: (pattern) {
-                            List matches = [];
-                            matches.addAll(controller.allShops);
-                            matches.retainWhere((s) {
-                              return s['user']['name'].toLowerCase().contains(pattern.toLowerCase());
-                            });
-                            return matches.take(6);
+                            return controller.getSuggestions(pattern);
                           },
-                          itemBuilder: (context, offer) {
+                          itemBuilder: (context, suggestion) {
                             return GestureDetector(
                               onTap: () {
-                                Get.find<AllShopsController>().getShopDetail(offer['shop'][0]['id']);
+                                Get.find<AllShopsController>().getShopDetail(suggestion['shop'][0]['id']);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -139,12 +122,12 @@ class AllShopsView extends GetView<AllShopsController> {
                                   ),
                                 ),
                                 child: ListTile(
-                                  leading: const Icon(
-                                    Icons.travel_explore,
-                                    color: primary,
-                                  ),
+                                  // leading: const Icon(
+                                  //   Icons.travel_explore,
+                                  //   color: primary,
+                                  // ),
                                   title: Text(
-                                    offer['user']['name'],
+                                    suggestion['user']['name'],
                                     style: CustomTextView.getStyle(
                                       context,
                                       colorLight: const Color.fromARGB(255, 41, 39, 39),
@@ -155,7 +138,7 @@ class AllShopsView extends GetView<AllShopsController> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   subtitle: Text(
-                                    offer['description'] ?? '',
+                                    suggestion['description'] ?? '',
                                     style: CustomTextView.getStyle(
                                       context,
                                       colorLight: const Color.fromARGB(255, 66, 66, 66),
@@ -170,7 +153,8 @@ class AllShopsView extends GetView<AllShopsController> {
                             );
                           },
                           onSuggestionSelected: (suggestion) {
-                            // widget.callback(suggestion);
+                            controller.searchController.text = suggestion['user']['name'];
+                            controller.searchShops(suggestion['user']['name']);
                           },
                         ),
                       ),

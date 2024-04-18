@@ -15,6 +15,7 @@ class CategoriesController extends GetxController {
   var filteredCategories = <Category>[].obs;
   final searchController = TextEditingController();
   GlobalKey filterKey = GlobalKey();
+  var isLoading = false.obs;
 
   @override
   void onInit() {
@@ -24,18 +25,19 @@ class CategoriesController extends GetxController {
       filterCategories(searchController.text);
     });
   }
-
-  Future<void> fetchCategories() async {
+ Future<void> fetchCategories() async {
     try {
+      isLoading.value = true;  // Set loading to true when fetching begins
       final response = await _apiService.getData(Endpoints.category);
+      isLoading.value = false;  // Set loading to false when fetching is done
       if (response.statusCode == 200) {
         final List<dynamic> decodedList = json.decode(response.body);
-        final List<Category> categoriesList = decodedList.map((json) => Category.fromJson(json)).toList();
-        categories.assignAll(categoriesList);
+        categories.assignAll(decodedList.map((json) => Category.fromJson(json)).toList());
       } else {
         print('Request failed with status: ${response.statusCode}.');
       }
     } catch (e) {
+      isLoading.value = false;  // Ensure loading is set to false on error too
       print('Failed to fetch categories: $e');
     }
   }

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +11,10 @@ import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/models/province_model.dart';
 import 'package:pink_ad/app/models/salesman_model.dart';
+import 'package:pink_ad/utilities/colors/colors.dart';
+import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/functions/show_image_dialog.dart';
+import 'package:pink_ad/utilities/utils.dart';
 
 import '../../../../utilities/custom_widgets/snackbars.dart';
 import '../../../data/api_service.dart';
@@ -365,11 +369,8 @@ class SignupController extends GetxController {
         // Successful request
         isLoading.value = false;
         if (postResponse.status == 'success') {
-          showSnackBarSuccess(
-            'Message',
-            postResponse.message!,
-          );
-          Get.toNamed(Routes.LOGIN);
+          showSuccessDialog(Get.context!);
+          //Get.toNamed(Routes.LOGIN);
         } else {
           showSnackBarError(
             'Message',
@@ -395,4 +396,67 @@ class SignupController extends GetxController {
       print('Exception occurred while registering user: $e');
     }
   }
+}
+
+void showSuccessDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Color.fromARGB(241, 255, 255, 255),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        title: Text(
+          'Success',
+          style: CustomTextView.getStyle(
+            Get.context!,
+            colorLight: secondary,
+            fontSize: 20.sp,
+            fontFamily: Utils.poppinsBold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        content: Text(
+          'Verification email has been sent to you. Kindly verify your email and start using PinkAd for free postings. \n\nYour account has been successfully created.',
+          textAlign: TextAlign.center,
+          style: CustomTextView.getStyle(
+            Get.context!,
+            colorLight: primary,
+            fontSize: 15.sp,
+            fontFamily: Utils.poppinsMedium,
+          ),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+              Get.toNamed(Routes.LOGIN);
+            },
+            child: Container(
+              height: 0.06.sh,
+              width: 0.2.sw,
+              decoration: BoxDecoration(
+                color: primary,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Text(
+                  'OK',
+                  style: CustomTextView.getStyle(
+                    Get.context!,
+                    colorLight: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: Utils.poppinsSemiBold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }

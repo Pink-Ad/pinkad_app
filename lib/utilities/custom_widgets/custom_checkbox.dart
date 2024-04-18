@@ -24,7 +24,7 @@ class CustomCheckbox extends StatelessWidget {
         }),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
-            side: BorderSide(color: Colors.white ,width: .5) // Change the border color of the checkbox
+            side: BorderSide(color: Colors.white ,width: .5), // Change the border color of the checkbox
         ),
 
       ),

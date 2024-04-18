@@ -95,16 +95,16 @@ class AllOffersView extends GetView<AllOffersController> {
                           style: TextStyle(fontSize: 15),
                           decoration: InputDecoration(
                             hintText: 'Search Offers',
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                Icons.filter_list,
-                                color: Colors.black,
-                                size: 25,
-                              ),
-                              onPressed: () {
-                                Get.find<AllOffersController>().showOfferFilterDialog(context);
-                              },
-                            ),
+                            // suffixIcon: IconButton(
+                            //   icon: Icon(
+                            //     Icons.filter_list,
+                            //     color: Colors.black,
+                            //     size: 25,
+                            //   ),
+                            //   onPressed: () {
+                            //     Get.find<AllOffersController>().showOfferFilterDialog(context);
+                            //   },
+                            // ),
                             //    hintStyle: CustomTextView.getStyle(co
                             border: InputBorder.none,
                             focusColor: tertiary,

@@ -68,6 +68,30 @@ class AllShopsController extends GetxController {
     }
   }
 
+  Future<void> searchShops(String query) async {
+    if (query.isEmpty) {
+      shops = allShops;
+      update();
+      return;
+    }
+    try {
+      final response = await _apiService.getData('seller-search?search_name=$query');
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        shops = result['sellers'];
+        update();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  List<dynamic> getSuggestions(String query) {
+    print('getSuggestions called with query: $query');
+    if (query.isEmpty) return [];
+    return shops.where((shop) => shop['name'].toLowerCase().contains(query.toLowerCase())).toList();
+  }
+
   Future<void> filterShops(List<Area> areas) async {
     if (areas.isEmpty) {
       showToast(message: 'Please select the filters');

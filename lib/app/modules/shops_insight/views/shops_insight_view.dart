@@ -223,7 +223,7 @@ class ShopsInsightView extends GetView {
                           child: Obx(
                             () => premierFeaturesController.selectedButton.value == 0
                                 ? SizedBox(
-                                    height: Get.height * 0.68,
+                                    height: Get.height * 0.75,
                                     child: premierFeaturesController.isLoading.value
                                         ? const Center(
                                             child: CircularProgressIndicator(
@@ -400,7 +400,7 @@ class ShopsInsightView extends GetView {
                                               ),
                                   )
                                 : SizedBox(
-                                    height: Get.height * 0.68,
+                                    height: Get.height * 0.75,
                                     child: premierFeaturesController.isLoading.value
                                         ? const Center(
                                             child: CircularProgressIndicator(
@@ -571,7 +571,7 @@ class ShopsInsightView extends GetView {
                                                                         : const Row(
                                                                             children: [
                                                                               Text('Pending'),
-                                                                              SizedBox(width: 10),
+                                                                              //SizedBox(width: 10),
                                                                               Icon(
                                                                                 Icons.timelapse_outlined,
                                                                                 color: Colors.grey,

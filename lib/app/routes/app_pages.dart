@@ -4,6 +4,7 @@ import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
 import 'package:pink_ad/app/modules/specific_seller/bindings/specific_seller_bindings.dart';
 import 'package:pink_ad/app/modules/specific_seller/views/specific_seller_views.dart';
+import 'package:pink_ad/app/modules/user_dashboard/views/user_bottom_nav_bar.dart';
 
 import '../modules/OTP/bindings/otp_binding.dart';
 import '../modules/OTP/views/otp_view.dart';
@@ -55,7 +56,6 @@ import '../modules/tutorial/views/tutorial_view.dart';
 import '../modules/upload_offer/bindings/upload_offer_binding.dart';
 import '../modules/upload_offer/views/upload_offer_view.dart';
 import '../modules/user_dashboard/bindings/user_dashboard_binding.dart';
-import '../modules/user_dashboard/views/user_bottom_nav_bar.dart';
 import '../modules/user_dashboard/views/user_dashboard_view.dart';
 import '../modules/user_login/bindings/user_login_binding.dart';
 import '../modules/user_login/views/user_login_view.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:pink_ad/utilities/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utilities/colors/colors.dart';
@@ -148,7 +149,6 @@ class LoginView extends GetView<LoginController> {
                     GestureDetector(
                       onTap: () {
                         Get.toNamed(Routes.SIGNUP);
-                        // Navigate to sign up screen
                       },
                       child: Text(
                         'Sign Up',

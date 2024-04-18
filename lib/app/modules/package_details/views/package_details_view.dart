@@ -22,12 +22,12 @@ class PackageDetailsView extends GetView {
             UserAppBar(
               profileIconVisibility: true,
               backButton: false,
-              title: "Premier Feature",
+              title: 'Premier Feature',
               onMenuTap: () {
-                print("object");
+                print('object');
               },
               onProfileTap: () {
-                print("object");
+                print('object');
                 Get.to(ProfileView());
               },
             ),
@@ -55,7 +55,7 @@ class PackageDetailsView extends GetView {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            "assets/svgIcons/package.svg",
+                            'assets/svgIcons/package.svg',
                             color: premierFeaturesController
                                 .selectedButton.value ==
                                 0
@@ -66,7 +66,7 @@ class PackageDetailsView extends GetView {
                             width: 10.w,
                           ),
                           Text(
-                            "Packages",
+                            'Packages',
                             style: TextStyle(
                               color: premierFeaturesController
                                   .selectedButton.value ==
@@ -98,7 +98,7 @@ class PackageDetailsView extends GetView {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            "assets/svgIcons/banner.svg",
+                            'assets/svgIcons/banner.svg',
                             color: premierFeaturesController
                                 .selectedButton.value ==
                                 0
@@ -109,7 +109,7 @@ class PackageDetailsView extends GetView {
                             width: 10.w,
                           ),
                           Text(
-                            "Banner",
+                            'Banner',
                             style: TextStyle(
                               color: premierFeaturesController
                                   .selectedButton.value ==
@@ -122,7 +122,7 @@ class PackageDetailsView extends GetView {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
             Obx(
@@ -137,7 +137,7 @@ class PackageDetailsView extends GetView {
                         border: Border.all(width: .5, color: secondary),
                         borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0))),
+                            topRight: Radius.circular(20.0),),),
                     child: ListView.builder(
                       itemCount: 5, // number of items in the list
                       itemBuilder: (BuildContext context, int index) {
@@ -185,7 +185,7 @@ class PackageDetailsView extends GetView {
                                       child: Container(
                                         height: 40.h,
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 20.0.w),
+                                            horizontal: 20.0.w,),
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius:
@@ -197,16 +197,16 @@ class PackageDetailsView extends GetView {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            "PKR 300",
+                                            'PKR 300',
                                             style: TextStyle(
                                                 color: secondary,
                                                 fontSize: 14.sp,
                                                 fontWeight:
-                                                FontWeight.w700),
+                                                FontWeight.w700,),
                                           ),
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                                 Text(
@@ -236,14 +236,14 @@ class PackageDetailsView extends GetView {
                           border: Border.all(width: .5, color: secondary),
                           borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(20.0),
-                              topRight: Radius.circular(20.0))),
+                              topRight: Radius.circular(20.0),),),
                       child: Container(
                         margin: EdgeInsets.symmetric(
-                            horizontal: 20.0.w, vertical: 20.0.h),
+                            horizontal: 20.0.w, vertical: 20.0.h,),
                         decoration: const BoxDecoration(
                             color: containerGray,
                             borderRadius:
-                            BorderRadius.all(Radius.circular(20.0))),
+                            BorderRadius.all(Radius.circular(20.0)),),
                         child: SingleChildScrollView(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -252,10 +252,10 @@ class PackageDetailsView extends GetView {
                               Padding(
                                 padding:  EdgeInsets.symmetric(horizontal: 20.0.w , vertical: 10.0.h),
                                 child: Text(
-                                  "Add New Banner",
+                                  'Add New Banner',
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 18.sp , fontWeight: FontWeight.w600),
+                                      fontSize: 18.sp , fontWeight: FontWeight.w600,),
                                   maxLines: 2,
                                   overflow:
                                   TextOverflow.ellipsis,
@@ -268,7 +268,7 @@ class PackageDetailsView extends GetView {
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.symmetric(
-                                        horizontal: 20),
+                                        horizontal: 20,),
                                     height: 40.h,
                                     width: 120.w,
                                     decoration: BoxDecoration(
@@ -293,9 +293,9 @@ class PackageDetailsView extends GetView {
                               Container(
                                 height: 45.0.h,
                                 margin: EdgeInsets.symmetric(
-                                    horizontal: 20.w, vertical: 10.h),
+                                    horizontal: 20.w, vertical: 10.h,),
                                 padding:  EdgeInsets.symmetric(
-                                    horizontal: 15.0.w, vertical: 10.0.h),
+                                    horizontal: 15.0.w, vertical: 10.0.h,),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius:
@@ -315,26 +315,26 @@ class PackageDetailsView extends GetView {
                                     SizedBox(
                                       width: 230.w,
                                       child: Text(
-                                        "From Date",
+                                        'From Date',
                                         style: TextStyle(
                                             color: Colors.black54,
-                                            fontSize: 16.sp),
+                                            fontSize: 16.sp,),
                                         maxLines: 2,
                                         overflow:
                                         TextOverflow.ellipsis,
                                       ),
                                     ),
                                     SvgPicture.asset(
-                                        "assets/svgIcons/calendar.svg"),
+                                        'assets/svgIcons/calendar.svg',),
                                   ],
                                 ),
                               ),
                               Container(
                                 height: 45.0.h,
                                 margin: EdgeInsets.symmetric(
-                                    horizontal: 20.w, vertical: 10.h),
+                                    horizontal: 20.w, vertical: 10.h,),
                                 padding:  EdgeInsets.symmetric(
-                                    horizontal: 15.0.w, vertical: 10.0.h),
+                                    horizontal: 15.0.w, vertical: 10.0.h,),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius:
@@ -354,17 +354,17 @@ class PackageDetailsView extends GetView {
                                     SizedBox(
                                       width: 220.w,
                                       child: Text(
-                                        "To Date",
+                                        'To Date',
                                         style: TextStyle(
                                             color: Colors.black54,
-                                            fontSize: 16.sp),
+                                            fontSize: 16.sp,),
                                         maxLines: 2,
                                         overflow:
                                         TextOverflow.ellipsis,
                                       ),
                                     ),
                                     SvgPicture.asset(
-                                        "assets/svgIcons/calendar.svg"),
+                                        'assets/svgIcons/calendar.svg',),
                                   ],
                                 ),
                               ),
@@ -386,7 +386,7 @@ class PackageDetailsView extends GetView {
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.symmetric(
-                                      horizontal: 20),
+                                      horizontal: 20,),
                                   height: 50.h,
                                   decoration: BoxDecoration(
                                     color: secondary,
@@ -409,7 +409,7 @@ class PackageDetailsView extends GetView {
                             ],
                           ),
                         ),
-                      )),
+                      ),),
                 ),
               ),
             ),

@@ -8,7 +8,7 @@ class RegisterPostResponse {
       {String? status,
       String? message,
       User? user,
-      Authorisation? authorisation}) {
+      Authorisation? authorisation,}) {
     if (status != null) {
       _status = status;
     }
@@ -70,7 +70,7 @@ class User {
       String? role,
       String? updatedAt,
       String? createdAt,
-      int? id}) {
+      int? id,}) {
     if (name != null) {
       _name = name;
     }

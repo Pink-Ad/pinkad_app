@@ -8,7 +8,7 @@ class CustomTextView {
         Color? colorDark,
         Color? colorLight,
         FontWeight fontWeight = FontWeight.normal,
-        String fontFamily = "Poppins-Regular",
+        String fontFamily = 'Poppins-Regular',
       }) {
     final color = colorLight ;
 
@@ -18,26 +18,26 @@ class CustomTextView {
             fontSize: fontSize.sp,
             color: color,
             fontFamily: fontFamily,
-            fontWeight: fontWeight);
+            fontWeight: fontWeight,);
       case FontWeight.w600:
         return Theme.of(context).textTheme.titleMedium?.copyWith(
             fontSize: fontSize.sp,
             color: color,
             fontFamily: fontFamily,
-            fontWeight: fontWeight);
+            fontWeight: fontWeight,);
       case FontWeight.w500:
         return Theme.of(context).textTheme.titleSmall?.copyWith(
             fontSize: fontSize.sp,
             color: color,
             fontFamily: fontFamily,
-            fontWeight: fontWeight);
+            fontWeight: fontWeight,);
       case FontWeight.w400:
       default:
         return Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontSize: fontSize.sp,
             color: color,
             fontFamily: fontFamily,
-            fontWeight: fontWeight);
+            fontWeight: fontWeight,);
     }
   }
 }

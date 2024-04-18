@@ -37,6 +37,8 @@ class HomeController extends GetxController {
     update();
   }
 
+  
+
   void showCustomDialog(var temp) {
     print(temp);
     AwesomeDialog(

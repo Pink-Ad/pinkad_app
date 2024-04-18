@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 import '../../utilities/custom_widgets/snackbars.dart';
 
 class ApiService {
-  //static const String baseUrl = 'https://pinkad.pk/portal/api';
-  static const String baseUrl = 'https://qa.pinkad.pk/api';
+  static const String baseUrl = 'https://pinkad.pk/portal/api';
+  //static const String baseUrl = 'https://qa.pinkad.pk/api';
   static const String imageBaseUrl = 'https://pinkad.pk/portal/public/storage/';
   final http.Client _client;
   static const String modelBaseUrl = 'https://model.pinkad.pk/aimodel/';

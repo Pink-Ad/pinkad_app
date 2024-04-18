@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
-import 'package:pink_ad/app/modules/all_offers/views/all_offers_view.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/app/modules/sub_categories/controllers/sub_categories_controller.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';

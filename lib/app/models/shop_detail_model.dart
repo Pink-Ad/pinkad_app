@@ -67,7 +67,7 @@ class ShopDetail {
         'status': status,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
-        'seller': seller?.toJson()
+        'seller': seller?.toJson(),
       };
 }
 

@@ -594,7 +594,6 @@ class SignupView extends GetView<SignupController> {
                                           onPressed: () {
                                             // controller.isFormValid() ? controller.registerUser : showSnackBarError("Error", "Fill all fields");
                                             controller.onSubmit();
-
                                             // Get.toNamed(Routes.Bottom_Nav_Bar);
                                           },
                                           textColor: Colors.white,

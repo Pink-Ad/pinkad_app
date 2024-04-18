@@ -47,7 +47,7 @@ class ActivePackageDetailsView extends GetView {
                 ),
                 child: Container(
                   margin: EdgeInsets.only(
-                      left: 20.h, right: 20.w, bottom: 50.h, top: 20.h),
+                      left: 20.h, right: 20.w, bottom: 50.h, top: 20.h,),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0),
@@ -65,7 +65,7 @@ class ActivePackageDetailsView extends GetView {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                            left: 20.0.w, top: 30.h, right: 20.w),
+                            left: 20.0.w, top: 30.h, right: 20.w,),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +75,7 @@ class ActivePackageDetailsView extends GetView {
                               style: CustomTextView.getStyle(context,
                                   colorLight: Colors.black,
                                   fontSize: 20.sp,
-                                  fontFamily: Utils.poppinsSemiBold),
+                                  fontFamily: Utils.poppinsSemiBold,),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -87,7 +87,7 @@ class ActivePackageDetailsView extends GetView {
                               style: CustomTextView.getStyle(context,
                                   colorLight: secondary,
                                   fontSize: 24.sp,
-                                  fontFamily: Utils.poppinsSemiBold),
+                                  fontFamily: Utils.poppinsSemiBold,),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),

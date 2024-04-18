@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
@@ -27,6 +30,7 @@ class UserDashboardView extends GetView {
   final allOffersController = AllOffersController();
   final homeController = HomeController();
   final refreshController = RefreshController();
+  final ScrollController _scrollController = ScrollController();
 
   UserDashboardView({super.key});
 
@@ -36,6 +40,7 @@ class UserDashboardView extends GetView {
       resizeToAvoidBottomInset: false,
       body: Container(
         child: CustomScrollView(
+          controller: _scrollController,
           slivers: [
             SliverToBoxAdapter(
               child: UserAppBar(
@@ -131,26 +136,40 @@ class UserDashboardView extends GetView {
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    width: 230.w,
-                                                    height: 150.w,
-                                                    decoration: BoxDecoration(
-                                                      color: lightGray,
-                                                      borderRadius: const BorderRadius.only(
-                                                        topRight: Radius.circular(
-                                                          10.0,
-                                                        ),
-                                                        topLeft: Radius.circular(
-                                                          10.0,
-                                                        ),
-                                                      ),
-                                                      image: DecorationImage(
-                                                        image: NetworkImage(
-                                                          ApiService.imageBaseUrl + fOffer[index]['banner'],
-                                                        ),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
+                                                  FutureBuilder<MemoryImage?>(
+                                                    future: getCompressedImage(ApiService.imageBaseUrl + fOffer[index]['banner']),
+                                                    builder: (context, snapshot) {
+                                                      if (snapshot.connectionState == ConnectionState.waiting) {
+                                                        return Container(
+                                                          width: 230.w,
+                                                          height: 150.w,
+                                                          decoration: BoxDecoration(
+                                                            color: Colors.grey.shade300, // placeholder color
+                                                            borderRadius: BorderRadius.only(
+                                                              topRight: Radius.circular(10.0),
+                                                              topLeft: Radius.circular(10.0),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
+                                                      if (snapshot.hasData) {
+                                                        return Container(
+                                                          width: 230.w,
+                                                          height: 150.w,
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.only(
+                                                              topRight: Radius.circular(10.0),
+                                                              topLeft: Radius.circular(10.0),
+                                                            ),
+                                                            image: DecorationImage(
+                                                              image: snapshot.data!,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
+                                                      return Container(); // handle no data or error state
+                                                    },
                                                   ),
                                                   Container(
                                                     margin: EdgeInsets.only(
@@ -315,7 +334,54 @@ class UserDashboardView extends GetView {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (_scrollController.hasClients) {
+            print('Scrolling to top');
+            _scrollController.animateTo(
+              0,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            print('No clients attached to ScrollController');
+          }
+        },
+        child: Icon(Icons.arrow_upward),
+        backgroundColor: Colors.pink,
+      ),
     );
+  }
+
+  Future<MemoryImage?> getCompressedImage(String imageUrl) async {
+    try {
+      final Uri uri = Uri.parse(imageUrl);
+      final http.Response response = await http.get(uri);
+      if (response.statusCode == 200) {
+        print('Original size: ${response.contentLength} bytes');
+        // Attempt to compress the image
+        try {
+          final Uint8List? compressedImage = await FlutterImageCompress.compressWithList(
+            response.bodyBytes,
+            minHeight: 150, // set the desired height
+            minWidth: 230, // set the desired width
+            quality: 70, // set the compression quality
+          );
+          if (compressedImage != null) {
+            print('Compressed size: ${compressedImage.length} bytes');
+            return MemoryImage(compressedImage);
+          }
+        } catch (compressError) {
+          print('Error compressing image: $compressError');
+          // If compression fails, fall back to the original image
+        }
+        // Return the original image if compression didn't work or wasn't possible
+        return MemoryImage(response.bodyBytes);
+      }
+    } catch (e) {
+      print('Error fetching image: $e');
+    }
+    return null;
   }
 }
 

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
-import 'package:pink_ad/app/modules/signup/controllers/signup_controller.dart';
 import 'package:pink_ad/app/modules/user_profile/controllers/user_profile_controller.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 
@@ -15,7 +14,7 @@ class UserAreaDropDown extends GetView<UserProfileController> {
   final List<String> salesmanList = [
     'Select Area',
     'North Karachi',
-    'South Karachi'
+    'South Karachi',
   ];
   final RxString selectedSalesman = 'Select Area'.obs;
   final RxBool showAnotherDropdown = true.obs;
@@ -113,7 +112,7 @@ class UserAreaDropDown extends GetView<UserProfileController> {
               width: Get.width,
               margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               padding: EdgeInsets.only(
-                  left: 20.0.w, right: 20.w, top: 5.h, bottom: 5.h),
+                  left: 20.0.w, right: 20.w, top: 5.h, bottom: 5.h,),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8.0),
@@ -134,22 +133,22 @@ class UserAreaDropDown extends GetView<UserProfileController> {
                   showSelectedItems: false,
                   searchFieldProps: TextFieldProps(
                       decoration: InputDecoration(
-                    hintText: "Search",
+                    hintText: 'Search',
                     hintStyle: CustomTextView.getStyle(context,
-                        colorLight: textColor, fontSize: 15.sp),
-                  )),
+                        colorLight: textColor, fontSize: 15.sp,),
+                  ),),
                 ),
                 items: controller.citiesName.value,
                 itemAsString: (City u) => u.name,
                 enabled: controller.citiesName.value.length > 0 ? true : false,
                 dropdownDecoratorProps: DropDownDecoratorProps(
                   baseStyle: CustomTextView.getStyle(context,
-                      colorLight: textColor, fontSize: 15.sp),
+                      colorLight: textColor, fontSize: 15.sp,),
                   dropdownSearchDecoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: "Select you City",
+                    hintText: 'Select you City',
                     hintStyle: CustomTextView.getStyle(context,
-                        colorLight: textColor, fontSize: 15.sp),
+                        colorLight: textColor, fontSize: 15.sp,),
                   ),
                 ),
                 onChanged: (value) {
@@ -200,7 +199,7 @@ class UserAreaDropDown extends GetView<UserProfileController> {
                   margin:
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   padding: EdgeInsets.only(
-                      left: 20.0.w, right: 20.w, top: 5.h, bottom: 5.h),
+                      left: 20.0.w, right: 20.w, top: 5.h, bottom: 5.h,),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
@@ -221,10 +220,10 @@ class UserAreaDropDown extends GetView<UserProfileController> {
                       showSelectedItems: false,
                       searchFieldProps: TextFieldProps(
                           decoration: InputDecoration(
-                        hintText: "Search",
+                        hintText: 'Search',
                         hintStyle: CustomTextView.getStyle(context,
-                            colorLight: textColor, fontSize: 15.sp),
-                      )),
+                            colorLight: textColor, fontSize: 15.sp,),
+                      ),),
                     ),
                     items: controller.areaName.value,
                     itemAsString: (City u) => u.name,
@@ -232,12 +231,12 @@ class UserAreaDropDown extends GetView<UserProfileController> {
                         controller.areaName.value.length > 0 ? true : false,
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       baseStyle: CustomTextView.getStyle(context,
-                          colorLight: textColor, fontSize: 15.sp),
+                          colorLight: textColor, fontSize: 15.sp,),
                       dropdownSearchDecoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Select you Area",
+                        hintText: 'Select you Area',
                         hintStyle: CustomTextView.getStyle(context,
-                            colorLight: textColor, fontSize: 15.sp),
+                            colorLight: textColor, fontSize: 15.sp,),
                       ),
                     ),
                     onChanged: (value) {
@@ -270,8 +269,8 @@ class UserAreaDropDown extends GetView<UserProfileController> {
                   //   },
                   // ),
                 ),
-              )
+              ),
           ],
-        ));
+        ),);
   }
 }

@@ -217,7 +217,7 @@ class ChangePasswordContent extends GetView<UserProfileController> {
                     ? Center(
                         child: const CircularProgressIndicator(
                         color: primary,
-                      ))
+                      ),)
                     : GlobalButton(
                         title: 'Change Password',
                         onPressed: () {

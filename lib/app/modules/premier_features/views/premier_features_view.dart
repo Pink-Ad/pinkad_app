@@ -24,12 +24,12 @@ class PremierFeaturesView extends GetView {
             UserAppBar(
               profileIconVisibility: true,
               backButton: true,
-              title: "Add Banner",
+              title: 'Add Banner',
               onMenuTap: () {
-                print("object");
+                print('object');
               },
               onProfileTap: () {
-                print("object");
+                print('object');
                 Get.to(ProfileView());
               },
             ),
@@ -148,7 +148,7 @@ class PremierFeaturesView extends GetView {
                               border: Border.all(width: .5, color: secondary),
                               borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(20.0),
-                                  topRight: Radius.circular(20.0))),
+                                  topRight: Radius.circular(20.0),),),
                           child: premierFeaturesController
                                   .detailsVisibility.value
                               ? ListView.builder(
@@ -163,7 +163,7 @@ class PremierFeaturesView extends GetView {
                                       },
                                       child: Container(
                                         margin: const EdgeInsets.symmetric(
-                                            vertical: 10.0, horizontal: 20),
+                                            vertical: 10.0, horizontal: 20,),
                                         padding: const EdgeInsets.all(16.0),
                                         decoration: BoxDecoration(
                                           color: Colors.white,
@@ -199,7 +199,7 @@ class PremierFeaturesView extends GetView {
                                                           fontFamily: Utils
                                                               .poppinsSemiBold,
                                                           colorLight:
-                                                              Colors.black),
+                                                              Colors.black,),
                                                   maxLines: 1,
                                                   overflow:
                                                       TextOverflow.ellipsis,
@@ -214,19 +214,19 @@ class PremierFeaturesView extends GetView {
                                                     height: 40.h,
                                                     padding:
                                                         EdgeInsets.symmetric(
-                                                            horizontal: 20.0.w),
+                                                            horizontal: 20.0.w,),
                                                     decoration: BoxDecoration(
                                                       color: Colors.white,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              30.0),
+                                                              30.0,),
                                                       border: Border.all(
                                                         color: secondary,
                                                         width: 2,
                                                       ),
                                                     ),
                                                     child: Center(
-                                                      child: Text("PKR 300",
+                                                      child: Text('PKR 300',
                                                           style: CustomTextView
                                                               .getStyle(context,
                                                                   colorLight:
@@ -234,10 +234,10 @@ class PremierFeaturesView extends GetView {
                                                                   fontSize:
                                                                       16.sp,
                                                                   fontFamily: Utils
-                                                                      .poppinsSemiBold)),
+                                                                      .poppinsSemiBold,),),
                                                     ),
                                                   ),
-                                                )
+                                                ),
                                               ],
                                             ),
                                             Text(
@@ -261,7 +261,7 @@ class PremierFeaturesView extends GetView {
                                       left: 20.h,
                                       right: 20.w,
                                       bottom: 30.h,
-                                      top: 10.h),
+                                      top: 10.h,),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10.0),
@@ -282,7 +282,7 @@ class PremierFeaturesView extends GetView {
                                         padding: EdgeInsets.only(
                                             left: 20.0.w,
                                             top: 20.h,
-                                            right: 20.w),
+                                            right: 20.w,),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -298,7 +298,7 @@ class PremierFeaturesView extends GetView {
                                                           .value = true;
                                                     },
                                                     child: const Icon(
-                                                        Icons.arrow_back_ios)),
+                                                        Icons.arrow_back_ios,),),
                                                 Text(
                                                   'Package Title',
                                                   style:
@@ -308,7 +308,7 @@ class PremierFeaturesView extends GetView {
                                                               Colors.black,
                                                           fontSize: 20.sp,
                                                           fontFamily: Utils
-                                                              .poppinsSemiBold),
+                                                              .poppinsSemiBold,),
                                                   maxLines: 1,
                                                   overflow:
                                                       TextOverflow.ellipsis,
@@ -325,7 +325,7 @@ class PremierFeaturesView extends GetView {
                                                   colorLight: secondary,
                                                   fontSize: 24.sp,
                                                   fontFamily:
-                                                      Utils.poppinsSemiBold),
+                                                      Utils.poppinsSemiBold,),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
@@ -339,14 +339,14 @@ class PremierFeaturesView extends GetView {
                                           itemCount:
                                               5, // number of items in the list
                                           itemBuilder: (BuildContext context,
-                                              int index) {
+                                              int index,) {
                                             return Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(
-                                                      20.0),
+                                                      20.0,),
                                                   child: Row(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -389,7 +389,7 @@ class PremierFeaturesView extends GetView {
                                                 const Divider(
                                                   height: 2,
                                                   thickness: 2,
-                                                )
+                                                ),
                                               ],
                                             );
                                           },
@@ -399,7 +399,7 @@ class PremierFeaturesView extends GetView {
                                         height: 25.h,
                                       ),
                                       GlobalButton(
-                                        title: "Activate",
+                                        title: 'Activate',
                                         onPressed: () {
                                           premierFeaturesController
                                               .showAwesomeDialog();
@@ -409,7 +409,7 @@ class PremierFeaturesView extends GetView {
                                       ),
                                       SizedBox(
                                         height: 20.h,
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -426,14 +426,14 @@ class PremierFeaturesView extends GetView {
                                 border: Border.all(width: .5, color: secondary),
                                 borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(20.0),
-                                    topRight: Radius.circular(20.0))),
+                                    topRight: Radius.circular(20.0),),),
                             child: Container(
                               margin: EdgeInsets.symmetric(
-                                  horizontal: 20.0.w, vertical: 20.0.h),
+                                  horizontal: 20.0.w, vertical: 20.0.h,),
                               decoration: const BoxDecoration(
                                   color: containerGray,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0))),
+                                      BorderRadius.all(Radius.circular(20.0)),),
                               child: SingleChildScrollView(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -441,13 +441,13 @@ class PremierFeaturesView extends GetView {
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 20.0.w, vertical: 5.0.h),
+                                          horizontal: 20.0.w, vertical: 5.0.h,),
                                       child: Text(
-                                        "Add New Banner",
+                                        'Add New Banner',
                                         style: CustomTextView.getStyle(context,
                                             colorLight: Colors.black,
                                             fontSize: 20.sp,
-                                            fontFamily: Utils.poppinsSemiBold),
+                                            fontFamily: Utils.poppinsSemiBold,),
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -456,14 +456,14 @@ class PremierFeaturesView extends GetView {
                                       onTap: () {},
                                       child: Container(
                                         margin: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 10),
+                                            horizontal: 20, vertical: 10,),
                                         height: 110.h,
                                         width: Get.width,
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             image: const DecorationImage(
                                               image: AssetImage(
-                                                  "assets/icons/dashes_border.png"),
+                                                  'assets/icons/dashes_border.png',),
                                               fit: BoxFit.contain,
                                             ),
                                             borderRadius:
@@ -476,7 +476,7 @@ class PremierFeaturesView extends GetView {
                                                 blurRadius: 7,
                                                 offset: const Offset(0, 3),
                                               ),
-                                            ]),
+                                            ],),
                                         child: Center(
                                           child: Column(
                                             mainAxisAlignment:
@@ -495,7 +495,7 @@ class PremierFeaturesView extends GetView {
                                                           colorLight: textColor,
                                                           fontSize: 12.sp,
                                                           fontFamily: Utils
-                                                              .poppinsMedium)),
+                                                              .poppinsMedium,),),
                                             ],
                                           ),
                                         ),
@@ -638,12 +638,12 @@ class PremierFeaturesView extends GetView {
                                     Container(
                                       height: 55.h,
                                       margin: EdgeInsets.symmetric(
-                                          horizontal: 20.w, vertical: 10.h),
+                                          horizontal: 20.w, vertical: 10.h,),
                                       padding: EdgeInsets.only(
                                           left: 20.0.w,
                                           right: 5.w,
                                           top: 5.h,
-                                          bottom: 5.h),
+                                          bottom: 5.h,),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius:
@@ -668,17 +668,17 @@ class PremierFeaturesView extends GetView {
                                                 cursorColor: textColor,
                                                 style: CustomTextView.getStyle(
                                                     context,
-                                                    colorLight: textColor),
+                                                    colorLight: textColor,),
                                                 decoration: InputDecoration(
-                                                  hintText: "Redirection URL",
+                                                  hintText: 'Redirection URL',
                                                   hintStyle:
                                                       CustomTextView.getStyle(
                                                           context,
                                                           colorLight: textColor,
-                                                          fontSize: 15.sp),
+                                                          fontSize: 15.sp,),
                                                   border: InputBorder.none,
                                                   errorStyle: const TextStyle(
-                                                      color: Colors.redAccent),
+                                                      color: Colors.redAccent,),
                                                 ),
                                               ),
                                             ),
@@ -688,7 +688,7 @@ class PremierFeaturesView extends GetView {
                                     ),
                                     SizedBox(height: 25.h),
                                     GlobalButton(
-                                      title: "Add Banner",
+                                      title: 'Add Banner',
                                       onPressed: () {
                                         uploadOfferController
                                             .showAwesomeDialog();
@@ -700,7 +700,7 @@ class PremierFeaturesView extends GetView {
                                   ],
                                 ),
                               ),
-                            )),
+                            ),),
                       ),
                     ),
             ),

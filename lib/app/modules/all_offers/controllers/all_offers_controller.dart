@@ -19,6 +19,7 @@ import 'package:pink_ad/utilities/functions/show_toast.dart';
 class AllOffersController extends GetxController {
   final ApiService _apiService = ApiService(http.Client());
   HomeController homeController = HomeController();
+  var isLoading = false.obs;
   final box = GetStorage();
   List<dynamic> allOffers = [];
   List<dynamic> offers = [];

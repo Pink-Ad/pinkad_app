@@ -51,7 +51,7 @@ import 'package:get/get.dart';
       isDismissible: true,
       reverseAnimationCurve: Curves.linearToEaseOut,
       colorText: Colors.white,
-      mainButton:  TextButton( onPressed: onPressed, child: const Text("Retry"))
+      mainButton:  TextButton( onPressed: onPressed, child: const Text('Retry')),
     );
   }
 

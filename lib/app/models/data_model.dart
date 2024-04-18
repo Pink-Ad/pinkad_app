@@ -126,6 +126,6 @@ class Data {
         'shop': shop?.toJson(),
         'category': category?.toJson(),
         'subcategory': subcategory?.toJson(),
-        'user': user?.toJson()
+        'user': user?.toJson(),
       };
 }

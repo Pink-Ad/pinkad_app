@@ -61,41 +61,31 @@ class CategoriesView extends GetView<CategoriesController> {
                   height: 15.h,
                 ),
                 Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    onRefresh: () async {
-                      try {
-                        await controller.fetchCategories();
-                        refreshController.refreshCompleted();
-                      } catch (e) {
-                        refreshController.refreshFailed();
-                      }
-                    },
-                    child: Obx(
-                      () => ListView.builder(
-                        padding: EdgeInsets.only(
-                          bottom: 20.h,
-                          top: 3.h,
+                  child: Obx(() {
+                    if (controller.isLoading.isTrue) {
+                      return Center(
+                          child: CircularProgressIndicator(
+                        color: primary,
+                      ));
+                    } else {
+                      return SmartRefresher(
+                        controller: refreshController,
+                        onRefresh: controller.fetchCategories,
+                        child: ListView.builder(
+                          padding: EdgeInsets.only(bottom: 20.h, top: 3.h),
+                          itemCount: controller.categories.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                allOffersController.fetchOffersByCategoryId(controller.categories[index].id);
+                              },
+                              child: categoryListItem(controller.categories, index, context),
+                            );
+                          },
                         ),
-                        itemCount: controller.categories.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-  allOffersController.fetchOffersByCategoryId(controller.categories[index].id);
-},
-
-
-                            // onTap: () {
-                            //   Get.put(SubCategoryController());
-                            //   Get.to(() => SubCategoryView());
-                            //   Get.find<SubCategoryController>().fetchSubCategories(controller.categories[index].id);
-                            // },
-                            child: categoryListItem(controller.categories, index, context),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+                      );
+                    }
+                  }),
                 ),
               ],
             );

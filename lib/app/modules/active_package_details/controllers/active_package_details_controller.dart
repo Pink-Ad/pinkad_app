@@ -41,17 +41,17 @@ class ActivePackageDetailsController extends GetxController {
         child: Column(
           children:  [
             SvgPicture.asset(
-                "assets/svgIcons/dialog_icon.svg"),
+                'assets/svgIcons/dialog_icon.svg',),
             SizedBox(height: 10.h,),
             Text(
                 'Thank you',
-                style: CustomTextView.getStyle(Get.context! , colorLight: secondary , fontSize: 20.sp , fontFamily: Utils.poppinsBold)
+                style: CustomTextView.getStyle(Get.context! , colorLight: secondary , fontSize: 20.sp , fontFamily: Utils.poppinsBold),
             ),
             SizedBox(height: 10.h,),
             Text(
                 'Your package has been successfully\n renewed.',
                 textAlign: TextAlign.center,
-                style: CustomTextView.getStyle(Get.context! , colorLight: textColor)
+                style: CustomTextView.getStyle(Get.context! , colorLight: textColor),
             ),
           ],
         ),

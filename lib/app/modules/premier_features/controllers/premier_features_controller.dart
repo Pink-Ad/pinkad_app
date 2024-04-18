@@ -51,7 +51,7 @@ class PremierFeaturesController extends GetxController {
       body: Center(
         child: Column(
           children: [
-            SvgPicture.asset("assets/svgIcons/dialog_icon.svg"),
+            SvgPicture.asset('assets/svgIcons/dialog_icon.svg'),
             SizedBox(
               height: 10.h,
             ),
@@ -59,14 +59,14 @@ class PremierFeaturesController extends GetxController {
                 style: CustomTextView.getStyle(Get.context!,
                     colorLight: secondary,
                     fontSize: 20.sp,
-                    fontFamily: Utils.poppinsBold)),
+                    fontFamily: Utils.poppinsBold,),),
             SizedBox(
               height: 10.h,
             ),
             Text('Your package has been successfully\n activated.',
                 textAlign: TextAlign.center,
                 style: CustomTextView.getStyle(Get.context!,
-                    colorLight: textColor)),
+                    colorLight: textColor,),),
           ],
         ),
       ),

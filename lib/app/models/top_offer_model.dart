@@ -35,14 +35,14 @@ class TopOffer {
   TopOffer.fromJson(Map<String, dynamic> json)
       : currentPage = json['current_page'] as int?,
         data = (json['data'] as List?)
-            ?.map((dynamic e) => Data.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
             .toList(),
         firstPageUrl = json['first_page_url'] as String?,
         from = json['from'] as int?,
         lastPage = json['last_page'] as int?,
         lastPageUrl = json['last_page_url'] as String?,
         links = (json['links'] as List?)
-            ?.map((dynamic e) => Links.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => Links.fromJson(e as Map<String, dynamic>))
             .toList(),
         nextPageUrl = json['next_page_url'] as String?,
         path = json['path'] as String?,
@@ -64,7 +64,7 @@ class TopOffer {
         'per_page': perPage,
         'prev_page_url': prevPageUrl,
         'to': to,
-        'total': total
+        'total': total,
       };
 }
 

@@ -1,12 +1,8 @@
 import 'dart:io';
 
-import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/modules/user_dashboard/views/user_dashboard_view.dart';
-import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/functions/show_toast.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -69,30 +65,30 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
                 UserDashboardView(),
               ],
             ),
-            bottomNavigationBar: Container(
-              height: 40.h,
-              child: CircleNavBar(
-                color: primary,
-                activeIndex: 0,
-                activeIcons: [
-                  Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: SvgPicture.asset('assets/svgIcons/home.svg'),
-                  ),
-                ],
-                inactiveIcons: [
-                  SvgPicture.asset('assets/svgIcons/home.svg'),
-                ],
-                height: 40.h,
-                circleWidth: 40,
-                circleColor: bottomActiveColor,
-                onTap: (index) {
-                  if (index == 0) return;
-                  tabIndex = index;
-                  pageController.jumpToPage(tabIndex);
-                },
-              ),
-            ),
+            // bottomNavigationBar: Container(
+            //   height: 40.h,
+            //   child: CircleNavBar(
+            //     color: primary,
+            //     activeIndex: 0,
+            //     activeIcons: [
+            //       Padding(
+            //         padding: EdgeInsets.all(10.0),
+            //         child: SvgPicture.asset('assets/svgIcons/home.svg'),
+            //       ),
+            //     ],
+            //     inactiveIcons: [
+            //       SvgPicture.asset('assets/svgIcons/home.svg'),
+            //     ],
+            //     height: 40.h,
+            //     circleWidth: 40,
+            //     circleColor: bottomActiveColor,
+            //     onTap: (index) {
+            //       if (index == 0) return;
+            //       tabIndex = index;
+            //       pageController.jumpToPage(tabIndex);
+            //     },
+            //   ),
+            // ),
           ),
         ),
       );

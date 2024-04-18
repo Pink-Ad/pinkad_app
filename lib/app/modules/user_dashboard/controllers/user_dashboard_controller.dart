@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
 import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 
@@ -13,9 +16,9 @@ import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
 
 class UserDashboardController extends GetxController {
-  //TODO: Implement UserDashboardController
   final box = GetStorage();
   RxList<City> shopName = <City>[].obs;
+  Rxn<File> currentImageFile = Rxn<File>();
   final count = 0.obs;
   @override
   void onInit() {
@@ -24,11 +27,14 @@ class UserDashboardController extends GetxController {
       update();
     });
   }
+  
 
   Future<void> refreshDashboard() async {
     await Get.find<SplashController>().getHomeData();
     update();
   }
+
+  
 
   void showCustomDialog() {
     AwesomeDialog(
@@ -84,7 +90,6 @@ class UserDashboardController extends GetxController {
                   ),
                 ),
                 SizedBox(width: 10.w),
-
                 GestureDetector(
                   onTap: () {
                     Get.snackbar(snackPosition: SnackPosition.BOTTOM, 'Instagram', 'Click');
@@ -106,43 +111,6 @@ class UserDashboardController extends GetxController {
                   ),
                 ),
                 SizedBox(width: 10.w),
-
-                // GestureDetector(
-                //   onTap: () {
-                //     Get.snackbar(
-                //         snackPosition: SnackPosition.BOTTOM,
-                //         "Instagram",
-                //         "Click");
-                //   },
-                //   child: Container(
-                //       height: 40.h,
-                //       width: 45.w,
-                //       decoration: BoxDecoration(
-                //         color: socialMediabg,
-                //         borderRadius: BorderRadius.circular(10.0),
-                //       ),
-                //       child: Center(
-                //         child: SvgPicture.asset("assets/svgIcons/twitter.svg"),)),
-                // ),
-                // GestureDetector(
-                //   onTap: () {
-                //     Get.snackbar(
-                //         snackPosition: SnackPosition.BOTTOM,
-                //         "Instagram",
-                //         "Click");
-                //   },
-                //   child: Container(
-                //       height: 40.h,
-                //       width: 45.w,
-                //       decoration: BoxDecoration(
-                //         color: socialMediabg,
-                //         borderRadius: BorderRadius.circular(10.0),
-
-                //       ),
-                //       child: Center(
-                //         child: SvgPicture.asset("assets/svgIcons/snapchat.svg"),)),
-                // ),
-
                 GestureDetector(
                   onTap: () {
                     Get.snackbar(snackPosition: SnackPosition.BOTTOM, 'Instagram', 'Click');

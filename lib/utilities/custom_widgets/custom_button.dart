@@ -29,7 +29,7 @@ class GlobalButton extends StatelessWidget {
         child: Center(
           child: Text(
             title,
-            style: CustomTextView.getStyle(context, colorLight: Colors.white ,  fontSize: 15.sp ,fontFamily: "Poppins-Medium")
+            style: CustomTextView.getStyle(context, colorLight: Colors.white ,  fontSize: 15.sp ,fontFamily: 'Poppins-Medium'),
             ),
           ),
         ),
