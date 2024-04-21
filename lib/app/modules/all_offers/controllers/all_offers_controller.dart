@@ -90,15 +90,33 @@ class AllOffersController extends GetxController {
   }
 
   Future<void> refreshOffers() async {
-    if (selectedAreas.isNotEmpty && selectedSubcats.isNotEmpty) {
-      await filterOffers(selectedAreas, selectedSubcats);
-    } else {
+    isLoading(true);
+
+    try {
+      await Future.delayed(Duration(seconds: 2));
       await Get.find<SplashController>().getOffers();
+
       allOffers = box.read('offers') ?? [];
       offers = allOffers;
+
       update();
+    } catch (e) {
+      print('Failed to refresh offers: $e');
+    } finally {
+      isLoading(false);
     }
   }
+
+  // Future<void> refreshOffers() async {
+  //   if (selectedAreas.isNotEmpty && selectedSubcats.isNotEmpty) {
+  //     await filterOffers(selectedAreas, selectedSubcats);
+  //   } else {
+  //     await Get.find<SplashController>().getOffers();
+  //     allOffers = box.read('offers') ?? [];
+  //     offers = allOffers;
+  //     update();
+  //   }
+  // }
 
   Future<void> fetchOffersByCategoryId(int categoryId) async {
     try {

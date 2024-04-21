@@ -18,6 +18,7 @@ class CategoriesView extends GetView<CategoriesController> {
   final box = GetStorage();
   final refreshController = RefreshController();
   final allOffersController = Get.find<AllOffersController>();
+  final RxBool _isLoading = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +63,12 @@ class CategoriesView extends GetView<CategoriesController> {
                 ),
                 Expanded(
                   child: Obx(() {
-                    if (controller.isLoading.isTrue) {
+                    if (controller.isLoading.isTrue || _isLoading.isTrue) {
                       return Center(
-                          child: CircularProgressIndicator(
-                        color: primary,
-                      ));
+                        child: CircularProgressIndicator(
+                          color: primary,
+                        ),
+                      );
                     } else {
                       return SmartRefresher(
                         controller: refreshController,
@@ -76,8 +78,10 @@ class CategoriesView extends GetView<CategoriesController> {
                           itemCount: controller.categories.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
-                              onTap: () {
-                                allOffersController.fetchOffersByCategoryId(controller.categories[index].id);
+                              onTap: () async {
+                                _isLoading.value = true; // Start loading
+                                await allOffersController.fetchOffersByCategoryId(controller.categories[index].id);
+                                _isLoading.value = false; // Stop loading after fetching
                               },
                               child: categoryListItem(controller.categories, index, context),
                             );

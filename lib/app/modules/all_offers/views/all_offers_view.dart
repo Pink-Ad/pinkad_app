@@ -174,25 +174,28 @@ class AllOffersView extends GetView<AllOffersController> {
                   child: SmartRefresher(
                     controller: refreshController,
                     onRefresh: () async {
-                      try {
-                        await controller.refreshOffers();
-                        refreshController.refreshCompleted();
-                      } catch (e) {
-                        refreshController.refreshFailed();
-                      }
+                      await controller.refreshOffers();
+                      refreshController.refreshCompleted();
                     },
-                    child: ListView.builder(
-                      padding: EdgeInsets.only(
-                        bottom: 20.0.h,
-                        top: 3.h,
-                      ),
-                      itemCount: controller.offers.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            controller.getOfferDetail(controller.offers[index].id);
+                    child: Obx(
+                      () {
+                        if (controller.isLoading.value) {
+                          return Center(child: CircularProgressIndicator()); // Show while loading
+                        }
+                        return ListView.builder(
+                          padding: EdgeInsets.only(
+                            bottom: 20.0.h,
+                            top: 3.h,
+                          ),
+                          itemCount: controller.offers.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () {
+                                controller.getOfferDetail(controller.offers[index].id);
+                              },
+                              child: offerListItem(controller.offers, index, context),
+                            );
                           },
-                          child: offerListItem(controller.offers, index, context),
                         );
                       },
                     ),

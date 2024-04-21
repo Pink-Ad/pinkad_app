@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
@@ -85,78 +88,97 @@ class AllShopsView extends GetView<AllShopsController> {
                       ],
                     ),
                     child: Padding(
-                      key: controller.filterKey,
                       padding: const EdgeInsets.only(
                         left: 20.0,
                         right: 5.0,
                       ),
-                      child: Center(
-                        child: TypeAheadField<dynamic>(
-                          textFieldConfiguration: TextFieldConfiguration(
-                            controller: controller.searchController,
-                            //autofocus: false,
-                            style: TextStyle(fontSize: 15),
-                            decoration: InputDecoration(
-                              hintText: 'Search Sellers',
-                              border: InputBorder.none,
-                              focusColor: tertiary,
-                            ),
+                      child: TypeAheadField<dynamic>(
+                        animationStart: 0,
+                        animationDuration: Duration.zero,
+                        textFieldConfiguration: TextFieldConfiguration(
+                          controller: controller.searchController,
+                          autofocus: false,
+                          style: TextStyle(fontSize: 15),
+                          decoration: InputDecoration(
+                            hintText: 'Search Seller',
+                            border: InputBorder.none,
+                            focusColor: tertiary,
                           ),
-                          hideOnError: true,
-                          suggestionsCallback: (pattern) {
-                            return controller.getSuggestions(pattern);
-                          },
-                          itemBuilder: (context, suggestion) {
-                            return GestureDetector(
-                              onTap: () {
-                                Get.find<AllShopsController>().getShopDetail(suggestion['shop'][0]['id']);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width: 2.w,
-                                      color: Colors.grey.shade600,
-                                    ),
-                                  ),
-                                ),
-                                child: ListTile(
-                                  // leading: const Icon(
-                                  //   Icons.travel_explore,
-                                  //   color: primary,
-                                  // ),
-                                  title: Text(
-                                    suggestion['user']['name'],
-                                    style: CustomTextView.getStyle(
-                                      context,
-                                      colorLight: const Color.fromARGB(255, 41, 39, 39),
-                                      fontSize: 13.sp,
-                                      fontFamily: Utils.poppinsSemiBold,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  subtitle: Text(
-                                    suggestion['description'] ?? '',
-                                    style: CustomTextView.getStyle(
-                                      context,
-                                      colorLight: const Color.fromARGB(255, 66, 66, 66),
-                                      fontSize: 11.sp,
-                                      fontFamily: Utils.poppinsLight,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
+                        ),
+                        hideOnError: true,
+                        suggestionsCallback: (pattern) async {
+                          if (pattern.isEmpty) {
+                            return List<dynamic>.empty();
+                          }
+                          final response = await http.get(
+                            Uri.parse('https://pinkad.pk/portal/api/seller-search?search_name=$pattern'),
+                          );
+
+                          if (response.statusCode == 200) {
+                            final List<dynamic> result = json.decode(response.body);
+                            return result;
+                          } else {
+                            // Handle the case when the server does not respond successfully
+                            return List<dynamic>.empty();
+                          }
+                        },
+                        //itemBuilder: (context, offer)
+                        itemBuilder: (context, shops) {
+                          return GestureDetector(
+                            onTap: () {
+                              int id = shops.containsKey('seller') ? shops['seller']['id'] : shops['id'];
+                              controller.getShopDetail(id);
+                              //controller.getShopDetail(shops['shop'][0]['id']);
+                              //Get.find<AllShopsController>().getShopDetail(shops['id']);
+                              //Get.find<AllShopsController>().getShopDetail(offer['id']);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border(
+                                  bottom: BorderSide(
+                                    width: 2.w,
+                                    color: Colors.grey.shade600,
                                   ),
                                 ),
                               ),
-                            );
-                          },
-                          onSuggestionSelected: (suggestion) {
-                            controller.searchController.text = suggestion['user']['name'];
-                            controller.searchShops(suggestion['user']['name']);
-                          },
-                        ),
+                              child: ListTile(
+                                leading: const Icon(
+                                  Icons.travel_explore,
+                                  color: primary,
+                                ),
+                                title: Text(
+                                  //offer['user']['name'],
+                                  //offer['business_name'] ?? '',
+                                  shops['business_name'] ?? '',
+                                  style: CustomTextView.getStyle(
+                                    context,
+                                    colorLight: const Color.fromARGB(255, 41, 39, 39),
+                                    fontSize: 13.sp,
+                                    fontFamily: Utils.poppinsSemiBold,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                subtitle: Text(
+                                  //offer['business_address'] ?? '',
+                                  shops['business_address'] ?? '',
+                                  style: CustomTextView.getStyle(
+                                    context,
+                                    colorLight: const Color.fromARGB(255, 66, 66, 66),
+                                    fontSize: 11.sp,
+                                    fontFamily: Utils.poppinsLight,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        onSuggestionSelected: (suggestion) {
+                          // widget.callback(suggestion);
+                        },
                       ),
                     ),
                   ),
@@ -173,16 +195,18 @@ class AllShopsView extends GetView<AllShopsController> {
                       },
                       child: ListView.builder(
                         padding: EdgeInsets.only(
-                          bottom: 20.h,
+                          bottom: 20.0.h,
                           top: 3.h,
                         ),
-                        itemCount: controller.shops.length,
+
+                        itemCount: controller.shops.length, // number of items in the list
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
                               controller.getShopDetail(
                                 controller.shops[index]['shop'][0]['id'],
                               );
+                              //   Get.toNamed(Routes.SHOP_DETAILS);
                             },
                             child: allSellerList(
                               controller.shops,

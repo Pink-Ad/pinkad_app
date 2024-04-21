@@ -11,354 +11,334 @@ import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.d
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/home/views/home_view.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
-import 'package:pink_ad/utilities/custom_widgets/loader.dart';
+import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:pink_ad/utilities/custom_widgets/main_controlller.dart';
+import 'package:pink_ad/utilities/custom_widgets/slider_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utilities/colors/colors.dart';
-import '../../../../utilities/custom_widgets/custom_appbar_user.dart';
-import '../../../../utilities/custom_widgets/slider_page.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
 import '../controllers/user_dashboard_controller.dart';
 
-class UserDashboardView extends GetView {
-  // final userDashboardController = Get.put(UserDashboardController());
+class UserDashboardView extends GetView<UserDashboardController> {
+  final ScrollController _scrollController = ScrollController();
   final MainControllers mainControllers = MainControllers();
   final allShopsController = AllShopsController();
   final allOffersController = AllOffersController();
   final homeController = HomeController();
   final refreshController = RefreshController();
-  final ScrollController _scrollController = ScrollController();
 
-  UserDashboardView({super.key});
+  UserDashboardView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverToBoxAdapter(
-              child: UserAppBar(
-                backButton: false,
-                title: 'PinkAd',
-                onMenuTap: () {
-                  print('object');
-                },
-                onProfileTap: () {
-                  print('object');
-                  Get.to(ProfileView());
-                },
-                // showFilter: true,
-                profileIconVisibility: true,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: CenterButtons(
-                allOffersController: allOffersController,
-              ),
-            ),
-            SliverFillRemaining(
-              child: Stack(
-                children: [
-                  GetBuilder(
-                    init: UserDashboardController(),
-                    builder: (controller) {
-                      List<dynamic> tOffer = controller.box.read('topOffer') ?? [];
-                      List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
-                      return SmartRefresher(
-                        controller: refreshController,
-                        onRefresh: () async {
-                          try {
-                            await controller.refreshDashboard();
-                            refreshController.refreshCompleted();
-                          } catch (e) {
-                            refreshController.refreshFailed();
-                          }
-                        },
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              // 10.verticalSpace,
-                              SizedBox(
-                                height: 180.h,
-                                child: const HomePageSlider(),
+      body: Column(
+        children: [
+          UserAppBar(
+            backButton: false,
+            title: 'PinkAd',
+            onMenuTap: () {
+              print('object');
+            },
+            onProfileTap: () {
+              print('object');
+              Get.to(ProfileView());
+            },
+            // showFilter: true,
+            profileIconVisibility: true,
+          ),
+          CenterButtons(
+            allOffersController: allOffersController,
+          ),
+          Expanded(
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 180.h,
+                    child: const HomePageSlider(),
+                  ),
+                ),
+                GetBuilder<UserDashboardController>(
+                  builder: (controller) {
+                    List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
+                    if (fOffer.isNotEmpty) {
+                      return SliverGrid(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          //crossAxisSpacing: 2.0,
+                          //mainAxisSpacing: 8.0,
+                          childAspectRatio: 150.w / 230.h,
+                        ),
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                left: 8.0,
+                                right: 8.0,
+                                bottom: 10,
                               ),
-                              SizedBox(
-                                height: 8.h,
-                              ),
-                              fOffer.isNotEmpty
-                                  ? GridView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 2.0,
-                                        mainAxisSpacing: 8.0,
-                                        childAspectRatio: 150.w / 215.h,
-                                      ),
-                                      itemCount: fOffer.length,
-                                      padding: EdgeInsets.only(
-                                        left: 10.0,
-                                        //right: 20.0,
-                                        bottom: 10,
-                                      ),
-                                      itemBuilder: (
-                                        BuildContext context,
-                                        int index,
-                                      ) {
-                                        return InkWell(
-                                          onTap: () {
-                                            homeController.setLoading();
-                                            allOffersController
-                                                .getOfferDetail(
-                                                  fOffer[index]['id'],
-                                                )
-                                                .then(
-                                                  (value) => homeController.setLoading(),
-                                                );
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              right: 10,
+                              child: InkWell(
+                                onTap: () {
+                                  homeController.setLoading();
+                                  allOffersController
+                                      .getOfferDetail(
+                                        fOffer[index]['id'],
+                                      )
+                                      .then(
+                                        (value) => homeController.setLoading(),
+                                      );
+                                },
+                                child: Container(
+                                  width: 217.w,
+                                  height: 325.h,
+                                  decoration: BoxDecoration(
+                                    color: lightGray,
+                                    borderRadius: BorderRadius.circular(
+                                      8.0,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      //  FutureBuilder<MemoryImage?>(
+                                      //               future:
+                                      //                   getCompressedImage(ApiService.imageBaseUrl + fOffer[index]['banner'], fOffer[index]['title']),
+                                      //               builder: (context, snapshot) {
+                                      //                 if (snapshot.connectionState == ConnectionState.waiting) {
+                                      //                   return Container(
+                                      //                     width: 230.w,
+                                      //                     height: 150.w,
+                                      //                     decoration: BoxDecoration(
+                                      //                       color: Colors.grey.shade300, // placeholder color
+                                      //                       borderRadius: BorderRadius.only(
+                                      //                         topRight: Radius.circular(10.0),
+                                      //                         topLeft: Radius.circular(10.0),
+                                      //                       ),
+                                      //                     ),
+                                      //                   );
+                                      //                 }
+                                      //                 if (snapshot.hasData) {
+                                      //                   return Container(
+                                      //                     width: 230.w,
+                                      //                     height: 150.w,
+                                      //                     decoration: BoxDecoration(
+                                      //                       borderRadius: BorderRadius.only(
+                                      //                         topRight: Radius.circular(10.0),
+                                      //                         topLeft: Radius.circular(10.0),
+                                      //                       ),
+                                      //                       image: DecorationImage(
+                                      //                         image: snapshot.data!,
+                                      //                         fit: BoxFit.cover,
+                                      //                       ),
+                                      //                     ),
+                                      //                   );
+                                      //                 }
+                                      //                 return Container(); // handle no data or error state
+                                      //               },
+                                      //             ),
+                                      Container(
+                                        width: 250.w,
+                                        height: 170.w,
+                                        decoration: BoxDecoration(
+                                          color: lightGray,
+                                          borderRadius: const BorderRadius.only(
+                                            topRight: Radius.circular(
+                                              10.0,
                                             ),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: lightGray,
-                                                borderRadius: BorderRadius.circular(
-                                                  8.0,
-                                                ),
+                                            topLeft: Radius.circular(
+                                              10.0,
+                                            ),
+                                          ),
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                              ApiService.imageBaseUrl + fOffer[index]['banner'],
+                                            ),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          top: 5.0,
+                                          left: 10.h,
+                                          right: 10,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              fOffer[index]['title'],
+                                              maxLines: 1,
+                                              style: CustomTextView.getStyle(
+                                                context,
+                                                colorLight: Colors.black,
+                                                fontSize: 13.sp,
+                                                fontFamily: Utils.poppinsBold,
                                               ),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  FutureBuilder<MemoryImage?>(
-                                                    future: getCompressedImage(ApiService.imageBaseUrl + fOffer[index]['banner']),
-                                                    builder: (context, snapshot) {
-                                                      if (snapshot.connectionState == ConnectionState.waiting) {
-                                                        return Container(
-                                                          width: 230.w,
-                                                          height: 150.w,
-                                                          decoration: BoxDecoration(
-                                                            color: Colors.grey.shade300, // placeholder color
-                                                            borderRadius: BorderRadius.only(
-                                                              topRight: Radius.circular(10.0),
-                                                              topLeft: Radius.circular(10.0),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }
-                                                      if (snapshot.hasData) {
-                                                        return Container(
-                                                          width: 230.w,
-                                                          height: 150.w,
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.only(
-                                                              topRight: Radius.circular(10.0),
-                                                              topLeft: Radius.circular(10.0),
-                                                            ),
-                                                            image: DecorationImage(
-                                                              image: snapshot.data!,
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }
-                                                      return Container(); // handle no data or error state
-                                                    },
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                      top: 5.0,
-                                                      left: 10.h,
-                                                      right: 10,
+                                            ),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Text(
+                                                    fOffer[index]['shop']?['name'] ?? '',
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: CustomTextView.getStyle(
+                                                      context,
+                                                      colorLight: secondary,
+                                                      fontSize: 12.sp,
+                                                      fontFamily: Utils.poppinsMedium,
                                                     ),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Text.rich(
+                                              TextSpan(
+                                                text: _getTrimmedDescription(
+                                                  context: context,
+                                                  description: fOffer[index]['description'],
+                                                ),
+                                                style: CustomTextView.getStyle(
+                                                  context,
+                                                  colorLight: textColor,
+                                                  fontSize: 10.sp,
+                                                ),
+                                                children: [
+                                                  TextSpan(
+                                                    text: ' See more...',
+                                                    style: CustomTextView.getStyle(
+                                                      context,
+                                                      colorLight: textColor,
+                                                      fontSize: 10.sp,
+                                                      fontWeight: FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.all(5.0),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Row(
                                                       children: [
-                                                        Text(
-                                                          fOffer[index]['title'],
-                                                          maxLines: 1,
-                                                          style: CustomTextView.getStyle(
-                                                            context,
-                                                            colorLight: Colors.black,
-                                                            fontSize: 13.sp,
-                                                            fontFamily: Utils.poppinsBold,
-                                                          ),
-                                                        ),
-                                                        Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            Expanded(
-                                                              flex: 1,
-                                                              child: Text(
-                                                                fOffer[index]['shop']?['name'] ?? '',
-                                                                overflow: TextOverflow.ellipsis,
-                                                                style: CustomTextView.getStyle(
-                                                                  context,
-                                                                  colorLight: secondary,
-                                                                  fontSize: 12.sp,
-                                                                  fontFamily: Utils.poppinsMedium,
-                                                                ),
+                                                        GestureDetector(
+                                                          onTap: () async {
+                                                            await launchUrl(
+                                                              Uri.parse(
+                                                                'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Text.rich(
-                                                          TextSpan(
-                                                            text: _getTrimmedDescription(
-                                                              context: context,
-                                                              description: fOffer[index]['description'],
-                                                            ),
+                                                            );
+                                                          },
+                                                          child: Text(
+                                                            'Chat with seller',
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
                                                             style: CustomTextView.getStyle(
                                                               context,
                                                               colorLight: textColor,
-                                                              fontSize: 10.sp,
+                                                              fontSize: 11.sp,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text: ' See more...',
-                                                                style: CustomTextView.getStyle(
-                                                                  context,
-                                                                  colorLight: textColor,
-                                                                  fontSize: 10.sp,
-                                                                  fontWeight: FontWeight.w700,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.h,
-                                                        ),
-                                                        Container(
-                                                          padding: EdgeInsets.all(5.0),
-                                                          decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius: BorderRadius.circular(
-                                                              10.0,
-                                                            ),
-                                                          ),
-                                                          child: Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: Row(
-                                                                  children: [
-                                                                    GestureDetector(
-                                                                      onTap: () async {
-                                                                        await launchUrl(
-                                                                          Uri.parse(
-                                                                            'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                      child: Text(
-                                                                        'Chat with seller',
-                                                                        maxLines: 1,
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        style: CustomTextView.getStyle(
-                                                                          context,
-                                                                          colorLight: textColor,
-                                                                          fontSize: 11.sp,
-                                                                          fontWeight: FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 4.w,
-                                                              ),
-                                                              GestureDetector(
-                                                                onTap: () async {
-                                                                  await launchUrl(
-                                                                    Uri.parse(
-                                                                      'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                child: Container(
-                                                                  height: 22.h,
-                                                                  width: 25.w,
-                                                                  decoration: BoxDecoration(
-                                                                    color: greenColor,
-                                                                    borderRadius: BorderRadius.circular(3.0),
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.all(
-                                                                      3.0,
-                                                                    ),
-                                                                    child: SvgPicture.asset(
-                                                                      'assets/svgIcons/whatsapp.svg',
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
                                                           ),
                                                         ),
                                                       ],
                                                     ),
                                                   ),
+                                                  SizedBox(
+                                                    width: 4.w,
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      await launchUrl(
+                                                        Uri.parse(
+                                                          'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      height: 22.h,
+                                                      width: 25.w,
+                                                      decoration: BoxDecoration(
+                                                        color: greenColor,
+                                                        borderRadius: BorderRadius.circular(3.0),
+                                                      ),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(3.0),
+                                                        child: SvgPicture.asset(
+                                                          'assets/svgIcons/whatsapp.svg',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                    )
-                                  : const Center(
-                                      child: Text('No Top offers available.'),
-                                    ),
-                            ],
-                          ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          childCount: fOffer.length,
                         ),
                       );
-                    },
-                  ),
-                  Obx(
-                    () => homeController.isLoading.isTrue ? const MyLoading() : Container(),
-                  ),
-                ],
-              ),
+                    } else {
+                      return SliverFillRemaining(
+                        child: Center(child: Text('No offers available.')),
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (_scrollController.hasClients) {
-            print('Scrolling to top');
             _scrollController.animateTo(
               0,
               duration: Duration(milliseconds: 300),
               curve: Curves.easeInOut,
             );
-          } else {
-            print('No clients attached to ScrollController');
           }
         },
-        child: Icon(Icons.arrow_upward),
-        backgroundColor: Colors.pink,
+        child: Icon(
+          Icons.arrow_upward_rounded,
+        ),
+        backgroundColor: primary,
       ),
     );
   }
 
-  Future<MemoryImage?> getCompressedImage(String imageUrl) async {
+  Future<MemoryImage?> getCompressedImage(String imageUrl, String title) async {
     try {
       final Uri uri = Uri.parse(imageUrl);
       final http.Response response = await http.get(uri);
       if (response.statusCode == 200) {
-        print('Original size: ${response.contentLength} bytes');
+        print('Original size of "$title": ${response.contentLength} bytes');
         // Attempt to compress the image
         try {
           final Uint8List? compressedImage = await FlutterImageCompress.compressWithList(
@@ -368,18 +348,18 @@ class UserDashboardView extends GetView {
             quality: 70, // set the compression quality
           );
           if (compressedImage != null) {
-            print('Compressed size: ${compressedImage.length} bytes');
+            print('Compressed size of "$title": ${compressedImage.length} bytes');
             return MemoryImage(compressedImage);
           }
         } catch (compressError) {
-          print('Error compressing image: $compressError');
+          print('Error compressing image "$title": $compressError');
           // If compression fails, fall back to the original image
         }
         // Return the original image if compression didn't work or wasn't possible
         return MemoryImage(response.bodyBytes);
       }
     } catch (e) {
-      print('Error fetching image: $e');
+      print('Error fetching image "$title": $e');
     }
     return null;
   }

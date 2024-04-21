@@ -21,6 +21,7 @@ dependencies:
   flutter_image_compress: ^2.2.0
   flutter_otp_text_field: ^1.1.1
   flutter_screenutil: ^5.7.0
+  flutter_scroll_to_top: ^2.3.0
   flutter_svg: ^2.0.4
   flutter_typeahead: ^4.6.1
   font_awesome_flutter: ^10.6.0

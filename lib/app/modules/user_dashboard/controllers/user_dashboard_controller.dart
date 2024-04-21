@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import 'package:pink_ad/app/models/cites_model.dart';
 import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 
@@ -27,14 +26,11 @@ class UserDashboardController extends GetxController {
       update();
     });
   }
-  
 
   Future<void> refreshDashboard() async {
     await Get.find<SplashController>().getHomeData();
     update();
   }
-
-  
 
   void showCustomDialog() {
     AwesomeDialog(

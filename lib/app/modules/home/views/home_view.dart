@@ -14,7 +14,6 @@ import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
-import 'package:pink_ad/utilities/custom_widgets/loader.dart';
 import 'package:pink_ad/utilities/custom_widgets/slider_page.dart';
 import 'package:pink_ad/utilities/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -32,300 +31,302 @@ class HomeView extends GetView<HomeController> {
   HomeView({super.key});
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
-      init: HomeController(),
-      builder: (controller) {
-        List<dynamic> tOffer = controller.box.read('topOffer') ?? [];
-        List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Container(
+    final ScrollController _scrollController = ScrollController();
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        children: [
+          MyAppBar(
+            backButton: false,
+            title: 'PinkAd',
+            onMenuTap: () {
+              print('object');
+            },
+            onProfileTap: () {
+              print('object');
+              Get.to(ProfileView());
+            },
+          ),
+          CenterButtons(
+            allOffersController: allOffersController,
+          ),
+          Expanded(
             child: CustomScrollView(
+              controller: _scrollController,
               slivers: [
                 SliverToBoxAdapter(
-                  child: MyAppBar(
-                    backButton: false,
-                    title: 'PinkAd',
-                    onMenuTap: () {
-                      print('object');
-                    },
-                    onProfileTap: () {
-                      print('object');
-                      Get.to(ProfileView());
-                    },
+                  child: SizedBox(
+                    height: 180.h,
+                    child: const HomePageSlider(),
                   ),
                 ),
-                SliverToBoxAdapter(
-                  child: CenterButtons(
-                    allOffersController: allOffersController,
-                  ),
-                ),
-                SliverFillRemaining(
-                  child: Stack(
-                    children: [
-                      SmartRefresher(
-                        controller: refreshController,
-                        onRefresh: () async {
-                          try {
-                            await controller.refreshDashboard();
-                            refreshController.refreshCompleted();
-                          } catch (e) {
-                            refreshController.refreshFailed();
-                          }
-                        },
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 180.h,
-                                child: const HomePageSlider(),
+                GetBuilder<HomeController>(
+                  builder: (controller) {
+                    List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
+                    if (fOffer.isNotEmpty) {
+                      return SliverGrid(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          //crossAxisSpacing: 2.0,
+                          //mainAxisSpacing: 8.0,
+                          childAspectRatio: 150.w / 230.h,
+                        ),
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                left: 8.0,
+                                right: 8.0,
+                                bottom: 10,
                               ),
-                              SizedBox(
-                                height: 8.h,
-                              ),
-                              fOffer.isNotEmpty
-                                  ? GridView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 2.0,
-                                        mainAxisSpacing: 8.0,
-                                        childAspectRatio: 150.w / 215.h,
-                                      ),
-                                      itemCount: fOffer.length,
-                                      padding: EdgeInsets.only(
-                                        left: 10.0,
-                                        //right: 20.0,
-                                        bottom: 10,
-                                      ),
-                                      itemBuilder: (
-                                        BuildContext context,
-                                        int index,
-                                      ) {
-                                        return InkWell(
-                                          onTap: () {
-                                            controller.setLoading();
-                                            allOffersController
-                                                .getOfferDetail(
-                                                  fOffer[index]['id'],
-                                                )
-                                                .then(
-                                                  (value) => controller.setLoading(),
-                                                );
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              right: 10,
+                              child: InkWell(
+                                onTap: () {
+                                  controller.setLoading();
+                                  allOffersController
+                                      .getOfferDetail(
+                                        fOffer[index]['id'],
+                                      )
+                                      .then(
+                                        (value) => controller.setLoading(),
+                                      );
+                                },
+                                child: Container(
+                                  width: 217.w,
+                                  height: 325.h,
+                                  decoration: BoxDecoration(
+                                    color: lightGray,
+                                    borderRadius: BorderRadius.circular(
+                                      8.0,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      //  FutureBuilder<MemoryImage?>(
+                                      //               future:
+                                      //                   getCompressedImage(ApiService.imageBaseUrl + fOffer[index]['banner'], fOffer[index]['title']),
+                                      //               builder: (context, snapshot) {
+                                      //                 if (snapshot.connectionState == ConnectionState.waiting) {
+                                      //                   return Container(
+                                      //                     width: 230.w,
+                                      //                     height: 150.w,
+                                      //                     decoration: BoxDecoration(
+                                      //                       color: Colors.grey.shade300, // placeholder color
+                                      //                       borderRadius: BorderRadius.only(
+                                      //                         topRight: Radius.circular(10.0),
+                                      //                         topLeft: Radius.circular(10.0),
+                                      //                       ),
+                                      //                     ),
+                                      //                   );
+                                      //                 }
+                                      //                 if (snapshot.hasData) {
+                                      //                   return Container(
+                                      //                     width: 230.w,
+                                      //                     height: 150.w,
+                                      //                     decoration: BoxDecoration(
+                                      //                       borderRadius: BorderRadius.only(
+                                      //                         topRight: Radius.circular(10.0),
+                                      //                         topLeft: Radius.circular(10.0),
+                                      //                       ),
+                                      //                       image: DecorationImage(
+                                      //                         image: snapshot.data!,
+                                      //                         fit: BoxFit.cover,
+                                      //                       ),
+                                      //                     ),
+                                      //                   );
+                                      //                 }
+                                      //                 return Container(); // handle no data or error state
+                                      //               },
+                                      //             ),
+                                      Container(
+                                        width: 250.w,
+                                        height: 170.w,
+                                        decoration: BoxDecoration(
+                                          color: lightGray,
+                                          borderRadius: const BorderRadius.only(
+                                            topRight: Radius.circular(
+                                              10.0,
                                             ),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: lightGray,
-                                                borderRadius: BorderRadius.circular(
-                                                  8.0,
-                                                ),
+                                            topLeft: Radius.circular(
+                                              10.0,
+                                            ),
+                                          ),
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                              ApiService.imageBaseUrl + fOffer[index]['banner'],
+                                            ),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          top: 5.0,
+                                          left: 10.h,
+                                          right: 10,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              fOffer[index]['title'],
+                                              maxLines: 1,
+                                              style: CustomTextView.getStyle(
+                                                context,
+                                                colorLight: Colors.black,
+                                                fontSize: 13.sp,
+                                                fontFamily: Utils.poppinsBold,
                                               ),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  FutureBuilder<MemoryImage?>(
-                                                    future: getCompressedImage(ApiService.imageBaseUrl + fOffer[index]['banner']),
-                                                    builder: (context, snapshot) {
-                                                      if (snapshot.connectionState == ConnectionState.waiting) {
-                                                        return Container(
-                                                          width: 230.w,
-                                                          height: 150.w,
-                                                          decoration: BoxDecoration(
-                                                            color: Colors.grey.shade300, // placeholder color
-                                                            borderRadius: BorderRadius.only(
-                                                              topRight: Radius.circular(10.0),
-                                                              topLeft: Radius.circular(10.0),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }
-                                                      if (snapshot.hasData) {
-                                                        return Container(
-                                                          width: 230.w,
-                                                          height: 150.w,
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.only(
-                                                              topRight: Radius.circular(10.0),
-                                                              topLeft: Radius.circular(10.0),
-                                                            ),
-                                                            image: DecorationImage(
-                                                              image: snapshot.data!,
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }
-                                                      return Container(); // handle no data or error state
-                                                    },
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                      top: 5.0,
-                                                      left: 10.h,
-                                                      right: 10,
+                                            ),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Text(
+                                                    fOffer[index]['shop']?['name'] ?? '',
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: CustomTextView.getStyle(
+                                                      context,
+                                                      colorLight: secondary,
+                                                      fontSize: 12.sp,
+                                                      fontFamily: Utils.poppinsMedium,
                                                     ),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Text.rich(
+                                              TextSpan(
+                                                text: _getTrimmedDescription(
+                                                  context: context,
+                                                  description: fOffer[index]['description'],
+                                                ),
+                                                style: CustomTextView.getStyle(
+                                                  context,
+                                                  colorLight: textColor,
+                                                  fontSize: 10.sp,
+                                                ),
+                                                children: [
+                                                  TextSpan(
+                                                    text: ' See more...',
+                                                    style: CustomTextView.getStyle(
+                                                      context,
+                                                      colorLight: textColor,
+                                                      fontSize: 10.sp,
+                                                      fontWeight: FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.all(5.0),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Row(
                                                       children: [
-                                                        Text(
-                                                          fOffer[index]['title'],
-                                                          maxLines: 1,
-                                                          style: CustomTextView.getStyle(
-                                                            context,
-                                                            colorLight: Colors.black,
-                                                            fontSize: 13.sp,
-                                                            fontFamily: Utils.poppinsBold,
-                                                          ),
-                                                        ),
-                                                        Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            Expanded(
-                                                              flex: 1,
-                                                              child: Text(
-                                                                fOffer[index]['shop']?['name'] ?? '',
-                                                                overflow: TextOverflow.ellipsis,
-                                                                style: CustomTextView.getStyle(
-                                                                  context,
-                                                                  colorLight: secondary,
-                                                                  fontSize: 12.sp,
-                                                                  fontFamily: Utils.poppinsMedium,
-                                                                ),
+                                                        GestureDetector(
+                                                          onTap: () async {
+                                                            await launchUrl(
+                                                              Uri.parse(
+                                                                'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Text.rich(
-                                                          TextSpan(
-                                                            text: _getTrimmedDescription(
-                                                              context: context,
-                                                              description: fOffer[index]['description'],
-                                                            ),
+                                                            );
+                                                          },
+                                                          child: Text(
+                                                            'Chat with seller',
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
                                                             style: CustomTextView.getStyle(
                                                               context,
                                                               colorLight: textColor,
-                                                              fontSize: 10.sp,
+                                                              fontSize: 11.sp,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text: ' See more...',
-                                                                style: CustomTextView.getStyle(
-                                                                  context,
-                                                                  colorLight: textColor,
-                                                                  fontSize: 10.sp,
-                                                                  fontWeight: FontWeight.w700,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5.h,
-                                                        ),
-                                                        Container(
-                                                          padding: EdgeInsets.all(5.0),
-                                                          decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius: BorderRadius.circular(
-                                                              10.0,
-                                                            ),
-                                                          ),
-                                                          child: Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: Row(
-                                                                  children: [
-                                                                    GestureDetector(
-                                                                      onTap: () async {
-                                                                        await launchUrl(
-                                                                          Uri.parse(
-                                                                            'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                      child: Text(
-                                                                        'Chat with seller',
-                                                                        maxLines: 1,
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        style: CustomTextView.getStyle(
-                                                                          context,
-                                                                          colorLight: textColor,
-                                                                          fontSize: 11.sp,
-                                                                          fontWeight: FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 4.w,
-                                                              ),
-                                                              GestureDetector(
-                                                                onTap: () async {
-                                                                  await launchUrl(
-                                                                    Uri.parse(
-                                                                      'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                child: Container(
-                                                                  height: 22.h,
-                                                                  width: 25.w,
-                                                                  decoration: BoxDecoration(
-                                                                    color: greenColor,
-                                                                    borderRadius: BorderRadius.circular(3.0),
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.all(
-                                                                      3.0,
-                                                                    ),
-                                                                    child: SvgPicture.asset(
-                                                                      'assets/svgIcons/whatsapp.svg',
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
                                                           ),
                                                         ),
                                                       ],
                                                     ),
                                                   ),
+                                                  SizedBox(
+                                                    width: 4.w,
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      await launchUrl(
+                                                        Uri.parse(
+                                                          'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      height: 22.h,
+                                                      width: 25.w,
+                                                      decoration: BoxDecoration(
+                                                        color: greenColor,
+                                                        borderRadius: BorderRadius.circular(3.0),
+                                                      ),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(3.0),
+                                                        child: SvgPicture.asset(
+                                                          'assets/svgIcons/whatsapp.svg',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                    )
-                                  : const Center(
-                                      child: Text('No Top offers available.'),
-                                    ),
-                            ],
-                          ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          childCount: fOffer.length,
                         ),
-                      ),
-                      Obx(
-                        () => controller.isLoading.isTrue ? const MyLoading() : Container(),
-                      ),
-                    ],
-                  ),
+                      );
+                    } else {
+                      return SliverFillRemaining(
+                        child: Center(child: Text('No offers available.')),
+                      );
+                    }
+                  },
                 ),
               ],
             ),
           ),
-        );
-      },
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (_scrollController.hasClients) {
+            _scrollController.animateTo(
+              0,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+        },
+        child: Icon(
+          Icons.arrow_upward_rounded,
+        ),
+        backgroundColor: primary,
+      ),
     );
   }
 
