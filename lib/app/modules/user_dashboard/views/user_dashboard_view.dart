@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
@@ -23,7 +20,7 @@ import '../../../../utilities/utils.dart';
 import '../controllers/user_dashboard_controller.dart';
 
 class UserDashboardView extends GetView<UserDashboardController> {
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController1 = ScrollController();
   final MainControllers mainControllers = MainControllers();
   final allShopsController = AllShopsController();
   final allOffersController = AllOffersController();
@@ -31,6 +28,95 @@ class UserDashboardView extends GetView<UserDashboardController> {
   final refreshController = RefreshController();
 
   UserDashboardView({Key? key}) : super(key: key);
+  Widget buildPagination() {
+    return Obx(
+      () {
+        if (controller.totalPages.value > 1) {
+          int startPage = controller.currentPage - 0;
+          int endPage = controller.currentPage + 0;
+
+          // Ensure that the range of numbers stays within bounds
+          if (startPage < 1) {
+            endPage = endPage + (1 - startPage);
+            startPage = 1;
+          }
+          if (endPage > controller.totalPages.value) {
+            startPage = startPage - (endPage - controller.totalPages.value);
+            endPage = controller.totalPages.value;
+          }
+          if (startPage < 1) startPage = 1; // Double check after adjustment
+
+          // Generate the list of page buttons to display
+          // List<Widget> pageButtons = List<Widget>.generate(
+          //   (endPage - startPage) + 1,
+          //   (index) => TextButton(
+          //     onPressed: () {
+          //       if (!controller.isLoading.value) {
+          //         controller.loadPage(startPage + index);
+          //       }
+          //     },
+          //     child: Text(
+          //       '${startPage + index}',
+          //       style: TextStyle(
+          //         fontSize: 16.sp,
+          //         color: controller.currentPage == startPage + index
+          //             ? primary // Selected page
+          //             : Colors.black,
+          //         fontWeight: controller.currentPage == startPage + index
+          //             ? FontWeight.bold // Selected page
+          //             : FontWeight.normal,
+          //       ),
+          //     ),
+          //   ),
+          // );
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Left arrow
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: primary,
+                    size: 20.sp,
+                  ),
+                  onPressed: controller.currentPage > 1
+                      ? () {
+                          if (!controller.isLoading.value) {
+                            controller.loadPage(controller.currentPage - 1);
+                          }
+                        }
+                      : null,
+                ),
+                // Page numbers
+                //...pageButtons,
+                // Right arrow
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: primary,
+                    size: 20.sp,
+                  ),
+                  onPressed: controller.currentPage < controller.totalPages.value
+                      ? () {
+                          if (!controller.isLoading.value) {
+                            controller.loadPage(controller.currentPage + 1);
+                          }
+                        }
+                      : null,
+                ),
+              ],
+            ),
+          );
+        }
+        return SizedBox.shrink();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,18 +142,24 @@ class UserDashboardView extends GetView<UserDashboardController> {
           ),
           Expanded(
             child: CustomScrollView(
-              controller: _scrollController,
+              controller: _scrollController1,
               slivers: [
                 SliverToBoxAdapter(
                   child: SizedBox(
                     height: 180.h,
-                    child: const HomePageSlider(),
+                    child: HomePageSlider(),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 5.h,
                   ),
                 ),
                 GetBuilder<UserDashboardController>(
                   builder: (controller) {
-                    List<dynamic> fOffer = controller.box.read('fOffer') ?? [];
-                    if (fOffer.isNotEmpty) {
+                    print('GetBuilder rebuilt');
+                    //List<dynamic> tOffer = controller.box.read('topOffer') ?? [];
+                    if (controller.tOffer.isNotEmpty) {
                       return SliverGrid(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
@@ -88,7 +180,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                                   homeController.setLoading();
                                   allOffersController
                                       .getOfferDetail(
-                                        fOffer[index]['id'],
+                                        controller.tOffer[index]['id'],
                                       )
                                       .then(
                                         (value) => homeController.setLoading(),
@@ -106,42 +198,6 @@ class UserDashboardView extends GetView<UserDashboardController> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      //  FutureBuilder<MemoryImage?>(
-                                      //               future:
-                                      //                   getCompressedImage(ApiService.imageBaseUrl + fOffer[index]['banner'], fOffer[index]['title']),
-                                      //               builder: (context, snapshot) {
-                                      //                 if (snapshot.connectionState == ConnectionState.waiting) {
-                                      //                   return Container(
-                                      //                     width: 230.w,
-                                      //                     height: 150.w,
-                                      //                     decoration: BoxDecoration(
-                                      //                       color: Colors.grey.shade300, // placeholder color
-                                      //                       borderRadius: BorderRadius.only(
-                                      //                         topRight: Radius.circular(10.0),
-                                      //                         topLeft: Radius.circular(10.0),
-                                      //                       ),
-                                      //                     ),
-                                      //                   );
-                                      //                 }
-                                      //                 if (snapshot.hasData) {
-                                      //                   return Container(
-                                      //                     width: 230.w,
-                                      //                     height: 150.w,
-                                      //                     decoration: BoxDecoration(
-                                      //                       borderRadius: BorderRadius.only(
-                                      //                         topRight: Radius.circular(10.0),
-                                      //                         topLeft: Radius.circular(10.0),
-                                      //                       ),
-                                      //                       image: DecorationImage(
-                                      //                         image: snapshot.data!,
-                                      //                         fit: BoxFit.cover,
-                                      //                       ),
-                                      //                     ),
-                                      //                   );
-                                      //                 }
-                                      //                 return Container(); // handle no data or error state
-                                      //               },
-                                      //             ),
                                       Container(
                                         width: 250.w,
                                         height: 170.w,
@@ -157,7 +213,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                                           ),
                                           image: DecorationImage(
                                             image: NetworkImage(
-                                              ApiService.imageBaseUrl + fOffer[index]['banner'],
+                                              ApiService.imageBaseUrl + controller.tOffer[index]['banner'],
                                             ),
                                             fit: BoxFit.cover,
                                           ),
@@ -174,7 +230,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              fOffer[index]['title'],
+                                              controller.tOffer[index]['title'],
                                               maxLines: 1,
                                               style: CustomTextView.getStyle(
                                                 context,
@@ -190,7 +246,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                                                 Expanded(
                                                   flex: 1,
                                                   child: Text(
-                                                    fOffer[index]['shop']?['name'] ?? '',
+                                                    controller.tOffer[index]['shop']?['name'] ?? '',
                                                     overflow: TextOverflow.ellipsis,
                                                     style: CustomTextView.getStyle(
                                                       context,
@@ -206,7 +262,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                                               TextSpan(
                                                 text: _getTrimmedDescription(
                                                   context: context,
-                                                  description: fOffer[index]['description'],
+                                                  description: controller.tOffer[index]['description'],
                                                 ),
                                                 style: CustomTextView.getStyle(
                                                   context,
@@ -243,7 +299,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                                                           onTap: () async {
                                                             await launchUrl(
                                                               Uri.parse(
-                                                                'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
+                                                                'whatsapp://send?phone=${controller.tOffer[index]['shop']?['seller']?['whatsapp']}',
                                                               ),
                                                             );
                                                           },
@@ -269,7 +325,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                                                     onTap: () async {
                                                       await launchUrl(
                                                         Uri.parse(
-                                                          'whatsapp://send?phone=${fOffer[index]['shop']?['seller']?['whatsapp']}',
+                                                          'whatsapp://send?phone=${controller.tOffer[index]['shop']?['seller']?['whatsapp']}',
                                                         ),
                                                       );
                                                     },
@@ -300,7 +356,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                               ),
                             );
                           },
-                          childCount: fOffer.length,
+                          childCount: controller.tOffer.length,
                         ),
                       );
                     } else {
@@ -310,15 +366,27 @@ class UserDashboardView extends GetView<UserDashboardController> {
                     }
                   },
                 ),
+                // SliverToBoxAdapter(
+                //   child: Center(
+                //     child: buildPagination(),
+                //     widthFactor: 5.w,
+                //     heightFactor: 0.5.h,
+                //   ),
+                // ),
               ],
             ),
+          ),
+          Center(
+            child: buildPagination(),
+            widthFactor: 5.w,
+            heightFactor: 0.7.h,
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (_scrollController.hasClients) {
-            _scrollController.animateTo(
+          if (_scrollController1.hasClients) {
+            _scrollController1.animateTo(
               0,
               duration: Duration(milliseconds: 300),
               curve: Curves.easeInOut,
@@ -331,37 +399,6 @@ class UserDashboardView extends GetView<UserDashboardController> {
         backgroundColor: primary,
       ),
     );
-  }
-
-  Future<MemoryImage?> getCompressedImage(String imageUrl, String title) async {
-    try {
-      final Uri uri = Uri.parse(imageUrl);
-      final http.Response response = await http.get(uri);
-      if (response.statusCode == 200) {
-        print('Original size of "$title": ${response.contentLength} bytes');
-        // Attempt to compress the image
-        try {
-          final Uint8List? compressedImage = await FlutterImageCompress.compressWithList(
-            response.bodyBytes,
-            minHeight: 150, // set the desired height
-            minWidth: 230, // set the desired width
-            quality: 70, // set the compression quality
-          );
-          if (compressedImage != null) {
-            print('Compressed size of "$title": ${compressedImage.length} bytes');
-            return MemoryImage(compressedImage);
-          }
-        } catch (compressError) {
-          print('Error compressing image "$title": $compressError');
-          // If compression fails, fall back to the original image
-        }
-        // Return the original image if compression didn't work or wasn't possible
-        return MemoryImage(response.bodyBytes);
-      }
-    } catch (e) {
-      print('Error fetching image "$title": $e');
-    }
-    return null;
   }
 }
 

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -7,8 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/cites_model.dart';
-import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 
 import '../../../../utilities/colors/colors.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
@@ -19,17 +21,158 @@ class UserDashboardController extends GetxController {
   RxList<City> shopName = <City>[].obs;
   Rxn<File> currentImageFile = Rxn<File>();
   final count = 0.obs;
+
+  int currentPage = 1;
+  int itemsPerPage = 30; // Number of items per page
+  bool hasMore = true; // Flag to indicate if there are more items to load
+  RxBool isLoading = false.obs;
+
+  final tOffer = <dynamic>[].obs;
+  final RxInt totalPages = 0.obs;
+
+  Future<void> loadPage(int page) async {
+    if (isLoading.value || page < 1) return; // Additional check to avoid loading when already loading
+
+    isLoading.value = true;
+    update();
+
+    try {
+      // Construct the URL for the requested page
+      String url = 'https://pinkad.pk/portal/api/top-offer?page=$page';
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        tOffer.value = result['data'];
+        print('Updated tOffer: $tOffer'); // Replace with new data
+        currentPage = page; // Update current page
+
+        // Update total pages based on the response, if that info is available
+        // For example:
+        // totalPages.value = (result['total'] / itemsPerPage).ceil();
+      } else {
+        print('Failed to fetch data: Status Code ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching items: $e');
+    } finally {
+      isLoading.value = false;
+      update();
+    }
+  }
+
+  Future<void> calculateTotalPages() async {
+    try {
+      // Make the API call to fetch the first page
+      String url = 'https://pinkad.pk/portal/api/top-offer';
+      final response = await http.get(Uri.parse(url));
+
+      // Check for a successful response
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+
+        // Read the total number of items and items per page from the response
+        final totalItems = result['total'];
+        final itemsPerPage = result['per_page'];
+
+        // Calculate the total number of pages
+        final totalPages = (totalItems / itemsPerPage).ceil(); // Use ceil to round up to the nearest whole number
+
+        // Update the totalPages observable
+        this.totalPages.value = totalPages;
+      } else {
+        print('Failed to fetch total pages: Status Code ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching total pages: $e');
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
-    box.listen(() {
-      update();
-    });
+    calculateTotalPages(); // Fetch total pages from API
+    loadPage(1); // Load initial page
   }
 
   Future<void> refreshDashboard() async {
-    await Get.find<SplashController>().getHomeData();
-    update();
+    // Reset state and load initial data
+    tOffer.clear();
+    currentPage = 1;
+    hasMore = true;
+    loadMore();
+  }
+
+  Future<List<dynamic>> fetchNextItems() async {
+    try {
+      // Use the next_page_url if available
+      String nextPageUrl = currentPage == 1
+          ? 'https://pinkad.pk/portal/api/' + Endpoints.topOffers
+          : box.read('next_page_url') ?? 'https://pinkad.pk/portal/api/' + Endpoints.topOffers + '?page=$currentPage&limit=$itemsPerPage';
+
+      // Make the API call
+      final response = await http.get(Uri.parse(nextPageUrl));
+
+      // Check for a successful response
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+
+        // Save the next page URL from the API response
+        box.write('next_page_url', result['next_page_url']);
+
+        // Determine if there are more items to load
+        hasMore = result['next_page_url'] != null;
+
+        return result['data'];
+      }
+    } catch (e) {
+      // Handle errors, e.g., by showing a Snackbar message
+      print('Error fetching items: $e');
+      hasMore = false; // No more items to load in case of an error
+    }
+    // Return an empty list if there are no more items or in case of an error
+    return [];
+  }
+
+  Future<void> loadMore() async {
+    if (!hasMore || isLoading.isTrue) return; // Prevent multiple simultaneous loads
+
+    isLoading.value = true;
+    update(); // Notify listeners to update UI, showing loading indicator
+
+    String nextPageUrl = currentPage == 1
+        ? 'https://pinkad.pk/portal/api/top-offer'
+        : box.read('next_page_url') ?? 'https://pinkad.pk/portal/api/top-offer?page=$currentPage';
+
+    try {
+      final response = await http.get(Uri.parse(nextPageUrl));
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        final List<dynamic> newData = result['data'];
+        if (newData.isNotEmpty) {
+          tOffer.value = newData;
+          update();
+          currentPage++; // Only increment the page if new data is added
+          hasMore = result['next_page_url'] != null; // Determine if there are more items to load
+          print('tOffer length after adding new data: ${tOffer.length}');
+        } else {
+          hasMore = false; // No more data available
+        }
+      } else {
+        print('Failed to fetch data: Status Code ${response.statusCode}');
+        hasMore = false; // Assume no more items to load on error
+      }
+    } catch (e) {
+      print('Error fetching items: $e');
+      hasMore = false; // Stop trying to load more if there's an exception
+    } finally {
+      print('isLoading: ${isLoading.value}');
+      print('currentPage: $currentPage');
+      print('hasMore: $hasMore');
+      print('tOffer Length: ${tOffer.length}');
+
+      isLoading.value = false;
+      update(); // Notify listeners to update UI, hiding loading indicator
+    }
   }
 
   void showCustomDialog() {
