@@ -81,17 +81,16 @@ class UserDashboardView extends GetView<UserDashboardController> {
                 IconButton(
                   icon: Icon(
                     Icons.arrow_back_ios_rounded,
-                    color: primary,
+                    color: controller.currentPage > 1 ? Colors.grey : primary,
                     size: 20.sp,
                   ),
-                  onPressed: controller.currentPage > 1
-                      ? () {
-                          if (!controller.isLoading.value) {
-                            controller.loadPage(controller.currentPage - 1);
-                          }
-                        }
-                      : null,
+                  onPressed: () {
+                    if (!controller.isLoading.value && controller.currentPage > 1) {
+                      controller.loadPage(controller.currentPage - 1);
+                    }
+                  },
                 ),
+
                 // Page numbers
                 //...pageButtons,
                 // Right arrow

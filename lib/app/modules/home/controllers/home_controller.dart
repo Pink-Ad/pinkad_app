@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/utilities/custom_widgets/snackbars.dart';
 import 'package:share_plus/share_plus.dart';
@@ -17,15 +20,68 @@ import '../../../../utilities/utils.dart';
 class HomeController extends GetxController {
   final box = GetStorage();
   RxBool isLoading = false.obs;
-
+  final tOffer = <dynamic>[].obs;
+  final RxInt totalPages = 0.obs;
   final count = 0.obs;
+  int currentPage = 1;
+
+  Future<void> loadPage(int page) async {
+    if (isLoading.isTrue || page < 1 || page > totalPages.value) return;
+
+    isLoading.value = true;
+    update(); // Ensure listeners are notified of state change
+    try {
+      var url = 'https://pinkad.pk/portal/api/top-offer?page=$page';
+      var response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        tOffer.assignAll(data['data']);
+        totalPages.value = (data['total'] / data['per_page']).ceil();
+        currentPage = page; // Update the currentPage variable
+        update(); // Notify listeners of update
+      } else {
+        print('Server error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching offers: $e');
+    } finally {
+      isLoading.value = false;
+      update(); // Notify listeners after loading is complete
+    }
+  }
+
+  Future<void> calculateTotalPages() async {
+    try {
+      // Make the API call to fetch the first page
+      String url = 'https://pinkad.pk/portal/api/top-offer';
+      final response = await http.get(Uri.parse(url));
+
+      // Check for a successful response
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+
+        // Read the total number of items and items per page from the response
+        final totalItems = result['total'];
+        final itemsPerPage = result['per_page'];
+
+        // Calculate the total number of pages
+        final totalPages = (totalItems / itemsPerPage).ceil(); // Use ceil to round up to the nearest whole number
+
+        // Update the totalPages observable
+        this.totalPages.value = totalPages;
+      } else {
+        print('Failed to fetch total pages: Status Code ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching total pages: $e');
+    }
+  }
 
   @override
   void onInit() {
     super.onInit();
-    box.listen(() {
-      update();
-    });
+    calculateTotalPages().then((_) => loadPage(1));
   }
 
   void setLoading() {
@@ -34,10 +90,10 @@ class HomeController extends GetxController {
 
   Future<void> refreshDashboard() async {
     await Get.find<SplashController>().getHomeData();
+    tOffer.clear();
+    currentPage = 1;
     update();
   }
-
-  
 
   void showCustomDialog(var temp) {
     print(temp);

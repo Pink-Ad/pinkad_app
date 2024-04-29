@@ -21,7 +21,7 @@ class ShopFilterButton extends StatelessWidget {
         size: 30,
       ),
       onPressed: () {
-        Get.find<AllShopsController>().showShopFilterDialog(context);
+        //Get.find<AllShopsController>().showShopFilterDialog(context);
       },
     );
   }

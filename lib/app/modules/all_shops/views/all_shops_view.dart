@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
@@ -73,7 +69,9 @@ class AllShopsView extends GetView<AllShopsController> {
                   ),
                   Container(
                     height: 50.h,
-                    margin: EdgeInsets.symmetric(horizontal: 20.w),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(width: 1, color: tertiary),
@@ -92,92 +90,16 @@ class AllShopsView extends GetView<AllShopsController> {
                         left: 20.0,
                         right: 5.0,
                       ),
-                      child: TypeAheadField<dynamic>(
-                        animationStart: 0,
-                        animationDuration: Duration.zero,
-                        textFieldConfiguration: TextFieldConfiguration(
-                          controller: controller.searchController,
-                          autofocus: false,
-                          style: TextStyle(fontSize: 15),
-                          decoration: InputDecoration(
-                            hintText: 'Search Seller',
-                            border: InputBorder.none,
-                            focusColor: tertiary,
-                          ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Search Sellers',
+                          border: InputBorder.none,
+                          focusColor: tertiary,
+                          hintStyle: TextStyle(fontSize: 15),
+                          suffixIcon: Icon(Icons.search),
                         ),
-                        hideOnError: true,
-                        suggestionsCallback: (pattern) async {
-                          if (pattern.isEmpty) {
-                            return List<dynamic>.empty();
-                          }
-                          final response = await http.get(
-                            Uri.parse('https://pinkad.pk/portal/api/seller-search?search_name=$pattern'),
-                          );
-
-                          if (response.statusCode == 200) {
-                            final List<dynamic> result = json.decode(response.body);
-                            return result;
-                          } else {
-                            // Handle the case when the server does not respond successfully
-                            return List<dynamic>.empty();
-                          }
-                        },
-                        //itemBuilder: (context, offer)
-                        itemBuilder: (context, shops) {
-                          return GestureDetector(
-                            onTap: () {
-                              int id = shops.containsKey('seller') ? shops['seller']['id'] : shops['id'];
-                              controller.getShopDetail(id);
-                              //controller.getShopDetail(shops['shop'][0]['id']);
-                              //Get.find<AllShopsController>().getShopDetail(shops['id']);
-                              //Get.find<AllShopsController>().getShopDetail(offer['id']);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border(
-                                  bottom: BorderSide(
-                                    width: 2.w,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                ),
-                              ),
-                              child: ListTile(
-                                leading: const Icon(
-                                  Icons.travel_explore,
-                                  color: primary,
-                                ),
-                                title: Text(
-                                  //offer['user']['name'],
-                                  //offer['business_name'] ?? '',
-                                  shops['business_name'] ?? '',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: const Color.fromARGB(255, 41, 39, 39),
-                                    fontSize: 13.sp,
-                                    fontFamily: Utils.poppinsSemiBold,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
-                                  //offer['business_address'] ?? '',
-                                  shops['business_address'] ?? '',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: const Color.fromARGB(255, 66, 66, 66),
-                                    fontSize: 11.sp,
-                                    fontFamily: Utils.poppinsLight,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        onSuggestionSelected: (suggestion) {
-                          // widget.callback(suggestion);
+                        onChanged: (value) {
+                          controller.searchShops(value);
                         },
                       ),
                     ),
@@ -269,7 +191,7 @@ class AllShopsView extends GetView<AllShopsController> {
                 ),
                 child: ClipRRect(
                   child: Image.network(
-                    ApiService.imageBaseUrl + shops[index]['logo'],
+                    ApiService.imageBaseUrl + shops[index]?['logo'],
                     width: 60.w,
                     height: 60.h,
                     fit: BoxFit.cover,
@@ -283,7 +205,7 @@ class AllShopsView extends GetView<AllShopsController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      shops[index]['user']['name'] ?? '',
+                      shops[index]?['business_name'] ?? '',
                       style: CustomTextView.getStyle(
                         context,
                         colorLight: subHeadingColor,
@@ -295,7 +217,7 @@ class AllShopsView extends GetView<AllShopsController> {
                     ),
                     const SizedBox(height: 10.0),
                     Text(
-                      shops[index]['business_address'] ?? '',
+                      shops[index]?['business_address'] ?? '',
                       style: CustomTextView.getStyle(
                         fontSize: 10.sp,
                         context,

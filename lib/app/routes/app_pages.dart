@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:pink_ad/app/modules/all_categories/views/categories_view.dart';
-import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
-import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
+import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
+import 'package:pink_ad/app/modules/home/views/bottom_nav_bar.dart';
 import 'package:pink_ad/app/modules/specific_seller/bindings/specific_seller_bindings.dart';
 import 'package:pink_ad/app/modules/specific_seller/views/specific_seller_views.dart';
 import 'package:pink_ad/app/modules/user_dashboard/views/user_bottom_nav_bar.dart';
@@ -31,7 +31,6 @@ import '../modules/feedback/views/feedback_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
 import '../modules/forgot_password/views/forgot_password_view.dart';
 import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/bottom_nav_bar.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/package_details/bindings/package_details_binding.dart';
 import '../modules/package_details/views/package_details_view.dart';
@@ -83,11 +82,13 @@ class AppPages {
     GetPage(
       name: _Paths.HOME,
       page: () => HomeView(),
-      // binding: HomeBinding(),
-      binding: BindingsBuilder(() {
-        Get.put(AllOffersController());
-        Get.put(AllShopsController());
-      }),
+      
+      binding: HomeBinding(),
+      // binding: BindingsBuilder(() {
+      //   Get.put(HomeController());
+      //   Get.put(AllOffersController());
+      //   Get.put(AllShopsController());
+      // }),
     ),
     GetPage(
       name: _Paths.SIGNUP,
@@ -115,6 +116,7 @@ class AppPages {
       page: () => UserLoginView(),
       binding: UserLoginBinding(),
     ),
+    //changed
     GetPage(
       name: _Paths.BottomNavBar,
       page: () => BottomNavBar(),

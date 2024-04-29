@@ -22,7 +22,7 @@ class OfferFilterButton extends StatelessWidget {
         size: 30,
       ),
       onPressed: () {
-        Get.find<AllOffersController>().showOfferFilterDialog(context);
+        // Get.find<AllOffersController>().showOfferFilterDialog(context);
       },
     );
   }

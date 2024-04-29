@@ -501,7 +501,7 @@ class _UserAppBarState extends State<UserAppBar> {
                         box.remove('user_categories');
                         box.remove('user_areas');
                         box.remove('password');
-                        Get.offAllNamed('/bottom-nav-bar');
+                        Get.offAllNamed('/home');
 
                         controller.hideMenu();
                       },

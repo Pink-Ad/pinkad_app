@@ -80,7 +80,7 @@ class AllOffersView extends GetView<AllOffersController> {
                     ],
                   ),
                   child: Padding(
-                    key: controller.filterKey,
+                    //key: controller.filterKey,
                     padding: const EdgeInsets.only(
                       left: 20.0,
                       right: 5.0,
@@ -189,6 +189,8 @@ class AllOffersView extends GetView<AllOffersController> {
                           ),
                           itemCount: controller.offers.length,
                           itemBuilder: (BuildContext context, int index) {
+                            print('Number of items fetched for offers: ${controller.offers.length}');
+
                             return GestureDetector(
                               onTap: () {
                                 controller.getOfferDetail(controller.offers[index].id);

@@ -50,6 +50,26 @@ class AllShopsController extends GetxController {
     );
     // isLoading.value = false;
   }
+// Inside AllShopsController
+
+  Future<void> searchShops(String pattern) async {
+    if (pattern.isEmpty) {
+      shops = allShops; // Reset the shops if search term is cleared.
+    } else {
+      final response = await http.get(
+        Uri.parse('https://pinkad.pk/portal/api/seller-search?search_name=$pattern'),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> result = json.decode(response.body);
+        shops = result; // Assuming result is a list of shops.
+      } else {
+        // Handle the case when the server does not respond successfully
+        shops = [];
+      }
+    }
+    update(); // Call update() to refresh the UI with the filtered shops.
+  }
 
   Future<void> filterShops(List<Area> areas) async {
     if (areas.isEmpty) {

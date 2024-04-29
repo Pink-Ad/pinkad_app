@@ -3,14 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:pink_ad/app/modules/all_shops/views/all_shops_view.dart';
 import 'package:pink_ad/app/modules/home/views/home_view.dart';
-import 'package:pink_ad/app/modules/tutorial/views/tutorial_view.dart';
 import 'package:pink_ad/utilities/custom_widgets/auth_dialog.dart';
 import 'package:pink_ad/utilities/functions/show_toast.dart';
 import 'package:upgrader/upgrader.dart';
-
-import '../../all_offers/views/all_offers_view.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -66,7 +62,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           child: Stack(
             children: [
               Scaffold(
-                resizeToAvoidBottomInset: false,
+                //resizeToAvoidBottomInset: false,
                 // bottomNavigationBar: Container(
                 //   height: 40.h,
                 //   color: primary,
@@ -133,19 +129,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 //   ),
                 // ),
                 body: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
+                  // physics: const NeverScrollableScrollPhysics(),
                   controller: pageController,
                   onPageChanged: (v) {
                     tabIndex = v;
                   },
                   children: [
-                    Center(
-                      child: Text('COMING SOON'),
-                    ),
-                    AllOffersView(),
+                    // Center(
+                    //   child: Text('COMING SOON'),
+                    // ),
+                    //AllOffersView(),
                     HomeView(),
-                    const AllShopsView(),
-                    TutorialView(),
+                    //const AllShopsView(),
+                    //TutorialView(),
                   ],
                 ),
               ),

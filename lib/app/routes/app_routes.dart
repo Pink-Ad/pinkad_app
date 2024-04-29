@@ -11,6 +11,7 @@ abstract class Routes {
   static const OTP = _Paths.OTP;
   static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
   static const USER_LOGIN = _Paths.USER_LOGIN;
+  //changed
   static const Bottom_Nav_Bar = _Paths.BottomNavBar;
   // static const PROFILE = _Paths.PROFILE;
   static const ALL_OFFERS = _Paths.ALL_OFFERS;
@@ -38,7 +39,6 @@ abstract class Routes {
   static const FEEDBACK = _Paths.FEEDBACK;
   static const FEATURED_SELLER = _Paths.FEATURED_SELLER;
   static const FEATURED_OFFER = _Paths.FEATURED_OFFER;
-  
 }
 
 abstract class _Paths {

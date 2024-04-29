@@ -12,289 +12,337 @@ import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/slider_page.dart';
-import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utilities/custom_widgets/custom_appbar.dart';
+import '../../../../utilities/custom_widgets/text_utils.dart';
 
 class HomeView extends GetView<HomeController> {
   final allShopsController = AllShopsController();
   final allOffersController = AllOffersController();
-
   final refreshController = RefreshController();
+  final ScrollController _scrollController = ScrollController();
 
-  HomeView({super.key});
+  HomeView({Key? key}) : super(key: key);
+  Widget buildPagination() {
+    return Obx(
+      () {
+        if (controller.totalPages.value > 1) {
+          int startPage = controller.currentPage - 0;
+          int endPage = controller.currentPage + 0;
+
+          // Ensure that the range of numbers stays within bounds
+          if (startPage < 1) {
+            endPage = endPage + (1 - startPage);
+            startPage = 1;
+          }
+          if (endPage > controller.totalPages.value) {
+            startPage = startPage - (endPage - controller.totalPages.value);
+            endPage = controller.totalPages.value;
+          }
+          if (startPage < 1) startPage = 1; // Double check after adjustment
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Left arrow
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: controller.currentPage > 1 ? primary : primary,
+                    size: 20.sp,
+                  ),
+                  onPressed: () {
+                    if (!controller.isLoading.value && controller.currentPage > 1) {
+                      controller.loadPage(controller.currentPage - 1);
+                    }
+                  },
+                ),
+
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: primary,
+                    size: 20.sp,
+                  ),
+                  onPressed: controller.currentPage < controller.totalPages.value
+                      ? () {
+                          if (!controller.isLoading.value) {
+                            controller.loadPage(controller.currentPage + 1);
+                          }
+                        }
+                      : null,
+                ),
+              ],
+            ),
+          );
+        }
+        return SizedBox.shrink();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ScrollController _scrollController = ScrollController();
-
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Column(
-          children: [
-            MyAppBar(
-              backButton: false,
-              title: 'PinkAd',
-              onMenuTap: () {
-                print('object');
-              },
-              onProfileTap: () {
-                print('object');
-                Get.to(ProfileView());
-              },
-            ),
-            CenterButtons(
-              allOffersController: allOffersController,
-            ),
-            Expanded(
-              child: CustomScrollView(
+    return GetBuilder(
+      init: HomeController(),
+      builder: (controller) {
+        // List<dynamic> tOffer = controller.box.read('topOffer') ?? [];
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: MyAppBar(
+            backButton: false,
+            title: 'PinkAd',
+            onMenuTap: () => print('Menu tapped'),
+            onProfileTap: () => Get.to(ProfileView()),
+          ),
+          body: Stack(
+            children: [
+              ListView(
                 controller: _scrollController,
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 180.h,
-                      child: const HomePageSlider(),
-                    ),
+                children: [
+                  CenterButtons(allOffersController: allOffersController),
+                  SizedBox(
+                    height: 180.h,
+                    child: HomePageSlider(),
                   ),
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 5.h,
+                  //buildPagination(),
+                  5.verticalSpace,
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 5.0,
+                      mainAxisSpacing: 12.0,
+                      childAspectRatio: 150.w / 230.h,
                     ),
-                  ),
-                  GetBuilder<HomeController>(
-                    builder: (controller) {
-                      List<dynamic> tOffer = controller.box.read('topOffer') ?? [];
-                      if (tOffer.isNotEmpty) {
-                        return SliverGrid(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            //crossAxisSpacing: 2.0,
-                            //mainAxisSpacing: 8.0,
-                            childAspectRatio: 150.w / 230.h,
+                    itemCount: controller.tOffer.length,
+                    padding: EdgeInsets.only(
+                      left: 10.0,
+                      //right: 20.0,
+                      bottom: 10,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () {
+                          controller.setLoading();
+                          allOffersController
+                              .getOfferDetail(
+                                controller.tOffer[index]['id'],
+                              )
+                              .then(
+                                (value) => controller.setLoading(),
+                              );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            right: 10,
                           ),
-                          delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  left: 8.0,
-                                  right: 8.0,
-                                  bottom: 10,
-                                ),
-                                child: InkWell(
-                                  onTap: () {
-                                    controller.setLoading();
-                                    allOffersController
-                                        .getOfferDetail(
-                                          tOffer[index]['id'],
-                                        )
-                                        .then(
-                                          (value) => controller.setLoading(),
-                                        );
-                                  },
-                                  child: Container(
-                                    width: 217.w,
-                                    height: 325.h,
-                                    decoration: BoxDecoration(
-                                      color: lightGray,
-                                      borderRadius: BorderRadius.circular(
-                                        8.0,
+                          child: Container(
+                            width: 217.w,
+                            height: 325.h,
+                            decoration: BoxDecoration(
+                              color: lightGray,
+                              borderRadius: BorderRadius.circular(
+                                8.0,
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 250.w,
+                                  height: 170.w,
+                                  decoration: BoxDecoration(
+                                    color: lightGray,
+                                    borderRadius: const BorderRadius.only(
+                                      topRight: Radius.circular(
+                                        10.0,
+                                      ),
+                                      topLeft: Radius.circular(
+                                        10.0,
                                       ),
                                     ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 250.w,
-                                          height: 170.w,
-                                          decoration: BoxDecoration(
-                                            color: lightGray,
-                                            borderRadius: const BorderRadius.only(
-                                              topRight: Radius.circular(
-                                                10.0,
-                                              ),
-                                              topLeft: Radius.circular(
-                                                10.0,
-                                              ),
-                                            ),
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                ApiService.imageBaseUrl + tOffer[index]['banner'],
-                                              ),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        ApiService.imageBaseUrl + controller.tOffer[index]['banner'],
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 5.0,
+                                    left: 10.h,
+                                    right: 10,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        controller.tOffer[index]['title'],
+                                        maxLines: 1,
+                                        style: CustomTextView.getStyle(
+                                          context,
+                                          colorLight: Colors.black,
+                                          fontSize: 13.sp,
+                                          fontFamily: Utils.poppinsBold,
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                            top: 5.0,
-                                            left: 10.h,
-                                            right: 10,
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                tOffer[index]['title'],
-                                                maxLines: 1,
-                                                style: CustomTextView.getStyle(
-                                                  context,
-                                                  colorLight: Colors.black,
-                                                  fontSize: 13.sp,
-                                                  fontFamily: Utils.poppinsBold,
-                                                ),
+                                      ),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                              controller.tOffer[index]['shop']?['name'] ?? '',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: CustomTextView.getStyle(
+                                                context,
+                                                colorLight: secondary,
+                                                fontSize: 12.sp,
+                                                fontFamily: Utils.poppinsMedium,
                                               ),
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Text.rich(
+                                        TextSpan(
+                                          text: controller.tOffer[index]['description'].split(' ').take(2).join(' ') + ' ',
+                                          style: CustomTextView.getStyle(
+                                            context,
+                                            colorLight: textColor,
+                                            fontSize: 12.sp,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: 'See more...',
+                                              style: CustomTextView.getStyle(
+                                                context,
+                                                colorLight: textColor,
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.all(5.0),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(10.0),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Row(
                                                 children: [
-                                                  Expanded(
-                                                    flex: 1,
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      await launchUrl(
+                                                        Uri.parse(
+                                                          'whatsapp://send?phone=${controller.tOffer[index]['shop']?['seller']?['whatsapp']}',
+                                                        ),
+                                                      );
+                                                    },
                                                     child: Text(
-                                                      tOffer[index]['shop']?['name'] ?? '',
+                                                      'Chat with seller',
+                                                      maxLines: 1,
                                                       overflow: TextOverflow.ellipsis,
                                                       style: CustomTextView.getStyle(
                                                         context,
-                                                        colorLight: secondary,
-                                                        fontSize: 12.sp,
-                                                        fontFamily: Utils.poppinsMedium,
+                                                        colorLight: textColor,
+                                                        fontSize: 11.sp,
+                                                        fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                              Text.rich(
-                                                TextSpan(
-                                                  text: _getTrimmedDescription(
-                                                    context: context,
-                                                    description: tOffer[index]['description'],
+                                            ),
+                                            SizedBox(
+                                              width: 4.w,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                await launchUrl(
+                                                  Uri.parse(
+                                                    'whatsapp://send?phone=${controller.tOffer[index]['shop']?['seller']?['whatsapp']}',
                                                   ),
-                                                  style: CustomTextView.getStyle(
-                                                    context,
-                                                    colorLight: textColor,
-                                                    fontSize: 10.sp,
-                                                  ),
-                                                  children: [
-                                                    TextSpan(
-                                                      text: ' See more...',
-                                                      style: CustomTextView.getStyle(
-                                                        context,
-                                                        colorLight: textColor,
-                                                        fontSize: 10.sp,
-                                                        fontWeight: FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              Container(
-                                                padding: EdgeInsets.all(5.0),
+                                                );
+                                              },
+                                              child: Container(
+                                                height: 22.h,
+                                                width: 25.w,
                                                 decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10.0),
+                                                  color: greenColor,
+                                                  borderRadius: BorderRadius.circular(3.0),
                                                 ),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Row(
-                                                        children: [
-                                                          GestureDetector(
-                                                            onTap: () async {
-                                                              await launchUrl(
-                                                                Uri.parse(
-                                                                  'whatsapp://send?phone=${tOffer[index]['shop']?['seller']?['whatsapp']}',
-                                                                ),
-                                                              );
-                                                            },
-                                                            child: Text(
-                                                              'Chat with seller',
-                                                              maxLines: 1,
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: CustomTextView.getStyle(
-                                                                context,
-                                                                colorLight: textColor,
-                                                                fontSize: 11.sp,
-                                                                fontWeight: FontWeight.bold,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 4.w,
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () async {
-                                                        await launchUrl(
-                                                          Uri.parse(
-                                                            'whatsapp://send?phone=${tOffer[index]['shop']?['seller']?['whatsapp']}',
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: Container(
-                                                        height: 22.h,
-                                                        width: 25.w,
-                                                        decoration: BoxDecoration(
-                                                          color: greenColor,
-                                                          borderRadius: BorderRadius.circular(3.0),
-                                                        ),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.all(3.0),
-                                                          child: SvgPicture.asset(
-                                                            'assets/svgIcons/whatsapp.svg',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(3.0),
+                                                  child: SvgPicture.asset(
+                                                    'assets/svgIcons/whatsapp.svg',
+                                                  ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              );
-                            },
-                            childCount: tOffer.length,
+                              ],
+                            ),
                           ),
-                        );
-                      } else {
-                        return SliverFillRemaining(
-                          child: Center(child: Text('No offers available.')),
-                        );
-                      }
+                        ),
+                      );
                     },
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (_scrollController.hasClients) {
-            _scrollController.animateTo(
-              0,
-              duration: Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            );
-          }
-        },
-        child: Icon(
-          Icons.arrow_upward_rounded,
-        ),
-        backgroundColor: primary,
-      ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  width: 5.w,
+                  height: 46.h,
+                  color: Colors.white,
+                  child: Center(child: buildPagination()),
+                ),
+              ),
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              if (_scrollController.hasClients) {
+                _scrollController.animateTo(
+                  0,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              }
+            },
+            child: Icon(Icons.arrow_upward_rounded),
+            backgroundColor: primary,
+          ),
+        );
+      },
     );
   }
 }
