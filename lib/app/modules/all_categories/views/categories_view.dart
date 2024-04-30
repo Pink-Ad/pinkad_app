@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/modules/all_categories/controllers/categories_controller.dart';
-import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
+import 'package:pink_ad/app/modules/all_categories_offer/controllers/all_categories_offer_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar.dart';
@@ -17,7 +17,8 @@ class CategoriesView extends GetView<CategoriesController> {
   CategoriesView({super.key});
   final box = GetStorage();
   final refreshController = RefreshController();
-  final allOffersController = Get.find<AllOffersController>();
+  final allCategoryOffersController = Get.put(AllCategoryOffersController());
+
   final RxBool _isLoading = false.obs;
 
   @override
@@ -80,7 +81,7 @@ class CategoriesView extends GetView<CategoriesController> {
                             return GestureDetector(
                               onTap: () async {
                                 _isLoading.value = true; // Start loading
-                                await allOffersController.fetchOffersByCategoryId(controller.categories[index].id);
+                                await allCategoryOffersController.fetchCategoryOffersByCategoryId(controller.categories[index].id);
                                 _isLoading.value = false; // Stop loading after fetching
                               },
                               child: categoryListItem(controller.categories, index, context),

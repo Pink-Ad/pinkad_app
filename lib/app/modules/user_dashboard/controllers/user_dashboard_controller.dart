@@ -29,8 +29,12 @@ class UserDashboardController extends GetxController {
 
   final tOffer = <dynamic>[].obs;
   final RxInt totalPages = 0.obs;
+  ScrollController scrollController = ScrollController();
 
-  Future<void> loadPage(int page) async {
+  Future<void> loadPage(
+    int page, {
+    bool scrollToTop = false,
+  }) async {
     if (isLoading.value || page < 1) return; // Additional check to avoid loading when already loading
 
     isLoading.value = true;
@@ -45,7 +49,9 @@ class UserDashboardController extends GetxController {
         tOffer.value = result['data'];
         print('Updated tOffer: $tOffer'); // Replace with new data
         currentPage = page; // Update current page
-
+ if (scrollToTop) {
+          _scrollToTop(); // Call to scroll function
+        }
         // Update total pages based on the response, if that info is available
         // For example:
         // totalPages.value = (result['total'] / itemsPerPage).ceil();
@@ -84,6 +90,16 @@ class UserDashboardController extends GetxController {
       }
     } catch (e) {
       print('Error fetching total pages: $e');
+    }
+  }
+
+    void _scrollToTop() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        0,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
     }
   }
 

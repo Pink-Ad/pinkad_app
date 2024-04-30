@@ -9,38 +9,39 @@ import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/areas_model.dart';
 import 'package:pink_ad/app/models/offer_list_model.dart';
 import 'package:pink_ad/app/models/subcategory_model.dart';
-import 'package:pink_ad/app/modules/all_offers/views/offer_filter_button.dart';
+import 'package:pink_ad/app/modules/all_categories_offer/views/all_categories_offer_view.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
 import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/functions/show_toast.dart';
 
-class AllOffersController extends GetxController {
-  //TODO: Implement AllOffersController
+class AllCategoryOffersController extends GetxController {
   final ApiService _apiService = ApiService(http.Client());
-  HomeController homeController = HomeController();
+  var isLoading = false.obs;
   final box = GetStorage();
-  List<dynamic> allOffers = [];
-  List<dynamic> offers = [];
-  List<SubCategory> selectedSubcats = [];
   List<Area> selectedAreas = [];
   GlobalKey filterKey = GlobalKey();
   final searchController = TextEditingController();
-  late final Future<List<SubCategory>> subcatFuture;
   late final Future<List<Area>> areaFuture;
+  HomeController homeController = HomeController();
+
+  List<dynamic> allOffers = [];
+  List<dynamic> offers = [];
+  List<SubCategory> selectedSubcats = [];
+
+  late final Future<List<SubCategory>> subcatFuture;
 
   @override
   void onInit() {
     super.onInit();
-
-    allOffers = box.read('offers') ?? [];
+    allOffers = box.read('categoryoffers') ?? [];
     offers = allOffers;
     areaFuture = Get.find<SplashController>().getAllAreas();
     subcatFuture = Get.find<SplashController>().getAllSubcategories();
   }
 
-  Future<void> getOfferDetail(int id) async {
-    // isLoading.value = true;
+  Future<void> getCategoryOfferDetail(int id) async {
+// isLoading.value = true;
     // homeController.setLoading();
     final response = await _apiService.getData('offer-detail/$id');
     Map data = {'offer_id': id.toString(), 'views': 1.toString()};
@@ -55,41 +56,10 @@ class AllOffersController extends GetxController {
         'seller': false,
       },
     );
-    // isLoading.value = false;
+    // isLoading.value = false
   }
 
-  Future<void> filterOffers(List<Area> areas, List<SubCategory> subcats) async {
-    if (areas.isEmpty || subcats.isEmpty) {
-      showToast(message: 'Please select the filters');
-      return;
-    }
-    searchController.clear();
-    selectedAreas = areas;
-    selectedSubcats = subcats;
-    try {
-      final areaFilter = selectedAreas.map((area) => 'area_id[]=${area.id}');
-      final subcatFilter = selectedSubcats.map((subcat) => 'category_id[]=${subcat.id}');
-      final response = await _apiService.getData('${Endpoints.offerFilter}?${[...areaFilter, ...subcatFilter].join("&")}');
-
-      if (response.statusCode == 200) {
-        final result = json.decode(response.body);
-        offers = result['filtered_banner_posts'].map((json) => OfferList.fromJson(json)).toList();
-        update();
-      }
-    } catch (e) {
-      print(e);
-    }
-    Get.back();
-  }
-
-  Future<void> clearFilters() async {
-    offers = allOffers;
-    selectedAreas = [];
-    selectedSubcats = [];
-    update();
-  }
-
-  Future<void> searchOffers(String pattern) async {
+  Future<void> searchCategoryOffers(String pattern) async {
     if (pattern.isEmpty) {
       offers = allOffers; // Reset to all offers if the search term is cleared
     } else {
@@ -116,18 +86,66 @@ class AllOffersController extends GetxController {
     update(); // Call update() to refresh the UI with the filtered offers
   }
 
-  Future<void> refreshOffers() async {
-    if (selectedAreas.isNotEmpty && selectedSubcats.isNotEmpty) {
-      await filterOffers(selectedAreas, selectedSubcats);
-    } else {
+  // Future<void> filterCategoryOffers(List<Area> areas) async {
+  //   if (areas.isEmpty) {
+  //     showToast(message: 'Please select an area filter');
+  //     return;
+  //   }
+  //   searchController.clear();
+  //   selectedAreas = areas;
+  //   try {
+  //     final areaFilter = selectedAreas.map((area) => 'area_id[]=${area.id}');
+  //     final response = await _apiService.getData('category-offers-filter?${areaFilter.join("&")}');
+
+  //     if (response.statusCode == 200) {
+  //       final result = json.decode(response.body);
+  //       categoryOffers = result['filtered_category_offers'].map((json) => CategoryOfferListModel.fromJson(json)).toList();
+  //       update();
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   Get.back();
+  // }
+
+  Future<void> refreshCategoryOffers() async {
+    isLoading(true);
+
+    try {
+      await Future.delayed(Duration(seconds: 2));
       await Get.find<SplashController>().getOffers();
+
       allOffers = box.read('offers') ?? [];
       offers = allOffers;
+
       update();
+    } catch (e) {
+      print('Failed to refresh offers: $e');
+    } finally {
+      isLoading(false);
     }
   }
 
-  void showOfferFilterDialog(BuildContext context) {
+  Future<void> fetchCategoryOffersByCategoryId(int categoryId) async {
+    try {
+      final response = await _apiService.getData('${Endpoints.allOffers}?category_id=$categoryId');
+      if (response.statusCode == 200) {
+        final List<dynamic> resultList = json.decode(response.body);
+        offers.clear();
+        for (var json in resultList) {
+          offers.add(OfferList.fromJson(json));
+        }
+        update();
+        Get.to(() => AllCategoriesOffersView()); // Navigate to AllOffersView after fetching
+      } else {
+        throw Exception('Failed to fetch offers for category ID $categoryId');
+      }
+    } catch (e) {
+      print('Error fetching offers by category ID: $e');
+    }
+  }
+
+  void showCategoryOfferFilterDialog(BuildContext context) {
     final renderBox = filterKey.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) return;
     var size = renderBox.size;
@@ -144,7 +162,11 @@ class AllOffersController extends GetxController {
               left: offset.dx,
               width: size.width,
               top: offset.dy + size.height + 10,
-              child: OfferFilterOverlay(),
+              child: Material(
+                // This should be an actual widget that represents your filter overlay
+                color: Colors.white,
+                child: Text('Filter options here'),
+              ),
             ),
           ],
         ),

@@ -10,12 +10,10 @@ import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/app/modules/user_profile/controllers/user_profile_controller.dart';
 import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
-import 'package:pink_ad/utilities/custom_widgets/area_dropdown.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_button.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_text_field.dart';
 import 'package:pink_ad/utilities/custom_widgets/phone_input_field.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
-import 'package:pink_ad/utilities/functions/loading_wrapper.dart';
 import 'package:pink_ad/utilities/utils.dart';
 
 import '../../../../utilities/custom_widgets/custom_appbar_user.dart';
@@ -216,8 +214,9 @@ class ChangePasswordContent extends GetView<UserProfileController> {
                 () => userProfileController.isLoading.value
                     ? Center(
                         child: const CircularProgressIndicator(
-                        color: primary,
-                      ),)
+                          color: primary,
+                        ),
+                      )
                     : GlobalButton(
                         title: 'Change Password',
                         onPressed: () {
@@ -352,23 +351,23 @@ class ProfileContent extends GetView<UserProfileController> {
                                 iconName: 'website',
                                 keyboardType: TextInputType.text,
                               ),
-                              Obx(() {
-                                return AreaDropDown(
-                                  areas: userProfileController.areaName.toList(),
-                                  cities: userProfileController.citiesName.toList(),
-                                  onAreaChanged: (value) {
-                                    userProfileController.selectedarea.value = value;
-                                  },
-                                  onCityChanged: (value) {
-                                    userProfileController.selectedCity.value = value;
-                                    userProfileController.selectedarea.value = null;
-                                    userProfileController.areaName.value = [];
-                                    loadingWrapper(() => userProfileController.getAreas(value!.id));
-                                  },
-                                  selectedArea: userProfileController.selectedarea.value,
-                                  selectedCity: userProfileController.selectedCity.value,
-                                );
-                              }),
+                              // Obx(() {
+                              //   return AreaDropDown(
+                              //     areas: userProfileController.areaName.toList(),
+                              //     cities: userProfileController.citiesName.toList(),
+                              //     onAreaChanged: (value) {
+                              //       userProfileController.selectedarea.value = value;
+                              //     },
+                              //     onCityChanged: (value) {
+                              //       userProfileController.selectedCity.value = value;
+                              //       userProfileController.selectedarea.value = null;
+                              //       userProfileController.areaName.value = [];
+                              //       loadingWrapper(() => userProfileController.getAreas(value!.id));
+                              //     },
+                              //     selectedArea: userProfileController.selectedarea.value,
+                              //     selectedCity: userProfileController.selectedCity.value,
+                              //   );
+                              // }),
                               Container(
                                 height: 55.0.h,
                                 margin: EdgeInsets.symmetric(

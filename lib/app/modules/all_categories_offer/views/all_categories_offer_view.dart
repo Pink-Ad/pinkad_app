@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/data/api_service.dart';
-import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
+import 'package:pink_ad/app/modules/all_categories_offer/controllers/all_categories_offer_controller.dart';
 import 'package:pink_ad/app/modules/profile/views/profile_view.dart';
 import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -14,19 +15,18 @@ import '../../../../utilities/custom_widgets/scafflod_dashboard.dart';
 import '../../../../utilities/custom_widgets/text_utils.dart';
 import '../../../../utilities/utils.dart';
 
-class AllOffersView extends GetView<AllOffersController> {
-  AllOffersView({super.key});
+class AllCategoriesOffersView extends GetView<AllCategoryOffersController> {
+  AllCategoriesOffersView({super.key});
   final box = GetStorage();
   final refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
     final userType = box.read('user_type');
-    //List<dynamic> offers = box.read('offers');
     return CustomBgDashboard(
       child: SafeArea(
         child: GetBuilder(
-          init: AllOffersController(),
+          init: AllCategoryOffersController(),
           builder: (controller) {
             return Column(
               children: [
@@ -93,7 +93,7 @@ class AllOffersView extends GetView<AllOffersController> {
                         suffixIcon: Icon(Icons.search),
                       ),
                       onChanged: (value) {
-                        controller.searchOffers(value);
+                        controller.searchCategoryOffers(value);
                       },
                     ),
                   ),
@@ -102,12 +102,8 @@ class AllOffersView extends GetView<AllOffersController> {
                   child: SmartRefresher(
                     controller: refreshController,
                     onRefresh: () async {
-                      try {
-                        await controller.refreshOffers();
-                        refreshController.refreshCompleted();
-                      } catch (e) {
-                        refreshController.refreshFailed();
-                      }
+                      await controller.refreshCategoryOffers();
+                      refreshController.refreshCompleted();
                     },
                     child: ListView.builder(
                       padding: EdgeInsets.only(
@@ -116,9 +112,11 @@ class AllOffersView extends GetView<AllOffersController> {
                       ),
                       itemCount: controller.offers.length,
                       itemBuilder: (BuildContext context, int index) {
+                        print('Number of items fetched for offers: ${controller.offers.length}');
+
                         return GestureDetector(
                           onTap: () {
-                            controller.getOfferDetail(controller.offers[index].id);
+                            controller.getCategoryOfferDetail(controller.offers[index].id);
                           },
                           child: offerListItem(controller.offers, index, context),
                         );

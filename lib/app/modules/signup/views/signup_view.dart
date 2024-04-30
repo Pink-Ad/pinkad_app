@@ -277,21 +277,21 @@ class SignupView extends GetView<SignupController> {
                                 //   keyboardType: TextInputType.text,
                                 // ),
                                 // CategoriesDropDown(),
-                                Obx(() {
-                                  return AreaDropDown(
-                                    areas: controller.areaName.toList(),
-                                    cities: controller.citiesName.toList(),
-                                    onAreaChanged: (value) {
-                                      controller.selectedarea.value = value;
-                                    },
-                                    onCityChanged: (value) {
-                                      controller.selectedCity.value = value;
-                                      controller.selectedarea.value = null;
-                                      controller.areaName.value = [];
-                                      loadingWrapper(() => controller.getAreas(value!.id));
-                                    },
-                                  );
-                                }),
+                                // Obx(() {
+                                //   return AreaDropDown(
+                                //     areas: controller.areaName.toList(),
+                                //     cities: controller.citiesName.toList(),
+                                //     onAreaChanged: (value) {
+                                //       controller.selectedarea.value = value;
+                                //     },
+                                //     onCityChanged: (value) {
+                                //       controller.selectedCity.value = value;
+                                //       controller.selectedarea.value = null;
+                                //       controller.areaName.value = [];
+                                //       loadingWrapper(() => controller.getAreas(value!.id));
+                                //     },
+                                //   );
+                                // }),
                                 Container(
                                   height: 55.0.h,
                                   margin: EdgeInsets.symmetric(

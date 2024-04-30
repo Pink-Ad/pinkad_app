@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/all_offers/controllers/all_offers_controller.dart';
-import 'package:pink_ad/app/modules/all_offers/views/all_offers_view.dart';
 import 'package:pink_ad/app/modules/all_shops/controllers/all_shops_controller.dart';
 import 'package:pink_ad/app/modules/all_shops/views/all_shops_view.dart';
 import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
@@ -23,7 +22,6 @@ class HomeView extends GetView<HomeController> {
   final allShopsController = AllShopsController();
   final allOffersController = AllOffersController();
   final refreshController = RefreshController();
-  final ScrollController _scrollController = ScrollController();
 
   HomeView({Key? key}) : super(key: key);
   Widget buildPagination() {
@@ -60,7 +58,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                   onPressed: () {
                     if (!controller.isLoading.value && controller.currentPage > 1) {
-                      controller.loadPage(controller.currentPage - 1);
+                      controller.loadPage(controller.currentPage - 1, scrollToTop: true);
                     }
                   },
                 ),
@@ -74,7 +72,7 @@ class HomeView extends GetView<HomeController> {
                   onPressed: controller.currentPage < controller.totalPages.value
                       ? () {
                           if (!controller.isLoading.value) {
-                            controller.loadPage(controller.currentPage + 1);
+                            controller.loadPage(controller.currentPage + 1, scrollToTop: true);
                           }
                         }
                       : null,
@@ -105,9 +103,10 @@ class HomeView extends GetView<HomeController> {
           body: Stack(
             children: [
               ListView(
-                controller: _scrollController,
+                controller: controller.scrollController,
                 children: [
-                  CenterButtons(allOffersController: allOffersController),
+                  //CenterButtons(allOffersController: allOffersController),
+                  //60.verticalSpace,
                   SizedBox(
                     height: 180.h,
                     child: HomePageSlider(),
@@ -330,8 +329,8 @@ class HomeView extends GetView<HomeController> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              if (_scrollController.hasClients) {
-                _scrollController.animateTo(
+              if (controller.scrollController.hasClients) {
+                controller.scrollController.animateTo(
                   0,
                   duration: Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
@@ -380,9 +379,9 @@ class CenterButtons extends StatelessWidget {
               _buildButton(context, Icons.store_mall_directory_outlined, 'Sellers', () {
                 Get.to(AllShopsView());
               }),
-              _buildButton(context, Icons.travel_explore, 'Offers', () async {
-                await allOffersController.refreshOffers();
-                Get.to(() => AllOffersView());
+              _buildButton(context, Icons.travel_explore, 'Offers', () {
+                Get.toNamed(Routes.ALL_OFFERS);
+                //Get.to(() => AllOffersView());
               }),
               _buildButton(context, Icons.category, 'Categories', () {
                 Get.toNamed(Routes.CATEGORIES);

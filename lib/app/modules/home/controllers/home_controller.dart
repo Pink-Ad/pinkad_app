@@ -24,52 +24,44 @@ class HomeController extends GetxController {
   final RxInt totalPages = 0.obs;
   final count = 0.obs;
   int currentPage = 1;
-
-  Future<void> loadPage(int page) async {
-    if (isLoading.isTrue || page < 1 || page > totalPages.value) return;
+  ScrollController scrollController = ScrollController();
+  Future<void> loadPage(int page, {bool scrollToTop = false}) async {
+    if (isLoading.value || page < 1 || page > totalPages.value) return;
 
     isLoading.value = true;
-    update(); // Ensure listeners are notified of state change
-    try {
-      var url = 'https://pinkad.pk/portal/api/top-offer?page=$page';
-      var response = await http.get(Uri.parse(url));
+    update();
 
+    try {
+      String url = 'https://pinkad.pk/portal/api/top-offer?page=$page';
+      final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        tOffer.assignAll(data['data']);
-        totalPages.value = (data['total'] / data['per_page']).ceil();
-        currentPage = page; // Update the currentPage variable
-        update(); // Notify listeners of update
+        final result = json.decode(response.body);
+        tOffer.value = result['data'];
+        currentPage = page;
+        if (scrollToTop) {
+          _scrollToTop(); // Call to scroll function
+        }
       } else {
-        print('Server error: ${response.statusCode}');
+        print('Failed to fetch data: Status Code ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching offers: $e');
+      print('Error fetching items: $e');
     } finally {
       isLoading.value = false;
-      update(); // Notify listeners after loading is complete
+      update();
     }
   }
 
   Future<void> calculateTotalPages() async {
     try {
-      // Make the API call to fetch the first page
       String url = 'https://pinkad.pk/portal/api/top-offer';
       final response = await http.get(Uri.parse(url));
 
-      // Check for a successful response
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
-
-        // Read the total number of items and items per page from the response
         final totalItems = result['total'];
         final itemsPerPage = result['per_page'];
-
-        // Calculate the total number of pages
-        final totalPages = (totalItems / itemsPerPage).ceil(); // Use ceil to round up to the nearest whole number
-
-        // Update the totalPages observable
-        this.totalPages.value = totalPages;
+        totalPages.value = (totalItems / itemsPerPage).ceil();
       } else {
         print('Failed to fetch total pages: Status Code ${response.statusCode}');
       }
@@ -78,10 +70,20 @@ class HomeController extends GetxController {
     }
   }
 
+  void _scrollToTop() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        0,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
-    calculateTotalPages().then((_) => loadPage(1));
+    calculateTotalPages().then((_) => loadPage(1, scrollToTop: true));
   }
 
   void setLoading() {

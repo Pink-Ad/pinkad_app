@@ -20,7 +20,6 @@ import '../../../../utilities/utils.dart';
 import '../controllers/user_dashboard_controller.dart';
 
 class UserDashboardView extends GetView<UserDashboardController> {
-  final ScrollController _scrollController1 = ScrollController();
   final MainControllers mainControllers = MainControllers();
   final allShopsController = AllShopsController();
   final allOffersController = AllOffersController();
@@ -78,6 +77,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Left arrow
+
                 IconButton(
                   icon: Icon(
                     Icons.arrow_back_ios_rounded,
@@ -86,7 +86,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                   ),
                   onPressed: () {
                     if (!controller.isLoading.value && controller.currentPage > 1) {
-                      controller.loadPage(controller.currentPage - 1);
+                      controller.loadPage(controller.currentPage - 1, scrollToTop: true);
                     }
                   },
                 ),
@@ -103,7 +103,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                   onPressed: controller.currentPage < controller.totalPages.value
                       ? () {
                           if (!controller.isLoading.value) {
-                            controller.loadPage(controller.currentPage + 1);
+                            controller.loadPage(controller.currentPage + 1, scrollToTop: true);
                           }
                         }
                       : null,
@@ -141,7 +141,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
           ),
           Expanded(
             child: CustomScrollView(
-              controller: _scrollController1,
+              controller: controller.scrollController,
               slivers: [
                 SliverToBoxAdapter(
                   child: SizedBox(
@@ -384,8 +384,8 @@ class UserDashboardView extends GetView<UserDashboardController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (_scrollController1.hasClients) {
-            _scrollController1.animateTo(
+          if (controller.scrollController.hasClients) {
+            controller.scrollController.animateTo(
               0,
               duration: Duration(milliseconds: 300),
               curve: Curves.easeInOut,

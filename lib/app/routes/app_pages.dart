@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:pink_ad/app/modules/all_categories/views/categories_view.dart';
-import 'package:pink_ad/app/modules/home/controllers/home_controller.dart';
+import 'package:pink_ad/app/modules/all_categories_offer/bindings/all_categories_offer_binding.dart';
+import 'package:pink_ad/app/modules/all_categories_offer/views/all_categories_offer_view.dart';
 import 'package:pink_ad/app/modules/home/views/bottom_nav_bar.dart';
 import 'package:pink_ad/app/modules/specific_seller/bindings/specific_seller_bindings.dart';
 import 'package:pink_ad/app/modules/specific_seller/views/specific_seller_views.dart';
@@ -82,7 +83,7 @@ class AppPages {
     GetPage(
       name: _Paths.HOME,
       page: () => HomeView(),
-      
+
       binding: HomeBinding(),
       // binding: BindingsBuilder(() {
       //   Get.put(HomeController());
@@ -133,6 +134,12 @@ class AppPages {
       binding: AllOffersBinding(),
     ),
     GetPage(
+      name: Routes.ALL_CATEGORY_OFFERS, // Ensure this is the correct route name used in navigation
+      page: () => AllCategoriesOffersView(),
+      binding: AllCategoryOffersBinding(),
+    ),
+
+    GetPage(
       name: _Paths.ALL_SHOPS,
       page: () => const AllShopsView(),
       binding: AllShopsBinding(),
@@ -145,7 +152,7 @@ class AppPages {
     GetPage(
       name: Routes.CATEGORIES,
       page: () => CategoriesView(),
-      binding: AllOffersBinding(), // Associate your binding here
+      binding: AllCategoryOffersBinding(), // Associate your binding here
     ),
 
     GetPage(

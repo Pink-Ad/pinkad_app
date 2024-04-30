@@ -360,6 +360,24 @@ class SplashController extends GetxController {
     }
   }
 
+
+  Future<void> getCategoryOffers() async {
+    try {
+      final response = await _apiService.getData(Endpoints.allOffers);
+
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        offerList.assignAll(result.map((json) => OfferList.fromJson(json)).toList());
+        await box.write('categoryoffers', offerList);
+      }
+    } catch (e) {
+      // isLoading.value = false;
+      print(e);
+
+      // showSnackBarError("Error", "Something went wrong please try again later");
+    }
+  }
+
   Future<void> guestLogin() async {
     final response = await _apiService.postData('${Endpoints.register}?role=3', null);
     final result = json.decode(response.body);
