@@ -124,7 +124,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
       body: Column(
         children: [
           UserAppBar(
-            backButton: false,
+            backButton: true,
             title: 'PinkAd',
             onMenuTap: () {
               print('object');
@@ -139,6 +139,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
           CenterButtons(
             allOffersController: allOffersController,
           ),
+          6.verticalSpace,
           Expanded(
             child: CustomScrollView(
               controller: controller.scrollController,

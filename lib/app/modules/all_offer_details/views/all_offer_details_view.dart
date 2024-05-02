@@ -391,7 +391,16 @@ class AllOfferDetailsView extends GetView {
                   var sellerId = data['shop']['seller']['id'];
                   Get.toNamed(
                     Routes.SPECIFIC_SELLER,
-                    arguments: {'seller_id': sellerId},
+                    arguments: {
+                      'seller_id': sellerId,
+                      'shopName': data['shop']['name'],
+                      'description': data['description'] ?? '',
+                      'title': data['title'] ?? '',
+                      'facebookUrl': data['shop']['seller']['facebook_page'],
+                      'whatsappNumber': data['shop']['seller']['whatsapp'],
+                      'instaUrl': data['shop']['seller']['insta_page'],
+                      'sellerUrl': data['shop']['seller']['seller_link'],
+                    },
                   );
                 },
                 textColor: Colors.white,

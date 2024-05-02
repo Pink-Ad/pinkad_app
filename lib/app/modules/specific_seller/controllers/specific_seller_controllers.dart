@@ -11,10 +11,31 @@ class SpecificSellerController extends GetxController {
   var offers = <OfferList>[].obs;
   var isLoading = true.obs;
 
+  var shopName = ''.obs; // Observable for shop name
+  var facebookUrl = ''.obs; // Define facebookUrl here
+  var whatsappNumber = ''.obs;
+  var instaUrl = ''.obs;
+  var sellerUrl = ''.obs;
+  var description = ''.obs;
+  var title = ''.obs;
+  var sellerName = ''.obs;
+
   @override
   void onInit() {
     super.onInit();
     int? sellerId = Get.arguments['seller_id'];
+    String? shopName = Get.arguments['shopName']; // Receive shop name here
+    this.shopName.value = shopName ?? ''; // Set shop name in the controller
+    String? description = Get.arguments['description'];
+    this.description.value = description ?? '';
+    String? title = Get.arguments['title'];
+    this.title.value = title ?? '';
+    facebookUrl.value = Get.arguments['facebookUrl'] ?? '';
+    whatsappNumber.value = Get.arguments['whatsappNumber'] ?? '';
+    instaUrl.value = Get.arguments['instaUrl'] ?? '';
+    sellerUrl.value = Get.arguments['sellerUrl'] ?? '';
+    String? sellerName = Get.arguments['sellerName']; // Receive shop name here
+    this.sellerName.value = sellerName ?? ''; // Set shop name in the controller
     if (sellerId != null) {
       fetchOffers(sellerId);
     } else {}
@@ -28,13 +49,10 @@ class SpecificSellerController extends GetxController {
     }
 
     try {
-      final response = await _apiService
-          .getData('${Endpoints.getOfferByShop}?seller_id=$sellerId');
+      final response = await _apiService.getData('${Endpoints.getOfferByShop}?seller_id=$sellerId');
       final result = json.decode(response.body);
       if (result['seller_posts'] is List) {
-        var fetchedOffers = (result['seller_posts'] as List)
-            .map((data) => OfferList.fromJson(data))
-            .toList();
+        var fetchedOffers = (result['seller_posts'] as List).map((data) => OfferList.fromJson(data)).toList();
 
         offers.assignAll(fetchedOffers);
       } else {

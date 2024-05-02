@@ -15,6 +15,7 @@ import 'package:pink_ad/app/models/shop_list_model.dart';
 import 'package:pink_ad/app/models/subcategory_model.dart';
 import 'package:pink_ad/app/models/tutorial_model.dart';
 import 'package:pink_ad/app/modules/home/views/bottom_nav_bar.dart';
+import 'package:pink_ad/app/modules/home/views/home_view.dart';
 import 'package:pink_ad/app/modules/user_dashboard/views/user_bottom_nav_bar.dart';
 import 'package:pink_ad/app/routes/app_pages.dart';
 import 'package:pink_ad/utilities/functions/show_toast.dart';
@@ -106,7 +107,8 @@ class SplashController extends GetxController {
         // return Get.offAll(BottomNavBar());
       }
     }
-    Get.offAll(BottomNavBar());
+    Get.offAll(HomeView());
+    // Get.offAll(BottomNavBar());
     // Timer(
     //   const Duration(seconds: 3),
     //   () => Get.offAll(BottomNavBar()),
@@ -360,7 +362,6 @@ class SplashController extends GetxController {
     }
   }
 
-
   Future<void> getCategoryOffers() async {
     try {
       final response = await _apiService.getData(Endpoints.allOffers);
@@ -388,7 +389,8 @@ class SplashController extends GetxController {
       box.write('user_data', loginResponseData);
       box.write('user_token', token);
       box.write('user_type', 'guest'); // seller or guest
-      Get.offAllNamed(Routes.Bottom_Nav_Bar);
+      Get.offAllNamed(Routes.home);
+      //Get.offAllNamed(Routes.Bottom_Nav_Bar);
       // Get.dialog(FilterDialog());
       final sellerName = loginResponseData.user?.name;
       if (sellerName != null) {

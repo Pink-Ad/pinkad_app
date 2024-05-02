@@ -75,8 +75,7 @@ class ShopDetailsView extends GetView {
                       ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
+                  padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
                   decoration: BoxDecoration(
                     color: containerColor,
                     borderRadius: BorderRadius.circular(10.0),
@@ -188,42 +187,32 @@ class ShopDetailsView extends GetView {
                                   ],
                                 ),
                                 child: IconButton(
-                                  onPressed: facebookUrl != null &&
-                                          facebookUrl.isNotEmpty
+                                  onPressed: facebookUrl != null && facebookUrl.isNotEmpty
                                       ? () async {
                                           // Share.share(facebookUrl);
                                           print(facebookUrl);
                                           final Uri nativeUrl;
-                                          if (facebookUrl!
-                                              .toLowerCase()
-                                              .contains('facebook.com')) {
-                                            if (!facebookUrl!
-                                                .startsWith('http')) {
-                                              facebookUrl =
-                                                  'https://' + facebookUrl!;
+                                          if (facebookUrl!.toLowerCase().contains('facebook.com')) {
+                                            if (!facebookUrl!.startsWith('http')) {
+                                              facebookUrl = 'https://' + facebookUrl!;
                                             }
                                             nativeUrl = Uri.parse(
                                               'fb://facewebmodal/f?href=$facebookUrl',
                                             );
                                           } else {
-                                            nativeUrl =
-                                                Uri.parse('fb://$facebookUrl');
+                                            nativeUrl = Uri.parse('fb://$facebookUrl');
                                           }
                                           try {
-                                            final success =
-                                                await launchUrl(nativeUrl);
+                                            final success = await launchUrl(nativeUrl);
                                             if (!success) throw '';
                                           } catch (e) {
                                             // If the Facebook app is not installed, open the Facebook website
-                                            if (!facebookUrl!
-                                                .startsWith('http')) {
-                                              facebookUrl =
-                                                  'https://facebook.com/${nativeUrl.pathSegments.last}';
+                                            if (!facebookUrl!.startsWith('http')) {
+                                              facebookUrl = 'https://facebook.com/${nativeUrl.pathSegments.last}';
                                             }
                                             await launchUrl(
                                               Uri.parse(facebookUrl!),
-                                              mode: LaunchMode
-                                                  .externalApplication,
+                                              mode: LaunchMode.externalApplication,
                                             );
                                           }
                                         }
@@ -232,10 +221,7 @@ class ShopDetailsView extends GetView {
                                     child: FaIcon(
                                       FontAwesomeIcons.facebook,
                                       size: 30.h,
-                                      color: facebookUrl != null &&
-                                              facebookUrl!.isNotEmpty
-                                          ? Colors.blue
-                                          : Colors.grey,
+                                      color: facebookUrl != null && facebookUrl!.isNotEmpty ? Colors.blue : Colors.grey,
                                     ),
                                   ),
                                 ),
@@ -259,9 +245,7 @@ class ShopDetailsView extends GetView {
                                   ],
                                 ),
                                 child: IconButton(
-                                  onPressed: data['seller']['whatsapp'] !=
-                                              null &&
-                                          data['seller']['whatsapp'].isNotEmpty
+                                  onPressed: data['seller']['whatsapp'] != null && data['seller']['whatsapp'].isNotEmpty
                                       ? () async {
                                           // Replace 'whatsapp://send?phone=${data['seller']['whatsapp']}' with your actual logic to launch WhatsApp.
                                           await launchUrl(
@@ -275,12 +259,7 @@ class ShopDetailsView extends GetView {
                                     child: FaIcon(
                                       FontAwesomeIcons.whatsapp,
                                       size: 30.h,
-                                      color:
-                                          data['seller']['whatsapp'] != null &&
-                                                  data['seller']['whatsapp']
-                                                      .isNotEmpty
-                                              ? Colors.green
-                                              : Colors.grey,
+                                      color: data['seller']['whatsapp'] != null && data['seller']['whatsapp'].isNotEmpty ? Colors.green : Colors.grey,
                                     ),
                                   ),
                                 ),
@@ -302,25 +281,18 @@ class ShopDetailsView extends GetView {
                                   ],
                                 ),
                                 child: IconButton(
-                                  onPressed: data['seller']['insta_page'] !=
-                                              null &&
-                                          data['seller']['insta_page']
-                                              .isNotEmpty
+                                  onPressed: data['seller']['insta_page'] != null && data['seller']['insta_page'].isNotEmpty
                                       ? () async {
-                                          String? instaUrl =
-                                              data['seller']['insta_page'];
+                                          String? instaUrl = data['seller']['insta_page'];
                                           if (instaUrl == null) return;
                                           final Uri nativeUrl;
-                                          if (instaUrl
-                                              .toLowerCase()
-                                              .contains('instagram.com')) {
+                                          if (instaUrl.toLowerCase().contains('instagram.com')) {
                                             if (!instaUrl.startsWith('http')) {
                                               instaUrl = 'https://' + instaUrl;
                                             }
                                             final uri = Uri.parse(instaUrl);
                                             // Invalid URL
-                                            if (uri.pathSegments.isEmpty)
-                                              return;
+                                            if (uri.pathSegments.isEmpty) return;
                                             nativeUrl = Uri.parse(
                                               'instagram://user?username=${uri.pathSegments.first}',
                                             );
@@ -330,18 +302,15 @@ class ShopDetailsView extends GetView {
                                             );
                                           }
                                           try {
-                                            final success =
-                                                await launchUrl(nativeUrl);
+                                            final success = await launchUrl(nativeUrl);
                                             if (!success) throw '';
                                           } catch (e) {
                                             if (!instaUrl.startsWith('http')) {
-                                              instaUrl =
-                                                  'https://instagram.com/${nativeUrl.queryParameters['username']}';
+                                              instaUrl = 'https://instagram.com/${nativeUrl.queryParameters['username']}';
                                             }
                                             await launchUrl(
                                               Uri.parse(instaUrl),
-                                              mode: LaunchMode
-                                                  .externalApplication,
+                                              mode: LaunchMode.externalApplication,
                                             );
                                           }
                                         }
@@ -350,10 +319,7 @@ class ShopDetailsView extends GetView {
                                     child: FaIcon(
                                       FontAwesomeIcons.instagram,
                                       size: 30.h,
-                                      color: data['seller']['insta_page'] !=
-                                                  null &&
-                                              data['seller']['insta_page']
-                                                  .isNotEmpty
+                                      color: data['seller']['insta_page'] != null && data['seller']['insta_page'].isNotEmpty
                                           ? Color(0xFFE4405D)
                                           : Colors.grey,
                                     ),
@@ -377,36 +343,32 @@ class ShopDetailsView extends GetView {
                                   ],
                                 ),
                                 child: IconButton(
-                                  onPressed:
-                                      data['seller']['web_url'] != null &&
-                                              Uri.tryParse(
-                                                    data['seller']['web_url'],
-                                                  ) !=
-                                                  null
-                                          ? () async {
-                                              final url = Uri.parse(
+                                  onPressed: data['seller']['web_url'] != null &&
+                                          Uri.tryParse(
                                                 data['seller']['web_url'],
-                                              );
-                                              await launchUrl(
-                                                url,
-                                                mode: LaunchMode
-                                                    .externalApplication,
-                                              );
-                                            }
-                                          : null,
+                                              ) !=
+                                              null
+                                      ? () async {
+                                          final url = Uri.parse(
+                                            data['seller']['web_url'],
+                                          );
+                                          await launchUrl(
+                                            url,
+                                            mode: LaunchMode.externalApplication,
+                                          );
+                                        }
+                                      : null,
                                   icon: Center(
                                     child: Icon(
                                       Icons.language,
                                       size: 30.h,
-                                      color:
-                                          data['seller']['web_url'] != null &&
-                                                  Uri.tryParse(
-                                                        data['seller']
-                                                            ['web_url'],
-                                                      ) !=
-                                                      null
-                                              ? null
-                                              : Colors.grey,
+                                      color: data['seller']['web_url'] != null &&
+                                              Uri.tryParse(
+                                                    data['seller']['web_url'],
+                                                  ) !=
+                                                  null
+                                          ? null
+                                          : Colors.grey,
                                     ),
                                   ),
                                 ),
@@ -430,11 +392,9 @@ class ShopDetailsView extends GetView {
                                 child: IconButton(
                                   onPressed: data['address'] != null
                                       ? () async {
-                                          shopDetailsController
-                                              .showAwesomeDialog(
+                                          shopDetailsController.showAwesomeDialog(
                                             title: 'Address',
-                                            content: data['address'] ??
-                                                'No address available',
+                                            content: data['address'] ?? 'No address available',
                                             confirmButtonText: 'Close',
                                             confirmButtonColor: bodyTextColor,
                                             onConfirm: () => Get.back(),
@@ -446,9 +406,7 @@ class ShopDetailsView extends GetView {
                                     child: SvgPicture.asset(
                                       'assets/svgIcons/location.svg',
                                       height: 25.h,
-                                      color: data['address'] != null
-                                          ? null
-                                          : Colors.grey,
+                                      color: data['address'] != null ? null : Colors.grey,
                                     ),
                                   ),
                                 ),
@@ -472,8 +430,7 @@ class ShopDetailsView extends GetView {
                   width: MediaQuery.of(context).size.width - 10.w,
                   height: MediaQuery.of(context).size.width - 40.w,
                   child: Container(
-                    margin:
-                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                     decoration: BoxDecoration(
                       color: containerGray,
                       borderRadius: BorderRadius.circular(8.0),
@@ -520,9 +477,13 @@ class ShopDetailsView extends GetView {
                         title: 'Go To Seller Profile',
                         onPressed: () {
                           var sellerId = data['seller']['id'];
+
                           Get.toNamed(
                             Routes.SPECIFIC_SELLER,
-                            arguments: {'seller_id': sellerId},
+                            arguments: {
+                              'seller_id': sellerId,
+                              'sellerName': data['name'] ?? '',
+                            },
                           );
                         },
                         textColor: Colors.white,

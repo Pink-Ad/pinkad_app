@@ -22,6 +22,7 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
   final VoidCallback onProfileTap;
   final bool backButton;
   final bool showFilter;
+  final bool showCenterButtons;
 
   MyAppBar({
     Key? key,
@@ -30,6 +31,7 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
     required this.onProfileTap,
     required this.backButton,
     this.showFilter = false,
+    this.showCenterButtons = false,
   }) : super(key: key);
 
   @override
@@ -183,7 +185,7 @@ class _MyAppBarState extends State<MyAppBar> {
                                   controller.hideMenu();
                                   box.write('customer_data', null);
                                   box.remove('user_type');
-                                  Get.offAllNamed(Routes.Bottom_Nav_Bar);
+                                  Get.offAllNamed(Routes.home);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.only(
@@ -346,9 +348,10 @@ class _MyAppBarState extends State<MyAppBar> {
             fit: BoxFit.contain,
           ),
         ),
-        CenterButtons(
-          allOffersController: allOffersController,
-        ),
+        if (widget.showCenterButtons) // Conditional rendering based on the new parameter
+          CenterButtons(
+            allOffersController: allOffersController,
+          ),
       ],
     );
   }

@@ -105,58 +105,52 @@ class SignupController extends GetxController {
   Future<void> onSubmit() async {
     if (nameController.value.text.isEmpty) {
       showSnackBarError('Error', 'Name field cannot be empty');
+      return; // Stop execution if there is an error
     }
+
     String? phoneError = validatePakistaniPhoneNumber(phoneNoController.value.text);
     if (phoneError != null) {
       showSnackBarError('Error', phoneError);
       return; // Stop execution if there is an error
-    }
-    bool isValidEmail(String email) {
-      final emailRegExp = RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-      return emailRegExp.hasMatch(email);
     }
 
     String? whatsappError = validateWhatsppNumber(whatsappNoController.value.text);
     if (whatsappError != null) {
       showSnackBarError('Error', whatsappError);
       return; // Stop execution if there is an error
-    } else if (emailController.value.text.isEmpty) {
+    }
+
+    bool isValidEmail(String email) {
+      final emailRegExp = RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+      return emailRegExp.hasMatch(email);
+    }
+
+    if (emailController.value.text.isEmpty) {
       showSnackBarError('Error', 'Email field cannot be empty');
+      return; // Stop execution if there is an error
     } else if (!isValidEmail(emailController.value.text)) {
       showSnackBarError('Error', 'Invalid email format');
-    } else if (passwordController.value.text.isEmpty) {
-      showSnackBarError('Error', 'Password cannot be empty');
+      return; // Stop execution if there is an error
     } else if (businessAddressController.value.text.isEmpty) {
       showSnackBarError('Error', 'Business address field cannot be empty');
-    }
-
-    // if (coverFile != null) {
-    //   // Validate the image size
-    //   final bool isCoverSizeValid = await validateImageSize(coverFile!.path);
-    //   if (!isCoverSizeValid) {
-    //     showSnackBarError(
-    //       'Error',
-    //       'Promotional cover size should be 1080px by 1080px',
-    //     );
-    //     return; // Stop the submission process
-    //   }
-    // }
-
-    // else if (facebookController.value.text.isEmpty) {
-    //   showSnackBarError("Error", "Facebook field cannot be empty");
-    // } else if (instagramController.value.text.isEmpty) {
-    //   showSnackBarError("Error", "Instagram field cannot be empty");
-    // } else if (webSiteController.value.text.isEmpty) {
-    //   showSnackBarError("Error", "Website field cannot be empty");
-    // }
-    else if (descriptionController.value.text.isEmpty) {
+      return; // Stop execution if there is an error
+    } else if (pickedFile == null) {
+      showSnackBarError('Error', 'Profile picture cannot be empty');
+      return; // Stop execution if there is an error
+    } else if (coverFile == null) {
+      showSnackBarError('Error', 'Cover image cannot be empty');
+      return; // Stop execution if there is an error
+    } else if (descriptionController.value.text.isEmpty) {
       showSnackBarError('Error', 'Description field cannot be empty');
-    } else {
-      enteredName.value = nameController.value.text.trim();
-      enteredPhoneNumber.value = phoneNoController.value.text.trim();
-
-      registerUser();
+      return; // Stop execution if there is an error
+    } else if (passwordController.value.text.isEmpty) {
+      showSnackBarError('Error', 'Password cannot be empty');
+      return; // Stop execution if there is an error
     }
+
+    enteredName.value = nameController.value.text.trim();
+    enteredPhoneNumber.value = phoneNoController.value.text.trim();
+    registerUser();
   }
 
   @override
@@ -297,106 +291,173 @@ class SignupController extends GetxController {
   Future<void> registerUser() async {
     isLoading.value = true;
     const url = 'https://pinkad.pk/portal/api/register';
-    final name = nameController.value.text.trim();
-    final whatsappNo = whatsappNoController.value.text.trim();
-    final phoneNo = phoneNoController.value.text.trim();
-    final email = emailController.value.text.trim();
-    final businessAddress = businessAddressController.value.text.trim();
-    final facebook = facebookController.value.text.trim();
-    final instagram = instagramController.value.text.trim();
-    final password = passwordController.value.text.trim();
-    final website = webSiteController.value.text.trim();
-    final address = addressController.value.text.trim();
-    // final branchName = branchNameController.value.text.trim();
-    final description = descriptionController.value.text.trim();
 
     try {
-      print(coverFile);
-      final request = http.MultipartRequest(
-        'POST',
-        Uri.parse(url),
-      ); // Create the multipart request
-      request.files.add(
-        await http.MultipartFile.fromPath(
-          'logo',
-          pickedFile!.path,
-        ),
-      ); // Add the file to the request
+      final request = http.MultipartRequest('POST', Uri.parse(url));
 
-      coverFile != null
-          ? request.files.add(
-              await http.MultipartFile.fromPath(
-                'coverimage',
-                coverFile!.path,
-              ),
-            )
-          : null;
+      // Add the logo file to the request if it's not null
+      if (pickedFile != null) {
+        request.files.add(await http.MultipartFile.fromPath('logo', pickedFile!.path));
+      }
+
+      // Add the cover image file to the request if it's not null
+      if (coverFile != null) {
+        request.files.add(await http.MultipartFile.fromPath('coverimage', coverFile!.path));
+      }
+
+      // Ensure required fields are filled before sending the request
+      if (pickedFile == null || coverFile == null) {
+        showSnackBarError('Error', 'Both logo and cover images must be provided');
+        isLoading.value = false;
+        return;
+      }
 
       request.fields.addAll({
-        'name': name,
-        'email': email,
-        'password': password,
+        'name': nameController.value.text.trim(),
+        'email': emailController.value.text.trim(),
+        'password': passwordController.value.text.trim(),
         'role': '2',
         'phone': '+92${phoneNoController.value.text.replaceAll('-', '')}',
         'whatsapp': '+92${whatsappNoController.value.text.replaceAll('-', '')}',
-        'business_name': name,
-        'business_address': businessAddress,
-        'shop_contact_number': phoneNo,
-        'faecbook_page': facebook,
-        'insta_page': instagram,
-        'web_url': ensureHttps(website),
+        'business_name': nameController.value.text.trim(),
+        'business_address': businessAddressController.value.text.trim(),
+        'shop_contact_number': phoneNoController.value.text.trim(),
+        'facebook_page': facebookController.value.text.trim(),
+        'insta_page': instagramController.value.text.trim(),
+        'web_url': ensureHttps(webSiteController.value.text.trim()),
         'isFeatured': '1',
         'reference': '0',
-        // 'reference': selectedOption.value == 'Other'
-        //     ? '0'
-        //     : selectedSalesman.value!.name,
-        // 'salesman_id': selectedOption.value == 'Other'
-        //     ? '0'
-        //     : selectedSalesman.value!.id.toString(),
-        // "branch_name": branchName,
-        'shop_name': name,
-        'area_id': selectedarea.value!.id.toString(),
-        // 'address': address,
-        'description': description.toString(),
-      }); // Add the other fields to the request
-      print(request.fields.toString());
-      final response = await http.Response.fromStream(
-        await request.send(),
-      ); // Send the request
-      final postResponse = RegisterPostResponse.fromJson(json.decode(response.body));
-      print(response.body.toString());
+        'shop_name': nameController.value.text.trim(),
+        'area_id': selectedarea.value?.id.toString() ?? '',
+        'description': descriptionController.value.text.trim(),
+      });
+
+      final response = await http.Response.fromStream(await request.send());
+
       if (response.statusCode == 200) {
-        // Successful request
-        isLoading.value = false;
+        final postResponse = RegisterPostResponse.fromJson(json.decode(response.body));
         if (postResponse.status == 'success') {
           showSuccessDialog(Get.context!);
-          //Get.toNamed(Routes.LOGIN);
         } else {
-          showSnackBarError(
-            'Message',
-            postResponse.message!,
-          );
+          showSnackBarError('Message', postResponse.message!);
         }
       } else {
-        isLoading.value = false;
-        showSnackBarError(
-          'Message',
-          'Something went wrong please try again later',
-        );
-        // Error occurred
+        showSnackBarError('Message', 'Something went wrong please try again later');
         print('Error occurred while registering user: ${response.statusCode}');
       }
     } catch (e) {
-      isLoading.value = false;
-      showSnackBarError(
-        'Message',
-        'Something went wrong please try again later',
-      );
-      // Exception occurred
+      showSnackBarError('Message', 'Something went wrong please try again later');
       print('Exception occurred while registering user: $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 }
+
+//   Future<void> registerUser() async {
+//     isLoading.value = true;
+//     const url = 'https://pinkad.pk/portal/api/register';
+
+//     final name = nameController.value.text.trim();
+//     final whatsappNo = whatsappNoController.value.text.trim();
+//     final phoneNo = phoneNoController.value.text.trim();
+//     final email = emailController.value.text.trim();
+//     final businessAddress = businessAddressController.value.text.trim();
+//     final facebook = facebookController.value.text.trim();
+//     final instagram = instagramController.value.text.trim();
+//     final password = passwordController.value.text.trim();
+//     final website = webSiteController.value.text.trim();
+//     final address = addressController.value.text.trim();
+//     // final branchName = branchNameController.value.text.trim();
+//     final description = descriptionController.value.text.trim();
+
+//     try {
+//       print(coverFile);
+//       final request = http.MultipartRequest(
+//         'POST',
+//         Uri.parse(url),
+//       ); // Create the multipart request
+//       request.files.add(
+//         await http.MultipartFile.fromPath(
+//           'logo',
+//           pickedFile!.path,
+//         ),
+//       ); // Add the file to the request
+
+//       coverFile != null
+//           ? request.files.add(
+//               await http.MultipartFile.fromPath(
+//                 'coverimage',
+//                 coverFile!.path,
+//               ),
+//             )
+//           : null;
+
+//       request.fields.addAll({
+//         'name': name,
+//         'email': email,
+//         'password': password,
+//         'role': '2',
+//         'phone': '+92${phoneNoController.value.text.replaceAll('-', '')}',
+//         'whatsapp': '+92${whatsappNoController.value.text.replaceAll('-', '')}',
+//         'business_name': name,
+//         'business_address': businessAddress,
+//         'shop_contact_number': phoneNo,
+//         'faecbook_page': facebook,
+//         'insta_page': instagram,
+//         'web_url': ensureHttps(website),
+//         'isFeatured': '1',
+//         'reference': '0',
+//         // 'reference': selectedOption.value == 'Other'
+//         //     ? '0'
+//         //     : selectedSalesman.value!.name,
+//         // 'salesman_id': selectedOption.value == 'Other'
+//         //     ? '0'
+//         //     : selectedSalesman.value!.id.toString(),
+//         // "branch_name": branchName,
+//         'shop_name': name,
+//         'area_id': selectedarea.value!.id.toString(),
+//         // 'address': address,
+//         'description': description.toString(),
+//       }); // Add the other fields to the request
+//       print(request.fields.toString());
+//       final response = await http.Response.fromStream(
+//         await request.send(),
+//       ); // Send the request
+//       final postResponse = RegisterPostResponse.fromJson(json.decode(response.body));
+//       print(response.body.toString());
+//       if (response.statusCode == 200) {
+//         // Successful request
+//         isLoading.value = false;
+//         if (postResponse.status == 'success') {
+//           showSuccessDialog(Get.context!);
+//           //Get.toNamed(Routes.LOGIN);
+//         } else {
+//           showSnackBarError(
+//             'Message',
+//             postResponse.message!,
+//           );
+//         }
+//       } else {
+//         isLoading.value = false;
+//         showSnackBarError(
+//           'Message',
+//           'Something went wrong please try again later',
+//         );
+//         // Error occurred
+//         print('Error occurred while registering user: ${response.statusCode}');
+//       }
+//     } catch (e) {
+//       isLoading.value = false;
+//       showSnackBarError(
+//         'Message',
+//         'Something went wrong please try again later',
+//       );
+//       // Exception occurred
+//       print('Exception occurred while registering user: $e');
+//     }
+//   }
+// }
 
 void showSuccessDialog(BuildContext context) {
   showDialog(

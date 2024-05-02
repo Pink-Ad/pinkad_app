@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pink_ad/app/data/api_service.dart';
@@ -11,6 +12,8 @@ import 'package:pink_ad/utilities/custom_widgets/custom_appbar_user.dart';
 import 'package:pink_ad/utilities/custom_widgets/scafflod_dashboard.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SpecificSellerView extends GetView<SpecificSellerController> {
   @override
@@ -56,110 +59,217 @@ class SpecificSellerView extends GetView<SpecificSellerController> {
               SizedBox(
                 height: 15.h,
               ),
-              // Container(
-              //   height: 50.h,
-              //   margin: EdgeInsets.symmetric(horizontal: 20.w),
-              //   decoration: BoxDecoration(
-              //     color: Colors.white,
-              //     border: Border.all(width: 1, color: tertiary),
-              //     borderRadius: BorderRadius.circular(10),
-              //     boxShadow: [
-              //       BoxShadow(
-              //         color: Colors.white.withOpacity(0.2),
-              //         spreadRadius: 1,
-              //         blurRadius: 5,
-              //         offset: const Offset(0, 3),
-              //       ),
-              //     ],
-              //   ),
-              //   child: Padding(
-              //     padding: const EdgeInsets.only(
-              //       left: 20.0,
-              //       top: 10.0,
-              //       bottom: 5.0,
-              //       right: 5.0,
-              //     ),
-              //     child: TypeAheadField<dynamic>(
-              //       animationStart: 0,
-              //       animationDuration: Duration.zero,
-              //       textFieldConfiguration: const TextFieldConfiguration(
-              //         autofocus: false,
-              //         style: TextStyle(fontSize: 15),
-              //         decoration: InputDecoration(
-              //           hintText: 'Search Seller',
-              //           suffixIcon: Icon(
-              //             Icons.shopping_bag_outlined,
-              //             color: Colors.black,
-              //             size: 30,
-              //           ),
-              //           border: InputBorder.none,
-              //           focusColor: tertiary,
-              //         ),
-              //       ),
-              //       hideOnError: true,
-              //       suggestionsCallback: (pattern) {
-              //         List matches = [];
-              //         matches.addAll(controller.offers);
-              //         matches.retainWhere((s) {
-              //           return s['user']['name']
-              //               .toLowerCase()
-              //               .contains(pattern.toLowerCase());
-              //         });
-              //         return matches;
-              //       },
-              //       itemBuilder: (context, offer) {
-              //         return GestureDetector(
-              //           onTap: () {
-              //             Get.find<SpecificSellerController>()
-              //                 .fetchOffers(offer['shop'][0]['id']);
-              //           },
-              //           child: Container(
-              //             decoration: BoxDecoration(
-              //               color: Colors.white,
-              //               border: Border(
-              //                 bottom: BorderSide(
-              //                   width: 2.w,
-              //                   color: Colors.grey.shade600,
-              //                 ),
-              //               ),
-              //             ),
-              //             child: ListTile(
-              //               leading: const Icon(
-              //                 Icons.travel_explore,
-              //                 color: primary,
-              //               ),
-              //               title: Text(
-              //                 offer['user']['name'],
-              //                 style: CustomTextView.getStyle(
-              //                   context,
-              //                   colorLight:
-              //                       const Color.fromARGB(255, 41, 39, 39),
-              //                   fontSize: 13.sp,
-              //                   fontFamily: Utils.poppinsSemiBold,
-              //                 ),
-              //                 maxLines: 2,
-              //                 overflow: TextOverflow.ellipsis,
-              //               ),
-              //               subtitle: Text(
-              //                 offer['description'] ?? '',
-              //                 style: CustomTextView.getStyle(
-              //                   context,
-              //                   colorLight:
-              //                       const Color.fromARGB(255, 66, 66, 66),
-              //                   fontSize: 11.sp,
-              //                   fontFamily: Utils.poppinsLight,
-              //                 ),
-              //                 maxLines: 2,
-              //                 overflow: TextOverflow.ellipsis,
-              //               ),
-              //             ),
-              //           ),
-              //         );
-              //       },
-              //       onSuggestionSelected: (suggestion) {},
-              //     ),
-              //   ),
-              // ),
+              const SizedBox(height: 10.0),
+              Text(
+                '${controller.shopName.value} ${controller.sellerName.value}',
+                style: CustomTextView.getStyle(
+                  context,
+                  colorLight: Colors.black,
+                  fontSize: 16.sp,
+                  fontFamily: Utils.poppinsSemiBold,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                'Seller\'s contacts',
+                style: CustomTextView.getStyle(
+                  context,
+                  colorLight: Colors.black,
+                  fontSize: 16.sp,
+                  fontFamily: Utils.poppinsSemiBold,
+                ),
+              ),
+              const SizedBox(height: 15.0),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 45.h,
+                      width: 45.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 4,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                        onPressed: () async {
+                          String? facebookUrl = controller.facebookUrl.value;
+                          try {
+                            final String nativeUrl;
+                            if (facebookUrl.toLowerCase().contains('facebook.com')) {
+                              if (!facebookUrl.startsWith('http')) {
+                                facebookUrl = 'https://' + facebookUrl;
+                              }
+                              nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
+                            } else {
+                              nativeUrl = 'fb://$facebookUrl';
+                            }
+                            await launchUrl(Uri.parse(nativeUrl));
+                          } catch (e) {
+                            // If the Facebook app is not installed, open the Facebook website
+                            if (facebookUrl!.startsWith('http')) {
+                              await launchUrl(Uri.parse(facebookUrl));
+                            }
+                          }
+                        },
+                        icon: Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.facebook,
+                            size: 30.h,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12.0,
+                    ),
+                    Container(
+                      height: 45.h,
+                      width: 45.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 4,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                        onPressed: () async {
+                          // final appInstalled = await canLaunchUrl(
+                          //     Uri.parse('whatsapp://'));
+                          // if (appInstalled) {
+                          await launchUrl(
+                            Uri.parse(
+                              // 'whatsapp://send?text=${data['title']}, ${data['description']},${data['shop']['name']},contact ${data['shop']['seller']['phone']}. $appUrl'));
+
+                              'whatsapp://send?phone=${controller.whatsappNumber}',
+                            ),
+                          );
+                          // } else {
+                          //   await launchUrl(Uri.parse(
+                          //       'https://api.whatsapp.com/send?phone=03001234567'));
+                          // }
+                        },
+                        icon: Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.whatsapp,
+                            size: 30.h,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12.0,
+                    ),
+                    Container(
+                      height: 45.h,
+                      width: 45.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 4,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                        onPressed: () async {
+                          String? instaUrl = controller.instaUrl.value;
+                          print(instaUrl);
+                          try {
+                            final String nativeUrl;
+                            if (instaUrl.toLowerCase().contains('instagram.com')) {
+                              if (!instaUrl.startsWith('http')) {
+                                instaUrl = 'https://' + instaUrl;
+                              }
+                              final uri = Uri.parse(instaUrl);
+                              // Invalid URL
+                              if (uri.pathSegments.isEmpty) return;
+                              print(uri.pathSegments);
+                              nativeUrl = 'instagram://user?username=${uri.pathSegments.first}';
+                            } else {
+                              nativeUrl = 'instagram://$instaUrl';
+                            }
+                            await launchUrl(Uri.parse(nativeUrl));
+                          } catch (e) {
+                            if (instaUrl!.startsWith('http')) {
+                              await launchUrl(Uri.parse(instaUrl));
+                            }
+                          }
+                        },
+                        icon: Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.instagram,
+                            size: 30.h,
+                            color: Color(0xFFE4405D),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12.0,
+                    ),
+                    Container(
+                      height: 45.h,
+                      width: 45.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 4,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                        onPressed: () async {
+                          final sellerUrl = controller.sellerUrl;
+                          Share.share(
+                            '${controller.shopName} ${controller.sellerName}'
+                            '\n\n$sellerUrl'
+                            '\n\n$appUrl',
+                          );
+                        },
+                        icon: Center(
+                          child: Icon(
+                            Icons.share,
+                            size: 25.h,
+                          ),
+                        ),
+                        // FaIcon(
+                        //   FontAwesomeIcons.shareFromSquare,
+                        //   size: 30.h,
+                        //   // color: Color(0xFFE4405D),
+                        // ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Expanded(
                 child: Obx(
                   () {
@@ -169,7 +279,7 @@ class SpecificSellerView extends GetView<SpecificSellerController> {
                       return Center(child: Text('No offers available'));
                     }
                     return ListView.builder(
-                      padding: EdgeInsets.only(bottom: 20.h, top: 10.h),
+                      padding: EdgeInsets.only(bottom: 20.h, top: 5.h),
                       itemCount: controller.offers.length,
                       itemBuilder: (context, index) {
                         var offer = controller.offers[index];
@@ -227,8 +337,7 @@ class SpecificSellerView extends GetView<SpecificSellerController> {
                                       child: ClipRRect(
                                         child: Image.network(
                                           offer.banner != null
-                                              ? ApiService.imageBaseUrl +
-                                                  offer.banner!
+                                              ? ApiService.imageBaseUrl + offer.banner!
                                               : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
                                           width: 60.w,
                                           height: 60.h,
@@ -240,8 +349,7 @@ class SpecificSellerView extends GetView<SpecificSellerController> {
                                     Flexible(
                                       flex: 1,
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             offer.title ?? 'No Title',
@@ -256,8 +364,7 @@ class SpecificSellerView extends GetView<SpecificSellerController> {
                                           ),
                                           const SizedBox(height: 10.0),
                                           Text(
-                                            offer.description ??
-                                                'No Description',
+                                            offer.description ?? 'No Description',
                                             style: CustomTextView.getStyle(
                                               fontSize: 10.sp,
                                               context,
@@ -278,40 +385,6 @@ class SpecificSellerView extends GetView<SpecificSellerController> {
                   },
                 ),
               ),
-
-              // Obx(() {
-              //   if (controller.offers.isEmpty) {
-              //     return Center(child: CircularProgressIndicator());
-              //   }
-              //   return ListView.builder(
-              //     itemCount: controller.offers.length,
-              //     itemBuilder: (context, index) {
-              //       var offer = controller.offers[index];
-              //       return Card(
-              //         margin: EdgeInsets.all(10),
-              //         child: ListTile(
-              //           title: Text(
-              //             offer.title ?? 'No Title',
-              //             style: TextStyle(
-              //               fontSize: 16,
-              //               fontWeight: FontWeight.bold,
-              //             ),
-              //           ),
-              //           subtitle: Text(offer.description ?? 'No Description'),
-              //           leading: offer.banner != null
-              //               ? Image.network(
-              //                   offer.banner!,
-              //                   width: 50,
-              //                   height: 50,
-              //                   fit: BoxFit.cover,
-              //                 )
-              //               : SizedBox(width: 50, height: 50),
-              //           // Implement onTap or other interactions as needed
-              //         ),
-              //       );
-              //     },
-              //   );
-              // }),
             ],
           ),
         ),

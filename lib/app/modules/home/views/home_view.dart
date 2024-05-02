@@ -99,6 +99,7 @@ class HomeView extends GetView<HomeController> {
             title: 'PinkAd',
             onMenuTap: () => print('Menu tapped'),
             onProfileTap: () => Get.to(ProfileView()),
+            showCenterButtons: true,
           ),
           body: Stack(
             children: [
