@@ -23,7 +23,7 @@ class TutorialView extends GetView<TutorialController> {
           children: [
             UserAppBar(
               profileIconVisibility: true,
-              backButton: false,
+              backButton: true,
               title: 'Tutorial',
               onMenuTap: () {
                 print('object');

@@ -21,7 +21,7 @@ class PackageDetailsView extends GetView {
           children: [
             UserAppBar(
               profileIconVisibility: true,
-              backButton: false,
+              backButton: true,
               title: 'Premier Feature',
               onMenuTap: () {
                 print('object');

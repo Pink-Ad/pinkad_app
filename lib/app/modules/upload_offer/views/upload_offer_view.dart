@@ -35,7 +35,7 @@ class UploadOfferView extends GetView {
               profileIconVisibility: true,
               showBanner: true,
               backButton: true,
-              title: 'Upload Offer',
+              title: 'Create Offer',
               onMenuTap: () {
                 print('object');
               },

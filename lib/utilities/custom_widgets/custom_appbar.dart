@@ -22,6 +22,7 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
   final VoidCallback onProfileTap;
   final bool backButton;
   final bool showFilter;
+
   final bool showCenterButtons;
 
   MyAppBar({
@@ -59,6 +60,12 @@ class _MyAppBarState extends State<MyAppBar> {
           iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
           backgroundColor: primary,
           scrolledUnderElevation: 0,
+          leading: (widget.backButton)
+              ? IconButton(
+                  icon: SvgPicture.asset('assets/svgIcons/home.svg'),
+                  onPressed: () => Get.offAllNamed(Routes.home),
+                )
+              : null,
           actions: [
             if (widget.showFilter)
               IconButton(

@@ -48,7 +48,7 @@ class SubCategoryView extends GetView<SubCategoryController> {
               children: [
                 userType == 'guest'
                     ? MyAppBar(
-                        backButton: false,
+                        backButton: true,
                         title: 'PinkAd',
                         onMenuTap: () {
                           print('object');
@@ -62,7 +62,7 @@ class SubCategoryView extends GetView<SubCategoryController> {
                         height: 45.h,
                         child: UserAppBar(
                           showBanner: true,
-                          backButton: false,
+                          backButton: true,
                           title: 'All SubCategories',
                           onMenuTap: () {
                             print('object');

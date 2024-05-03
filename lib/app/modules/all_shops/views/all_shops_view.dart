@@ -38,7 +38,7 @@ class AllShopsView extends GetView<AllShopsController> {
                 children: [
                   userType == 'guest'
                       ? MyAppBar(
-                          backButton: false,
+                          backButton: true,
                           title: 'PinkAd',
                           onMenuTap: () {
                             print('object');
@@ -52,7 +52,7 @@ class AllShopsView extends GetView<AllShopsController> {
                           height: 45.h,
                           child: UserAppBar(
                             showBanner: true,
-                            backButton: false,
+                            backButton: true,
                             title: 'All Shops',
                             onMenuTap: () {
                               print('object');

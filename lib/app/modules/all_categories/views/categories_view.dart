@@ -33,7 +33,7 @@ class CategoriesView extends GetView<CategoriesController> {
               children: [
                 userType == 'guest'
                     ? MyAppBar(
-                        backButton: false,
+                        backButton: true,
                         title: 'PinkAd',
                         onMenuTap: () {
                           print('object');
@@ -47,7 +47,7 @@ class CategoriesView extends GetView<CategoriesController> {
                         height: 45.h,
                         child: UserAppBar(
                           showBanner: true,
-                          backButton: false,
+                          backButton: true,
                           title: 'All Categories',
                           onMenuTap: () {
                             print('object');

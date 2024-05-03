@@ -57,16 +57,20 @@ class _UserAppBarState extends State<UserAppBar> {
       iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       backgroundColor: primary,
       scrolledUnderElevation: 0,
-      leading: (widget.profileIconVisibility)
+      leading: (widget.backButton)
           ? IconButton(
-              icon: SvgPicture.asset('assets/svgIcons/profile_icon.svg'),
-              onPressed: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (_) => UserProfileView()));
-                Get.toNamed(Routes.USER_PROFILE);
-              },
+              icon: SvgPicture.asset('assets/svgIcons/home.svg'),
+              onPressed: () => Get.offAllNamed(Routes.USER_DASHBOARD),
             )
           : null,
+      centerTitle: true,
+      title: Image.asset(
+        'assets/images/title.png',
+        width: 150.w,
+        height: 90.h,
+        fit: BoxFit.contain,
+      ),
+
       actions: [
         // if (widget.showFilter)
         //   IconButton(
@@ -75,6 +79,16 @@ class _UserAppBarState extends State<UserAppBar> {
         //       Get.dialog(FilterDialog());
         //     },
         //   ),
+        if (widget.profileIconVisibility)
+          IconButton(
+            icon: SvgPicture.asset('assets/svgIcons/profile_icon.svg'),
+            onPressed: () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (_) => UserProfileView()));
+              Get.toNamed(Routes.USER_PROFILE);
+            },
+          ),
+
         CustomPopupMenu(
           arrowColor: Colors.white,
           horizontalMargin: 15.w,
@@ -103,7 +117,7 @@ class _UserAppBarState extends State<UserAppBar> {
                             Icon(Icons.post_add_rounded, color: secondary),
                             SizedBox(width: 15.w),
                             Text(
-                              'Upload Offer',
+                              'Create Offer',
                               style: CustomTextView.getStyle(
                                 context,
                                 colorLight: Colors.black,
@@ -351,13 +365,6 @@ class _UserAppBarState extends State<UserAppBar> {
           ),
         ),
       ],
-      centerTitle: true,
-      title: Image.asset(
-        'assets/images/title.png',
-        width: 150.w,
-        height: 90.h,
-        fit: BoxFit.contain,
-      ),
       // title: Text(
       //   title,
       //   style: CustomTextView.getStyle(context,
@@ -473,7 +480,8 @@ class _UserAppBarState extends State<UserAppBar> {
         box.remove('user_token');
         box.remove('email');
         box.remove('password');
-        Get.offNamed('/bottom-nav-bar');
+        Get.offNamed('/home');
+        //Get.offNamed('/bottom-nav-bar');
       }
     } catch (e) {
       // isLoading.value = false;

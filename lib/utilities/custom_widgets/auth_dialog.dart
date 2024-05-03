@@ -69,7 +69,9 @@ class AuthDialog extends StatelessWidget {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            loadingWrapper(() => Get.find<SplashController>().guestLogin());
+                            loadingWrapper(
+                              () => Get.find<SplashController>().guestLogin(),
+                            );
                           },
                           child: Container(
                             height: 50.0.h,

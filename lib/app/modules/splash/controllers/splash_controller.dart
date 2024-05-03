@@ -14,7 +14,6 @@ import 'package:pink_ad/app/models/offer_list_model.dart';
 import 'package:pink_ad/app/models/shop_list_model.dart';
 import 'package:pink_ad/app/models/subcategory_model.dart';
 import 'package:pink_ad/app/models/tutorial_model.dart';
-import 'package:pink_ad/app/modules/home/views/bottom_nav_bar.dart';
 import 'package:pink_ad/app/modules/home/views/home_view.dart';
 import 'package:pink_ad/app/modules/user_dashboard/views/user_bottom_nav_bar.dart';
 import 'package:pink_ad/app/routes/app_pages.dart';
