@@ -3,7 +3,7 @@ version: 1.1.22+22
 publish_to: none
 description: A new Flutter project.
 environment:
-  sdk: ">=2.19.1 <3.0.0"
+  sdk: '>=2.19.1 <3.0.0'
 
 dependencies:
   app_links: ^3.5.0
@@ -27,17 +27,18 @@ dependencies:
   font_awesome_flutter: ^10.6.0
   get: 4.6.5
   get_storage: ^2.1.1
-  http: ^1.1.0
+  http: ^0.13.6
   image_picker: ^0.8.7+4
   listview_infinite_pagination: ^0.0.14
   loader_overlay: ^4.0.0
   multiselect: ^0.1.0
-  permission_handler: ^8.2.0
   pull_to_refresh: ^2.0.0
   share_plus: ^7.2.1
   smooth_page_indicator: ^1.1.0
   upgrader: ^9.0.0
   url_launcher: ^6.1.10
+  permission_handler: ^10.0.0
+  gallery_saver: ^2.3.2
 
 dev_dependencies:
   flutter_lints: 2.0.1

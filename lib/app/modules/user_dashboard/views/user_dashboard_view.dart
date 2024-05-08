@@ -361,7 +361,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                       );
                     } else {
                       return SliverFillRemaining(
-                        child: Center(child: Text('No offers available.')),
+                        child: Center(child: Text('Loading...')),
                       );
                     }
                   },
