@@ -211,22 +211,6 @@ class AllOfferDetailsView extends GetView {
                                 );
                               }
                             },
-                            // onPressed: () async {
-                            //   // final appInstalled = await canLaunchUrl(
-                            //   //     Uri.parse('whatsapp://'));
-                            //   // if (appInstalled) {
-                            //   await launchUrl(
-                            //     Uri.parse(
-                            //       // 'whatsapp://send?text=${data['title']}, ${data['description']},${data['shop']['name']},contact ${data['shop']['seller']['phone']}. $appUrl'));
-
-                            //       'whatsapp://send?phone=${data['shop']?['seller']?['whatsapp']}',
-                            //     ),
-                            //   );
-                            //   // } else {
-                            //   //   await launchUrl(Uri.parse(
-                            //   //       'https://api.whatsapp.com/send?phone=03001234567'));
-                            //   // }
-                            // },
                             icon: Center(
                               child: FaIcon(
                                 FontAwesomeIcons.whatsapp,
@@ -312,7 +296,8 @@ class AllOfferDetailsView extends GetView {
                               try {
                                 final imageUrl = ApiService.imageBaseUrl + data['banner'];
                                 final text = "${data['title']} by ${data['shop']['name']} - ${data['description']}";
-                                await shareImageAndText(imageUrl, text);
+                                final whatsappNumber = data['shop']?['seller']?['whatsapp'];
+                                await shareImageAndText(imageUrl, text, whatsappNumber);
                               } catch (e) {
                                 print('Failed to share due to: $e');
                               }
@@ -443,33 +428,28 @@ class AllOfferDetailsView extends GetView {
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 12.0,
-                            vertical: 8.0,
-                          ),
-                          // alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Description',
-                                style: CustomTextView.getStyle(
-                                  context,
-                                  colorLight: Colors.black,
-                                  fontSize: 16.sp,
-                                  fontFamily: Utils.poppinsSemiBold,
+                          margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                          child: SelectableText.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Description\n', // Adding a newline character for separation
+                                  style: CustomTextView.getStyle(
+                                    context,
+                                    colorLight: Colors.black,
+                                    fontSize: 16.sp,
+                                    fontFamily: Utils.poppinsSemiBold,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                data['description'] ?? '',
-                                // 'Lorem ipsum dolor sit amet onstetur adipiscing elit ',
-                                style: CustomTextView.getStyle(
-                                  context,
-                                  colorLight: textColor,
+                                TextSpan(
+                                  text: data['description'] ?? '',
+                                  style: CustomTextView.getStyle(
+                                    context,
+                                    colorLight: textColor,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -536,7 +516,7 @@ class AllOfferDetailsView extends GetView {
     }
   }
 
-  Future<void> shareImageAndText(String imageUrl, String text) async {
+  Future<void> shareImageAndText(String imageUrl, String text, String? whatsappNumber) async {
     final uri = Uri.parse(imageUrl);
     final response = await http.get(uri);
 
@@ -545,7 +525,12 @@ class AllOfferDetailsView extends GetView {
       final file = File('${documentDirectory.path}/flutter_temp_image.jpg');
       file.writeAsBytesSync(response.bodyBytes);
 
-      final message = '$text\n$imageUrl'; // Customize your message here
+      String additionalInfo = '';
+      if (whatsappNumber != null && whatsappNumber.isNotEmpty) {
+        additionalInfo = '\n\nContact seller\'s whatsApp: $whatsappNumber';
+      }
+
+      final message = '$text$additionalInfo'; // Customize your message here
       Share.shareFiles([file.path], text: message);
     } else {
       throw Exception('Failed to download image');
