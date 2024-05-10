@@ -527,7 +527,7 @@ class AllOfferDetailsView extends GetView {
 
       String additionalInfo = '';
       if (whatsappNumber != null && whatsappNumber.isNotEmpty) {
-        additionalInfo = '\n\nContact seller\'s whatsApp: $whatsappNumber';
+        additionalInfo = '\n\nContact Seller\'s WhatsApp: $whatsappNumber';
       }
 
       final message = '$text$additionalInfo'; // Customize your message here
