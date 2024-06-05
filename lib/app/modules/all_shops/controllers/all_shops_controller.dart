@@ -57,7 +57,7 @@ class AllShopsController extends GetxController {
       shops = allShops; // Reset the shops if search term is cleared.
     } else {
       final response = await http.get(
-        Uri.parse('https://pinkad.pk/portal/api/seller-search?search_name=$pattern'),
+        Uri.parse('${ApiService.baseUrl}/seller-search?search_name=$pattern'),
       );
 
       if (response.statusCode == 200) {

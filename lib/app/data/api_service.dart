@@ -17,16 +17,11 @@ class ApiService {
   ApiService(this._client);
 
   void setAuthCredentials(String username, String password) {}
-
   Future<http.Response> postData(String endpoint, body) async {
     try {
       var response = await http
           .post(
             Uri.parse('$baseUrl/$endpoint'),
-
-            // headers: {
-            //   'Authorization': 'Basic ${base64Encode(utf8.encode('$_username:$_password'))}'
-            // },
             body: body,
           )
           .timeout(const Duration(seconds: 60));
@@ -34,31 +29,25 @@ class ApiService {
         print(response.statusCode);
       }
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        // If the response is successful, return it
         return response;
       } else if (response.statusCode == 400) {
-        // If the request was invalid, show a snackbar with a message
         Get.snackbar('Error', 'Invalid request');
         throw Exception('Invalid request');
       } else if (response.statusCode == 401) {
-        // Get.snackbar('Error', 'Unauthorized');
-        throw 'Unauthorized';
+        final result = json.decode(response.body);
+        showSnackBarError('Error', result['message'] ?? 'Unauthorized');
+        throw Exception(result['message'] ?? 'Unauthorized');
       } else if (response.statusCode == 404) {
-        // If the resource is not found, show a snackbar with a message
         showSnackBarError('Error', 'Resource not found');
         throw Exception('Resource not found');
       } else if (response.statusCode == 500) {
-        // If there is an internal server error, show a snackbar with a message
         showSnackBarError('Error', 'Internal server error');
         throw Exception('Internal server error');
       } else {
-        // If the response is any other status code, show a snackbar with a message
         Get.snackbar('Error', 'An error occurred');
         throw Exception('An error occurred');
       }
     } catch (e) {
-      // If an exception is thrown, show a snackbar with a message
-      // showSnackBarError("Server Error", "Something went wrong on server side");
       throw Exception(e);
     }
   }

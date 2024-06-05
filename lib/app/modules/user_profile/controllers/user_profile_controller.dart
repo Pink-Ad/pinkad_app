@@ -245,7 +245,7 @@ class UserProfileController extends GetxController {
     final savedToken = box.read('user_token');
 
     isLoading.value = true;
-    const url = 'https://pinkad.pk/portal/api/seller/update';
+    const url = '${ApiService.baseUrl}/seller/update';
     final name = nameController.value.text.trim();
     final whatsappNoFormatted = formatPhoneNumber(whatsappNoController.value.text);
     final phoneNoFormatted = formatPhoneNumber(phoneNoController.value.text);
@@ -345,7 +345,7 @@ class UserProfileController extends GetxController {
     final savedToken = box.read('user_token');
 
     isLoading.value = true;
-    const url = 'https://pinkad.pk/portal/api/seller/change_password';
+    const url = '${ApiService.baseUrl}/seller/change_password';
     final current_password = currentpasswordController.value.text.trim();
     final new_password = newpasswordController.value.text.trim();
     final confirm_password = confirmpasswordController.value.text.trim();

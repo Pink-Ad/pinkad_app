@@ -57,7 +57,7 @@ class ShopsInsightController extends GetxController {
       Map data = {'offer_id': offerId, 'status': status};
 
       print(data);
-      const url = 'https://pinkad.pk/portal/api/offer/status';
+      const url = '${ApiService.baseUrl}/offer/status';
       // final response = await _apiService.postData(
       //   Endpoints.offerStatus,
       //   data,

@@ -37,6 +37,8 @@ class User {
             ? null
             : DateTime.parse(json['updated_at'] as String);
 
+  get isEmailVerifiedAt => null;
+
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,

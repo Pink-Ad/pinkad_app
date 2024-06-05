@@ -3,6 +3,7 @@ import 'package:pink_ad/app/models/user_model.dart';
 
 class LoginResponse {
   final String? status;
+  final String? message;
   final User? user;
   final Authorisation? authorisation;
   final Shop? shop;
@@ -12,6 +13,7 @@ class LoginResponse {
 
   LoginResponse({
     this.status,
+    this.message,
     this.user,
     this.authorisation,
     this.shop,
@@ -22,16 +24,17 @@ class LoginResponse {
 
   LoginResponse.fromJson(Map<String, dynamic> json)
       : status = json['status'] as String?,
-        user = (json['user'] as Map<String, dynamic>?) != null ? User.fromJson(json['user'] as Map<String, dynamic>) : null,
+        message = json['message'],
         shop = json['shop'] != null && json['shop'] is List && json['shop'].isNotEmpty ? Shop.fromJson(json['shop'][0]) : null,
         cityId = json['city_id'],
         cityName = json['city_name'],
         areaName = json['area_name'],
-        authorisation =
-            (json['authorisation'] as Map<String, dynamic>?) != null ? Authorisation.fromJson(json['authorisation'] as Map<String, dynamic>) : null;
+        authorisation = json['authorisation'] != null ? Authorisation.fromJson(json['authorisation']) : null,
+        user = json['user'] != null ? User.fromJson(json['user']) : null;
 
   Map<String, dynamic> toJson() => {
         'status': status,
+        'message': message,
         'user': user?.toJson(),
         'shop': shop?.toJson(),
         'city_id': cityId,

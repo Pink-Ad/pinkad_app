@@ -409,7 +409,7 @@ class CenterButtons extends StatelessWidget {
               _buildButton(context, Icons.store_mall_directory_outlined, 'Sellers', () {
                 Get.to(AllShopsView());
               }),
-              _buildButton(context, Icons.travel_explore, 'Offers', () {
+              _buildButton(context, Icons.search, 'Search', () {
                 Get.toNamed(Routes.ALL_OFFERS);
                 //Get.to(() => AllOffersView());
               }),

@@ -91,14 +91,13 @@ class LoginController extends GetxController {
         Endpoints.login,
         data,
       );
-      if (kDebugMode) {
-        print('controller status${response.body}');
-      }
-      final result = json.decode(response.body);
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
 
-      var loginResponseData = LoginResponse.fromJson(result);
-      print(loginResponseData.status);
       if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        var loginResponseData = LoginResponse.fromJson(result);
+
         if (loginResponseData.status == 'success') {
           final token = loginResponseData.authorisation!.token!;
           box.write('user_data', loginResponseData);
@@ -108,14 +107,11 @@ class LoginController extends GetxController {
           box.write('password', password);
           await getSellerShop(token);
           final savedToken = box.read('user_token');
-          print(savedToken);
           emailController.value.clear();
           passwordController.value.clear();
           Get.offAllNamed(Routes.User_Bottom_Nav_Bar);
           final sellerName = loginResponseData.user?.name;
           final sellerPhoneNumber = loginResponseData.user?.seller?.phone;
-          //Get.toNamed(Routes.User_Bottom_Nav_Bar);
-
           if (sellerName != null) {
             await box.write('seller_name', sellerName);
           }
@@ -123,26 +119,23 @@ class LoginController extends GetxController {
             await box.write('seller_phone_number', sellerPhoneNumber);
           }
         } else {
-          showSnackBarError(
-            'Message',
-            loginResponseData.status!,
-          );
+          showSnackBarError('Error', loginResponseData.message ?? 'Login failed');
         }
       } else if (response.statusCode == 401) {
-        showSnackBarError(
-          'Message',
-          loginResponseData.status!,
-        );
+        final result = json.decode(response.body);
+        print('Error status: ${result['status']}');
+        print('Error message: ${result['message']}');
+        showSnackBarError('Error', result['message'] ?? 'Unauthorized access');
       } else {
         Get.snackbar('Login Error', 'Unsuccessful');
       }
-      // handle success response
     } catch (e) {
       loading.value = false;
-      // handle error
+      print('Caught exception: ${e.toString()}');
       if (kDebugMode) {
         print('this is error ${e.toString()}');
       }
+      //showSnackBarError('Error', 'An unexpected error occurred.');
     } finally {
       loading.value = false;
     }
