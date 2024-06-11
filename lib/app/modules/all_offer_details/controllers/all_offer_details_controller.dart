@@ -18,5 +18,4 @@ class AllOfferDetailsController extends GetxController {
   }
 
   void increment() => count.value++;
-  
 }

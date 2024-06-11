@@ -297,11 +297,28 @@ class UserDashboardView extends GetView<UserDashboardController> {
                                                       children: [
                                                         GestureDetector(
                                                           onTap: () async {
-                                                            await launchUrl(
-                                                              Uri.parse(
-                                                                'whatsapp://send?phone=${controller.tOffer[index]['shop']?['seller']?['whatsapp']}',
-                                                              ),
-                                                            );
+                                                            final imageUrl = ApiService.imageBaseUrl + controller.tOffer[index]['banner'];
+                                                            final text =
+                                                                "${controller.tOffer[index]['title']} by ${controller.tOffer[index]['shop']?['name']} - ${controller.tOffer[index]['description']}";
+
+                                                            // Assuming the phone number is stored in data['shop']['seller']['whatsapp']
+                                                            final phone = controller.tOffer[index]['shop']?['seller']?['whatsapp'];
+
+                                                            // Construct the message
+                                                            final message = Uri.encodeFull('$text\nSee image here: $imageUrl');
+
+                                                            // Construct the WhatsApp URL
+                                                            if (phone != null) {
+                                                              await launchUrl(
+                                                                Uri.parse('whatsapp://send?phone=$phone&text=$message'),
+                                                              );
+                                                            }
+
+                                                            // await launchUrl(
+                                                            //   Uri.parse(
+                                                            //     'whatsapp://send?phone=${controller.tOffer[index]['shop']?['seller']?['whatsapp']}',
+                                                            //  ),
+                                                            //);
                                                           },
                                                           child: Text(
                                                             'Chat with seller',
@@ -361,7 +378,7 @@ class UserDashboardView extends GetView<UserDashboardController> {
                       );
                     } else {
                       return SliverFillRemaining(
-                        child: Center(child: Text('No offers available.')),
+                        child: Center(child: Text('Loading...')),
                       );
                     }
                   },

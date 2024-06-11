@@ -290,7 +290,7 @@ class SignupController extends GetxController {
 
   Future<void> registerUser() async {
     isLoading.value = true;
-    const url = 'https://pinkad.pk/portal/api/register';
+    const url = '${ApiService.baseUrl}/register';
 
     try {
       final request = http.MultipartRequest('POST', Uri.parse(url));

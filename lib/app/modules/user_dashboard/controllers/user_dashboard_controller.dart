@@ -42,14 +42,14 @@ class UserDashboardController extends GetxController {
 
     try {
       // Construct the URL for the requested page
-      String url = 'https://pinkad.pk/portal/api/top-offer?page=$page';
+      String url = '${ApiService.baseUrl}/top-offer?page=$page';
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
         tOffer.value = result['data'];
         print('Updated tOffer: $tOffer'); // Replace with new data
         currentPage = page; // Update current page
- if (scrollToTop) {
+        if (scrollToTop) {
           _scrollToTop(); // Call to scroll function
         }
         // Update total pages based on the response, if that info is available
@@ -69,7 +69,7 @@ class UserDashboardController extends GetxController {
   Future<void> calculateTotalPages() async {
     try {
       // Make the API call to fetch the first page
-      String url = 'https://pinkad.pk/portal/api/top-offer';
+      String url = '${ApiService.baseUrl}/top-offer';
       final response = await http.get(Uri.parse(url));
 
       // Check for a successful response
@@ -93,7 +93,7 @@ class UserDashboardController extends GetxController {
     }
   }
 
-    void _scrollToTop() {
+  void _scrollToTop() {
     if (scrollController.hasClients) {
       scrollController.animateTo(
         0,
@@ -122,8 +122,8 @@ class UserDashboardController extends GetxController {
     try {
       // Use the next_page_url if available
       String nextPageUrl = currentPage == 1
-          ? 'https://pinkad.pk/portal/api/' + Endpoints.topOffers
-          : box.read('next_page_url') ?? 'https://pinkad.pk/portal/api/' + Endpoints.topOffers + '?page=$currentPage&limit=$itemsPerPage';
+          ? '${ApiService.baseUrl}/' + Endpoints.topOffers
+          : box.read('next_page_url') ?? '${ApiService.baseUrl}/' + Endpoints.topOffers + '?page=$currentPage&limit=$itemsPerPage';
 
       // Make the API call
       final response = await http.get(Uri.parse(nextPageUrl));
@@ -156,8 +156,8 @@ class UserDashboardController extends GetxController {
     update(); // Notify listeners to update UI, showing loading indicator
 
     String nextPageUrl = currentPage == 1
-        ? 'https://pinkad.pk/portal/api/top-offer'
-        : box.read('next_page_url') ?? 'https://pinkad.pk/portal/api/top-offer?page=$currentPage';
+        ? '${ApiService.baseUrl}/top-offer'
+        : box.read('next_page_url') ?? '${ApiService.baseUrl}/top-offer?page=$currentPage';
 
     try {
       final response = await http.get(Uri.parse(nextPageUrl));

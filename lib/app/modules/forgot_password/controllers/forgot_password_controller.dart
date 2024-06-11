@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/utilities/custom_widgets/snackbars.dart';
 
 class ForgotPasswordController extends GetxController {
@@ -39,7 +40,7 @@ class ForgotPasswordController extends GetxController {
     try {
       Map data = {'email': email};
       print(data);
-      const url = 'https://pinkad.pk/portal/api/password/email';
+      const url = '${ApiService.baseUrl}/password/email';
       //const url = 'https://pinkad.pk/portal/password/reset/';
       final response = await http.post(
         Uri.parse(url),

@@ -266,11 +266,27 @@ class HomeView extends GetView<HomeController> {
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () async {
-                                                      await launchUrl(
-                                                        Uri.parse(
-                                                          'whatsapp://send?phone=${controller.tOffer[index]['shop']?['seller']?['whatsapp']}',
-                                                        ),
-                                                      );
+                                                      final imageUrl = ApiService.imageBaseUrl + controller.tOffer[index]['banner'];
+                                                      final text =
+                                                          "${controller.tOffer[index]['title']} by ${controller.tOffer[index]['shop']?['name']} - ${controller.tOffer[index]['description']}";
+
+                                                      // Assuming the phone number is stored in data['shop']['seller']['whatsapp']
+                                                      final phone = controller.tOffer[index]['shop']?['seller']?['whatsapp'];
+
+                                                      // Construct the message
+                                                      final message = Uri.encodeFull('$text\nSee image here: $imageUrl');
+
+                                                      // Construct the WhatsApp URL
+                                                      if (phone != null) {
+                                                        await launchUrl(
+                                                          Uri.parse('whatsapp://send?phone=$phone&text=$message'),
+                                                        );
+                                                      }
+                                                      // await launchUrl(
+                                                      //   Uri.parse(
+                                                      //     'whatsapp://send?phone=${controller.tOffer[index]['shop']?['seller']?['whatsapp']}',
+                                                      //   ),
+                                                      // );
                                                     },
                                                     child: Text(
                                                       'Chat with seller',
@@ -393,7 +409,7 @@ class CenterButtons extends StatelessWidget {
               _buildButton(context, Icons.store_mall_directory_outlined, 'Sellers', () {
                 Get.to(AllShopsView());
               }),
-              _buildButton(context, Icons.travel_explore, 'Offers', () {
+              _buildButton(context, Icons.search, 'Search', () {
                 Get.toNamed(Routes.ALL_OFFERS);
                 //Get.to(() => AllOffersView());
               }),

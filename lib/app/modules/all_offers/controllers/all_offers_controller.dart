@@ -94,7 +94,8 @@ class AllOffersController extends GetxController {
       offers = allOffers; // Reset to all offers if the search term is cleared
     } else {
       // Construct the request URL with the query parameter
-      final url = Uri.parse('https://pinkad.pk/portal/api/offer-search?search_name=$pattern');
+
+      final url = Uri.parse('${ApiService.baseUrl}/offer-search?search_name=$pattern');
       try {
         final response = await http.get(url);
 

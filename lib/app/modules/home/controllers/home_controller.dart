@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/modules/splash/controllers/splash_controller.dart';
 import 'package:pink_ad/utilities/custom_widgets/snackbars.dart';
 import 'package:share_plus/share_plus.dart';
@@ -32,7 +33,7 @@ class HomeController extends GetxController {
     update();
 
     try {
-      String url = 'https://pinkad.pk/portal/api/top-offer?page=$page';
+      String url = '${ApiService.baseUrl}/top-offer?page=$page';
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
@@ -54,7 +55,7 @@ class HomeController extends GetxController {
 
   Future<void> calculateTotalPages() async {
     try {
-      String url = 'https://pinkad.pk/portal/api/top-offer';
+      String url = '${ApiService.baseUrl}/top-offer';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
