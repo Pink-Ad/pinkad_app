@@ -140,7 +140,7 @@ class UploadOfferController extends GetxController {
 
     int totalOffersCreated = await _getTotalOffersCreated();
     if (totalOffersCreated >= 50) {
-      showSnackBarError('Limit Reached', 'Cannot create more than 50 offers in total');
+      showSnackBarError('Limit Reached', 'Cannot create more than 50 offers in total, delete some offers to create new ones.');
       return false;
     }
 
