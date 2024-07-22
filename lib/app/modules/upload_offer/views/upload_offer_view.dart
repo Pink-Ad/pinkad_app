@@ -75,6 +75,35 @@ class UploadOfferView extends GetView {
                                 Container(
                                   margin: EdgeInsets.only(
                                     left: 20.w,
+                                  ),
+                                  child: Text(
+                                    'Daily limit: 4 Offers',
+                                    style: CustomTextView.getStyle(
+                                      context,
+                                      colorLight: Colors.black,
+                                      fontFamily: Utils.poppinsMedium,
+                                      fontSize: 15.sp,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    left: 20.w,
+                                    bottom: 10.h,
+                                  ),
+                                  child: Text(
+                                    'Total limit: 50 Offers',
+                                    style: CustomTextView.getStyle(
+                                      context,
+                                      colorLight: Colors.black,
+                                      fontFamily: Utils.poppinsMedium,
+                                      fontSize: 15.sp,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    left: 20.w,
                                     bottom: 10.h,
                                   ),
                                   child: Text(

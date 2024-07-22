@@ -138,7 +138,7 @@ class ShopsInsightController extends GetxController {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Text(
-              'You want to delete this offer?',
+              'You want to move active offer to inactive offer?',
               textAlign: TextAlign.center,
               style: CustomTextView.getStyle(
                 Get.context!,
@@ -162,12 +162,12 @@ class ShopsInsightController extends GetxController {
           width: 138.0.w,
           height: 50.0.h,
           decoration: BoxDecoration(
-            color: errorColor,
+            color: primary,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Center(
             child: Text(
-              'Delete',
+              'Move',
               style: CustomTextView.getStyle(
                 Get.context!,
                 colorLight: Colors.white,

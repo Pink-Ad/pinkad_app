@@ -251,11 +251,11 @@ class ShopsInsightView extends GetView<ShopsInsightController> {
                                                                               height: 25.h,
                                                                               width: 30.w,
                                                                               decoration: BoxDecoration(
-                                                                                color: Colors.red,
+                                                                                color: primary,
                                                                                 borderRadius: BorderRadius.circular(5.0),
                                                                               ),
                                                                               child: const Icon(
-                                                                                Icons.delete,
+                                                                                Icons.move_to_inbox_sharp,
                                                                                 color: Colors.white,
                                                                                 size: 20,
                                                                               ),
