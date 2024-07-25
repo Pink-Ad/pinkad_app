@@ -9,16 +9,20 @@ import 'package:http/http.dart' as http;
 import 'package:pink_ad/app/data/api_service.dart';
 import 'package:pink_ad/app/models/offer_list_model.dart';
 import 'package:pink_ad/utilities/colors/colors.dart';
-import 'package:pink_ad/utilities/custom_widgets/states_tiles.dart';
 import 'package:pink_ad/utilities/custom_widgets/text_utils.dart';
 import 'package:pink_ad/utilities/utils.dart';
 
 class ShopsInsightController extends GetxController {
-  // SplashController splashController = Get.put(SplashController());
-  //TODO: Implement ShopsInsightController
   final box = GetStorage();
   List offerList = [].obs;
   final count = 0.obs;
+  final ApiService _apiService = ApiService(http.Client());
+  List<dynamic> shopOffer = <dynamic>[].obs;
+  List<dynamic> active = <dynamic>[].obs;
+  List<dynamic> deActive = <dynamic>[].obs;
+  var selectedButton = 0.obs;
+  RxBool isLoading = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -35,14 +39,6 @@ class ShopsInsightController extends GetxController {
     super.onClose();
   }
 
-  final ApiService _apiService = ApiService(http.Client());
-
-  List<dynamic> shopOffer = <dynamic>[].obs;
-  List<dynamic> active = <dynamic>[].obs;
-  List<dynamic> deActive = <dynamic>[].obs;
-  var selectedButton = 0.obs;
-  RxBool isLoading = false.obs;
-
   void selectButton(int buttonIndex) {
     selectedButton.value = buttonIndex;
   }
@@ -51,78 +47,38 @@ class ShopsInsightController extends GetxController {
     required int offerId,
     required String status,
   }) async {
-    // void login() async {
     isLoading.value = true;
     try {
-      Map data = {'offer_id': offerId, 'status': status};
-
-      print(data);
       const url = '${ApiService.baseUrl}/offer/status';
-      // final response = await _apiService.postData(
-      //   Endpoints.offerStatus,
-      //   data,
-      // );
       final request = http.MultipartRequest(
         'POST',
         Uri.parse(url),
-      ); // Create the multipart request
+      );
       request.fields.addAll({
         'offer_id': offerId.toString(),
         'status': status.toString(),
-      }); // Add the other fields to the request
+      });
 
       final response = await http.Response.fromStream(
         await request.send(),
-      ); // Send the request
-      print('controller status${response.body}');
+      );
       final result = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        print('Offer status updated successfully: $result');
+      } else {
+        print('Failed to update offer status: ${response.statusCode}');
+      }
+
       await getShopOffer();
       await getOffers();
       await getTopOffer();
       await getFeaturedOffer();
 
       print(result);
-      // var loginResponseData = LoginResponse.fromJson(result);
-      // print(loginResponseData.message);
-      // if (response.statusCode == 200) {
-      //   if (loginResponseData.status == "success") {
-      //     final token = loginResponseData.authorisation!.token!;
-      //     box.write('user_data', loginResponseData);
-      //     box.write('user_token', token);
-      //     box.write('email', email);
-      //     box.write('password', password);
-      //     await getSellerShop(token);
-      //     final savedToken = box.read('user_token');
-      //     print(savedToken);
-      //     emailController.value.clear();
-      //     passwordController.value.clear();
-      //     Get.toNamed(Routes.User_Bottom_Nav_Bar);
-      //   } else {
-      // showSnackBarError(
-      //   "Message",
-      //   loginResponseData.message!,
-      // );
-      //   }
-      // } else if (response.statusCode == 401) {
-      //   showSnackBarError(
-      //     "Message",
-      //     loginResponseData.message!,
-      //   );
-      // } else {
-      //   Get.snackbar("Login Error", "Unsuccessful");
-      // }
-      // handle success response
-      // } catch (e) {
-      //   loading.value = false;
-      //   // handle error
-      //   if (kDebugMode) {
-      //     print('this is error ${e.toString()}');
-      //   }
-      // } finally {
-
-      isLoading.value = false;
-      // }
     } catch (e) {
+      print('Error occurred: $e');
+    } finally {
       isLoading.value = false;
     }
   }
@@ -131,30 +87,29 @@ class ShopsInsightController extends GetxController {
     try {
       isLoading.value = true;
       int id = await box.read('selectedShop');
-      print(id);
+      print('Selected Shop ID: $id');
       final response = await _apiService.getData('${Endpoints.shopOffer}/$id');
 
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
-        active = [];
-        deActive = [];
-        // shopList = result.map((json) => ShopList.fromJson(json)).toList();
+        active.clear();
+        deActive.clear();
         result.forEach((obj) {
           if (obj['status']?.toString() == '1') {
-            active.add(obj); // Sort into list1
-          } else {
-            deActive.add(obj); // Sort into list2'
+            active.add(obj);
+          } else if (obj['status']?.toString() != '2') {
+            deActive.add(obj);
           }
         });
-        print(deActive);
+        print('Active Offers: $active');
+        print('Inactive Offers: $deActive');
         isLoading.value = false;
-        // shopOffer.addAll(result);
+      } else {
+        print('Failed to fetch shop offers: ${response.statusCode}');
       }
     } catch (e) {
       isLoading.value = false;
-      print(e);
-
-      // showSnackBarError("Error", "Something went wrong please try again later");
+      print('Error in getShopOffer: $e');
     }
   }
 
@@ -170,10 +125,6 @@ class ShopsInsightController extends GetxController {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // SvgPicture.asset("assets/svgIcons/dialog_icon.svg"),
-          // SizedBox(
-          //   height: 20.h,
-          // ),
           Text(
             'Are you sure?',
             style: CustomTextView.getStyle(
@@ -183,9 +134,99 @@ class ShopsInsightController extends GetxController {
               fontFamily: Utils.poppinsBold,
             ),
           ),
-          SizedBox(
-            height: 15.h,
+          SizedBox(height: 15.h),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              'You want to move active offer to inactive offer?',
+              textAlign: TextAlign.center,
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: textColor,
+                fontSize: 14.sp,
+              ),
+            ),
           ),
+          SizedBox(height: 20.h),
+        ],
+      ),
+      btnOk: GestureDetector(
+        onTap: () async {
+          print('Deleting offer with ID: $offerId');
+          Get.back();
+          await activeDeActiveOffer(offerId: offerId, status: '0');
+          print('Offer deleted');
+          await getShopOffer();
+        },
+        child: Container(
+          width: 138.0.w,
+          height: 50.0.h,
+          decoration: BoxDecoration(
+            color: primary,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Center(
+            child: Text(
+              'Move',
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: Utils.poppinsMedium,
+              ),
+            ),
+          ),
+        ),
+      ),
+      btnCancel: GestureDetector(
+        onTap: () {
+          Get.back();
+        },
+        child: Container(
+          width: 138.0.w,
+          height: 50.0.h,
+          decoration: BoxDecoration(
+            color: bodyTextColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Center(
+            child: Text(
+              'Cancel',
+              style: CustomTextView.getStyle(
+                Get.context!,
+                colorLight: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: Utils.poppinsMedium,
+              ),
+            ),
+          ),
+        ),
+      ),
+    ).show();
+  }
+
+  void showDeleteDialog({required int offerId}) {
+    AwesomeDialog(
+      dialogType: DialogType.noHeader,
+      context: Get.overlayContext!,
+      animType: AnimType.scale,
+      btnOkColor: secondary,
+      padding: EdgeInsets.symmetric(vertical: 10.h),
+      btnCancelColor: bodyTextColor,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Are you sure?',
+            style: CustomTextView.getStyle(
+              Get.context!,
+              colorLight: secondary,
+              fontSize: 20.sp,
+              fontFamily: Utils.poppinsBold,
+            ),
+          ),
+          SizedBox(height: 15.h),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Text(
@@ -198,15 +239,16 @@ class ShopsInsightController extends GetxController {
               ),
             ),
           ),
-          SizedBox(
-            height: 20.h,
-          ),
+          SizedBox(height: 20.h),
         ],
       ),
       btnOk: GestureDetector(
         onTap: () async {
-          await activeDeActiveOffer(offerId: offerId, status: '0');
+          print('Deleting inactive offer with ID: $offerId');
           Get.back();
+          await activeDeActiveOffer(offerId: offerId, status: '2'); // Assuming '2' means deleted
+          print('Inactive offer deleted');
+          await getShopOffer();
         },
         child: Container(
           width: 138.0.w,
@@ -255,66 +297,6 @@ class ShopsInsightController extends GetxController {
     ).show();
   }
 
-  Future<void> getOffers() async {
-    try {
-      final response = await _apiService.getData(Endpoints.allOffers);
-
-      if (response.statusCode == 200) {
-        final result = json.decode(response.body);
-        offerList.addAll(result.map((json) => OfferList.fromJson(json)).toList());
-        await box.write('offers', offerList);
-      }
-    } catch (e) {
-      // isLoading.value = false;
-      print(e);
-
-      // showSnackBarError("Error", "Something went wrong please try again later");
-    }
-  }
-
-  Future<void> getTopOffer() async {
-    try {
-      final response = await _apiService.getData(Endpoints.topOffers);
-
-      if (response.statusCode == 200) {
-        final result = json.decode(response.body);
-        // print(result['data'].length);
-        // shopList = result.map((json) => ShopList.fromJson(json)).toList();
-        // fSellerList.addAll(result
-        //     .map((json) => FeaturedSeller.fromJson(json['data']))
-        //     .toList());
-
-        await box.write('topOffer', result['data']);
-      }
-    } catch (e) {
-      // isLoading.value = false;
-      print(e);
-
-      // showSnackBarError("Error", "Something went wrong please try again later");
-    }
-  }
-
-  Future<void> getFeaturedOffer() async {
-    try {
-      final response = await _apiService.getData(Endpoints.featuredOffers);
-
-      if (response.statusCode == 200) {
-        final result = json.decode(response.body);
-        // print(result['data'].length);
-        // shopList = result.map((json) => ShopList.fromJson(json)).toList();
-        // fSellerList.addAll(result
-        //     .map((json) => FeaturedSeller.fromJson(json['data']))
-        //     .toList());
-        await box.write('fOffer', result['data']);
-      }
-    } catch (e) {
-      // isLoading.value = false;
-      print(e);
-
-      // showSnackBarError("Error", "Something went wrong please try again later");
-    }
-  }
-
   void showRevisionDialog({required int offerId}) {
     AwesomeDialog(
       dialogType: DialogType.noHeader,
@@ -327,10 +309,6 @@ class ShopsInsightController extends GetxController {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // SvgPicture.asset("assets/svgIcons/dialog_icon.svg"),
-          // SizedBox(
-          //   height: 20.h,
-          // ),
           Text(
             'Are you sure?',
             style: CustomTextView.getStyle(
@@ -362,8 +340,8 @@ class ShopsInsightController extends GetxController {
       ),
       btnOk: GestureDetector(
         onTap: () async {
+          Get.back(); // Close the dialog before performing the action
           await activeDeActiveOffer(offerId: offerId, status: '1');
-          Get.back();
         },
         child: Container(
           width: 138.0.w,
@@ -412,60 +390,43 @@ class ShopsInsightController extends GetxController {
     ).show();
   }
 
-  void showCustomDialog({
-    required int reach,
-    required int view,
-    required int impression,
-    required int conversion,
-  }) {
-    AwesomeDialog(
-      dialogType: DialogType.noHeader,
-      context: Get.overlayContext!,
-      animType: AnimType.scale,
-      btnOkColor: secondary,
-      btnCancelColor: bodyTextColor,
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 13.w, vertical: 5.h),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Insight',
-                  style: CustomTextView.getStyle(
-                    Get.context!,
-                    colorLight: secondary,
-                    fontSize: 22.sp,
-                    fontFamily: Utils.poppinsSemiBold,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Icon(
-                    Icons.close,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 15.h),
-            StatsTiles(
-              conversion: conversion,
-              view: view,
-              impression: impression,
-              reach: reach,
-            ),
-            SizedBox(height: 15.h),
-          ],
-        ),
-      ),
-    ).show();
+  Future<void> getOffers() async {
+    try {
+      final response = await _apiService.getData(Endpoints.allOffers);
+
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        offerList.addAll(result.map((json) => OfferList.fromJson(json)).toList());
+        await box.write('offers', offerList);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
-  void increment() => count.value++;
+  Future<void> getTopOffer() async {
+    try {
+      final response = await _apiService.getData(Endpoints.topOffers);
+
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        await box.write('topOffer', result['data']);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> getFeaturedOffer() async {
+    try {
+      final response = await _apiService.getData(Endpoints.featuredOffers);
+
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        await box.write('fOffer', result['data']);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 }

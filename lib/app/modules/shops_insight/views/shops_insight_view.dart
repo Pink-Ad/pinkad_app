@@ -14,7 +14,7 @@ import '../../../../utilities/custom_widgets/scafflod_dashboard.dart';
 import '../../../../utilities/utils.dart';
 import '../../profile/views/profile_view.dart';
 
-class ShopsInsightView extends GetView {
+class ShopsInsightView extends GetView<ShopsInsightController> {
   final box = GetStorage();
 
   ShopsInsightView({super.key});
@@ -31,10 +31,10 @@ class ShopsInsightView extends GetView {
                 backButton: true,
                 title: 'Insight',
                 onMenuTap: () {
-                  print('object');
+                  print('Menu button tapped');
                 },
                 onProfileTap: () {
-                  print('object');
+                  print('Profile button tapped');
                   Get.to(ProfileView());
                 },
                 profileIconVisibility: true,
@@ -61,8 +61,6 @@ class ShopsInsightView extends GetView {
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
-                                  // topLeft: Radius.circular(8),
-                                  // topRight: Radius.circular(8.0),
                                 ),
                               ),
                               padding: EdgeInsets.all(16.0),
@@ -104,8 +102,6 @@ class ShopsInsightView extends GetView {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
-                                  // topLeft: Radius.circular(8),
-                                  // topRight: Radius.circular(8.0),
                                 ),
                               ),
                               padding: EdgeInsets.all(16.0),
@@ -115,14 +111,14 @@ class ShopsInsightView extends GetView {
                               children: [
                                 SvgPicture.asset(
                                   'assets/svgIcons/package.svg',
-                                  color: premierFeaturesController.selectedButton.value == 0 ? Colors.black : Colors.white,
+                                  color: premierFeaturesController.selectedButton.value == 1 ? Colors.white : Colors.black,
                                 ),
                                 SizedBox(width: 10.w),
                                 Text(
                                   'Inactive Offers',
                                   style: CustomTextView.getStyle(
                                     context,
-                                    colorLight: premierFeaturesController.selectedButton.value == 0 ? Colors.black : Colors.white,
+                                    colorLight: premierFeaturesController.selectedButton.value == 1 ? Colors.white : Colors.black,
                                     fontFamily: Utils.poppinsSemiBold,
                                     fontSize: 13.45.sp,
                                   ),
@@ -136,86 +132,9 @@ class ShopsInsightView extends GetView {
                   ],
                 ),
               ),
-
-              // Container(
-              //   height: 90.h,
-              //   margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.w),
-              //   padding: const EdgeInsets.all(10.0),
-              //   decoration: BoxDecoration(
-              //     color: containerColor,
-              //     borderRadius: BorderRadius.circular(10.0),
-              //     boxShadow: [
-              //       BoxShadow(
-              //         color: Colors.grey.withOpacity(0.5),
-              //         spreadRadius: 2,
-              //         blurRadius: 2,
-              //         offset: const Offset(0, 2),
-              //       ),
-              //     ],
-              //   ),
-              //   child: Row(
-              //     children: [
-              //       const SizedBox(
-              //         width: 10.0,
-              //       ),
-              //       Container(
-              //         width: 50.0.w,
-              //         height: 50.0.h,
-              //         decoration: const BoxDecoration(
-              //           shape: BoxShape.circle,
-              //         ),
-              //         child: const CircleAvatar(
-              //           radius: 38.0,
-              //           backgroundImage:
-              //               AssetImage('assets/images/shop_image.png'),
-              //         ),
-              //       ),
-              //       SizedBox(
-              //         width: 20.0.w,
-              //       ),
-              //       Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         children: [
-              //           Text(
-              //             "Hi, Welcome ${data.user!.name!}",
-              //             overflow: TextOverflow.ellipsis,
-              //             style: CustomTextView.getStyle(context,
-              //                 fontSize: 20.sp,
-              //                 colorLight: Colors.black,
-              //                 fontFamily: Utils.poppinsBold),
-              //           ),
-              //           SizedBox(
-              //             height: 8.h,
-              //           ),
-              //           Text(
-              //             "Good Afternoon",
-              //             style: CustomTextView.getStyle(
-              //               context,
-              //               fontSize: 16.sp,
-              //               colorLight: textColor,
-              //             ),
-              //           ),
-              //         ],
-              //       )
-              //     ],
-              //   ),
-
-              // ),
-
               Column(
                 children: [
                   Container(
-                    // width: double.infinity,
-                    // padding: const EdgeInsets.all(5.0),
-                    decoration: const BoxDecoration(
-                        // color: containerColor,
-                        // borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        ),
-                    // height: Get.height * .25,
-                    //margin: EdgeInsets.only(top: 20.h),
-                    // margin: EdgeInsets.symmetric(
-                    //     horizontal: 20.0.w, vertical: 20.w),
                     child: Column(
                       children: [
                         Container(
@@ -237,7 +156,6 @@ class ShopsInsightView extends GetView {
                                                 ),
                                               )
                                             : ListView.builder(
-                                                // scrollDirection: Axis.horizontal,
                                                 itemCount: premierFeaturesController.active.length,
                                                 shrinkWrap: true,
                                                 itemBuilder: (
@@ -267,7 +185,6 @@ class ShopsInsightView extends GetView {
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             Container(
-                                                              // width: 220.w,
                                                               height: 210.h,
                                                               decoration: BoxDecoration(
                                                                 color: lightGray,
@@ -321,29 +238,6 @@ class ShopsInsightView extends GetView {
                                                                       ),
                                                                       Row(
                                                                         children: [
-                                                                          // GestureDetector(
-                                                                          //   onTap: () async {
-                                                                          //     premierFeaturesController.showCustomDialog(
-                                                                          //       view: premierFeaturesController.active[index]['views'],
-                                                                          //       conversion: premierFeaturesController.active[index]['conversion'],
-                                                                          //       impression: premierFeaturesController.active[index]['impression'],
-                                                                          //       reach: premierFeaturesController.active[index]['reach'],
-                                                                          //     );
-                                                                          //   },
-                                                                          //   child: Container(
-                                                                          //     height: 25.h,
-                                                                          //     width: 30.w,
-                                                                          //     decoration: BoxDecoration(
-                                                                          //       color: secondary,
-                                                                          //       borderRadius: BorderRadius.circular(5.0),
-                                                                          //     ),
-                                                                          //     child: const Icon(
-                                                                          //       Icons.remove_red_eye_outlined,
-                                                                          //       color: Colors.white,
-                                                                          //       size: 20,
-                                                                          //     ),
-                                                                          //   ),
-                                                                          // ),
                                                                           SizedBox(
                                                                             width: 10.w,
                                                                           ),
@@ -357,11 +251,11 @@ class ShopsInsightView extends GetView {
                                                                               height: 25.h,
                                                                               width: 30.w,
                                                                               decoration: BoxDecoration(
-                                                                                color: Colors.red,
+                                                                                color: primary,
                                                                                 borderRadius: BorderRadius.circular(5.0),
                                                                               ),
                                                                               child: const Icon(
-                                                                                Icons.delete,
+                                                                                Icons.move_to_inbox_sharp,
                                                                                 color: Colors.white,
                                                                                 size: 20,
                                                                               ),
@@ -379,7 +273,6 @@ class ShopsInsightView extends GetView {
                                                                   ),
                                                                   Text(
                                                                     premierFeaturesController.active[index]['description'],
-                                                                    // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
                                                                     maxLines: 2,
                                                                     overflow: TextOverflow.ellipsis,
                                                                     style: CustomTextView.getStyle(
@@ -414,9 +307,7 @@ class ShopsInsightView extends GetView {
                                                 ),
                                               )
                                             : ListView.builder(
-                                                // scrollDirection: Axis.horizontal,
                                                 itemCount: premierFeaturesController.deActive.length,
-                                                // shrinkWrap: true,
                                                 itemBuilder: (
                                                   BuildContext context,
                                                   int index,
@@ -491,93 +382,59 @@ class ShopsInsightView extends GetView {
                                                                         fontFamily: Utils.poppinsMedium,
                                                                       ),
                                                                     ),
-                                                                    premierFeaturesController.deActive[index]['status'] == '0'
-                                                                        ? Row(
-                                                                            children: [
-                                                                              // GestureDetector(
-                                                                              //   onTap: () async {
-                                                                              //     premierFeaturesController.showCustomDialog(
-                                                                              //       view: premierFeaturesController.deActive[index]['views'],
-                                                                              //       conversion: premierFeaturesController.deActive[index]['conversion'],
-                                                                              //       impression: premierFeaturesController.deActive[index]['impression'],
-                                                                              //       reach: premierFeaturesController.deActive[index]['reach'],
-                                                                              //     );
-                                                                              //   },
-                                                                              //   child: Container(
-                                                                              //     height: 25.h,
-                                                                              //     width: 30.w,
-                                                                              //     decoration: BoxDecoration(
-                                                                              //       color: secondary,
-                                                                              //       borderRadius: BorderRadius.circular(5.0),
-                                                                              //     ),
-                                                                              //     child: const Icon(
-                                                                              //       Icons.remove_red_eye_outlined,
-                                                                              //       color: Colors.white,
-                                                                              //       size: 20,
-                                                                              //     ),
-                                                                              //   ),
-                                                                              // ),
-                                                                              SizedBox(
-                                                                                width: 10.w,
-                                                                              ),
-                                                                              GestureDetector(
-                                                                                onTap: () async {
-                                                                                  premierFeaturesController.showRevisionDialog(
-                                                                                    offerId: premierFeaturesController.deActive[index]['id'],
-                                                                                  );
-                                                                                },
-                                                                                child: Container(
-                                                                                  height: 25.h,
-                                                                                  width: 30.w,
-                                                                                  decoration: BoxDecoration(
-                                                                                    color: secondary,
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                  ),
-                                                                                  child: const Icon(
-                                                                                    Icons.sync,
-                                                                                    color: Colors.white,
-                                                                                    size: 20,
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              SizedBox(
-                                                                                width: 10.w,
-                                                                              ),
-                                                                              GestureDetector(
-                                                                                onTap: () async {
-                                                                                  premierFeaturesController.showAwesomeDialog(
-                                                                                    offerId: premierFeaturesController.deActive[index]['id'],
-                                                                                  );
-                                                                                },
-                                                                                child: Container(
-                                                                                  height: 25.h,
-                                                                                  width: 30.w,
-                                                                                  decoration: BoxDecoration(
-                                                                                    color: Colors.red,
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                  ),
-                                                                                  child: const Icon(
-                                                                                    Icons.delete,
-                                                                                    color: Colors.white,
-                                                                                    size: 20,
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              SizedBox(
-                                                                                width: 10.w,
-                                                                              ),
-                                                                            ],
-                                                                          )
-                                                                        : const Row(
-                                                                            children: [
-                                                                              Text('Pending'),
-                                                                              //SizedBox(width: 10),
-                                                                              Icon(
-                                                                                Icons.timelapse_outlined,
-                                                                                color: Colors.grey,
-                                                                              ),
-                                                                            ],
+                                                                    Row(
+                                                                      children: [
+                                                                        SizedBox(
+                                                                          width: 10.w,
+                                                                        ),
+                                                                        GestureDetector(
+                                                                          onTap: () async {
+                                                                            premierFeaturesController.showRevisionDialog(
+                                                                              offerId: premierFeaturesController.deActive[index]['id'],
+                                                                            );
+                                                                          },
+                                                                          child: Container(
+                                                                            height: 25.h,
+                                                                            width: 30.w,
+                                                                            decoration: BoxDecoration(
+                                                                              color: secondary,
+                                                                              borderRadius: BorderRadius.circular(5.0),
+                                                                            ),
+                                                                            child: const Icon(
+                                                                              Icons.sync,
+                                                                              color: Colors.white,
+                                                                              size: 20,
+                                                                            ),
                                                                           ),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width: 10.w,
+                                                                        ),
+                                                                        GestureDetector(
+                                                                          onTap: () async {
+                                                                            premierFeaturesController.showDeleteDialog(
+                                                                              offerId: premierFeaturesController.deActive[index]['id'],
+                                                                            );
+                                                                          },
+                                                                          child: Container(
+                                                                            height: 25.h,
+                                                                            width: 30.w,
+                                                                            decoration: BoxDecoration(
+                                                                              color: Colors.red,
+                                                                              borderRadius: BorderRadius.circular(5.0),
+                                                                            ),
+                                                                            child: const Icon(
+                                                                              Icons.delete,
+                                                                              color: Colors.white,
+                                                                              size: 20,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width: 10.w,
+                                                                        ),
+                                                                      ],
+                                                                    ),
                                                                   ],
                                                                 ),
                                                                 SizedBox(
@@ -585,7 +442,6 @@ class ShopsInsightView extends GetView {
                                                                 ),
                                                                 Text(
                                                                   premierFeaturesController.deActive[index]['description'],
-                                                                  // 'Lorem ipsum dolor sit amet,\nconsect adipiscin askdjsaldja akdjasl',
                                                                   maxLines: 2,
                                                                   overflow: TextOverflow.ellipsis,
                                                                   style: CustomTextView.getStyle(
@@ -604,44 +460,11 @@ class ShopsInsightView extends GetView {
                                                 },
                                               ),
                                   ),
-                            // SizedBox(
-                            //   height: 280.h,
-                            //   child: DashboardPageSlider()),
                           ),
                         ),
                       ],
                     ),
-                    // child: DChartBar(
-                    //   data: const [
-                    //     {
-                    //       'id': 'Bar',
-                    //       'data': [
-                    //         {'domain': 'Jan', 'measure': 600},
-                    //         {'domain': 'Feb', 'measure': 400},
-                    //         {'domain': 'Mar', 'measure': 200},
-                    //         {'domain': 'Apr', 'measure': 100},
-                    //         {'domain': 'May', 'measure': 250},
-                    //         {'domain': 'Jun', 'measure': 123},
-                    //         {'domain': 'Jul', 'measure': 343},
-                    //         {'domain': 'Aug', 'measure': 123},
-                    //         {'domain': 'Sep', 'measure': 434},
-                    //         {'domain': 'Oct', 'measure': 123},
-                    //         {'domain': 'Nov', 'measure': 12},
-                    //         {'domain': 'Dec', 'measure': 34},
-                    //       ],
-                    //     },
-                    //   ],
-                    //   domainLabelPaddingToAxisLine: 16,
-                    //   axisLineTick: 2,
-                    //   axisLinePointTick: 2,
-                    //   axisLinePointWidth: 10,
-                    //   axisLineColor: containerColor,
-                    //   measureLabelPaddingToAxisLine: 8,
-                    //   barColor: (barData, index, id) => barColor.withAlpha(128),
-                    //   showBarValue: true,
-                    // ),
                   ),
-                  // SizedBox(height: 180.h, child: HomePageSlider()),
                 ],
               ),
             ],

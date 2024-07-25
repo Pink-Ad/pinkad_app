@@ -95,7 +95,7 @@ class AllOffersController extends GetxController {
     } else {
       // Construct the request URL with the query parameter
 
-      final url = Uri.parse('${ApiService.baseUrl}/offer-search?search_name=$pattern');
+      final url = Uri.parse('${ApiService.baseUrl}/offer-search?search_name=$pattern ');
       try {
         final response = await http.get(url);
 
