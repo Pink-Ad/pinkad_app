@@ -232,7 +232,7 @@ class ShopsInsightView extends GetView<ShopsInsightController> {
                                                                         style: CustomTextView.getStyle(
                                                                           context,
                                                                           colorLight: secondary,
-                                                                          fontSize: 15.sp,
+                                                                          fontSize: 14.sp,
                                                                           fontFamily: Utils.poppinsMedium,
                                                                         ),
                                                                       ),
@@ -265,6 +265,9 @@ class ShopsInsightView extends GetView<ShopsInsightController> {
                                                                           ),
                                                                         ),
                                                                       ),
+                                                                      SizedBox(
+                                                                        width: 10.w,
+                                                                      ),
                                                                       Flexible(
                                                                         child: GestureDetector(
                                                                           onTap: () async {
@@ -290,6 +293,9 @@ class ShopsInsightView extends GetView<ShopsInsightController> {
                                                                             ),
                                                                           ),
                                                                         ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: 10.w,
                                                                       ),
                                                                     ],
                                                                   ),
