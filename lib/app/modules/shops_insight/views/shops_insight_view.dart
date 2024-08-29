@@ -232,59 +232,64 @@ class ShopsInsightView extends GetView<ShopsInsightController> {
                                                                         style: CustomTextView.getStyle(
                                                                           context,
                                                                           colorLight: secondary,
-                                                                          fontSize: 16.sp,
+                                                                          fontSize: 15.sp,
                                                                           fontFamily: Utils.poppinsMedium,
                                                                         ),
                                                                       ),
-                                                                      Row(
-                                                                        children: [
-                                                                          SizedBox(
-                                                                            width: 10.w,
-                                                                          ),
-                                                                          GestureDetector(
-                                                                            onTap: () async {
-                                                                              premierFeaturesController.showAwesomeDialog(
-                                                                                offerId: premierFeaturesController.active[index]['id'],
-                                                                              );
-                                                                            },
-                                                                            child: Container(
-                                                                              height: 25.h,
-                                                                              width: 30.w,
-                                                                              decoration: BoxDecoration(
-                                                                                color: primary,
-                                                                                borderRadius: BorderRadius.circular(5.0),
-                                                                              ),
-                                                                              child: const Icon(
-                                                                                Icons.move_to_inbox_sharp,
-                                                                                color: Colors.white,
-                                                                                size: 20,
-                                                                              ),
+                                                                      SizedBox(
+                                                                        width: 10.w,
+                                                                      ),
+                                                                      Flexible(
+                                                                        child: GestureDetector(
+                                                                          onTap: () async {
+                                                                            premierFeaturesController.showAwesomeDialog(
+                                                                              offerId: premierFeaturesController.active[index]['id'],
+                                                                            );
+                                                                          },
+                                                                          child: Container(
+                                                                            constraints: BoxConstraints(
+                                                                              minHeight: 25.h,
+                                                                              minWidth: 30.w,
+                                                                              maxWidth: 35.w,
+                                                                              maxHeight: 30.h,
+                                                                            ),
+                                                                            decoration: BoxDecoration(
+                                                                              color: primary,
+                                                                              borderRadius: BorderRadius.circular(5.0),
+                                                                            ),
+                                                                            child: const Icon(
+                                                                              Icons.move_to_inbox_sharp,
+                                                                              color: Colors.white,
+                                                                              size: 20,
                                                                             ),
                                                                           ),
-                                                                          SizedBox(
-                                                                            width: 10.w,
-                                                                          ),
-                                                                          GestureDetector(
-                                                                            onTap: () async {
-                                                                              premierFeaturesController.showDeleteDialog(
-                                                                                offerId: premierFeaturesController.active[index]['id'],
-                                                                              );
-                                                                            },
-                                                                            child: Container(
-                                                                              height: 25.h,
-                                                                              width: 30.w,
-                                                                              decoration: BoxDecoration(
-                                                                                color: Colors.red,
-                                                                                borderRadius: BorderRadius.circular(5.0),
-                                                                              ),
-                                                                              child: const Icon(
-                                                                                Icons.delete,
-                                                                                color: Colors.white,
-                                                                                size: 20,
-                                                                              ),
+                                                                        ),
+                                                                      ),
+                                                                      Flexible(
+                                                                        child: GestureDetector(
+                                                                          onTap: () async {
+                                                                            premierFeaturesController.showDeleteDialog(
+                                                                              offerId: premierFeaturesController.active[index]['id'],
+                                                                            );
+                                                                          },
+                                                                          child: Container(
+                                                                            constraints: BoxConstraints(
+                                                                              minHeight: 25.h,
+                                                                              minWidth: 30.w,
+                                                                              maxWidth: 35.w,
+                                                                              maxHeight: 30.h,
+                                                                            ),
+                                                                            decoration: BoxDecoration(
+                                                                              color: Colors.red,
+                                                                              borderRadius: BorderRadius.circular(5.0),
+                                                                            ),
+                                                                            child: const Icon(
+                                                                              Icons.delete,
+                                                                              color: Colors.white,
+                                                                              size: 20,
                                                                             ),
                                                                           ),
-                                                                        ],
+                                                                        ),
                                                                       ),
                                                                     ],
                                                                   ),
