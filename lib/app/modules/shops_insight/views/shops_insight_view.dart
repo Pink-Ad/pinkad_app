@@ -264,6 +264,26 @@ class ShopsInsightView extends GetView<ShopsInsightController> {
                                                                           SizedBox(
                                                                             width: 10.w,
                                                                           ),
+                                                                          GestureDetector(
+                                                                            onTap: () async {
+                                                                              premierFeaturesController.showDeleteDialog(
+                                                                                offerId: premierFeaturesController.active[index]['id'],
+                                                                              );
+                                                                            },
+                                                                            child: Container(
+                                                                              height: 25.h,
+                                                                              width: 30.w,
+                                                                              decoration: BoxDecoration(
+                                                                                color: Colors.red,
+                                                                                borderRadius: BorderRadius.circular(5.0),
+                                                                              ),
+                                                                              child: const Icon(
+                                                                                Icons.delete,
+                                                                                color: Colors.white,
+                                                                                size: 20,
+                                                                              ),
+                                                                            ),
+                                                                          ),
                                                                         ],
                                                                       ),
                                                                     ],
