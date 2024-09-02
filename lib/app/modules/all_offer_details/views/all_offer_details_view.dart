@@ -28,7 +28,6 @@ class AllOfferDetailsView extends GetView {
   final allOfferDetailsController = Get.put(AllOfferDetailsController());
   final arguments = Get.arguments as Map<String, dynamic>;
   AllOfferDetailsView({super.key});
-
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();
@@ -45,446 +44,455 @@ class AllOfferDetailsView extends GetView {
           ),
         ),
         child: SafeArea(
-          child: Column(
-            children: [
-              userType == 'guest'
-                  ? MyAppBar(
-                      backButton: true,
-                      title: 'PinkAd',
-                      onMenuTap: () {
-                        print('object');
-                      },
-                      onProfileTap: () {
-                        print('object');
-                        Get.to(ProfileView());
-                      },
-                    )
-                  : UserAppBar(
-                      showBanner: true,
-                      backButton: true,
-                      title: 'All Shops',
-                      onMenuTap: () {
-                        print('object');
-                      },
-                      onProfileTap: () {
-                        print('object');
-                        Get.to(ProfileView());
-                      },
-                      profileIconVisibility: true,
-                    ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
-                padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
-                decoration: BoxDecoration(
-                  color: containerColor,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              // <-- Add ConstrainedBox here
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height, // <-- Ensure minimum height
+              ),
+              child: IntrinsicHeight(
+                // <-- Add IntrinsicHeight here
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SelectableText(
-                      data['title'],
-                      style: CustomTextView.getStyle(
-                        context,
-                        fontSize: 20.sp,
-                        colorLight: Colors.black,
-                        fontFamily: Utils.poppinsBold,
-                      ),
-                      cursorColor: Colors.blue, // Customize cursor color if needed
-                      toolbarOptions: ToolbarOptions(
-                        // Customize toolbar options
-                        copy: true,
-                        selectAll: true,
-                        cut: false,
-                        paste: false,
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    SelectableText(
-                      data['shop']['name'] ?? '',
-                      style: CustomTextView.getStyle(
-                        context,
-                        fontSize: 15.sp,
-                        colorLight: textColor,
-                      ),
-                      cursorColor: Colors.blue,
-                      toolbarOptions: ToolbarOptions(
-                        copy: true,
-                        selectAll: true,
-                        cut: false,
-                        paste: false,
-                      ),
-                    ),
-                    const SizedBox(height: 15.0),
-                    Text(
-                      'Seller\'s contacts',
-                      style: CustomTextView.getStyle(
-                        context,
-                        colorLight: Colors.black,
-                        fontSize: 16.sp,
-                        fontFamily: Utils.poppinsSemiBold,
-                      ),
-                    ),
-                    const SizedBox(height: 15.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 45.h,
-                          width: 45.w,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: IconButton(
-                            onPressed: () async {
-                              String? facebookUrl = data['shop']?['seller']?['faecbook_page'];
-                              if (facebookUrl == null) return;
-                              try {
-                                final String nativeUrl;
-                                if (facebookUrl.toLowerCase().contains('facebook.com')) {
-                                  if (!facebookUrl.startsWith('http')) {
-                                    facebookUrl = 'https://' + facebookUrl;
-                                  }
-                                  nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
-                                } else {
-                                  nativeUrl = 'fb://$facebookUrl';
-                                }
-                                await launchUrl(Uri.parse(nativeUrl));
-                              } catch (e) {
-                                // If the Facebook app is not installed, open the Facebook website
-                                if (facebookUrl!.startsWith('http')) {
-                                  await launchUrl(Uri.parse(facebookUrl));
-                                }
-                              }
+                    userType == 'guest'
+                        ? MyAppBar(
+                            backButton: true,
+                            title: 'PinkAd',
+                            onMenuTap: () {
+                              print('object');
                             },
-                            icon: Center(
-                              child: FaIcon(
-                                FontAwesomeIcons.facebook,
-                                size: 30.h,
-                                color: Colors.blue,
-                              ),
+                            onProfileTap: () {
+                              print('object');
+                              Get.to(ProfileView());
+                            },
+                          )
+                        : UserAppBar(
+                            showBanner: true,
+                            backButton: true,
+                            title: 'All Shops',
+                            onMenuTap: () {
+                              print('object');
+                            },
+                            onProfileTap: () {
+                              print('object');
+                              Get.to(ProfileView());
+                            },
+                            profileIconVisibility: true,
+                          ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
+                      padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
+                      decoration: BoxDecoration(
+                        color: containerColor,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                            data['title'],
+                            style: CustomTextView.getStyle(
+                              context,
+                              fontSize: 20.sp,
+                              colorLight: Colors.black,
+                              fontFamily: Utils.poppinsBold,
+                            ),
+                            cursorColor: Colors.blue, // Customize cursor color if needed
+                            toolbarOptions: ToolbarOptions(
+                              // Customize toolbar options
+                              copy: true,
+                              selectAll: true,
+                              cut: false,
+                              paste: false,
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 12.0,
-                        ),
-                        Container(
-                          height: 45.h,
-                          width: 45.w,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3),
+                          const SizedBox(height: 10.0),
+                          SelectableText(
+                            data['shop']['name'] ?? '',
+                            style: CustomTextView.getStyle(
+                              context,
+                              fontSize: 15.sp,
+                              colorLight: textColor,
+                            ),
+                            cursorColor: Colors.blue,
+                            toolbarOptions: ToolbarOptions(
+                              copy: true,
+                              selectAll: true,
+                              cut: false,
+                              paste: false,
+                            ),
+                          ),
+                          const SizedBox(height: 15.0),
+                          Text(
+                            'Seller\'s contacts',
+                            style: CustomTextView.getStyle(
+                              context,
+                              colorLight: Colors.black,
+                              fontSize: 16.sp,
+                              fontFamily: Utils.poppinsSemiBold,
+                            ),
+                          ),
+                          const SizedBox(height: 15.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 45.h,
+                                width: 45.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    String? facebookUrl = data['shop']?['seller']?['faecbook_page'];
+                                    if (facebookUrl == null) return;
+                                    try {
+                                      final String nativeUrl;
+                                      if (facebookUrl.toLowerCase().contains('facebook.com')) {
+                                        if (!facebookUrl.startsWith('http')) {
+                                          facebookUrl = 'https://' + facebookUrl;
+                                        }
+                                        nativeUrl = 'fb://facewebmodal/f?href=$facebookUrl';
+                                      } else {
+                                        nativeUrl = 'fb://$facebookUrl';
+                                      }
+                                      await launchUrl(Uri.parse(nativeUrl));
+                                    } catch (e) {
+                                      // If the Facebook app is not installed, open the Facebook website
+                                      if (facebookUrl!.startsWith('http')) {
+                                        await launchUrl(Uri.parse(facebookUrl));
+                                      }
+                                    }
+                                  },
+                                  icon: Center(
+                                    child: FaIcon(
+                                      FontAwesomeIcons.facebook,
+                                      size: 30.h,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 12.0,
+                              ),
+                              Container(
+                                height: 45.h,
+                                width: 45.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    final imageUrl = ApiService.imageBaseUrl + data['banner'];
+                                    final text = "${data['title']} by ${data['shop']['name']} - ${data['description']}";
+
+                                    // Assuming the phone number is stored in data['shop']['seller']['whatsapp']
+                                    final phone = data['shop']?['seller']?['whatsapp'];
+
+                                    // Construct the message
+                                    final message = Uri.encodeFull('$text\nSee image here: $imageUrl');
+
+                                    // Construct the WhatsApp URL
+                                    if (phone != null) {
+                                      await launchUrl(
+                                        Uri.parse('whatsapp://send?phone=$phone&text=$message'),
+                                      );
+                                    }
+                                  },
+                                  icon: Center(
+                                    child: FaIcon(
+                                      FontAwesomeIcons.whatsapp,
+                                      size: 30.h,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 12.0,
+                              ),
+                              Container(
+                                height: 45.h,
+                                width: 45.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    String? instaUrl = data['shop']?['seller']?['insta_page'];
+                                    print(instaUrl);
+                                    if (instaUrl == null) return;
+                                    try {
+                                      final String nativeUrl;
+                                      if (instaUrl.toLowerCase().contains('instagram.com')) {
+                                        if (!instaUrl.startsWith('http')) {
+                                          instaUrl = 'https://' + instaUrl;
+                                        }
+                                        final uri = Uri.parse(instaUrl);
+                                        // Invalid URL
+                                        if (uri.pathSegments.isEmpty) return;
+                                        print(uri.pathSegments);
+                                        nativeUrl = 'instagram://user?username=${uri.pathSegments.first}';
+                                      } else {
+                                        nativeUrl = 'instagram://$instaUrl';
+                                      }
+                                      await launchUrl(Uri.parse(nativeUrl));
+                                    } catch (e) {
+                                      if (instaUrl!.startsWith('http')) {
+                                        await launchUrl(Uri.parse(instaUrl));
+                                      }
+                                    }
+                                  },
+                                  icon: Center(
+                                    child: FaIcon(
+                                      FontAwesomeIcons.instagram,
+                                      size: 30.h,
+                                      color: Color(0xFFE4405D),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 12.0,
+                              ),
+                              Container(
+                                height: 45.h,
+                                width: 45.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    try {
+                                      final imageUrl = ApiService.imageBaseUrl + data['banner'];
+                                      final text = "${data['title']} by ${data['shop']['name']} - ${data['description']}";
+                                      final whatsappNumber = data['shop']?['seller']?['whatsapp'];
+                                      await shareImageAndText(imageUrl, text, whatsappNumber);
+                                    } catch (e) {
+                                      print('Failed to share due to: $e');
+                                    }
+                                  },
+
+                                  icon: Center(
+                                    child: Icon(
+                                      Icons.share,
+                                      size: 25.h,
+                                    ),
+                                  ),
+                                  // FaIcon(
+                                  //   FontAwesomeIcons.shareFromSquare,
+                                  //   size: 30.h,
+                                  //   // color: Color(0xFFE4405D),
+                                  // ),
+                                ),
                               ),
                             ],
                           ),
-                          child: IconButton(
-                            onPressed: () async {
-                              final imageUrl = ApiService.imageBaseUrl + data['banner'];
-                              final text = "${data['title']} by ${data['shop']['name']} - ${data['description']}";
-
-                              // Assuming the phone number is stored in data['shop']['seller']['whatsapp']
-                              final phone = data['shop']?['seller']?['whatsapp'];
-
-                              // Construct the message
-                              final message = Uri.encodeFull('$text\nSee image here: $imageUrl');
-
-                              // Construct the WhatsApp URL
-                              if (phone != null) {
-                                await launchUrl(
-                                  Uri.parse('whatsapp://send?phone=$phone&text=$message'),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                        decoration: BoxDecoration(
+                          color: containerGray,
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.9),
+                              spreadRadius: 1,
+                              blurRadius: 9,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onLongPress: () async {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        'Save Image',
+                                        style: CustomTextView.getStyle(
+                                          Get.context!,
+                                          colorLight: secondary,
+                                          fontSize: 18.sp,
+                                          fontFamily: Utils.poppinsSemiBold,
+                                        ),
+                                      ),
+                                      content: Text(
+                                        'Do you want to save this image to your gallery?',
+                                        style: CustomTextView.getStyle(
+                                          Get.context!,
+                                          colorLight: secondary,
+                                          fontSize: 15.sp,
+                                          fontFamily: Utils.poppinsLight,
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        Container(
+                                          height: 0.05.sh,
+                                          width: 0.3.sw,
+                                          decoration: BoxDecoration(
+                                            color: primary,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: TextButton(
+                                              child: Text(
+                                                'Cancel',
+                                                style: CustomTextView.getStyle(
+                                                  Get.context!,
+                                                  colorLight: Colors.white,
+                                                  fontSize: 16.sp,
+                                                  fontFamily: Utils.poppinsSemiBold,
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop(); // Close the dialog
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 0.05.sh,
+                                          width: 0.3.sw,
+                                          decoration: BoxDecoration(
+                                            color: primary,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: TextButton(
+                                              child: Text(
+                                                'Save',
+                                                style: CustomTextView.getStyle(
+                                                  Get.context!,
+                                                  colorLight: Colors.white,
+                                                  fontSize: 16.sp,
+                                                  fontFamily: Utils.poppinsSemiBold,
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop(); // Close the dialog first
+                                                _saveImage(ApiService.imageBaseUrl + data['banner'], context);
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
-                              }
-                            },
-                            icon: Center(
-                              child: FaIcon(
-                                FontAwesomeIcons.whatsapp,
-                                size: 30.h,
-                                color: Colors.green,
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                child: Image.network(
+                                  ApiService.imageBaseUrl + data['banner'],
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 12.0,
-                        ),
-                        Container(
-                          height: 45.h,
-                          width: 45.w,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: IconButton(
-                            onPressed: () async {
-                              String? instaUrl = data['shop']?['seller']?['insta_page'];
-                              print(instaUrl);
-                              if (instaUrl == null) return;
-                              try {
-                                final String nativeUrl;
-                                if (instaUrl.toLowerCase().contains('instagram.com')) {
-                                  if (!instaUrl.startsWith('http')) {
-                                    instaUrl = 'https://' + instaUrl;
-                                  }
-                                  final uri = Uri.parse(instaUrl);
-                                  // Invalid URL
-                                  if (uri.pathSegments.isEmpty) return;
-                                  print(uri.pathSegments);
-                                  nativeUrl = 'instagram://user?username=${uri.pathSegments.first}';
-                                } else {
-                                  nativeUrl = 'instagram://$instaUrl';
-                                }
-                                await launchUrl(Uri.parse(nativeUrl));
-                              } catch (e) {
-                                if (instaUrl!.startsWith('http')) {
-                                  await launchUrl(Uri.parse(instaUrl));
-                                }
-                              }
-                            },
-                            icon: Center(
-                              child: FaIcon(
-                                FontAwesomeIcons.instagram,
-                                size: 30.h,
-                                color: Color(0xFFE4405D),
+                            Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                              child: SelectableText.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Description\n',
+                                      style: CustomTextView.getStyle(
+                                        context,
+                                        colorLight: Colors.black,
+                                        fontSize: 16.sp,
+                                        fontFamily: Utils.poppinsSemiBold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: data['description'] ?? '',
+                                      style: CustomTextView.getStyle(
+                                        context,
+                                        colorLight: textColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                        const SizedBox(
-                          width: 12.0,
-                        ),
-                        Container(
-                          height: 45.h,
-                          width: 45.w,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: IconButton(
-                            onPressed: () async {
-                              try {
-                                final imageUrl = ApiService.imageBaseUrl + data['banner'];
-                                final text = "${data['title']} by ${data['shop']['name']} - ${data['description']}";
-                                final whatsappNumber = data['shop']?['seller']?['whatsapp'];
-                                await shareImageAndText(imageUrl, text, whatsappNumber);
-                              } catch (e) {
-                                print('Failed to share due to: $e');
-                              }
-                            },
-
-                            icon: Center(
-                              child: Icon(
-                                Icons.share,
-                                size: 25.h,
-                              ),
-                            ),
-                            // FaIcon(
-                            //   FontAwesomeIcons.shareFromSquare,
-                            //   size: 30.h,
-                            //   // color: Color(0xFFE4405D),
-                            // ),
-                          ),
-                        ),
-                      ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    GlobalButton(
+                      title: 'Go To Seller Profile',
+                      onPressed: () {
+                        var sellerId = data['shop']['seller']['id'];
+                        Get.toNamed(
+                          Routes.SPECIFIC_SELLER,
+                          arguments: {
+                            'seller_id': sellerId,
+                            'shopName': data['shop']['name'],
+                            'description': data['description'] ?? '',
+                            'title': data['title'] ?? '',
+                            'facebookUrl': data['shop']['seller']['facebook_page'],
+                            'whatsappNumber': data['shop']['seller']['whatsapp'],
+                            'instaUrl': data['shop']['seller']['insta_page'],
+                            'sellerUrl': data['shop']['seller']['seller_link'],
+                          },
+                        );
+                      },
+                      textColor: Colors.white,
+                      buttonColor: secondary,
+                    ),
+                    SizedBox(
+                      height: 20.h,
                     ),
                   ],
                 ),
               ),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                  decoration: BoxDecoration(
-                    color: containerGray,
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.9),
-                        spreadRadius: 1,
-                        blurRadius: 9,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onLongPress: () async {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text(
-                                    'Save Image',
-                                    style: CustomTextView.getStyle(
-                                      Get.context!,
-                                      colorLight: secondary,
-                                      fontSize: 18.sp,
-                                      fontFamily: Utils.poppinsSemiBold,
-                                    ),
-                                  ),
-                                  content: Text(
-                                    'Do you want to save this image to your gallery?',
-                                    style: CustomTextView.getStyle(
-                                      Get.context!,
-                                      colorLight: secondary,
-                                      fontSize: 15.sp,
-                                      fontFamily: Utils.poppinsLight,
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    Container(
-                                      height: 0.05.sh,
-                                      width: 0.3.sw,
-                                      decoration: BoxDecoration(
-                                        color: primary,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Center(
-                                        child: TextButton(
-                                          child: Text(
-                                            'Cancel',
-                                            style: CustomTextView.getStyle(
-                                              Get.context!,
-                                              colorLight: Colors.white,
-                                              fontSize: 16.sp,
-                                              fontFamily: Utils.poppinsSemiBold,
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop(); // Close the dialog
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 0.05.sh,
-                                      width: 0.3.sw,
-                                      decoration: BoxDecoration(
-                                        color: primary,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Center(
-                                        child: TextButton(
-                                          child: Text(
-                                            'Save',
-                                            style: CustomTextView.getStyle(
-                                              Get.context!,
-                                              colorLight: Colors.white,
-                                              fontSize: 16.sp,
-                                              fontFamily: Utils.poppinsSemiBold,
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop(); // Close the dialog first
-                                            _saveImage(ApiService.imageBaseUrl + data['banner'], context);
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            child: Image.network(
-                              ApiService.imageBaseUrl + data['banner'],
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                          child: SelectableText.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Description\n', // Adding a newline character for separation
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: Colors.black,
-                                    fontSize: 16.sp,
-                                    fontFamily: Utils.poppinsSemiBold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: data['description'] ?? '',
-                                  style: CustomTextView.getStyle(
-                                    context,
-                                    colorLight: textColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              GlobalButton(
-                title: 'Go To Seller Profile',
-                onPressed: () {
-                  var sellerId = data['shop']['seller']['id'];
-                  Get.toNamed(
-                    Routes.SPECIFIC_SELLER,
-                    arguments: {
-                      'seller_id': sellerId,
-                      'shopName': data['shop']['name'],
-                      'description': data['description'] ?? '',
-                      'title': data['title'] ?? '',
-                      'facebookUrl': data['shop']['seller']['facebook_page'],
-                      'whatsappNumber': data['shop']['seller']['whatsapp'],
-                      'instaUrl': data['shop']['seller']['insta_page'],
-                      'sellerUrl': data['shop']['seller']['seller_link'],
-                    },
-                  );
-                },
-                textColor: Colors.white,
-                buttonColor: secondary,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-            ],
+            ),
           ),
         ),
       ),

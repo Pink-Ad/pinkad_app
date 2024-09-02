@@ -5,10 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pink_ad/app/modules/signup/controllers/signup_controller.dart';
 import 'package:pink_ad/utilities/custom_widgets/phone_input_field.dart';
-import 'package:pink_ad/utilities/functions/loading_wrapper.dart';
 
 import '../../../../utilities/colors/colors.dart';
-import '../../../../utilities/custom_widgets/area_dropdown.dart';
 import '../../../../utilities/custom_widgets/custom_bottom_button.dart';
 import '../../../../utilities/custom_widgets/custom_button.dart';
 import '../../../../utilities/custom_widgets/custom_text_field.dart';
@@ -541,7 +539,7 @@ class SignupView extends GetView<SignupController> {
                                           controller: controller.descriptionController.value,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            hintText: 'Description',
+                                            hintText: 'Short description of work \n(max 200 characters)',
                                             hintStyle: CustomTextView.getStyle(
                                               context,
                                               fontSize: 15.sp,
@@ -554,6 +552,9 @@ class SignupView extends GetView<SignupController> {
                                           style: TextStyle(fontSize: 14.sp),
                                           maxLines: null,
                                           keyboardType: TextInputType.multiline,
+                                          inputFormatters: [
+                                            LengthLimitingTextInputFormatter(200), // Limit to 200 characters
+                                          ],
                                         ),
                                       ),
                                     ],

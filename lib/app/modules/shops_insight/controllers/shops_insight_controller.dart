@@ -83,6 +83,30 @@ class ShopsInsightController extends GetxController {
     }
   }
 
+  Future<void> deleteInactiveOffer({
+    required int offerId,
+  }) async {
+    isLoading.value = true;
+    try {
+      // Update the URL based on backend specifications
+      final url = 'https://pinkad.pk/portal/api/delete-offer/$offerId';
+      print('Deleting offer with URL: $url'); // Debugging statement
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        print('Inactive offer deleted successfully');
+        await getShopOffer(); // Refresh the shop offers after deletion
+      } else {
+        print('Failed to delete inactive offer: ${response.statusCode}');
+        print('Response body: ${response.body}'); // Debugging statement
+      }
+    } catch (e) {
+      print('Error occurred while deleting inactive offer: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> getShopOffer() async {
     try {
       isLoading.value = true;
@@ -246,9 +270,8 @@ class ShopsInsightController extends GetxController {
         onTap: () async {
           print('Deleting inactive offer with ID: $offerId');
           Get.back();
-          await activeDeActiveOffer(offerId: offerId, status: '2'); // Assuming '2' means deleted
+          await deleteInactiveOffer(offerId: offerId); // Call the new delete method
           print('Inactive offer deleted');
-          await getShopOffer();
         },
         child: Container(
           width: 138.0.w,

@@ -353,9 +353,14 @@ class UploadOfferController extends GetxController {
       } else {
         homeController.setLoading();
         isLoading.value = false;
-        print(
-          'Error occurred while upload offer: Status Code: ${response.statusCode}\nError: ${response.body}',
-        );
+
+        // Show error message from backend response
+        final responseBody = json.decode(response.body);
+        if (responseBody['error'] != null) {
+          showSnackBarError('Error', responseBody['error']);
+        } else {
+          print('Error occurred while upload offer: Status Code: ${response.statusCode}\nError: ${response.body}');
+        }
       }
     } catch (e) {
       homeController.setLoading();
